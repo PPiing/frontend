@@ -1,13 +1,10 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import NavUp from "./component/NavUp";
-import NavRight from "./containers/NavRight";
+import { } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <NavUp />
-      <NavRight />
+      test
     </div>
   );
 }
