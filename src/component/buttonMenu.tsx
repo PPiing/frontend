@@ -1,17 +1,21 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { BACKGROUND_BLACK, BACKGROUND_BRICK, BACKGROUND_YELLOW, BORDER_BASIC, NAVRIGHT_WIDTH, NAVTOP_HEIGHT } from "../theme/theme";
+import { NeonButton } from "./neon/NeonButton";
 
-const NavAlam = styled("div", {
+const ButtonMenu = styled("div", {
     border: BORDER_BASIC,
     width: NAVRIGHT_WIDTH,
     height: NAVTOP_HEIGHT,
-    // background: BACKGROUND_BLACK,
-    // backgroundImage: BACKGROUND_BRICK,
+    fontSize: "18px",
 });
 
-export function ComponentNavAlam() {
+export function ComponentButtonMenu(props: any) {
+    const { text } = props;
     return (
-        <NavAlam />
+        <ButtonMenu>
+            <NeonButton text={text}>
+            </NeonButton>
+        </ButtonMenu>
     );
 }
