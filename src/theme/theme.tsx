@@ -1,4 +1,4 @@
-import { createStitches } from "@stitches/react";
+import { createStitches, globalCss } from "@stitches/react";
 
 export const BACKGROUND_BRICK = "url(../asset/background_brick.png)";
 export const BACKGROUND_BLACK = "#191a1a";
@@ -10,31 +10,38 @@ export const NAVFRIEND_HEIGHT = "7vh";
 
 export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 
+export const globalStyles = globalCss({
+  body: {
+    margin: 0,
+    backgroundImage: BACKGROUND_BRICK,
+  },
+});
+
 const size = {
-    mobile: "770px",
-    tabletS: "1023px",
-    tabletM: "1220px",
-    tabletL: "1280px",
-    laptop: "1460px",
-    desktop: "1700px"
+  mobile: "770px",
+  tabletS: "1023px",
+  tabletM: "1220px",
+  tabletL: "1280px",
+  laptop: "1460px",
+  desktop: "1700px"
 };
 
 const theme = {
-    mobile: `(max-width: ${size.mobile})`,
-    tabletS: `(max-width: ${size.tabletS})`,
-    tabletM: `(max-width: ${size.tabletM})`,
-    tabletL: `(max-width: ${size.tabletL})`,
-    laptop: `(max-width: ${size.laptop})`,
-    desktop: `(max-width: ${size.desktop})`
+  mobile: `(max-width: ${size.mobile})`,
+  tabletS: `(max-width: ${size.tabletS})`,
+  tabletM: `(max-width: ${size.tabletM})`,
+  tabletL: `(max-width: ${size.tabletL})`,
+  laptop: `(max-width: ${size.laptop})`,
+  desktop: `(max-width: ${size.desktop})`
 };
 
 export const { styled, css } = createStitches({
-    media: {
-        mobile: theme.mobile,
-        tabletS: theme.tabletS,
-        tabletM: theme.tabletM,
-        tabletL: theme.tabletL,
-        laptop: theme.laptop,
-        desktop: theme.desktop
-    },
+  media: {
+    mobile: theme.mobile,
+    tabletS: theme.tabletS,
+    tabletM: theme.tabletM,
+    tabletL: theme.tabletL,
+    laptop: theme.laptop,
+    desktop: theme.desktop
+  },
 });

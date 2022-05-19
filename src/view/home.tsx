@@ -8,6 +8,9 @@ import { ContainerContents } from "../container/contents";
 const ViewWrapper = styled("div", {
   display: "flex",
   flexDirection: "row",
+  width: "100vw",
+  height: "100vh",
+  overflaw: "hidden",
 });
 
 export function Home() {
