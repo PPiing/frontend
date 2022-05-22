@@ -7,6 +7,9 @@ export const BORDER_BASIC = "1px solid red";
 export const NAVTOP_HEIGHT = "10vh";
 export const NAVRIGHT_WIDTH = "20vw";
 export const NAVFRIEND_HEIGHT = "7vh";
+export const NEON_RED = "#FF0086";
+export const NEON_BLU = "#00FFF0";
+export const NEON_GRE = "#05FF00";
 
 export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 

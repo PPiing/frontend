@@ -13,7 +13,11 @@ const NavMenu = styled("div", {
 export function ContainerNavMenu() {
   return (
     <NavMenu className="navMenu">
-      <NeonButton text="H O M E" />
+      <NeonButton
+        className="menuButtonHome"
+        text="HOME"
+        onclick={console.log("custom event here!")}
+      />
     </NavMenu>
   );
 }
