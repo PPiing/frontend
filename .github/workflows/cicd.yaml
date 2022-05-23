@@ -18,6 +18,8 @@ jobs:
         run: npm install
       - name: lint 체크
         run: npm run lint
+      - name: 빌드 체크
+        run: npm run build
 
   CD:
     if: github.ref == 'refs/heads/main'
@@ -37,3 +39,4 @@ jobs:
             cd frontend && git pull
             cd ..
             bash run.sh
+            
