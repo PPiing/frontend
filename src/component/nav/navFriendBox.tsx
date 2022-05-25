@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { BACKGROUND_YELLOW, BORDER_BASIC, NAVFRIEND_HEIGHT, NAVRIGHT_WIDTH, NAVTOP_HEIGHT } from "../theme/theme";
+import { BACKGROUND_YELLOW, BORDER_BASIC, NAVFRIEND_HEIGHT, NAVRIGHT_WIDTH, NAVTOP_HEIGHT } from "../../theme/theme";
 
 const NavFriendBox = styled("div", {
   border: BORDER_BASIC,
