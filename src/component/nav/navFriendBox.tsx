@@ -1,12 +1,12 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { BACKGROUND_YELLOW, BORDER_BASIC, NAVFRIEND_HEIGHT, NAVRIGHT_WIDTH, NAVTOP_HEIGHT } from "../../theme/theme";
+import * as theme from "../../theme/theme";
 
 const NavFriendBox = styled("div", {
-  border: BORDER_BASIC,
-  background: BACKGROUND_YELLOW,
-  width: NAVRIGHT_WIDTH,
-  height: NAVFRIEND_HEIGHT,
+  border: theme.BORDER_BASIC,
+  background: theme.BACKGROUND_YELLOW,
+  width: theme.NAVRIGHT_WIDTH,
+  height: theme.NAVFRIEND_HEIGHT,
   marginTop: "0.5rem",
   marginBottom: "0.5rem"
 });

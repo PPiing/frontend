@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { NEON_RED, NEON_BLU, NEON_GRE } from "../../theme/theme";
+import * as theme from "../../theme/theme";
 
 const NeonBox = styled("button", {
   width: "156px",
@@ -15,9 +15,9 @@ const NeonBox = styled("button", {
   marginLeft: "10px",
   marginRight: "10px",
   "&:hover": {
-    border: `3px solid ${NEON_RED}`,
-    color: `${NEON_RED}`,
-    filter: `drop-shadow(0 0 20px ${NEON_RED}) drop-shadow(0 0 60px ${NEON_RED}) brightness(2)`,
+    border: `3px solid ${theme.NEON_RED}`,
+    color: `${theme.NEON_RED}`,
+    filter: `drop-shadow(0 0 20px ${theme.NEON_RED}) drop-shadow(0 0 60px ${theme.NEON_RED}) brightness(2)`,
   },
 });
 export function NeonButton(props: any) {

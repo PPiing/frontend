@@ -38,7 +38,7 @@ const NavButtonObjects = [
 
 const renderNavButtons = () => {
   const navButtons: any = [];
-  for (let i = 0; i < NavButtonObjects.length; i++) {
+  for (let i = 0; i < NavButtonObjects.length; i += 1) {
     navButtons.push(
       <NeonButton
         key={i}

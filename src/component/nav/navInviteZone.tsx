@@ -1,11 +1,11 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { BORDER_BASIC, NAVFRIEND_HEIGHT, NAVRIGHT_WIDTH, NAVTOP_HEIGHT } from "../../theme/theme";
+import * as theme from "../../theme/theme";
 import { ComponentNavFriendBox } from "./navFriendBox";
 
 const NavInviteZone = styled("div", {
-  border: BORDER_BASIC,
-  width: NAVRIGHT_WIDTH,
+  border: theme.BORDER_BASIC,
+  width: theme.NAVRIGHT_WIDTH,
   height: "38vh",
 });
 
