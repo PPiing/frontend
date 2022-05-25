@@ -28,7 +28,7 @@ const NeonBoxBlur = styled("div", {
   border: `3px solid ${NEON_RED}`,
   borderRadius: "50px",
   position: "absolute",
-  filter: "blur(5px)",
+  filter: "blur(10px)",
   transition: "all 0.5s",
   "&:hover": {
     background: NEON_RED,
@@ -51,10 +51,11 @@ const NeonTextBlur = styled("div", {
   fontWeight: "bold",
   fontSize: "2.3rem",
   textAlign: "center",
-  filter: "blur(5px)",
+  filter: "blur(10px)",
   transition: "all 0.5s",
   "&:hover": {
     color: "White",
+    filter: "blur(10px)",
   },
 });
 
@@ -75,3 +76,7 @@ export function NeonButton(props: any) {
     </NeonDiv>
   );
 }
+
+/*
+
+*/

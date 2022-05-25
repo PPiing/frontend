@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 
 import { ContainerNavMenu } from "../container/navMenu";
 import { ContainerNavCommunity } from "../container/navCommunity";
-import { ContainerContents } from "../container/contents";
+import { ContainerContents } from "../container/contentHome";
 
 const ViewWrapper = styled("div", {
   display: "flex",
