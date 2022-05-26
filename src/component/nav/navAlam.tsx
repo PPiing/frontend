@@ -3,8 +3,7 @@ import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 
 const NavAlam = styled("div", {
-  border: `${theme.BORDER_BASIC}`,
-  height: `${theme.NAVALARM__HEIGHT}`,
+  height: `${theme.NAV_ALARM_HEIGHT}`,
 });
 
 export function ComponentNavAlam() {

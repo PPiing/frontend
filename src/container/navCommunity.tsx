@@ -6,9 +6,9 @@ import { ComponentNavSearch } from "../component/nav/navSearch";
 import { ComponentNavFriendZone } from "../component/nav/navFriendZone";
 import { ComponentNavInviteZone } from "../component/nav/navInviteZone";
 
-const NavCommunity = styled("div", {
-  border: `3px solid ${theme.NEON_RED}`,
-  height: `${theme.NAVRIGHT_HEIGHT}`,
+const NavCommunity = styled(theme.NeonHoverRed, {
+  height: `${theme.NAV_RIGHT_HEIGHT}`,
+  borderRadius: "50px",
 });
 
 export function ContainerNavCommunity() {

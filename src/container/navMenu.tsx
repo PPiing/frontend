@@ -5,10 +5,8 @@ import { NeonButton } from "../component/neon/NeonButton";
 
 const NavMenu = styled("div", {
   display: "flex",
-  border: theme.BORDER_BASIC,
-  //   width: `${theme.NAVLEFT_WIDTH}`,
   minHeight: "100px",
-  height: `${theme.NAVTOP_HEIGHT}`,
+  height: `${theme.NAV_TOP_HEIGHT}`,
   justifyContent: "space-around",
   alignItems: "center",
 });

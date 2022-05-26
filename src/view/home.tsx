@@ -6,16 +6,17 @@ import { ContainerNavCommunity } from "../container/navCommunity";
 import { ContainerContents } from "../container/contentHome";
 
 const ContainerLeftBox = styled("div", {
-  width: "calc(80vw - 20px)",
-  height: "calc(100vh - 20px)",
-  padding: "10px",
+  width: "calc(80vw - 40px)",
+  height: "calc(100vh - 40px)",
+  padding: "20px",
   overflaw: "hidden",
 });
 
 const ContainerRightBox = styled("div", {
-  width: "calc(20vw - 20px)",
-  height: "calc(100vh - 20px)",
-  padding: "10px",
+  width: "calc(20vw - 40px)",
+  minWidth: "300px",
+  height: "calc(100vh - 40px)",
+  padding: "20px",
   overflaw: "hidden",
 });
 

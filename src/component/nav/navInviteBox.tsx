@@ -2,20 +2,20 @@ import React from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 
-const NavFriendBox = styled("div", {
+const NavInviteBox = styled("div", {
   background: `${theme.BACKGROUND_YELLOW}`,
-  height: `${theme.NAV_FRIEND_BOX_HEIGHT}`,
+  height: `${theme.NAV_INVITE_BOX_HEIGHT}`,
   marginTop: "0.5rem",
   marginBottom: "0.5rem",
   minHeight: "90px",
 });
 
-export function ComponentNavFriendBox(props:any) {
+export function ComponentNavInviteBox(props:any) {
   const { name } = props;
 
   return (
-    <NavFriendBox>
+    <NavInviteBox>
       {name}
-    </NavFriendBox>
+    </NavInviteBox>
   );
 }
