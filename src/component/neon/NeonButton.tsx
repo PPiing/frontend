@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 
 const NeonBox = styled(theme.NeonHoverRed, {
-  width: "156px",
+  width: "180px",
   height: "60px",
   borderRadius: "50px",
   backgroundColor: "transparent",
