@@ -4,9 +4,19 @@ export const BACKGROUND_BRICK = "url(../asset/background_brick.png)";
 export const BACKGROUND_BLACK = "#191a1a";
 export const BACKGROUND_YELLOW = "#fdc202";
 export const BORDER_BASIC = "1px solid red";
-export const NAVTOP_HEIGHT = "10vh";
-export const NAVRIGHT_WIDTH = "20vw";
-export const NAVFRIEND_HEIGHT = "7vh";
+
+//
+export const NAVTOP_HEIGHT = "10%";
+export const NAVBOTTOM_HEIGHT = "90%";
+export const NAVRIGHT_HEIGHT = "100%";
+
+// community nav zone
+export const NAVALARM_HEIGHT = "20%";
+export const NAVSEARCH_HEIGHT = "12%";
+export const NAVFRIEND_HEIGHT = "40%";
+export const NAVFRIENDBOX_HEIGHT = "10%";
+export const NAVINVITE_HEIGHT = "28%";
+
 export const NEON_RED = "#FF0086";
 export const NEON_BLU = "#00FFF0";
 export const NEON_GRE = "#05FF00";
@@ -16,7 +26,8 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 export const globalStyles = globalCss({
   body: {
     margin: 0,
-    backgroundImage: BACKGROUND_BRICK,
+    // backgroundImage: BACKGROUND_BRICK,
+    background: "black",
   },
 });
 

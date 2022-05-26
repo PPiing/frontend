@@ -1,17 +1,14 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { BORDER_BASIC, NAVRIGHT_WIDTH } from "../theme/theme";
+import * as theme from "../theme/theme";
 import { ComponentNavAlam } from "../component/nav/navAlam";
 import { ComponentNavSearch } from "../component/nav/navSearch";
 import { ComponentNavFriendZone } from "../component/nav/navFriendZone";
 import { ComponentNavInviteZone } from "../component/nav/navInviteZone";
 
 const NavCommunity = styled("div", {
-  border: BORDER_BASIC,
-  //   minWidth: "200px",
-  width: NAVRIGHT_WIDTH,
-  height: "100vh",
-  padding: "10px",
+  border: `3px solid ${theme.NEON_RED}`,
+  height: `${theme.NAVRIGHT_HEIGHT}`,
 });
 
 export function ContainerNavCommunity() {

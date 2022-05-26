@@ -4,9 +4,8 @@ import * as theme from "../../theme/theme";
 import { ComponentNavFriendBox } from "./navFriendBox";
 
 const NavFriendZone = styled("div", {
-  border: theme.BORDER_BASIC,
-  width: theme.NAVRIGHT_WIDTH,
-  height: "43vh",
+  border: `${theme.BORDER_BASIC}`,
+  height: `${theme.NAVFRIEND_HEIGHT}`,
 });
 
 export function ComponentNavFriendZone() {

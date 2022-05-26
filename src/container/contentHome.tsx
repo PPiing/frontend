@@ -1,11 +1,10 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { BORDER_BASIC } from "../theme/theme";
+import * as theme from "../theme/theme";
 
 const Contents = styled("div", {
-  border: BORDER_BASIC,
-  width: "80vw",
-  height: "90vh",
+  border: `${theme.BORDER_BASIC}`,
+  height: `${theme.NAVBOTTOM_HEIGHT}`,
 });
 
 export function ContainerContents() {

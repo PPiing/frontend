@@ -5,6 +5,20 @@ import { ContainerNavMenu } from "../container/navMenu";
 import { ContainerNavCommunity } from "../container/navCommunity";
 import { ContainerContents } from "../container/contentHome";
 
+const ContainerLeftBox = styled("div", {
+  width: "calc(80vw - 20px)",
+  height: "calc(100vh - 20px)",
+  padding: "10px",
+  overflaw: "hidden",
+});
+
+const ContainerRightBox = styled("div", {
+  width: "calc(20vw - 20px)",
+  height: "calc(100vh - 20px)",
+  padding: "10px",
+  overflaw: "hidden",
+});
+
 const ViewWrapper = styled("div", {
   display: "flex",
   flexDirection: "row",
@@ -16,11 +30,13 @@ const ViewWrapper = styled("div", {
 export function Home() {
   return (
     <ViewWrapper className="view">
-      <div>
+      <ContainerLeftBox>
         <ContainerNavMenu />
         <ContainerContents />
-      </div>
-      <ContainerNavCommunity />
+      </ContainerLeftBox>
+      <ContainerRightBox>
+        <ContainerNavCommunity />
+      </ContainerRightBox>
     </ViewWrapper>
   );
 }

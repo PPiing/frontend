@@ -3,10 +3,8 @@ import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 
 const NavSearch = styled("div", {
-  border: theme.BORDER_BASIC,
-  width: theme.NAVRIGHT_WIDTH,
-  height: theme.NAVFRIEND_HEIGHT,
-  background: theme.BACKGROUND_BLACK,
+  border: `${theme.BORDER_BASIC}`,
+  height: `${theme.NAVSEARCH_HEIGHT}`,
 });
 
 export function ComponentNavSearch() {

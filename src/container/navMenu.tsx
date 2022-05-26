@@ -6,9 +6,9 @@ import { NeonButton } from "../component/neon/NeonButton";
 const NavMenu = styled("div", {
   display: "flex",
   border: theme.BORDER_BASIC,
-  width: "80vw",
-  minHeight: "80px",
-  height: theme.NAVTOP_HEIGHT,
+  //   width: `${theme.NAVLEFT_WIDTH}`,
+  minHeight: "100px",
+  height: `${theme.NAVTOP_HEIGHT}`,
   justifyContent: "space-around",
   alignItems: "center",
 });
