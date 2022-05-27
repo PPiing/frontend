@@ -33,11 +33,11 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 export const NeonHoverRed = styled("div", {
   border: "3px solid gray",
   transition: "all 0.5s",
-  filter: "drop-shadow(0 0 20px gray)",
+  filter: "drop-shadow(0 0 2px gray)",
   "&:hover": {
     border: `3px solid ${NEON_RED}`,
     color: `${NEON_RED}`,
-    filter: `drop-shadow(0 0 20px ${NEON_RED}) drop-shadow(0 0 60px ${NEON_RED}) brightness(1.6)`,
+    filter: `drop-shadow(0 0 2px ${NEON_RED}) brightness(1.6)`,
   },
 });
 
