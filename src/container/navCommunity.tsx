@@ -14,7 +14,7 @@ const NavCommunity = styled(theme.NeonHoverRed, {
 export function ContainerNavCommunity() {
   return (
     <NavCommunity className="navCommunity">
-      <ComponentNavAlam />
+      <ComponentNavAlam name="skim" status="sleeping" />
       <ComponentNavSearch />
       <ComponentNavFriendZone />
       <ComponentNavInviteZone />
