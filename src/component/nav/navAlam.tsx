@@ -13,7 +13,7 @@ const ProfileTextName = styled("div", {
   height: "65%",
   fontSize: "3rem",
   color: "Orange",
-  border: BORDER_BASIC
+  // border: BORDER_BASIC
 
 });
 
@@ -22,7 +22,7 @@ const ProfileTextStatus = styled("div", {
   height: "35%",
   fontSize: "1rem",
   color: "Orange",
-  border: BORDER_BASIC
+  // border: BORDER_BASIC
 });
 
 const ProfileImage = styled("img", {
@@ -40,24 +40,24 @@ const NavAlarmProfileImg = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  border: BORDER_BASIC
+  // border: BORDER_BASIC
 });
 
 const NavAlarmProfileText = styled("div", {
   height: "100%",
   width: "50%",
-  border: BORDER_BASIC
+  // border: BORDER_BASIC
 });
 
 const NavAlarmAlarm = styled("div", {
   height: "100%",
   width: "25%",
-  border: BORDER_BASIC
+  // border: BORDER_BASIC
 });
 
 const NavAlarm = styled("div", {
   height: `${theme.NAV_ALARM_HEIGHT}`,
-  border: BORDER_BASIC,
+  // border: BORDER_BASIC,
   display: "flex"
 });
 

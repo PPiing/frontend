@@ -8,10 +8,20 @@ const NavSearch = styled("div", {
   border: BORDER_BASIC
 });
 
+//  axios.get.(검색할 스트링).wholeUserList {
+//  users: user[]
+// }
+
+// -> user {
+//    id: unique key
+//    profileImg: ""
+//    nickname: ""
+// }
+
 export function ComponentNavSearch() {
   return (
     <NavSearch>
-      헬로우?
+      this is Search Zone
     </NavSearch>
   );
 }
