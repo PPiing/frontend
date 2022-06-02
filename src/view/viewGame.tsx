@@ -1,6 +1,5 @@
 import React from "react";
 import { styled } from "@stitches/react";
-
 import { ContainerNavMenu } from "../container/navMenu";
 import { ContainerNavCommunity } from "../container/navCommunity";
 import { ContainerContents } from "../container/contentGame";
@@ -32,7 +31,6 @@ export function Game() {
   return (
     <ViewWrapper className="view">
       <ContainerLeftBox>
-        <ContainerNavMenu />
         <ContainerContents />
       </ContainerLeftBox>
       <ContainerRightBox>

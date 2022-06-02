@@ -31,7 +31,3 @@ export function NeonButton(props: any) {
     </NeonBox>
   );
 }
-
-/*
-<button><p><
-*/
