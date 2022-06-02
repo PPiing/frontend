@@ -41,6 +41,18 @@ export const NeonHoverRed = styled("div", {
   },
 });
 
+// default neon event setting for game Zone
+export const NeonZone = styled("div", {
+  border: "3px solid gray",
+  transition: "all 0.5s",
+  filter: "drop-shadow(0 0 2px gray)",
+  // "&:hover": {
+  //   border: `3px solid ${NEON_RED}`,
+  //   color: `${NEON_RED}`,
+  //   filter: `drop-shadow(0 0 2px ${NEON_RED}) brightness(1.6)`,
+  // },
+});
+
 // global style
 export const globalStyles = globalCss({
   body: {

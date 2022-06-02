@@ -16,22 +16,26 @@ const NavButtonObjects = [
     text: "PLAY",
     className: "memuButton menuButtonPlay",
     neonColor: `${theme.NEON_RED}`,
+    viewPath: "/game"
   },
   {
     text: "HOME",
     className: "memuButton menuButtonHome",
     neonColor: `${theme.NEON_BLU}`,
+    viewPath: "/"
   },
   {
     text: "CHAT",
     className: "memuButton menuButtonChat",
     neonColor: `${theme.NEON_GRE}`,
+    viewPath: "/chat"
   },
   {
     text: "WATCH",
     className: "memuButton menuButtonWatch",
     neonColor: `${theme.NEON_BLU}`,
-  },
+    viewPath: "/watch"
+  }
 ];
 
 const renderNavButtons = () => {
@@ -43,6 +47,7 @@ const renderNavButtons = () => {
         text={NavButtonObjects[i].text}
         className={NavButtonObjects[i].className}
         neonColor={NavButtonObjects[i].neonColor}
+        viewPath={NavButtonObjects[i].viewPath}
       />
     );
   }

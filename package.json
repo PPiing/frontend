@@ -11,10 +11,14 @@
     "lint:fix": "eslint --ext .tsx --ext .ts src --fix"
   },
   "dependencies": {
+    "@react-three/drei": "^9.11.3",
+    "@react-three/fiber": "^8.0.20",
     "@stitches/react": "^1.2.8",
+    "@types/three": "^0.141.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "three": "^0.141.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

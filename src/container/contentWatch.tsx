@@ -14,7 +14,7 @@ const Contents = styled(theme.NeonHoverRed, {
 export function ContainerContents() {
   return (
     <Contents className="contents">
-      Home
+      Watch
     </Contents>
   );
 }
