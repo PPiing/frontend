@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 
 import { ContainerNavMenu } from "../container/navMenu";
 import { ContainerNavCommunity } from "../container/navCommunity";
-import { ContainerContents } from "../container/contentHome";
+import { ContainerContents } from "../container/contentGame";
 
 const ContainerLeftBox = styled("div", {
   width: "calc(80vw - 40px)",
@@ -28,7 +28,7 @@ const ViewWrapper = styled("div", {
   overflaw: "hidden",
 });
 
-export function Home() {
+export function Game() {
   return (
     <ViewWrapper className="view">
       <ContainerLeftBox>
@@ -42,4 +42,4 @@ export function Home() {
   );
 }
 
-export default Home;
+export default Game;

@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
+import { useNavigate } from "react-router-dom";
 
 const NeonBox = styled(theme.NeonHoverRed, {
   width: "180px",
@@ -16,10 +17,16 @@ const NeonBox = styled(theme.NeonHoverRed, {
   justifyContent: "center",
   alignItems: "center",
 });
+
 export function NeonButton(props: any) {
-  const { text } = props;
+  const { text, viewPath } = props;
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(viewPath);
+  };
   return (
-    <NeonBox>
+    <NeonBox onClick={handleClick}>
       {text}
     </NeonBox>
   );
