@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import * as theme from "../../theme/theme";
 import { useNavigate } from "react-router-dom";
+import * as theme from "../../theme/theme";
 
 const NeonBox = styled(theme.NeonHoverRed, {
   width: "180px",
