@@ -40,17 +40,21 @@ const NavButtonObjects = [
 
 const renderNavButtons = () => {
   const navButtons: any = [];
-  for (let i = 0; i < NavButtonObjects.length; i += 1) {
-    navButtons.push(
-      <NeonButton
-        key={i}
-        text={NavButtonObjects[i].text}
-        className={NavButtonObjects[i].className}
-        neonColor={NavButtonObjects[i].neonColor}
-        viewPath={NavButtonObjects[i].viewPath}
-      />
-    );
-  }
+  //   for (let i = 0; i < NavButtonObjects.length; i += 1) {
+  //     navButtons.push(
+  //       <NeonButton
+  //         key={i}
+  //         text={NavButtonObjects[i].text}
+  //         className={NavButtonObjects[i].className}
+  //         neonColor={NavButtonObjects[i].neonColor}
+  //         viewPath={NavButtonObjects[i].viewPath}
+  //       />
+  //     );
+  //   }
+  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_home.png" />);
+  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_game.png" />);
+  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_watch.png" />);
+  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_chat.png" />);
   return navButtons;
 };
 

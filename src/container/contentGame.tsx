@@ -6,10 +6,8 @@ import { Backdrop, CameraShake, Center, Cloud, Lightformer, OrbitControls, Sky, 
 import { styled } from "@stitches/react";
 import * as theme from "../theme/theme";
 
-const Contents = styled(theme.NeonZone, {
-  display: "flex",
-  height: `calc(${theme.NAV_BOTTOM_HEIGHT} - 5px)`,
-  borderRadius: "50px",
+const Contents = styled(theme.Contents, {
+
 });
 
 // => 기본 game Stage 렌더링중 _ 주석을 지우지 마세요!
