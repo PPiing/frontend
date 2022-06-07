@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../theme/theme";
 
@@ -52,21 +52,66 @@ const ListChatBox = styled(theme.NeonHoverRed, {
   marginLeft: "1rem",
   marginRight: "1rem",
   marginBottom: "1rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 });
 
+type GameRoom = {
+  player1: string;
+  player1Img: string;
+  player2: string;
+  player2Img: string;
+};
+
 export function ContainerContents() {
+  const [gameId, setGameId] = useState(-1);
+  // eslint-disable-next-line no-array-constructor
+  const gameList: Array<GameRoom> = new Array<GameRoom>();
+
+  gameList.push({ player1: "kkim", player1Img: "", player2: "skim", player2Img: "" });
+  gameList.push({ player1: "jinbekim", player1Img: "", player2: "hybae", player2Img: "" });
+  gameList.push({ player1: "hyungyyo", player1Img: "", player2: "spark", player2Img: "" });
+
+  const GameListRender = (gameList: Array<GameRoom>) => {
+    const result = [];
+    for (let i = 0; i < gameList.length; i += 1) {
+      result.push(
+        <ListChatBox onClick={() => setGameId(i)}>
+          {gameList[i].player1} vs {gameList[i].player2}
+        </ListChatBox>
+      );
+    }
+    return result;
+  };
+
+  const GameWatchRender = () => {
+    const result = [];
+    if (gameId >= 0) {
+      result.push(
+        <>
+          {gameList[gameId].player1} vs {gameList[gameId].player2}
+        </>
+      );
+    } else {
+      result.push(
+        <>
+          game watch space
+        </>
+      );
+    }
+    return result;
+  };
+
   return (
     <Contents className="contents">
       <GameListSection className="game_list">
         <ListChatArea>
-          <ListChatBox>1</ListChatBox>
-          <ListChatBox>1</ListChatBox>
-          <ListChatBox>1</ListChatBox>
-          <ListChatBox>1</ListChatBox>
+          {GameListRender(gameList)}
         </ListChatArea>
       </GameListSection>
       <GameWatchSection>
-        game
+        {GameWatchRender()}
       </GameWatchSection>
     </Contents>
   );
