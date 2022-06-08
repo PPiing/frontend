@@ -3,8 +3,8 @@ import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 
 const ProfileImage = styled("img", {
-  width: "80px",
-  height: "80px",
+  width: "75px",
+  height: "75px",
   padding: "0",
   margin: "0",
   border: "none",
@@ -21,13 +21,14 @@ const NavFriendBox = styled(theme.NeonHoverRed, {
   background: `${theme.BACKGROUND_YELLOW}`,
   height: `${theme.NAV_FRIEND_BOX_HEIGHT}`,
   minHeight: "90px",
-  border: "3px solid grey",
+  border: "0",
   margin: "2px 4px",
   padding: "0px 10px",
   cursor: "pointer",
   filter: "none",
   "&:hover": {
     filter: "brightness(1.6)",
+    border: "0",
   },
 });
 

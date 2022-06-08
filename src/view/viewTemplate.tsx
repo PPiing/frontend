@@ -10,7 +10,6 @@ export const ContainerLeftBox = styled("div", {
   height: "calc(100vh - 40px)",
   padding: "20px",
   overflaw: "hidden",
-  backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../asset/background_space.jpeg)",
   backgroundSize: "cover",
 });
 
@@ -20,7 +19,7 @@ export const ContainerRightBox = styled("div", {
   height: "calc(100vh - 40px)",
   padding: "20px",
   overflaw: "hidden",
-  borderLeft: "3px solid white",
+  //   borderLeft: "3px solid white",
   boxShadow: "0 0 0.8rem #fff, 0 0 1.1rem #ffffff50,",
 });
 
