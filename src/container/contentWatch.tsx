@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
+import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 
-const Contents = styled(theme.Contents, {
+const Contents = styled(template.Contents, {
   justifyContent: "left",
   alignItems: "initial",
   borderRadius: "0px",
   flexDirection: "row",
 });
 
-const GameListSection = styled(theme.Contents, {
+const GameListSection = styled(template.Contents, {
   marginLeft: "20px",
   marginTop: "20px",
   marginBottom: "20px",
@@ -18,7 +19,7 @@ const GameListSection = styled(theme.Contents, {
   borderRadius: "30px",
 });
 
-const GameWatchSection = styled(theme.Contents, {
+const GameWatchSection = styled(template.Contents, {
   margin: "20px",
   width: "calc(100% - 400px)",
   height: "auto",
@@ -35,7 +36,7 @@ const ListChatArea = styled("div", {
     width: "5px",
   },
   "&::-webkit-scrollbar-thumb": {
-    backgroundColor: theme.NEON_RED,
+    backgroundColor: template.NEON_RED,
     borderRadius: "10px",
   },
   "&::-webkit-scrollbar-track": {
@@ -44,7 +45,7 @@ const ListChatArea = styled("div", {
   },
 });
 
-const ListChatBox = styled(theme.NeonHoverRed, {
+const ListChatBox = styled(template.NeonHoverRed, {
   color: "grey",
   width: "90%",
   height: "100px",
@@ -56,9 +57,9 @@ const ListChatBox = styled(theme.NeonHoverRed, {
   justifyContent: "center",
   filter: "drop-shadow(0 0 0px gray)",
   "&:hover": {
-    border: `3px solid ${theme.NEON_RED}`,
-    color: `${theme.NEON_RED}`,
-    filter: `drop-shadow(0 0 0px ${theme.NEON_RED}) brightness(1.6)`,
+    border: `3px solid ${template.NEON_RED}`,
+    color: `${template.NEON_RED}`,
+    filter: `drop-shadow(0 0 0px ${template.NEON_RED}) brightness(1.6)`,
   },
 });
 
@@ -85,7 +86,7 @@ export function ContainerContents() {
         result.push(
           <ListChatBox
             onClick={() => setGameId(i)}
-            style={{ color: theme.NEON_RED, borderColor: theme.NEON_RED }}
+            style={{ color: template.NEON_RED, borderColor: template.NEON_RED }}
           >
             {gameList[i].player1} vs {gameList[i].player2}
           </ListChatBox>

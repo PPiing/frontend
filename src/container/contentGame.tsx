@@ -1,12 +1,13 @@
 import React from "react";
+import { styled, } from "@stitches/react";
+
 import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { Backdrop, CameraShake, Center, Cloud, Lightformer, OrbitControls, Sky, SpotLight, Stage, Stars } from "@react-three/drei";
-
-import { styled } from "@stitches/react";
 import * as theme from "../theme/theme";
+import * as template from "./contentTemplate";
 
-const Contents = styled(theme.Contents, {
+const Contents = styled(template.Contents, {
 
 });
 
