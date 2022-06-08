@@ -40,33 +40,6 @@ export const NAV_TOP_HEIGHT = "10%";
 export const NAV_BOTTOM_HEIGHT = "90%";
 export const NAV_LEFT_HEIGHT = "100%";
 
-export const ContainerLeftBox = styled("div", {
-  width: "calc(80vw - 40px)",
-  height: "calc(100vh - 40px)",
-  padding: "20px",
-  overflaw: "hidden",
-  backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../asset/background_space.jpeg)",
-  backgroundSize: "cover",
-});
-
-export const ContainerRightBox = styled("div", {
-  width: "calc(20vw - 40px)",
-  minWidth: "300px",
-  height: "calc(100vh - 40px)",
-  padding: "20px",
-  overflaw: "hidden",
-  borderLeft: "3px solid white",
-  boxShadow: "0 0 0.8rem #fff, 0 0 1.1rem #ffffff50,",
-});
-
-export const ViewWrapper = styled("div", {
-  display: "flex",
-  flexDirection: "row",
-  width: "100%",
-  height: "100%",
-  overflow: "hidden",
-});
-
 // community nav zone
 export const NAV_ALARM_HEIGHT = "10%";
 export const NAV_SEARCH_HEIGHT = "10%";
