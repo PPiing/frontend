@@ -19,7 +19,6 @@ const GameListSection = styled(theme.Contents, {
 });
 
 const GameWatchSection = styled(theme.Contents, {
-
   margin: "20px",
   width: "calc(100% - 400px)",
   height: "auto",
@@ -55,6 +54,12 @@ const ListChatBox = styled(theme.NeonHoverRed, {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  filter: "drop-shadow(0 0 0px gray)",
+  "&:hover": {
+    border: `3px solid ${theme.NEON_RED}`,
+    color: `${theme.NEON_RED}`,
+    filter: `drop-shadow(0 0 0px ${theme.NEON_RED}) brightness(1.6)`,
+  },
 });
 
 type GameRoom = {
