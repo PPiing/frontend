@@ -31,10 +31,6 @@ export const ICON_LINK_CHAT = "url(../asset/neon_icon_chat.png)";
 export const ICON_LINK_GAME = "url(../asset/neon_icon_game.png)";
 export const ICON_LINK_WATCH = "url(../asset/neon_icon_watch.png)";
 
-export const ICON_DEFAULT = styled("img", {
-  width: "25%",
-});
-
 // container size
 export const NAV_TOP_HEIGHT = "10%";
 export const NAV_BOTTOM_HEIGHT = "90%";
