@@ -112,21 +112,6 @@ export const NeonZone = styled("div", {
 
 //
 // *****************************************************************************
-// Content template
-// *****************************************************************************
-//
-// content templates
-export const Contents = styled(NeonHoverRed, {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: NEON_RED,
-  height: `calc(${NAV_LEFT_HEIGHT})`,
-  borderRadius: "50px",
-});
-
-//
-// *****************************************************************************
 // global style && reactive
 // *****************************************************************************
 //

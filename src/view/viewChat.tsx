@@ -1,24 +1,13 @@
 import React from "react";
 import { styled } from "@stitches/react";
+import { ViewTemplate } from "./viewTemplate";
 import * as theme from "../theme/theme";
-
-import { ContainerNavMenu } from "../container/navMenu";
-import { ContainerNavCommunity } from "../container/navCommunity";
 
 import { ContainerContents } from "../container/contentChat";
 
 export function Chat() {
   return (
-    <theme.ViewWrapper className="view">
-      <theme.ContainerLeftBox>
-        <ContainerContents />
-      </theme.ContainerLeftBox>
-      <theme.ContainerRightBox>
-        <ContainerNavMenu />
-        <theme.Hr />
-        <ContainerNavCommunity />
-      </theme.ContainerRightBox>
-    </theme.ViewWrapper>
+    <ViewTemplate content={<ContainerContents />} />
   );
 }
 
