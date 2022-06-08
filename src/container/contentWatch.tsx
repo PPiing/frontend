@@ -76,11 +76,22 @@ export function ContainerContents() {
   const GameListRender = (gameList: Array<GameRoom>) => {
     const result = [];
     for (let i = 0; i < gameList.length; i += 1) {
-      result.push(
-        <ListChatBox onClick={() => setGameId(i)}>
-          {gameList[i].player1} vs {gameList[i].player2}
-        </ListChatBox>
-      );
+      if (i === gameId) {
+        result.push(
+          <ListChatBox
+            onClick={() => setGameId(i)}
+            style={{ color: theme.NEON_RED, borderColor: theme.NEON_RED }}
+          >
+            {gameList[i].player1} vs {gameList[i].player2}
+          </ListChatBox>
+        );
+      } else {
+        result.push(
+          <ListChatBox onClick={() => setGameId(i)}>
+            {gameList[i].player1} vs {gameList[i].player2}
+          </ListChatBox>
+        );
+      }
     }
     return result;
   };
