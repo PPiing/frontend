@@ -36,7 +36,7 @@ const ListChatArea = styled("div", {
     width: "5px",
   },
   "&::-webkit-scrollbar-thumb": {
-    backgroundColor: template.NEON_RED,
+    backgroundColor: theme.NEON_RED,
     borderRadius: "10px",
   },
   "&::-webkit-scrollbar-track": {
@@ -45,7 +45,7 @@ const ListChatArea = styled("div", {
   },
 });
 
-const ListChatBox = styled(template.NeonHoverRed, {
+const ListChatBox = styled(theme.NeonHoverRed, {
   color: "grey",
   width: "90%",
   height: "100px",
@@ -57,9 +57,9 @@ const ListChatBox = styled(template.NeonHoverRed, {
   justifyContent: "center",
   filter: "drop-shadow(0 0 0px gray)",
   "&:hover": {
-    border: `3px solid ${template.NEON_RED}`,
-    color: `${template.NEON_RED}`,
-    filter: `drop-shadow(0 0 0px ${template.NEON_RED}) brightness(1.6)`,
+    border: `3px solid ${theme.NEON_RED}`,
+    color: `${theme.NEON_RED}`,
+    filter: `drop-shadow(0 0 0px ${theme.NEON_RED}) brightness(1.6)`,
   },
 });
 
@@ -86,7 +86,7 @@ export function ContainerContents() {
         result.push(
           <ListChatBox
             onClick={() => setGameId(i)}
-            style={{ color: template.NEON_RED, borderColor: template.NEON_RED }}
+            style={{ color: theme.NEON_RED, borderColor: theme.NEON_RED }}
           >
             {gameList[i].player1} vs {gameList[i].player2}
           </ListChatBox>
