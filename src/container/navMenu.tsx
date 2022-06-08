@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
+import { useNavigate } from "react-router-dom";
 import * as theme from "../theme/theme";
-import { NeonButton } from "../component/neon/NeonButton";
 
 const NavMenu = styled("div", {
   display: "flex",
@@ -11,50 +11,32 @@ const NavMenu = styled("div", {
   alignItems: "center",
 });
 
-const NavButtonObjects = [
-  {
-    text: "PLAY",
-    className: "memuButton menuButtonPlay",
-    neonColor: `${theme.NEON_RED}`,
-    viewPath: "/game"
-  },
-  {
-    text: "HOME",
-    className: "memuButton menuButtonHome",
-    neonColor: `${theme.NEON_BLU}`,
-    viewPath: "/"
-  },
-  {
-    text: "CHAT",
-    className: "memuButton menuButtonChat",
-    neonColor: `${theme.NEON_GRE}`,
-    viewPath: "/chat"
-  },
-  {
-    text: "WATCH",
-    className: "memuButton menuButtonWatch",
-    neonColor: `${theme.NEON_BLU}`,
-    viewPath: "/watch"
-  }
-];
+const DefaultIcon = styled("img", {
+  width: "21%",
+});
+
+function Icon(props : any) {
+  const { src, path } = props;
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(path);
+  };
+
+  return (
+    <DefaultIcon
+      src={src}
+      onClick={handleClick}
+    />
+  );
+}
 
 const renderNavButtons = () => {
   const navButtons: any = [];
-  //   for (let i = 0; i < NavButtonObjects.length; i += 1) {
-  //     navButtons.push(
-  //       <NeonButton
-  //         key={i}
-  //         text={NavButtonObjects[i].text}
-  //         className={NavButtonObjects[i].className}
-  //         neonColor={NavButtonObjects[i].neonColor}
-  //         viewPath={NavButtonObjects[i].viewPath}
-  //       />
-  //     );
-  //   }
-  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_home.png" />);
-  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_game.png" />);
-  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_watch.png" />);
-  navButtons.push(<theme.ICON_DEFAULT src="../asset/neon_icon_chat.png" />);
+  navButtons.push(<Icon key={0} src="../asset/neon_Icon_home.png" path="/home" />);
+  navButtons.push(<Icon key={1} src="../asset/neon_Icon_game.png" path="/game" />);
+  navButtons.push(<Icon key={2} src="../asset/neon_Icon_watch.png" path="/watch" />);
+  navButtons.push(<Icon key={3} src="../asset/neon_Icon_chat.png" path="/chat" />);
   return navButtons;
 };
 

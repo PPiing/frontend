@@ -7,5 +7,4 @@ export const Contents = styled(theme.NeonHoverRed, {
   justifyContent: "center",
   color: theme.NEON_RED,
   height: `calc(${theme.NAV_LEFT_HEIGHT})`,
-  borderRadius: "50px",
 });
