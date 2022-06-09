@@ -33,10 +33,11 @@ function Icon(props : any) {
 
 const renderNavButtons = () => {
   const navButtons: any = [];
-  navButtons.push(<Icon key={0} src="../asset/neon_Icon_home.png" path="/home" />);
-  navButtons.push(<Icon key={1} src="../asset/neon_Icon_game.png" path="/game" />);
-  navButtons.push(<Icon key={2} src="../asset/neon_Icon_watch.png" path="/watch" />);
-  navButtons.push(<Icon key={3} src="../asset/neon_Icon_chat.png" path="/chat" />);
+  // navButtons.push(<Icon key={0} src="../asset/neon_icon_home.png" path="/home" />);
+  navButtons.push(<Icon key={0} src="/asset/neon_icon_home.png" path="/home" />);
+  navButtons.push(<Icon key={1} src="/asset/neon_icon_game.png" path="/game" />);
+  navButtons.push(<Icon key={2} src="/asset/neon_icon_watch.png" path="/watch" />);
+  navButtons.push(<Icon key={3} src="/asset/neon_icon_chat.png" path="/chat" />);
   return navButtons;
 };
 
