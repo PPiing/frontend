@@ -33,7 +33,6 @@ function Icon(props : any) {
 
 const renderNavButtons = () => {
   const navButtons: any = [];
-  // navButtons.push(<Icon key={0} src="../asset/neon_icon_home.png" path="/home" />);
   navButtons.push(<Icon key={0} src="/asset/neon_icon_home.png" path="/home" />);
   navButtons.push(<Icon key={1} src="/asset/neon_icon_game.png" path="/game" />);
   navButtons.push(<Icon key={2} src="/asset/neon_icon_watch.png" path="/watch" />);

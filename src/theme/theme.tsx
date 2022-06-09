@@ -7,7 +7,7 @@ import { createStitches, globalCss, styled, } from "@stitches/react";
 // *****************************************************************************
 //
 // background color settings
-export const BACKGROUND_BRICK = "url(../asset/background_brick.png)";
+export const BACKGROUND_BRICK = "url(/asset/background_brick.png)";
 export const BACKGROUND_BLACK = "#191a1a";
 export const BACKGROUND_YELLOW = "";
 export const BORDER_BASIC = "1px solid red";
