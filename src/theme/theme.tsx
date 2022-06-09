@@ -1,25 +1,16 @@
 // imports
 import { createStitches, globalCss, styled, } from "@stitches/react";
 
+//
+// *****************************************************************************
+// design settings
+// *****************************************************************************
+//
 // background color settings
-export const BACKGROUND_BRICK = "url(../asset/background_brick.png)";
+export const BACKGROUND_BRICK = "url(/asset/background_brick.png)";
 export const BACKGROUND_BLACK = "#191a1a";
 export const BACKGROUND_YELLOW = "";
-// export const BACKGROUND_YELLOW = "#fdc202";
 export const BORDER_BASIC = "1px solid red";
-
-// container sizes
-export const NAV_TOP_HEIGHT = "10%";
-export const NAV_BOTTOM_HEIGHT = "90%";
-export const NAV_RIGHT_HEIGHT = "100%";
-
-// community nav zone
-export const NAV_ALARM_HEIGHT = "10%";
-export const NAV_SEARCH_HEIGHT = "10%";
-export const NAV_FRIEND_HEIGHT = "45%";
-export const NAV_FRIEND_BOX_HEIGHT = "20%";
-export const NAV_INVITE_HEIGHT = "35%";
-export const NAV_INVITE_BOX_HEIGHT = "25%";
 
 // neon color list
 export const NEON_RED = "#FF0086";
@@ -29,6 +20,41 @@ export const NEON_GRE = "#05FF00";
 // fonts
 export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 
+//
+// *****************************************************************************
+// Nav bar settings starts
+// *****************************************************************************
+//
+// nav icons
+export const ICON_LINK_HOME = "url(../asset/neon_icon_home.png)";
+export const ICON_LINK_CHAT = "url(../asset/neon_icon_chat.png)";
+export const ICON_LINK_GAME = "url(../asset/neon_icon_game.png)";
+export const ICON_LINK_WATCH = "url(../asset/neon_icon_watch.png)";
+
+// container size
+export const NAV_TOP_HEIGHT = "10%";
+export const NAV_BOTTOM_HEIGHT = "90%";
+export const NAV_LEFT_HEIGHT = "100%";
+
+// community nav zone
+export const NAV_ALARM_HEIGHT = "10%";
+export const NAV_SEARCH_HEIGHT = "10%";
+export const NAV_FRIEND_HEIGHT = "45%";
+export const NAV_FRIEND_BOX_HEIGHT = "20%";
+export const NAV_INVITE_HEIGHT = "35%";
+export const NAV_INVITE_BOX_HEIGHT = "25%";
+
+export const Hr = styled("hr", {
+  border: "1px solid transparent",
+  marginTop: "-5px",
+  marginBottom: "20px",
+});
+
+//
+// *****************************************************************************
+// Design template
+// *****************************************************************************
+//
 // default neon hover event setting
 export const NeonHoverRed = styled("div", {
   border: "3px solid gray",
@@ -53,12 +79,16 @@ export const NeonZone = styled("div", {
   // },
 });
 
+//
+// *****************************************************************************
+// global style && reactive
+// *****************************************************************************
+//
 // global style
 export const globalStyles = globalCss({
   body: {
     margin: 0,
     background: "#151515",
-    backgroundImage: BACKGROUND_BRICK,
   },
 });
 

@@ -31,6 +31,5 @@ export function ContainerNavCommunity() {
 }
 
 const NavCommunity = styled(theme.NeonHoverRed, {
-  height: `${theme.NAV_RIGHT_HEIGHT}`,
-  borderRadius: "50px",
+  height: `calc(${theme.NAV_BOTTOM_HEIGHT} - 20px)`,
 });
