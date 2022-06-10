@@ -47,6 +47,7 @@ export function ContainerContents() {
         result.push(
           <template.ListBox
             onClick={() => setGameId(i)}
+            key={i}
             style={{ color: theme.NEON_RED, borderColor: theme.NEON_RED }}
           >
             {gameList[i].player1} vs {gameList[i].player2}
@@ -54,7 +55,7 @@ export function ContainerContents() {
         );
       } else {
         result.push(
-          <template.ListBox onClick={() => setGameId(i)}>
+          <template.ListBox onClick={() => setGameId(i)} key={i}>
             {gameList[i].player1} vs {gameList[i].player2}
           </template.ListBox>
         );
@@ -67,15 +68,15 @@ export function ContainerContents() {
     const result = [];
     if (gameId >= 0) {
       result.push(
-        <>
+        <p key={0}>
           {gameList[gameId].player1} vs {gameList[gameId].player2}
-        </>
+        </p>
       );
     } else {
       result.push(
-        <>
+        <p key={0}>
           game watch space
-        </>
+        </p>
       );
     }
     return result;
