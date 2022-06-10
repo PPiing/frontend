@@ -3,37 +3,16 @@ import { styled } from "@stitches/react";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 
-const Contents = styled(template.Contents, {
-  justifyContent: "left",
-  alignItems: "initial",
-  borderRadius: "0px",
-  flexDirection: "row",
-});
-
-const GameListSection = styled(template.Contents, {
-  marginLeft: "20px",
-  marginTop: "20px",
-  marginBottom: "20px",
-  width: "330px",
-  height: "auto",
-  borderRadius: "30px",
-});
-
-const GameWatchSection = styled(template.Contents, {
-  margin: "20px",
-  width: "calc(100% - 400px)",
-  height: "auto",
-  borderRadius: "30px",
-});
-
-const ListChatArea = styled("div", {
-  width: "100%",
-  height: "95%",
+const RoomListSection = styled("div", {
+  display: "block",
+  flexDirection: "column",
+  height: "100%",
   overflowY: "scroll",
   overflowX: "hidden",
-  marginRight: "1rem",
+  marginTop: "20px",
+  marginBottom: "20px",
   "&::-webkit-scrollbar": {
-    width: "5px",
+    display: "none",
   },
   "&::-webkit-scrollbar-thumb": {
     backgroundColor: theme.NEON_RED,
@@ -42,24 +21,6 @@ const ListChatArea = styled("div", {
   "&::-webkit-scrollbar-track": {
     backgroundColor: "grey",
     borderRadius: "10px",
-  },
-});
-
-const ListChatBox = styled(theme.NeonHoverRed, {
-  color: "grey",
-  width: "90%",
-  height: "100px",
-  marginLeft: "1rem",
-  marginRight: "1rem",
-  marginBottom: "1rem",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  filter: "drop-shadow(0 0 0px gray)",
-  "&:hover": {
-    border: `3px solid ${theme.NEON_RED}`,
-    color: `${theme.NEON_RED}`,
-    filter: `drop-shadow(0 0 0px ${theme.NEON_RED}) brightness(1.6)`,
   },
 });
 
@@ -84,18 +45,18 @@ export function ContainerContents() {
     for (let i = 0; i < gameList.length; i += 1) {
       if (i === gameId) {
         result.push(
-          <ListChatBox
+          <template.ListBox
             onClick={() => setGameId(i)}
             style={{ color: theme.NEON_RED, borderColor: theme.NEON_RED }}
           >
             {gameList[i].player1} vs {gameList[i].player2}
-          </ListChatBox>
+          </template.ListBox>
         );
       } else {
         result.push(
-          <ListChatBox onClick={() => setGameId(i)}>
+          <template.ListBox onClick={() => setGameId(i)}>
             {gameList[i].player1} vs {gameList[i].player2}
-          </ListChatBox>
+          </template.ListBox>
         );
       }
     }
@@ -121,15 +82,15 @@ export function ContainerContents() {
   };
 
   return (
-    <Contents className="contents">
-      <GameListSection className="game_list">
-        <ListChatArea>
+    <template.DividedContents>
+      <template.DividedLeftSection>
+        <RoomListSection>
           {GameListRender(gameList)}
-        </ListChatArea>
-      </GameListSection>
-      <GameWatchSection>
+        </RoomListSection>
+      </template.DividedLeftSection>
+      <template.DividedRightSection>
         {GameWatchRender()}
-      </GameWatchSection>
-    </Contents>
+      </template.DividedRightSection>
+    </template.DividedContents>
   );
 }
