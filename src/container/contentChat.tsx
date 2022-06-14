@@ -3,6 +3,7 @@ import { styled } from "@stitches/react";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import socketManager from "../feat/chat/socket";
+import { CreateRoom } from "../component/chat/chatCreateRoom";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -47,6 +48,7 @@ const MenuButton = styled(theme.NeonHoverRed, {
   height: "50px",
   cursor: "pointer",
   marginRight: "1rem",
+  color: "grey",
 });
 
 const NeonBox = styled(theme.NeonHoverRed, {
@@ -71,17 +73,8 @@ const NeonBox = styled(theme.NeonHoverRed, {
 
 // Content~ 컴포넌트는 렌더링 확인을 위한 샘플입니다.
 
-const ContentCreate = styled(theme.NeonHoverRed, {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "5rem",
-  borderRadius: "5%",
-  width: "95%",
-  height: "95%",
-});
-
 const ContentFind = styled(theme.NeonHoverRed, {
+  position: "relative",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -92,6 +85,7 @@ const ContentFind = styled(theme.NeonHoverRed, {
 });
 
 const ContentRoom = styled(theme.NeonHoverRed, {
+  position: "relative",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -196,12 +190,10 @@ export function ContainerContents() {
   const [inputId, setInputId] = useState("");
 
   useEffect(() => {
-    console.log(`input ID : ${inputId}`);
   }, [inputId]);
 
   useEffect(() => {
-    console.log(`LOGIN : ${userId}`);
-    if (userId !== -1) {
+    if (userId !== -1 && userId !== 0) {
       socket.connect();
     }
   }, [userId]);
@@ -261,10 +253,7 @@ export function ContainerContents() {
     switch (contentType) {
       case "create":
         return (
-          <ContentCreate>
-            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
-            CREATE
-          </ContentCreate>
+          <CreateRoom propFunc={changeContent} />
         );
       case "find":
         return (
