@@ -253,7 +253,7 @@ export function ContainerContents() {
     switch (contentType) {
       case "create":
         return (
-          <CreateRoom propFunc={changeContent} />
+          <CreateRoom />
         );
       case "find":
         return (
