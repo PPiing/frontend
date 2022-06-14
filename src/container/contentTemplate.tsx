@@ -27,6 +27,8 @@ export const DividedLeftSection = styled(theme.NeonHoverRed, {
 
 export const DividedRightSection = styled(theme.NeonHoverRed, {
   display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   color: theme.NEON_RED,
   width: "calc(100% - 420px)",
   height: `calc(${theme.NAV_LEFT_HEIGHT})`,

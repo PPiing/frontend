@@ -68,6 +68,62 @@ const NeonBox = styled(theme.NeonHoverRed, {
   },
 });
 
+// Content~ 컴포넌트는 렌더링 확인을 위한 샘플입니다.
+
+const ContentCreate = styled(theme.NeonHoverRed, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "5rem",
+  borderRadius: "5%",
+  width: "95%",
+  height: "95%",
+});
+
+const ContentFind = styled(theme.NeonHoverRed, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "5rem",
+  borderRadius: "5%",
+  width: "95%",
+  height: "95%",
+});
+
+const ContentRoom = styled(theme.NeonHoverRed, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "5rem",
+  borderRadius: "5%",
+  width: "95%",
+  height: "95%",
+});
+
+const ContentEmpty = styled(theme.NeonHoverRed, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "5rem",
+  borderRadius: "5%",
+  width: "95%",
+  height: "95%",
+});
+
+const ContentExitButton = styled(theme.NeonHoverRed, {
+  position: "absolute",
+  right: "20px",
+  top: "20px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  fontSize: "2rem",
+  borderRadius: "20%",
+  width: "30px",
+  height: "30px",
+  cursor: "pointer",
+});
+
 const joinedRoomList = [
   {
     roomNumber: 1,
@@ -130,6 +186,7 @@ const joinedRoomList = [
 export function ContainerContents() {
   const [listType, setListType] = useState("chat");
   const [roomId, setRoomId] = useState(-1);
+  const [contentType, setContentType] = useState("");
 
   const changeListType = (type: string) => {
     if (listType !== type) setListType(type);
@@ -141,13 +198,17 @@ export function ContainerContents() {
       if (joinedRoomList[i].roomType === listType) {
         const isClicked: boolean = (roomId === i);
         renderList.push(
-          <template.ListBox key={i} onClick={() => setRoomId(i)} className={isClicked ? "clicked" : "non-clicked"}>
+          <template.ListBox key={i} onClick={() => { setRoomId(i); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
             {joinedRoomList[i].roomNumber}
           </template.ListBox>
         );
       }
     }
     return (renderList);
+  };
+
+  const changeContent = (content: string) => {
+    if (contentType !== content) setContentType(content);
   };
 
   const renderTypeSelectButton = () => {
@@ -164,6 +225,38 @@ export function ContainerContents() {
     return renderList;
   };
 
+  const renderContent = () => {
+    switch (contentType) {
+      case "create":
+        return (
+          <ContentCreate>
+            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
+            CREATE
+          </ContentCreate>
+        );
+      case "find":
+        return (
+          <ContentFind>
+            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
+            FIND
+          </ContentFind>
+        );
+      case "room":
+        return (
+          <ContentRoom>
+            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
+            {joinedRoomList[roomId].roomType.toUpperCase()} ROOM {roomId + 1}
+          </ContentRoom>
+        );
+      default:
+        return (
+          <ContentEmpty>
+            EMPTY
+          </ContentEmpty>
+        );
+    }
+  };
+
   return (
     <template.DividedContents>
       <template.DividedLeftSection>
@@ -174,11 +267,13 @@ export function ContainerContents() {
           {renderJoinedRoomList()}
         </RoomListSection>
         <MenuSection>
-          <MenuButton>1</MenuButton>
-          <MenuButton>2</MenuButton>
+          <MenuButton onClick={() => changeContent("create")}>create</MenuButton>
+          <MenuButton onClick={() => changeContent("find")}>find</MenuButton>
         </MenuSection>
       </template.DividedLeftSection>
-      <template.DividedRightSection>a</template.DividedRightSection>
+      <template.DividedRightSection>
+        {renderContent()}
+      </template.DividedRightSection>
     </template.DividedContents>
   );
 }
