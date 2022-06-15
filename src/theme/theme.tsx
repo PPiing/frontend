@@ -59,11 +59,10 @@ export const Hr = styled("hr", {
 export const NeonHoverRed = styled("div", {
   border: "3px solid gray",
   transition: "all 0.5s",
-  filter: "drop-shadow(0 0 2px gray)",
   "&:hover": {
     border: `3px solid ${NEON_RED}`,
     color: `${NEON_RED}`,
-    filter: `drop-shadow(0 0 2px ${NEON_RED}) brightness(1.6)`,
+    filter: "brightness(1.6)",
   },
 });
 
