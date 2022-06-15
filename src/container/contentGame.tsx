@@ -98,10 +98,10 @@ function Basic() {
       </mesh>
 
       {/* Ball */}
-      <mesh position={[2, 2, 2]}>
-        <sphereBufferGeometry attach="geometry" args={[2.5, 14, 14]} />
-        {/* <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 1]} /> */}
-        <meshLambertMaterial attach="material" color="#FFFFFF" />
+      <mesh position={[0, 0.3, 0]}>
+        {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
+        <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
+        <meshLambertMaterial attach="material" color="#FAFF00" />
       </mesh>
 
       <mesh position={[0, 1.5, -4]}>
