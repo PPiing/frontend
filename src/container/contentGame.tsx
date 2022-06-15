@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled, } from "@stitches/react";
-
 import * as THREE from "three";
 import { Canvas, extend } from "@react-three/fiber";
 import { CameraShake, OrbitControls, Stars, Text3D, Text } from "@react-three/drei";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
-
-// extend({ TextGeometry });
 
 // => 기본 game Stage 렌더링중 _ 주석을 지우지 마세요!
 
@@ -67,11 +64,30 @@ import * as template from "./contentTemplate";
 // };
 
 function Basic() {
+  const [redRacketYPos, setRedRacketYPos] = useState(0);
   const gamer1Name = "Polabear : \n";
   const gamer1Score = "0";
-
   const gamer2Name = " Dall\n";
   const gamer2Score = "999";
+
+  let blueRacketYPos = 0;
+
+  const controlRacket = (e:any) => {
+    console.log("down => ", e.key, "  =>   ", redRacketYPos);
+    if (e.key === "ArrowUp") {
+      setRedRacketYPos(redRacketYPos - 0.1);
+    }
+    if (e.key === "ArrowDown") {
+      setRedRacketYPos(redRacketYPos + 0.1);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", controlRacket);
+  }, []);
+
+  // window.addEventListener("keydown", controlRacket);
+  // window.removeEventListener("keydown", controlRacket);
 
   return (
     <Canvas dpr={[1, 1.5]} camera={{ fov: 35, position: [0, 5, 10] }}>
@@ -86,13 +102,13 @@ function Basic() {
       </mesh>
 
       {/* Red 게임바 */}
-      <mesh position={[3.1, 0.3, 0]}>
+      <mesh position={[3.1, 0.3, redRacketYPos]}>
         <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 1]} />
         <meshLambertMaterial attach="material" color="#FF0086" />
       </mesh>
 
       {/* Blue 게임바 */}
-      <mesh position={[-3.1, 0.3, 0]}>
+      <mesh position={[-3.1, 0.3, blueRacketYPos]}>
         <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 1]} />
         <meshLambertMaterial attach="material" color="#00FFF0" />
       </mesh>
