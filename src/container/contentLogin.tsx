@@ -108,7 +108,7 @@ const ButtonLogin2 = styled(ButtonLogin, {
 
 export function ContainerContents() {
   const logIn = () => {
-    window.location.href = "https://bongcheonmountainclub.iptime.org/api/auth/42";
+    window.location.href = "/api/auth/42";
   };
   return (
     <LoginSpace>
