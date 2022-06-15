@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
+import socketManager from "../feat/chat/socket";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -183,7 +184,38 @@ const joinedRoomList = [
   },
 ];
 
+const socket = socketManager.socket("/chatrooms");
+
+socket.on("connect", () => {
+  console.log(socket.connected);
+});
+
 export function ContainerContents() {
+  // login for test
+  const [userId, setUserId] = useState(-1);
+  const [inputId, setInputId] = useState("");
+
+  useEffect(() => {
+    console.log(`input ID : ${inputId}`);
+  }, [inputId]);
+
+  useEffect(() => {
+    console.log(`LOGIN : ${userId}`);
+    if (userId !== -1) {
+      socket.connect();
+    }
+  }, [userId]);
+
+  const handleChange = (e: any) => {
+    setInputId(e.target.value);
+  };
+
+  const login = () => {
+    setUserId(Number(inputId));
+    setInputId("");
+  };
+  //
+
   const [listType, setListType] = useState("chat");
   const [roomId, setRoomId] = useState(-1);
   const [contentType, setContentType] = useState("");
@@ -267,6 +299,8 @@ export function ContainerContents() {
           {renderJoinedRoomList()}
         </RoomListSection>
         <MenuSection>
+          <input style={{ width: "100px", height: "50px", marginRight: "15px", color: "white", backgroundColor: "black", fontSize: "30px" }} value={inputId} onChange={(event) => handleChange(event)} />
+          <MenuButton onClick={() => login()}>login</MenuButton>
           <MenuButton onClick={() => changeContent("create")}>create</MenuButton>
           <MenuButton onClick={() => changeContent("find")}>find</MenuButton>
         </MenuSection>
