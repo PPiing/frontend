@@ -77,12 +77,33 @@ function Basic() {
     <Canvas dpr={[1, 1.5]} camera={{ fov: 35, position: [0, 5, 10] }}>
       <OrbitControls />
       <Stars />
-      <ambientLight intensity={0} />
-      {/* <spotLight position={[5, 20, 15]} angle={5} /> */}
+      <ambientLight intensity={1} />
+
+      {/* 메인 게임필드 */}
       <mesh position={[0, 0, 0]}>
-        <boxBufferGeometry attach="geometry" args={[5, 0.1, 5]} />
-        <meshLambertMaterial attach="material" color="#00FFF080" />
+        <boxBufferGeometry attach="geometry" args={[7, 0.1, 5]} />
+        <meshLambertMaterial attach="material" color="#000000" />
       </mesh>
+
+      {/* Red 게임바 */}
+      <mesh position={[3.1, 0.3, 0]}>
+        <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 1]} />
+        <meshLambertMaterial attach="material" color="#FF0086" />
+      </mesh>
+
+      {/* Blue 게임바 */}
+      <mesh position={[-3.1, 0.3, 0]}>
+        <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 1]} />
+        <meshLambertMaterial attach="material" color="#00FFF0" />
+      </mesh>
+
+      {/* Ball */}
+      <mesh position={[2, 2, 2]}>
+        <sphereBufferGeometry attach="geometry" args={[2.5, 14, 14]} />
+        {/* <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 1]} /> */}
+        <meshLambertMaterial attach="material" color="#FFFFFF" />
+      </mesh>
+
       <mesh position={[0, 1.5, -4]}>
         <Text
           scale={[5, 5, 5]}
@@ -117,5 +138,19 @@ export function ContainerContents() {
 }
 
 const Contents = styled(template.Contents, {
-
+  "&:hover": {
+    border: `3px solid ${theme.NEON_RED}`,
+    filter: "drop-shadow(0 0 2px gray)",
+  },
 });
+
+// export const NeonHoverRed = styled("div", {
+//   border: "3px solid gray",
+//   transition: "all 0.5s",
+//   filter: "drop-shadow(0 0 2px gray)",
+//   "&:hover": {
+//     border: `3px solid ${NEON_RED}`,
+//     color: `${NEON_RED}`,
+//     filter: `drop-shadow(0 0 2px ${NEON_RED}) brightness(1.6)`,
+//   },
+// });
