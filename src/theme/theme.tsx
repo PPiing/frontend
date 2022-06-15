@@ -1,5 +1,5 @@
 // imports
-import { createStitches, globalCss, styled, } from "@stitches/react";
+import { createStitches, globalCss, } from "@stitches/react";
 
 //
 // *****************************************************************************
@@ -44,6 +44,36 @@ export const NAV_FRIEND_BOX_HEIGHT = "20%";
 export const NAV_INVITE_HEIGHT = "35%";
 export const NAV_INVITE_BOX_HEIGHT = "25%";
 
+// size settings for several devices
+const size = {
+  mobile: "770px",
+  tabletS: "1023px",
+  tabletM: "1220px",
+  tabletL: "1280px",
+  laptop: "1460px",
+  desktop: "1700px"
+};
+
+const theme = {
+  mobile: `(max-width: ${size.mobile})`,
+  tabletS: `(max-width: ${size.tabletS})`,
+  tabletM: `(max-width: ${size.tabletM})`,
+  tabletL: `(max-width: ${size.tabletL})`,
+  laptop: `(max-width: ${size.laptop})`,
+  desktop: `(max-width: ${size.desktop})`
+};
+
+export const { styled, css } = createStitches({
+  media: {
+    mobile: theme.mobile,
+    tabletS: theme.tabletS,
+    tabletM: theme.tabletM,
+    tabletL: theme.tabletL,
+    laptop: theme.laptop,
+    desktop: theme.desktop
+  },
+});
+
 export const Hr = styled("hr", {
   border: "1px solid transparent",
   marginTop: "-5px",
@@ -59,11 +89,10 @@ export const Hr = styled("hr", {
 export const NeonHoverRed = styled("div", {
   border: "3px solid gray",
   transition: "all 0.5s",
-  filter: "drop-shadow(0 0 2px gray)",
   "&:hover": {
     border: `3px solid ${NEON_RED}`,
     color: `${NEON_RED}`,
-    filter: `drop-shadow(0 0 2px ${NEON_RED}) brightness(1.6)`,
+    filter: "brightness(1.6)",
   },
 });
 
@@ -89,35 +118,5 @@ export const globalStyles = globalCss({
   body: {
     margin: 0,
     background: "#151515",
-  },
-});
-
-// size settings for several devices
-const size = {
-  mobile: "770px",
-  tabletS: "1023px",
-  tabletM: "1220px",
-  tabletL: "1280px",
-  laptop: "1460px",
-  desktop: "1700px"
-};
-
-const theme = {
-  mobile: `(max-width: ${size.mobile})`,
-  tabletS: `(max-width: ${size.tabletS})`,
-  tabletM: `(max-width: ${size.tabletM})`,
-  tabletL: `(max-width: ${size.tabletL})`,
-  laptop: `(max-width: ${size.laptop})`,
-  desktop: `(max-width: ${size.desktop})`
-};
-
-export const { css } = createStitches({
-  media: {
-    mobile: theme.mobile,
-    tabletS: theme.tabletS,
-    tabletM: theme.tabletM,
-    tabletL: theme.tabletL,
-    laptop: theme.laptop,
-    desktop: theme.desktop
   },
 });
