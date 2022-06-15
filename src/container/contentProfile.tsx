@@ -8,9 +8,19 @@ const Contents = styled(template.Contents, {
 
 });
 
+const ProfileTop = styled("div", {
+  borderBottom: "3px solid white",
+  width: "100%",
+  height: "30%"
+});
+
 function ContentProfile() {
   const { userId } = useParams();
-  return (<Contents>profile: {userId}</Contents>);
+  return (
+    <Contents>
+      <ProfileTop>profile: {userId}</ProfileTop>
+    </Contents>
+  );
 }
 
 export function ContainerContents() {
