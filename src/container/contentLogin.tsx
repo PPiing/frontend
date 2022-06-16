@@ -79,18 +79,22 @@ const String1 = theme.styled("p", {
   backgroundImage: "conic-gradient(#fd004c91,#fe900091,#fff02091,#3edf4b91,#3363ff91,#b102b791,#fd004c91)",
   backgroundClip: "text",
   animation: `${FontSpin} 7s infinite`,
-  "-webkit-text-stroke": "0.5px white",
+  "-webkit-text-stroke": "3px white",
   fontSize: "180px",
   "@desktop": {
+    "-webkit-text-stroke": "2.6px white",
     fontSize: "140px",
   },
   "@laptop": {
+    "-webkit-text-stroke": "2.0px white",
     fontSize: "110px",
   },
   "@tabletL": {
+    "-webkit-text-stroke": "1.6px white",
     fontSize: "90px",
   },
   "@mobile": {
+    "-webkit-text-stroke": "1px white",
     fontSize: "75px",
   },
 });
@@ -103,23 +107,27 @@ const String2 = theme.styled("p", {
   color: "transparent",
   backgroundImage: "conic-gradient(red, orange, yellow, green, blue, purple, red)",
   backgroundClip: "text",
-  "-webkit-text-stroke": "1px white",
+  "-webkit-text-stroke": "5px white",
   animation: `${FontSpin} 7s infinite`,
   marginTop: "-120px",
   fontSize: "330px",
   "@desktop": {
+    "-webkit-text-stroke": "4px white",
     fontSize: "280px",
     marginTop: "-90px",
   },
   "@laptop": {
+    "-webkit-text-stroke": "3px white",
     fontSize: "220px",
     marginTop: "-60px",
   },
   "@tabletL": {
+    "-webkit-text-stroke": "2px white",
     fontSize: "160px",
     marginTop: "-50px",
   },
   "@mobile": {
+    "-webkit-text-stroke": "2px white",
     fontSize: "130px",
     marginTop: "-40px",
   },
