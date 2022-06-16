@@ -1,6 +1,7 @@
 import React from "react";
-import { styled, keyframes } from "@stitches/react";
+import { keyframes } from "@stitches/react";
 import * as theme from "../theme/theme";
+// import { styled } from "../theme/theme";
 
 const Spin = keyframes({
   "100%": {
@@ -17,7 +18,7 @@ const FontSpin = keyframes({
   }
 });
 
-const LoginSpace = styled("div", {
+const LoginSpace = theme.styled("div", {
   backgroundImage: "url(/asset/background_neon_retro.jpeg)",
   width: "90%",
   height: "90%",
@@ -31,6 +32,7 @@ const LoginSpace = styled("div", {
   left: "50%",
   boxShadow: "0 20px 35px rgba(0, 0, 0, 0.3)",
   overflow: "hidden",
+  transition: "all 0.5s",
   "&": {},
   "&:before": {
     content: "",
@@ -40,11 +42,10 @@ const LoginSpace = styled("div", {
     background: "conic-gradient(#fd004c,#fe9000,#fff020,#3edf4b,#3363ff,#b102b7,#fd004c)",
     left: "-60%",
     top: "-60%",
-    animation: `${Spin} 1.5s infinite`,
+    animation: `${Spin} 1.75s infinite`,
   },
   "&:after": {
     padding: "0",
-    margin: "0",
     borderRadius: "100px",
     boxSizing: "border-box",
     content: "",
@@ -60,50 +61,125 @@ const LoginSpace = styled("div", {
   },
 });
 
-const TmpSpace = styled("div", {
-  zIndex: "100",
+const TmpSpace = theme.styled("div", {
+  transition: "all 0.5s",
+  zIndex: "1",
   textAlign: "center",
+  "@tabletS": {
+    // display: "none"
+  }
 });
 
-const String1 = styled("p", {
-  fontSize: "9rem",
-  fontWeight: "bold",
-  fontStyle: "italic",
-  color: "transparent",
-  backgroundImage: "conic-gradient(#fd004c86,#fe900086,#fff02086,#3edf4b86,#3363ff86,#b102b786,#fd004c86)",
-  "-webkit-background-clip": "text",
-  animation: `${FontSpin} 10s infinite`,
-});
-
-const String2 = styled("p", {
-  fontSize: "17rem",
-  marginTop: "-14rem",
-  fontWeight: "bold",
-  fontStyle: "italic",
-  color: "transparent",
-  //   backgroundImage: "conic-gradient(#fd004c,#fe9000,#fff020,#3edf4b,#3363ff,#b102b7,#fd004c)",
-  backgroundImage: "conic-gradient(red, orange, yellow, green, blue, purple, red)",
-  "-webkit-background-clip": "text",
-  animation: `${FontSpin} 10s infinite`,
-});
-
-const ButtonLogin = styled("button", {
+const String1 = theme.styled("p", {
+  transition: "all 0.5s",
   margin: "0",
-  padding: "0",
-  marginTop: "-11500rem",
-  borderRadius: "100px",
-  border: "4px solid #FF0086",
-  background: "none",
-  color: "white",
-  width: "11rem",
-  height: "3.7rem",
-  fontSize: "1.8rem",
   fontWeight: "bold",
-//   fontStyle: "italic",
+  fontStyle: "italic",
+  color: "transparent",
+  backgroundImage: "conic-gradient(#fd004c91,#fe900091,#fff02091,#3edf4b91,#3363ff91,#b102b791,#fd004c91)",
+  backgroundClip: "text",
+  animation: `${FontSpin} 7s infinite`,
+  "-webkit-text-stroke": "0.5px white",
+  fontSize: "180px",
+  "@desktop": {
+    fontSize: "140px",
+  },
+  "@laptop": {
+    fontSize: "110px",
+  },
+  "@tabletL": {
+    fontSize: "90px",
+  },
+  "@mobile": {
+    fontSize: "75px",
+  },
 });
 
-const ButtonLogin2 = styled(ButtonLogin, {
-  marginLeft: "17px",
+const String2 = theme.styled("p", {
+  transition: "all 0.5s",
+  margin: "0",
+  fontWeight: "bold",
+  fontStyle: "italic",
+  color: "transparent",
+  backgroundImage: "conic-gradient(red, orange, yellow, green, blue, purple, red)",
+  backgroundClip: "text",
+  "-webkit-text-stroke": "1px white",
+  animation: `${FontSpin} 7s infinite`,
+  marginTop: "-120px",
+  fontSize: "330px",
+  "@desktop": {
+    fontSize: "280px",
+    marginTop: "-90px",
+  },
+  "@laptop": {
+    fontSize: "220px",
+    marginTop: "-60px",
+  },
+  "@tabletL": {
+    fontSize: "160px",
+    marginTop: "-50px",
+  },
+  "@mobile": {
+    fontSize: "130px",
+    marginTop: "-40px",
+  },
+});
+
+const ButtonLogin = theme.styled("button", {
+  padding: "0",
+  borderRadius: "100px",
+  background: "none",
+  fontWeight: "bold",
+  zIndex: "10",
+  cursor: "pointer",
+  color: "white",
+  transition: "all 0.5s",
+  fontSize: "1.8rem",
+  width: "11rem",
+  height: "3.5rem",
+  border: "0.1rem solid #FF0086",
+  textShadow: "0 0 0 0.3rem hsl(0 0% 100% / 0.3), 0 0 0.4em currentColor",
+  boxShadow: "inset 0 0 0.7em #FF0086",
+  "&:hover": {
+    backgroundColor: "#FF0086",
+    color: "black",
+  },
+  "@desktop": {
+    fontSize: "1.5rem",
+    width: "9.5rem",
+    height: "3rem",
+    border: "0.07rem solid #FF0086",
+    textShadow: "0 0 0 0.07rem hsl(0 0% 100% / 0.3), 0 0 0.4em currentColor",
+    boxShadow: "inset 0 0 0.7em #FF0086",
+  },
+  "@laptop": {
+    fontSize: "1.3rem",
+    width: "8rem",
+    height: "2.5rem",
+    border: "0.07rem solid #FF0086",
+    textShadow: "0 0 0 0.07rem hsl(0 0% 100% / 0.3), 0 0 0.4em currentColor",
+    boxShadow: "inset 0 0 0.7em #FF0086",
+  },
+  "@tabletL": {
+    fontSize: "1.1rem",
+    width: "7rem",
+    height: "2rem",
+    border: "0.07rem solid #FF0086",
+    textShadow: "0 0 0 0.07rem hsl(0 0% 100% / 0.3), 0 0 0.4em currentColor",
+    boxShadow: "inset 0 0 0.7em #FF0086",
+  },
+  "@mobile": {
+    fontSize: "0.9rem",
+    width: "5rem",
+    height: "1.7rem",
+    border: "0.07rem solid #FF0086",
+    textShadow: "0 0 0 0.07rem hsl(0 0% 100% / 0.3), 0 0 0.4em currentColor",
+    boxShadow: "inset 0 0 0.7em #FF0086",
+  },
+});
+
+const ButtonLogin2 = theme.styled(ButtonLogin, {
+  marginLeft: "17px"
 });
 
 export function ContainerContents() {
