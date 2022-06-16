@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
+import { useSelector, useDispatch } from "react-redux";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
+import { ReducerType } from "../redux/rootReducer";
+import { LoggedUserData, loggedUser, setLoggedUser, setLoggedUserStatus } from "../redux/slices/loggedUser";
 
 const RoomListSection = styled("div", {
   display: "block",
@@ -64,6 +67,10 @@ export function ContainerContents() {
     return result;
   };
 
+  // temp
+  const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const dispatch = useDispatch();
+
   const GameWatchRender = () => {
     const result = [];
     if (gameId >= 0) {
@@ -75,7 +82,10 @@ export function ContainerContents() {
     } else {
       result.push(
         <p key={0}>
-          game watch space
+          game watch space. {loggedUser.nick} test {loggedUser.status}
+          <button onClick={() => { dispatch(setLoggedUserStatus({status: 0} as LoggedUserData)); }}>
+            asdf
+          </button>
         </p>
       );
     }
