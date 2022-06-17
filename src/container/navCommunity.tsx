@@ -1,13 +1,13 @@
 import React, { Reducer, useState } from "react";
 import { styled } from "@stitches/react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import * as theme from "../theme/theme";
 import { ComponentNavAlam } from "../component/nav/navAlam";
 import { ComponentNavSearch } from "../component/nav/navSearch";
 import { ComponentNavFriendZone } from "../component/nav/navFriendZone";
 import { ComponentNavInviteZone } from "../component/nav/navInviteZone";
 import { ReducerType } from "../redux/rootReducer";
-import { LoggedUserData, loggedUser, setLoggedUser } from "../redux/slices/loggedUser";
+import { LoggedUserData } from "../redux/slices/loggedUser";
 
 // navCommunity에서 사용할 status 정의
 //  (+ 현재 status는 socket으로 처리)
@@ -24,14 +24,10 @@ import { LoggedUserData, loggedUser, setLoggedUser } from "../redux/slices/logge
 
 export function ContainerNavCommunity() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
-  const dispatch = useDispatch();
 
   return (
     <NavCommunity className="navCommunity">
       <ComponentNavAlam name={loggedUser.nick} status="sleeping" />
-      <button onClick={() => { dispatch(setLoggedUser({ id: 1, nick: "skim", status: 1 } as LoggedUserData)); } } >
-        asdf
-      </button>
       <ComponentNavSearch />
       <ComponentNavFriendZone />
       <ComponentNavInviteZone />
