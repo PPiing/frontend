@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
+import axios from "axios";
 import * as theme from "../../theme/theme";
 import socketManager from "../../feat/chat/socket";
+
+enum ChatType {
+  CHTP10 = "CHTP10", // 개인 채팅방 (DM)
+  CHTP20 = "CHTP20", // 단체 채팅방 (public)
+  CHTP30 = "CHTP30", // 단체 채팅방 (protected)
+  CHTP40 = "CHTP40", // 비밀 채팅방 (private)
+}
 
 const ChatCreateRoom = styled(theme.NeonHoverRed, {
   display: "flex",
@@ -68,10 +76,14 @@ const NeonBox = styled(theme.NeonHoverRed, {
   color: "grey",
 });
 
-export function CreateRoom() {
+export function CreateRoom(props: any) {
+  const { propFunc, user } = props;
+
+  console.log(user);
+
   const [roomName, setRoomName] = useState("");
   const [roomPassword, setRoomPassword] = useState("");
-  const [roomType, setRoomType] = useState("public");
+  const [roomType, setRoomType] = useState(ChatType.CHTP20);
 
   const nameChange = (event: any) => {
     setRoomName(event.target.value);
@@ -81,9 +93,25 @@ export function CreateRoom() {
     setRoomPassword(event.target.value);
   };
 
-  const setType = (type: string) => {
-    if (type !== "private") setRoomPassword("");
+  const setType = (type: ChatType) => {
+    if (type !== ChatType.CHTP30) setRoomPassword("");
     if (roomType !== type) setRoomType(type);
+  };
+
+  const createRoom = () => {
+    axios.post(`/api/chatrooms/new/${user}`, {
+      chatType: roomType,
+      chatName: roomName,
+      password: roomPassword,
+      isDirected: false,
+    })
+      .then((response) => {
+        console.log(response);
+        propFunc("empty");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -95,25 +123,29 @@ export function CreateRoom() {
       <InputArea>
         RoomType
         <RadioInput>
-          <Radio type="radio" checked={roomType === "public"} onChange={() => setType("public")} />
+          <Radio type="radio" checked={roomType === ChatType.CHTP20} onChange={() => setType(ChatType.CHTP20)} />
           <Text>PUBLIC</Text>
         </RadioInput>
         <RadioInput>
-          <Radio type="radio" checked={roomType === "private"} onChange={() => setType("private")} />
+          <Radio type="radio" checked={roomType === ChatType.CHTP40} onChange={() => setType(ChatType.CHTP40)} />
           <Text>PRIVATE</Text>
         </RadioInput>
         <RadioInput>
-          <Radio type="radio" checked={roomType === "protected"} onChange={() => setType("protected")} />
+          <Radio type="radio" checked={roomType === ChatType.CHTP30} onChange={() => setType(ChatType.CHTP30)} />
           <Text>PROTECTED</Text>
         </RadioInput>
       </InputArea>
       <InputArea>
         RoomPassword
-        <TextInput value={roomPassword} disabled={roomType !== "private"} onChange={(event) => passwordChange(event)} />
+        <TextInput
+          value={roomPassword}
+          disabled={roomType !== ChatType.CHTP30}
+          onChange={(event) => passwordChange(event)}
+        />
       </InputArea>
       <ButtonArea>
-        <NeonBox>Create</NeonBox>
-        <NeonBox>Close</NeonBox>
+        <NeonBox onClick={() => createRoom()}>Create</NeonBox>
+        <NeonBox onClick={() => propFunc("empty")}>Close</NeonBox>
       </ButtonArea>
     </ChatCreateRoom>
   );

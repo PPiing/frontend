@@ -182,6 +182,7 @@ const socket = socketManager.socket("/chatrooms");
 
 socket.on("connect", () => {
   console.log(socket.connected);
+  console.log(socket);
 });
 
 export function ContainerContents() {
@@ -253,7 +254,7 @@ export function ContainerContents() {
     switch (contentType) {
       case "create":
         return (
-          <CreateRoom />
+          <CreateRoom propFunc={changeContent} user={userId} />
         );
       case "find":
         return (
