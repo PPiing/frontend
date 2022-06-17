@@ -75,7 +75,7 @@ export function ContainerContents() {
     } else {
       result.push(
         <p key={0}>
-          game watch space
+          game watch space.
         </p>
       );
     }
