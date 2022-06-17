@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 export interface LoggedUserData {
   id: number;
   nick: string;
