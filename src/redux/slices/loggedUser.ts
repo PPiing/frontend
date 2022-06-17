@@ -1,6 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { StaticReadUsage } from "three";
-
 export interface LoggedUserData {
   id: number;
   nick: string;
