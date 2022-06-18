@@ -10,18 +10,14 @@ export const ContainerLeftBox = styled("div", {
   height: "calc(100% - 40px)",
   padding: "20px",
   backgroundSize: "cover",
-  // test
-  border: "1px solid red",
 });
 
 export const ContainerRightBox = styled("div", {
   width: "calc(20% - 40px)",
-  // height: "cale(100% - 40px)",
+  height: "cale(100% - 40px)",
   padding: "20px",
+  paddingBottom: "137px",
   boxShadow: "0 0 0.8rem #fff, 0 0 1.1rem #ffffff50,",
-  // test
-  border: "1px solid red",
-  height: "70vh",
 });
 
 export const ViewWrapper = styled("div", {
