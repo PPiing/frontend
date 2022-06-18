@@ -36,5 +36,6 @@ export function ContainerNavCommunity() {
 }
 
 const NavCommunity = styled(theme.NeonHoverRed, {
-  height: "100%",
+  height: "90%",
+  maxHeight: "calc(100% - 100px)",
 });
