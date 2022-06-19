@@ -10,6 +10,8 @@ import fontPath from "../font/Neon 80s_Regular.json";
 
 extend({ TextGeometry });
 
+const fontStr : string = JSON.stringify(fontPath);
+
 function Basic() {
   const [redRacketYPos, setRedRacketYPos] = useState(0);
   const [blueRacketYPos, setBlueRacketYPos] = useState(0);
@@ -19,8 +21,6 @@ function Basic() {
   const gamer2Score = "42";
   const gameBoardHeight = 5;
   const gameBoardWidth = 7;
-
-  const gameFont = new FontLoader().parse(fontPath);
 
   const RacketMoveSpeed = 0.6;
   const RacketSize = 1;
@@ -116,28 +116,28 @@ function Basic() {
 
       {/* Score & Name */}
       <mesh position={[-3.5, 1, -4]}>
-        <Text3D font={fontPath} {...scoreTextConfig}>
+        <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
           {gamer1Score}
           <meshNormalMaterial />
         </Text3D>
         <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
       </mesh>
       <mesh position={[-3.5, 0.2, -4]}>
-        <Text3D font={fontPath} {...nameTextConfig}>
+        <Text3D font={JSON.parse(fontStr)} {...nameTextConfig}>
           {gamer1Name}
           <meshNormalMaterial />
         </Text3D>
         <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
       </mesh>
       <mesh position={[0.7, 1, -4]}>
-        <Text3D font={fontPath} {...scoreTextConfig}>
+        <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
           {gamer2Score}
           <meshNormalMaterial />
         </Text3D>
         <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
       </mesh>
       <mesh position={[0.5, 0.2, -4]}>
-        <Text3D font={fontPath} {...nameTextConfig}>
+        <Text3D font={JSON.parse(fontStr)} {...nameTextConfig}>
           {gamer2Name}
           <meshNormalMaterial />
         </Text3D>
