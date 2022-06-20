@@ -14,20 +14,18 @@ import store from "./redux/store";
 function App() {
   globalStyles();
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/watch" element={<Watch />} />
-          <Route path="/profile/" element={<Profile />} />
-          <Route path="/profile/:userId" element={<Profile />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/*" element={<RootControl />} />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/game" element={<Game />} />
+        <Route path="/watch" element={<Watch />} />
+        <Route path="/profile/" element={<Profile />} />
+        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/*" element={<RootControl />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
