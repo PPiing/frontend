@@ -9,7 +9,6 @@ import { AuthData, setAuth } from "../redux/slices/auth";
 export function RootControl() {
   const auth = useSelector<ReducerType, AuthData>((state) => state.auth);
 
-  axios.defaults.withCredentials = true;
   // 요청 url 변경 필요.
   axios.get("https://bongcheonmountainclub.iptime.org/api/users/profile").then((response) => {
     if (response.status === 200) {
