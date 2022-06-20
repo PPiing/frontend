@@ -6,16 +6,23 @@ import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles } from "@react-th
 import * as THREE from "three";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
+import socketManager from "../feat/game/socket";
 
 // import fontPath from "../font/Neon 80s_Regular.json";
 import fontPath from "../font/Retro_Stereo_Wide_Regular.json";
 
+extend({ TextGeometry });
+
+const socket = socketManager.socket("/game");
+
 const textureSpace = new THREE.TextureLoader().load("../../asset/background_space.jpeg");
 const textureBrick = new THREE.TextureLoader().load("../../asset/background_brick.png");
 
-extend({ TextGeometry });
-
 const fontStr : string = JSON.stringify(fontPath);
+
+socket.on("connect", () => {
+  console.log("gameSocket", socket.connected);
+});
 
 function Basic() {
   const [redRacketYPos, setRedRacketYPos] = useState(0);
@@ -43,7 +50,7 @@ function Basic() {
   );
 
   const scoreTextConfig = useMemo(
-    () => ({ size: 1.3,
+    () => ({ size: 1.2,
       height: 0.1,
       curveSegments: 0.2,
       bevelEnabled: true,
@@ -55,7 +62,6 @@ function Basic() {
   );
 
   const controlMyRacket = (e:any) => {
-    // console.log(e.key, "  =>   ", redRacketYPos);
     if (e.key === "ArrowUp") {
       if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
         return -1;
@@ -89,8 +95,8 @@ function Basic() {
   });
 
   return (
-    <Canvas dpr={[1, 1.5]} camera={{ fov: 35, position: [0, 5, 10] }}>
-      <OrbitControls />
+    <Canvas dpr={[1, 1.5]} camera={{ fov: 40, position: [0, 5, 10] }}>
+      <OrbitControls maxDistance={50} minDistance={6} />
       <Stars radius={10} depth={40} count={5000} factor={3} saturation={3} fade speed={4} />
       <ambientLight intensity={10} />
 
@@ -106,7 +112,7 @@ function Basic() {
           /** Opacity of particles (default: 1) */
           opacity={1}
         />
-        <meshLambertMaterial attach="material" transparent opacity={0.1} emissive="#000011" reflectivity={0.8} refractionRatio={0.8} combine={THREE.MultiplyOperation} wireframeLinewidth={0.5} wireframeLinecap="square" wireframeLinejoin="miter" map={textureSpace} envMap={textureSpace} />  {/* <meshLambertMaterial attach="material" transparent opacity={0.2} emissive="#000011" reflectivity={0.8} refractionRatio={0.8} combine={THREE.MultiplyOperation} wireframeLinewidth={0.5} wireframeLinecap="square" wireframeLinejoin="miter" map={textureBrick} envMap={textureSpace} /> */}
+        <meshLambertMaterial attach="material" transparent opacity={0.1} emissive="#000011" reflectivity={0.8} refractionRatio={0.8} combine={THREE.MultiplyOperation} wireframeLinewidth={0.5} wireframeLinecap="square" wireframeLinejoin="miter" map={textureSpace} />  {/* <meshLambertMaterial attach="material" transparent opacity={0.2} emissive="#000011" reflectivity={0.8} refractionRatio={0.8} combine={THREE.MultiplyOperation} wireframeLinewidth={0.5} wireframeLinecap="square" wireframeLinejoin="miter" map={textureBrick} envMap={textureSpace} /> */}
       </mesh>
 
       {/* Red 게임바 */}
