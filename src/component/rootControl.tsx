@@ -19,15 +19,9 @@ export function RootControl() {
     }
   });
 
-  if (auth.auth) {
-    if (auth.isRequire2f) {
-      if (auth.auth2f) {
-        return (<Navigate replace to="/home" />);
-      }
-      return (<Navigate replace to="/login" />); // Fix require to 2f login page.
-    }
-    return (<Navigate replace to="/home" />);
+  if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
+    return (<Navigate replace to="/login" />);
   }
 
-  return (<Navigate replace to="/login" />);
+  return (<Navigate replace to="/home" />);
 }
