@@ -1,8 +1,8 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { ViewWrapper } from "./viewTemplate";
-import * as theme from "../theme/theme";
 
 import { ContainerContents } from "../container/contentLogin";
 import { ReducerType } from "../redux/rootReducer";
