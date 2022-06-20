@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { globalStyles } from "./theme/theme";
 import { Home } from "./view/viewHome";
@@ -8,6 +8,7 @@ import { Chat } from "./view/viewChat";
 import { Profile } from "./view/viewProfile";
 import { Watch } from "./view/viewWatch";
 import { Login } from "./view/viewLogin";
+import { RootControl } from "./component/rootControl";
 import store from "./redux/store";
 
 function App() {
@@ -16,14 +17,14 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/game" element={<Game />} />
           <Route path="/watch" element={<Watch />} />
           <Route path="/profile/" element={<Profile />} />
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/chat" element={<Chat />} />
-          <Route path="/*" element={<Login />} />
+          <Route path="/*" element={<RootControl />} />
         </Routes>
       </BrowserRouter>
     </Provider>
