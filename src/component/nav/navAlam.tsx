@@ -1,12 +1,10 @@
 import React from "react";
 import { styled } from "@stitches/react";
+import { useSelector } from "react-redux";
 import * as theme from "../../theme/theme";
-import { BORDER_BASIC } from "../../theme/theme";
-
-interface myProfile {
-  name: string;
-  status: string;
-}
+import { ReqLoggedUserDate } from "../../feat/nav/request";
+import { ReducerType } from "../../redux/rootReducer";
+import { LoggedUserData } from "../../redux/slices/loggedUser";
 
 const ProfileTextName = styled("div", {
   width: "100%",
@@ -61,24 +59,38 @@ const NavAlarm = styled("div", {
   display: "flex"
 });
 
-export function ComponentNavAlam({ name, status }:myProfile) {
-  // const { myName }:myProfile = name;
-  // const { myStatus } = status;
-  const link:string = "/asset/profileImage/skim.png";
+export function ComponentNavAlam() {
+  const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
-  // console.log(myName);
+  ReqLoggedUserDate();
+
+  const StatusDisplayDistributor = () => {
+    switch (loggedUser.status) {
+      case "USST10":
+        return "online";
+      case "USST20":
+        return "offline";
+      case "USST30":
+        return "in game";
+      case "USST40":
+        return "sleeping";
+      default:
+        break;
+    }
+    return "statue error";
+  };
 
   return (
     <NavAlarm>
       <NavAlarmProfileImg className="navAlarm">
-        <ProfileImage className="profileimg" src={link} />
+        <ProfileImage className="profileimg" src={loggedUser.img} />
       </NavAlarmProfileImg>
       <NavAlarmProfileText>
         <ProfileTextName className="profiletext">
-          {name}
+          {loggedUser.nick}
         </ProfileTextName>
         <ProfileTextStatus className="profilestatus">
-          {status}
+          {StatusDisplayDistributor()}
         </ProfileTextStatus>
       </NavAlarmProfileText>
       <NavAlarmAlarm />

@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface LoggedUserData {
-  id: number;
   nick: string;
+  mail: string;
   img: string;
-  status: number;
+  status: string;
 }
 
 export const loggedUser = createSlice({
   name: "loggedUser",
   initialState: {
-    id: 0,
     nick: "unknown",
+    mail: "unknown@unknown.com",
     img: "/asset/profileImage/skim.png",
-    status: 1
+    status: "USST10"
   } as LoggedUserData,
   reducers: {
     // eslint-disable-next-line no-return-assign

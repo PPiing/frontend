@@ -1,6 +1,9 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import * as theme from "../theme/theme";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { ReducerType } from "../redux/rootReducer";
+import { AuthData } from "../redux/slices/auth";
 
 import { ContainerNavMenu } from "../container/navMenu";
 import { ContainerNavCommunity } from "../container/navCommunity";
@@ -28,6 +31,12 @@ export const ViewWrapper = styled("div", {
 });
 
 export function ViewTemplate({ content } : any) {
+  const auth = useSelector<ReducerType, AuthData>((state) => state.auth);
+
+  if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
+    return (<Navigate replace to="/login" />);
+  }
+
   return (
     <ViewWrapper className="view">
       <ContainerLeftBox>

@@ -192,7 +192,7 @@ const ButtonLogin2 = theme.styled(ButtonLogin, {
 
 export function ContainerContents() {
   const logIn = () => {
-    window.location.href = "/api/auth/42";
+    window.location.href = "/api/auth/login";
   };
   return (
     <LoginSpace>
