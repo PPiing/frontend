@@ -6,7 +6,7 @@ import auth from "./slices/auth";
 const reducer = combineReducers({
   users,
   loggedUser,
-  auth
+  auth,
 });
 
 export type ReducerType = ReturnType<typeof reducer>;
