@@ -62,6 +62,9 @@ const NavAlarm = styled("div", {
 export function ComponentNavAlam() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
+  // test
+  console.log("in NavAlam: ", loggedUser);
+
   ReqLoggedUserDate();
 
   const StatusDisplayDistributor = () => {
