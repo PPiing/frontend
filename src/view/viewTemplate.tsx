@@ -33,8 +33,6 @@ export const ViewWrapper = styled("div", {
 export function ViewTemplate({ content } : any) {
   const auth = useSelector<ReducerType, AuthData>((state) => state.auth);
 
-  // test
-  console.log("in viewTemplate: ", auth);
   if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
     return (<Navigate replace to="/login" />);
   }
