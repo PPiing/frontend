@@ -20,6 +20,8 @@ const LoginWapper = styled(ViewWrapper, {
 export function Login() {
   const auth = useSelector<ReducerType, AuthData>((state) => state.auth);
 
+  // test
+  console.log("in login: ", auth);
   if (auth.auth || (auth.auth && auth.auth2f && auth.isRequire2f)) {
     return (<Navigate replace to="/home" />);
   }
