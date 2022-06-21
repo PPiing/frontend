@@ -7,6 +7,8 @@ import { AuthData, setAuth } from "../../redux/slices/auth";
 function ReqLoggedUserDate() {
   axios.get("https://bongcheonmountainclub.iptime.org/api/users/profile").then((response) => {
     if (response.status === 200) {
+      // test
+      console.log("in req req: ", response);
       const recvData = Object.values(response.data);
       if (recvData.length === 4) {
         useEffect(() => {
