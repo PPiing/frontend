@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import store from "../redux/store";
@@ -17,17 +17,16 @@ export function RootControl() {
     if (response.status === 200) {
       // test
       console.log("in rootControl req: ", response);
-      useEffect(() => {
-        store.dispatch(setAuth({ auth: true } as AuthData));
-        // test
-        console.log("in rootControl req state: ", auth);
-      }, []);
+      store.dispatch(setAuth({ auth: true } as AuthData));
     }
   });
 
   if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
-    return (<Navigate replace to="/login" />);
+    return (
+      <Navigate replace to="/login" />
+    );
   }
-
-  return (<Navigate replace to="/home" />);
+  return (
+    <Navigate replace to="/home" />
+  );
 }
