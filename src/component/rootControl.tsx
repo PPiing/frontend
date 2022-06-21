@@ -18,7 +18,7 @@ export function RootControl() {
   // 요청 url 변경 필요.
   axios.get("https://bongcheonmountainclub.iptime.org/api/users/profile").then((response) => {
     if (response.status === 200) {
-      // test
+      // testt
       temp = true;
       console.log("in rootControl req: ", response);
       store.dispatch(setAuth({ auth: true } as AuthData));
