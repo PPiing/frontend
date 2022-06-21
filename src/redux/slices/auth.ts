@@ -9,7 +9,7 @@ export interface AuthData {
 export const auth = createSlice({
   name: "auth",
   initialState: {
-    auth: true, // Set true for test on local without auth.
+    auth: false, // Set true for test on local without auth.
     auth2f: false,
     isRequire2f: false
   } as AuthData,
