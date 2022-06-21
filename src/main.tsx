@@ -7,7 +7,7 @@ import App from "./App";
 import "./index.css";
 import store from "./redux/store";
 
-let persistor = persistStore(store);
+const persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
