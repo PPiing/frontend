@@ -39,7 +39,7 @@ const RacketMoveSpeed = 0.2;
 const RacketSize = 1;
 
 const nameTextConfig = {
-  size: 0.3,
+  size: 0.25,
   height: 0.1,
   curveSegments: 0.2,
   bevelEnabled: true,
@@ -50,7 +50,7 @@ const nameTextConfig = {
 };
 
 const scoreTextConfig = {
-  size: 1.2,
+  size: 1,
   height: 0.1,
   curveSegments: 0.2,
   bevelEnabled: true,
