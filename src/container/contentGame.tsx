@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, MutableRefObject } from "react";
 import { styled, } from "@stitches/react";
-import { Canvas, extend, useFrame } from "@react-three/fiber";
+import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles, CameraShake, useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
@@ -10,7 +10,6 @@ import socketManager from "../feat/game/socket";
 
 // import fontPath from "../../dist/asset/font/Neon 80s_Regular.json";
 import fontPath from "../../dist/asset/font/Retro_Stereo_Wide_Regular.json";
-import { Clock } from "three";
 
 extend({ TextGeometry });
 
@@ -25,9 +24,9 @@ socket.on("connect", () => {
   console.log("gameSocket", socket.connected);
 });
 
-const gamer1Name = "Polabear\n";
+const gamer1Name = "Polarbear\n";
 const gamer1Score = "0";
-const gamer2Name = " Polabear\n";
+const gamer2Name = " Polarbear\n";
 const gamer2Score = "42";
 const gameBoardHeight = 5;
 const gameBoardWidth = 7;
@@ -87,52 +86,66 @@ const shakeCameraConfig = {
 //   );
 // }
 
-function AutoSpinBall() {
-  const spinBall : React.Ref<any> = useRef();
-  useFrame(({ clock }) => {
-    const a = clock.getElapsedTime();
-    // console.log("=>", clock);
-    if (spinBall !== undefined) {
-      spinBall.current.rotation.x = a * 12;
-    }
-  });
-  return (
-    <mesh position={[0, 0.3, 0]} ref={spinBall}>
-      {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
-      <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
-      <Shadow
-        color="yellow"
-        colorStop={0}
-        opacity={0.09}
-      />
-      <meshLambertMaterial attach="material" color="#FAFF00" wireframe />
-    </mesh>
-  );
-}
-
-function ReactiveScore() {
-  const wowScore : React.Ref<any> = useRef();
-  useFrame(({ clock }) => {
-    const a = clock.getElapsedTime();
-    // console.log("=>", clock);
-    if (wowScore !== undefined) {
-      wowScore.current.rotation.y = a * 2;
-    }
-  });
-  return (
-    <mesh position={[-3.5, 1, -4]} ref={wowScore}>
-      <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
-        {gamer1Score}
-        <meshNormalMaterial />
-      </Text3D>
-      <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
-    </mesh>
-  );
-}
-
 function Basic() {
   const [redRacketYPos, setRedRacketYPos] = useState(0);
   const [blueRacketYPos, setBlueRacketYPos] = useState(0);
+  const [reactiveScore, setReactiveScore] = useState(-1);
+
+  const spinScore = () => {
+    const { camera } = useThree();
+    const wowScore : React.Ref<any> = useRef();
+    let a = 0;
+    useFrame(({ clock }) => {
+      a = clock.getElapsedTime();
+      // const a = clock.getDelta();
+      if (wowScore !== undefined && a < 4) {
+        wowScore.current.rotation.y = (200) / (a * 4);
+        wowScore.current.rotation.z = (200) / (a * 4);
+        // wowScore.current.rotation.x = THREE.MathUtils.clamp(camera.position.x, -90, 90);
+      }
+    });
+    return (
+      <mesh position={[-3.5, 1, -4]} ref={wowScore}>
+        <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
+          {gamer1Score}
+          <meshNormalMaterial />
+        </Text3D>
+        <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
+      </mesh>
+    );
+  };
+
+  const spinBall = () => {
+    const spinBall : React.Ref<any> = useRef();
+    useFrame(({ clock }) => {
+      const a = clock.getElapsedTime();
+      // console.log("=>", clock);
+      if (spinBall !== undefined) {
+        spinBall.current.rotation.x = a * 8;
+        spinBall.current.rotation.y = a * 2;
+      }
+    });
+    return (
+      <mesh position={[0, 0.3, 0]} ref={spinBall}>
+        {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
+        <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
+        <Shadow
+          color="yellow"
+          colorStop={0}
+          opacity={0.09}
+        />
+        <meshLambertMaterial attach="material" color="#FAFF00" wireframe />
+      </mesh>
+    );
+  };
+
+  const ReactiveScore = () => {
+    return spinScore();
+  };
+
+  const AutoSpinBall = () => {
+    return spinBall();
+  };
   // const gamer1Name = "Polabear\n";
   // const gamer1Score = "0";
   // const gamer2Name = " Polabear\n";
@@ -194,12 +207,13 @@ function Basic() {
       }
       setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
     }
-
     if (e.key === "p") {
-      if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
-        return -1;
+      if (reactiveScore === -1) {
+        setReactiveScore(0);
+      } else if (reactiveScore === 0) {
+        setReactiveScore(-1);
       }
-      setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
+      console.log(reactiveScore);
     }
     return 0;
   };
@@ -287,6 +301,7 @@ function Basic() {
         floatIntensity={4}
         floatingRange={[-0.01, 0.01]}
       >
+        {/* <ReactiveScore isRerender={reactiveScore} /> */}
         <ReactiveScore />
         {/* <mesh position={[-3.5, 1, -4]}>
           <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
