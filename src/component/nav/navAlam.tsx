@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
 import * as theme from "../../theme/theme";
@@ -61,11 +61,12 @@ const NavAlarm = styled("div", {
 
 export function ComponentNavAlam() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const [reqTrig, setReqTrig] = useState(0);
 
-  // test
-  console.log("in NavAlam: ", loggedUser);
-
-  ReqLoggedUserDate();
+  if (reqTrig === 0) {
+    ReqLoggedUserDate();
+    setReqTrig(1);
+  }
 
   const StatusDisplayDistributor = () => {
     switch (loggedUser.status) {
