@@ -13,6 +13,8 @@ export function RootControl() {
   axios.get("https://bongcheonmountainclub.iptime.org/api/users/profile").then((response) => {
     if (response.status === 200) {
       store.dispatch(setAuth({ auth: true } as AuthData));
+    } else if (response.status === 401) {
+      store.dispatch(setAuth({ auth: false } as AuthData));
     }
   });
 
