@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef, MutableRefObject } from "react";
 import { styled, } from "@stitches/react";
-import { Canvas, extend } from "@react-three/fiber";
+import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles } from "@react-three/drei";
+import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles, CameraShake, useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
 import socketManager from "../feat/game/socket";
 
-// import fontPath from "../font/Neon 80s_Regular.json";
-import fontPath from "../font/Retro_Stereo_Wide_Regular.json";
+// import fontPath from "../../dist/asset/font/Neon 80s_Regular.json";
+import fontPath from "../../dist/asset/font/Retro_Stereo_Wide_Regular.json";
 
 extend({ TextGeometry });
 
@@ -24,42 +24,175 @@ socket.on("connect", () => {
   console.log("gameSocket", socket.connected);
 });
 
+const gamer1Name = "Polarbear\n";
+const gamer1Score = "0";
+const gamer2Name = " Polarbear\n";
+const gamer2Score = "42";
+const gameBoardHeight = 5;
+const gameBoardWidth = 7;
+
+const RacketMoveSpeed = 0.6;
+const RacketSize = 1;
+
+const nameTextConfig = {
+  size: 0.3,
+  height: 0.1,
+  curveSegments: 0.2,
+  bevelEnabled: true,
+  bevelThickness: 0.1,
+  bevelSize: 0.01,
+  bevelOffset: 0,
+  bevelSegments: 8
+};
+
+const scoreTextConfig = {
+  size: 1.2,
+  height: 0.1,
+  curveSegments: 0.2,
+  bevelEnabled: true,
+  bevelThickness: 0.1,
+  bevelSize: 0.01,
+  bevelOffset: 0,
+  bevelSegments: 8
+};
+
+const shakeCameraConfig = {
+  maxYaw: 0.1, // Max amount camera can yaw in either direction
+  maxPitch: 0.1, // Max amount camera can pitch in either direction
+  maxRoll: 0.1, // Max amount camera can roll in either direction
+  yawFrequency: 3, // Frequency of the the yaw rotation
+  pitchFrequency: 3, // Frequency of the pitch rotation
+  rollFrequency: 4, // Frequency of the roll rotation
+  intensity: 1, // initial intensity of the shake
+  additive: true,
+  decay: true,
+  decayRate: 0.28
+
+};
+// Animation
+// function MyRotatingBox() {
+//   const myMesh = React.useRef();
+
+//   useFrame(({ clock }) => {
+//     const a = clock.getElapsedTime();
+//     myMesh?.current?.rotation.x = a;
+//   });
+
+//   return (
+//     <mesh ref={myMesh}>
+//       <boxBufferGeometry />
+//       <meshPhongMaterial color="royalblue" />
+//     </mesh>
+//   );
+// }
+
 function Basic() {
   const [redRacketYPos, setRedRacketYPos] = useState(0);
   const [blueRacketYPos, setBlueRacketYPos] = useState(0);
-  const gamer1Name = "Polabear\n";
-  const gamer1Score = "0";
-  const gamer2Name = " Polabear\n";
-  const gamer2Score = "42";
-  const gameBoardHeight = 5;
-  const gameBoardWidth = 7;
+  const [reactiveScore, setReactiveScore] = useState(-1);
 
-  const RacketMoveSpeed = 0.6;
-  const RacketSize = 1;
+  const spinScore = () => {
+    const { camera } = useThree();
+    const wowScore : React.Ref<any> = useRef();
+    let a = 0;
+    useFrame(({ clock }) => {
+      a = clock.getElapsedTime();
+      // const a = clock.getDelta();
+      if (wowScore !== undefined && a < 4) {
+        wowScore.current.rotation.y = (200) / (a * 4);
+        wowScore.current.rotation.z = (200) / (a * 4);
+        // wowScore.current.rotation.x = THREE.MathUtils.clamp(camera.position.x, -90, 90);
+      }
+    });
+    return (
+      <mesh position={[-3.5, 1, -4]} ref={wowScore}>
+        <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
+          {gamer1Score}
+          <meshNormalMaterial />
+        </Text3D>
+        <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
+      </mesh>
+    );
+  };
 
-  const nameTextConfig = useMemo(
-    () => ({ size: 0.3,
-      height: 0.1,
-      curveSegments: 0.2,
-      bevelEnabled: true,
-      bevelThickness: 0.1,
-      bevelSize: 0.01,
-      bevelOffset: 0,
-      bevelSegments: 8 }),
-    []
-  );
+  const spinBall = () => {
+    const spinBall : React.Ref<any> = useRef();
+    useFrame(({ clock }) => {
+      const a = clock.getElapsedTime();
+      // console.log("=>", clock);
+      if (spinBall !== undefined) {
+        spinBall.current.rotation.x = a * 8;
+        spinBall.current.rotation.y = a * 2;
+      }
+    });
+    return (
+      <mesh position={[0, 0.3, 0]} ref={spinBall}>
+        {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
+        <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
+        <Shadow
+          color="yellow"
+          colorStop={0}
+          opacity={0.09}
+        />
+        <meshLambertMaterial attach="material" color="#FAFF00" wireframe />
+      </mesh>
+    );
+  };
 
-  const scoreTextConfig = useMemo(
-    () => ({ size: 1.2,
-      height: 0.1,
-      curveSegments: 0.2,
-      bevelEnabled: true,
-      bevelThickness: 0.1,
-      bevelSize: 0.01,
-      bevelOffset: 0,
-      bevelSegments: 8 }),
-    []
-  );
+  const ReactiveScore = () => {
+    return spinScore();
+  };
+
+  const AutoSpinBall = () => {
+    return spinBall();
+  };
+  // const gamer1Name = "Polabear\n";
+  // const gamer1Score = "0";
+  // const gamer2Name = " Polabear\n";
+  // const gamer2Score = "42";
+  // const gameBoardHeight = 5;
+  // const gameBoardWidth = 7;
+
+  // const RacketMoveSpeed = 0.6;
+  // const RacketSize = 1;
+
+  // const nameTextConfig = useMemo(
+  //   () => ({ size: 0.3,
+  //     height: 0.1,
+  //     curveSegments: 0.2,
+  //     bevelEnabled: true,
+  //     bevelThickness: 0.1,
+  //     bevelSize: 0.01,
+  //     bevelOffset: 0,
+  //     bevelSegments: 8 }),
+  //   []
+  // );
+
+  // const scoreTextConfig = useMemo(
+  //   () => ({ size: 1.2,
+  //     height: 0.1,
+  //     curveSegments: 0.2,
+  //     bevelEnabled: true,
+  //     bevelThickness: 0.1,
+  //     bevelSize: 0.01,
+  //     bevelOffset: 0,
+  //     bevelSegments: 8 }),
+  //   []
+  // );
+
+  // const shakeCameraConfig = {
+  //   maxYaw: 0.1, // Max amount camera can yaw in either direction
+  //   maxPitch: 0.1, // Max amount camera can pitch in either direction
+  //   maxRoll: 0.1, // Max amount camera can roll in either direction
+  //   yawFrequency: 3, // Frequency of the the yaw rotation
+  //   pitchFrequency: 3, // Frequency of the pitch rotation
+  //   rollFrequency: 4, // Frequency of the roll rotation
+  //   intensity: 1, // initial intensity of the shake
+  //   additive: true,
+  //   decay: true,
+  //   decayRate: 0.28
+
+  // };
 
   const controlMyRacket = (e:any) => {
     if (e.key === "ArrowUp") {
@@ -73,6 +206,14 @@ function Basic() {
         return -1;
       }
       setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
+    }
+    if (e.key === "p") {
+      if (reactiveScore === -1) {
+        setReactiveScore(0);
+      } else if (reactiveScore === 0) {
+        setReactiveScore(-1);
+      }
+      console.log(reactiveScore);
     }
     return 0;
   };
@@ -96,9 +237,11 @@ function Basic() {
 
   return (
     <Canvas dpr={[1, 1.5]} camera={{ fov: 40, position: [0, 5, 10] }}>
-      <OrbitControls maxDistance={50} minDistance={6} />
+      <OrbitControls maxDistance={50} minDistance={6} makeDefault />
       <Stars radius={10} depth={40} count={5000} factor={3} saturation={3} fade speed={4} />
       <ambientLight intensity={10} />
+      <directionalLight args={["#00ff00", 1]} />
+      {/* <CameraShake {...shakeCameraConfig} /> */}
 
       {/* 메인 게임필드 */}
       <mesh position={[0, 0, 0]}>
@@ -148,16 +291,7 @@ function Basic() {
         floatIntensity={2}
         floatingRange={[-0.1, 0.05]}
       >
-        <mesh position={[0, 0.3, 0]}>
-          {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
-          <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
-          <Shadow
-            color="yellow"
-            colorStop={0}
-            opacity={0.09}
-          />
-          <meshLambertMaterial attach="material" color="#FAFF00" wireframe />
-        </mesh>
+        <AutoSpinBall />
       </Float>
 
       {/* Score & Name */}
@@ -167,13 +301,15 @@ function Basic() {
         floatIntensity={4}
         floatingRange={[-0.01, 0.01]}
       >
-        <mesh position={[-3.5, 1, -4]}>
+        {/* <ReactiveScore isRerender={reactiveScore} /> */}
+        <ReactiveScore />
+        {/* <mesh position={[-3.5, 1, -4]}>
           <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
             {gamer1Score}
             <meshNormalMaterial />
           </Text3D>
           <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
-        </mesh>
+        </mesh> */}
       </Float>
       <Float
         speed={6} // Animation speed, defaults to 1
