@@ -15,15 +15,18 @@ extend({ TextGeometry });
 
 const socket = socketManager.socket("/");
 
+let isClicked = 0;
+
 const textureSpace = new THREE.TextureLoader().load("../../asset/background_space.jpeg");
 const textureBrick = new THREE.TextureLoader().load("../../asset/background_brick.png");
 
 const fontStr : string = JSON.stringify(fontPath);
 
+socket.connect();
+
 socket.on("connect", () => {
   console.log("gameSocket", socket.connected);
 });
-socket.connect();
 
 const gamer1Name = "Polarbear\n";
 const gamer1Score = "0";
@@ -32,7 +35,7 @@ const gamer2Score = "42";
 const gameBoardHeight = 5;
 const gameBoardWidth = 7;
 
-const RacketMoveSpeed = 0.6;
+const RacketMoveSpeed = 0.2;
 const RacketSize = 1;
 
 const nameTextConfig = {
@@ -71,10 +74,16 @@ const shakeCameraConfig = {
 
 };
 
+socket.on("game:paddle", (res) => {
+  console.log("listening=>", res);
+});
+
 function Basic() {
   const [redRacketYPos, setRedRacketYPos] = useState(0);
   const [blueRacketYPos, setBlueRacketYPos] = useState(0);
   const [reactiveScore, setReactiveScore] = useState(-1);
+  const [ballXpos, setBallXpos] = useState(0);
+  const [ballYpos, setBallYpos] = useState(0);
 
   const spinScore = () => {
     const { camera } = useThree();
@@ -82,7 +91,6 @@ function Basic() {
     let a = 0;
     useFrame(({ clock }) => {
       a = clock.getElapsedTime();
-      // const a = clock.getDelta();
       if (wowScore !== undefined && a < 4) {
         wowScore.current.rotation.y = (200) / (a * 4);
         wowScore.current.rotation.z = (200) / (a * 4);
@@ -111,7 +119,8 @@ function Basic() {
       }
     });
     return (
-      <mesh position={[0, 0.3, 0]} ref={spinBall}>
+      // <mesh position={[0, 0.3, 0]} ref={spinBall}>
+      <mesh position={[ballXpos, 0.06, ballYpos]} ref={spinBall}>
         {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
         <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
         <Shadow
@@ -123,20 +132,6 @@ function Basic() {
       </mesh>
     );
   };
-
-  // const moveRacket = (ypos : number) => {
-  //   const wowRacket : React.Ref<any> = useRef();
-  //   useFrame(() => {
-  //     wowRacket.current.rotation.z = ypos;
-  //   });
-
-  //   return (
-  //     <mesh position={[3.1, 0.3, redRacketYPos]} ref={wowRacket}>
-  //       <boxBufferGeometry attach="geometry" args={[0.1, 0.22, RacketSize]} />
-  //       <meshLambertMaterial attach="material" color="#FF0000" map={textureBrick} />
-  //     </mesh>
-  //   );
-  // };
 
   const ReactiveScore = () => {
     return spinScore();
@@ -196,16 +191,36 @@ function Basic() {
   //   decayRate: 0.28
   // };
 
-  const controlMyRacket = (e:any) => {
+  const controlKeyDown = (e:any) => {
     if (e.key === "ArrowUp") {
       if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
+        if (isClicked === 0) {
+          isClicked = 1;
+          console.log("up press", isClicked);
+          socket.emit("game:paddle", -1);
+        }
         return -1;
+      }
+      if (isClicked === 0) {
+        isClicked = 1;
+        console.log("up press", isClicked);
+        socket.emit("game:paddle", -1);
       }
       setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
     }
     if (e.key === "ArrowDown") {
       if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
+        if (isClicked === 0) {
+          isClicked = 1;
+          console.log("down press", isClicked);
+          socket.emit("game:paddle", 1);
+        }
         return -1;
+      }
+      if (isClicked === 0) {
+        isClicked = 1;
+        console.log("down press", isClicked);
+        socket.emit("game:paddle", 1);
       }
       setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
     }
@@ -215,7 +230,66 @@ function Basic() {
       } else if (reactiveScore === 0) {
         setReactiveScore(-1);
       }
-      console.log(reactiveScore);
+      socket.emit("game:render", {
+        ball: { x: 0, y: 1 },
+        paddleTop: { x: 0, y: 0 },
+        paddleBtm: { x: 0, y: 0 }
+      });
+    }
+    if (e.key === "o") {
+      if (reactiveScore === -1) {
+        setReactiveScore(0);
+      } else if (reactiveScore === 0) {
+        setReactiveScore(-1);
+      }
+      socket.emit("game:render", {
+        ball: { x: 2, y: -3 },
+        paddleTop: { x: 0, y: 0 },
+        paddleBtm: { x: 0, y: 0 }
+      });
+    }
+    return 0;
+  };
+
+  const controlKeyUp = (e:any) => {
+    if (e.key === "ArrowUp") {
+      if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
+        if (isClicked === 1) {
+          isClicked = 0;
+          console.log("up up");
+          socket.emit("game:paddle", 0);
+        }
+        return -1;
+      }
+      if (isClicked === 1) {
+        isClicked = 0;
+        console.log("up up");
+        socket.emit("game:paddle", 0);
+      }
+      setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
+    }
+    if (e.key === "ArrowDown") {
+      if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
+        if (isClicked === 1) {
+          isClicked = 0;
+          console.log("down up");
+          socket.emit("game:paddle", 0);
+        }
+        return -1;
+      }
+      if (isClicked === 1) {
+        isClicked = 0;
+        console.log("down up");
+        socket.emit("game:paddle", 0);
+      }
+      setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
+    }
+    if (e.key === "p") {
+      if (reactiveScore === -1) {
+        setReactiveScore(0);
+      } else if (reactiveScore === 0) {
+        setReactiveScore(-1);
+      }
     }
     return 0;
   };
@@ -231,9 +305,18 @@ function Basic() {
   };
 
   useEffect(() => {
-    window.addEventListener("keydown", controlMyRacket);
+    window.addEventListener("keydown", controlKeyDown);
+    window.addEventListener("keyup", controlKeyUp);
+
+    socket.on("game:render", (res) => {
+      console.log("+", res);
+      setBallXpos(res.ball.x);
+      setBallYpos(res.ball.y);
+    });
+
     return () => {
-      window.removeEventListener("keydown", controlMyRacket);
+      window.removeEventListener("keydown", controlKeyDown);
+      window.removeEventListener("keyup", controlKeyUp);
     };
   });
 
@@ -289,9 +372,9 @@ function Basic() {
       {/* Ball */}
       <Float
         speed={9} // Animation speed, defaults to 1
-        rotationIntensity={3} // XYZ rotation intensity, defaults to 1
+        rotationIntensity={0.1} // XYZ rotation intensity, defaults to 1
         floatIntensity={2}
-        floatingRange={[-0.1, 0.05]}
+        floatingRange={[0.1, 0.2]}
       >
         <AutoSpinBall />
       </Float>
