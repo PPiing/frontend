@@ -8,12 +8,12 @@ import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
 import socketManager from "../feat/game/socket";
 
-// import fontPath from "../../dist/asset/font/Neon 80s_Regular.json";
-import fontPath from "../../dist/asset/font/Retro_Stereo_Wide_Regular.json";
+// import fontPath from "../../public/asset/font/Neon 80s_Regular.json";
+import fontPath from "../../public/asset/font/Retro_Stereo_Wide_Regular.json";
 
 extend({ TextGeometry });
 
-const socket = socketManager.socket("/game");
+const socket = socketManager.socket("/");
 
 const textureSpace = new THREE.TextureLoader().load("../../asset/background_space.jpeg");
 const textureBrick = new THREE.TextureLoader().load("../../asset/background_brick.png");
@@ -23,6 +23,7 @@ const fontStr : string = JSON.stringify(fontPath);
 socket.on("connect", () => {
   console.log("gameSocket", socket.connected);
 });
+socket.connect();
 
 const gamer1Name = "Polarbear\n";
 const gamer1Score = "0";
@@ -69,22 +70,6 @@ const shakeCameraConfig = {
   decayRate: 0.28
 
 };
-// Animation
-// function MyRotatingBox() {
-//   const myMesh = React.useRef();
-
-//   useFrame(({ clock }) => {
-//     const a = clock.getElapsedTime();
-//     myMesh?.current?.rotation.x = a;
-//   });
-
-//   return (
-//     <mesh ref={myMesh}>
-//       <boxBufferGeometry />
-//       <meshPhongMaterial color="royalblue" />
-//     </mesh>
-//   );
-// }
 
 function Basic() {
   const [redRacketYPos, setRedRacketYPos] = useState(0);
@@ -139,6 +124,20 @@ function Basic() {
     );
   };
 
+  // const moveRacket = (ypos : number) => {
+  //   const wowRacket : React.Ref<any> = useRef();
+  //   useFrame(() => {
+  //     wowRacket.current.rotation.z = ypos;
+  //   });
+
+  //   return (
+  //     <mesh position={[3.1, 0.3, redRacketYPos]} ref={wowRacket}>
+  //       <boxBufferGeometry attach="geometry" args={[0.1, 0.22, RacketSize]} />
+  //       <meshLambertMaterial attach="material" color="#FF0000" map={textureBrick} />
+  //     </mesh>
+  //   );
+  // };
+
   const ReactiveScore = () => {
     return spinScore();
   };
@@ -146,6 +145,10 @@ function Basic() {
   const AutoSpinBall = () => {
     return spinBall();
   };
+
+  // const RedRacket = () => {
+  //   return moveRacket();
+  // };
   // const gamer1Name = "Polabear\n";
   // const gamer1Score = "0";
   // const gamer2Name = " Polabear\n";
@@ -191,7 +194,6 @@ function Basic() {
   //   additive: true,
   //   decay: true,
   //   decayRate: 0.28
-
   // };
 
   const controlMyRacket = (e:any) => {
