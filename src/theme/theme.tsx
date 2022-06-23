@@ -37,9 +37,9 @@ export const NAV_BOTTOM_HEIGHT = "90%";
 export const NAV_LEFT_HEIGHT = "100%";
 
 // community nav zone
-export const NAV_ALARM_HEIGHT = "10%";
-export const NAV_SEARCH_HEIGHT = "10%";
-export const NAV_FRIEND_HEIGHT = "45%";
+export const NAV_ALARM_HEIGHT = "12%";
+export const NAV_SEARCH_HEIGHT = "5%";
+export const NAV_FRIEND_HEIGHT = "48%";
 export const NAV_FRIEND_BOX_HEIGHT = "20%";
 export const NAV_INVITE_HEIGHT = "35%";
 export const NAV_INVITE_BOX_HEIGHT = "25%";
