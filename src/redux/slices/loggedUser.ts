@@ -12,7 +12,7 @@ export const loggedUser = createSlice({
   initialState: {
     nick: "unknown",
     mail: "unknown@unknown.com",
-    img: "/asset/profileImage/skim.png",
+    img: "/asset/profileImage/default.png",
     status: "USST10"
   } as LoggedUserData,
   reducers: {

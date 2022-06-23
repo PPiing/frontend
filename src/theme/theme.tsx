@@ -108,6 +108,15 @@ export const NeonZone = styled("div", {
   // },
 });
 
+export const ProfileImage = styled("img", {
+  width: "80%",
+  height: "60%",
+  padding: "0%",
+  margin: "0%",
+  border: "none",
+  borderRadius: "50%",
+});
+
 //
 // *****************************************************************************
 // global style && reactive

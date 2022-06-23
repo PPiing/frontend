@@ -29,27 +29,27 @@ type User = {
 const friends: User[] = [
   {
     name: "skim1",
-    profile_link: "/asset/profileImage/skim.png",
+    profile_link: "/asset/profileImage/default.png",
     status: "online",
   },
   {
     name: "skim2",
-    profile_link: "/asset/profileImage/skim.png",
+    profile_link: "/asset/profileImage/default.png",
     status: "offline",
   },
   {
     name: "skim3",
-    profile_link: "/asset/profileImage/skim.png",
+    profile_link: "/asset/profileImage/default.png",
     status: "in game",
   },
   {
     name: "skim4",
-    profile_link: "/asset/profileImage/skim.png",
+    profile_link: "/asset/profileImage/default.png",
     status: "??",
   },
   {
     name: "skim5",
-    profile_link: "/asset/profileImage/skim.png",
+    profile_link: "/asset/profileImage/default.png",
     status: "online",
   }
 ];

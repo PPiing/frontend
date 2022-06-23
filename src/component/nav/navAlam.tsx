@@ -23,15 +23,6 @@ const ProfileTextStatus = styled("div", {
   // border: BORDER_BASIC
 });
 
-const ProfileImage = styled("img", {
-  width: "80%",
-  height: "60%",
-  padding: "0%",
-  margin: "0%",
-  border: "none",
-  borderRadius: "50%",
-});
-
 const NavAlarmProfileImg = styled("div", {
   height: "100%",
   width: "25%",
@@ -87,7 +78,7 @@ export function ComponentNavAlam() {
   return (
     <NavAlarm>
       <NavAlarmProfileImg className="navAlarm">
-        <ProfileImage className="profileimg" src={loggedUser.img} />
+        <theme.ProfileImage className="profileimg" src={loggedUser.img} />
       </NavAlarmProfileImg>
       <NavAlarmProfileText>
         <ProfileTextName className="profiletext">
