@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
 import * as theme from "../../theme/theme";
-import { ReqLoggedUserDate } from "../../feat/nav/request";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
+import { getLoggedUserProfile } from "../../network/api/axios.custom";
 
 const ProfileTextName = styled("div", {
   width: "100%",
@@ -54,8 +54,9 @@ export function ComponentNavAlam() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const [reqTrig, setReqTrig] = useState(0);
 
+  // axios feat
   if (reqTrig === 0) {
-    ReqLoggedUserDate();
+    getLoggedUserProfile();
     setReqTrig(1);
   }
 

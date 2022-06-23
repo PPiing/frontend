@@ -1,3 +1,5 @@
+import { LoggedUserData, setLoggedUser } from "../../redux/slices/loggedUser";
+import store from "../../redux/store";
 import * as axios from "./axios.instance";
 
 /**
@@ -33,6 +35,25 @@ import * as axios from "./axios.instance";
  *   }
  * }
  */
+
+// API for Nav
+
+export const getLoggedUserProfile = async () => {
+  try {
+    const response = await axios.instance.get("/users/profile");
+
+    store.dispatch(setLoggedUser(
+      {
+        nick: response.data.userName,
+        mail: response.data.userEmail,
+        img: response.data.userImage,
+        status: response.data.userStatus
+      } as LoggedUserData
+    ));
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // API for Login
 
