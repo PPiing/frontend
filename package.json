@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/react-modal": "^3.13.1",
     "@types/redux-logger": "^3.0.9",
     "@types/redux-persist": "^4.3.1",
     "@typescript-eslint/eslint-plugin": "^5.21.0",

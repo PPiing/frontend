@@ -15,8 +15,8 @@ export function CallModal(props: any) {
     <Modal
       isOpen={display.ismodal}
       onRequestClose={
-          () => { dispatch(setModalTrigger({ ismodal: 0 } as DisplayData)); }}
-      shouldCloseOnOverlayClick={1}
+          () => { dispatch(setModalTrigger({ ismodal: false } as DisplayData)); }}
+      shouldCloseOnOverlayClick
       style={{
         overlay: {
           position: "fixed",

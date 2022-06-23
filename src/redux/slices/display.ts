@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface DisplayData {
-  ismodal: number
+  ismodal: boolean
 }
 
 export const display = createSlice({
   name: "display",
   initialState: {
-    ismodal: 0,
+    ismodal: false,
   } as DisplayData,
   reducers: {
     // eslint-disable-next-line no-return-assign

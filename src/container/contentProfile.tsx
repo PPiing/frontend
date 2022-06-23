@@ -54,7 +54,7 @@ export function ContainerContents() {
       />
       {/* eslint-disable-next-line react/button-has-type */}
       <button
-        onClick={() => { dispatch(setModalTrigger({ ismodal: 1 } as DisplayData)); }}
+        onClick={() => { dispatch(setModalTrigger({ ismodal: true } as DisplayData)); }}
       >
         Modal Open
       </button>
