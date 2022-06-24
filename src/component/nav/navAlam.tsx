@@ -5,6 +5,7 @@ import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { getLoggedUserProfile } from "../../network/api/axios.custom";
+import { StatusDisplayDistributor } from "../../feat/profile/utils";
 
 const ProfileTextName = styled("div", {
   width: "100%",
@@ -61,22 +62,6 @@ export function ComponentNavAlam() {
     setReqTrig(1);
   }
 
-  const StatusDisplayDistributor = () => {
-    switch (loggedUser.status) {
-      case "USST10":
-        return "online";
-      case "USST20":
-        return "offline";
-      case "USST30":
-        return "in game";
-      case "USST40":
-        return "sleeping";
-      default:
-        break;
-    }
-    return "statue error";
-  };
-
   return (
     <NavAlarm>
       <NavAlarmProfileImg className="navAlarm">
@@ -87,7 +72,7 @@ export function ComponentNavAlam() {
           {loggedUser.nick}
         </ProfileTextName>
         <ProfileTextStatus className="profilestatus">
-          {StatusDisplayDistributor()}
+          {StatusDisplayDistributor(loggedUser.status)}
         </ProfileTextStatus>
       </NavAlarmProfileText>
       <NavAlarmAlarm />

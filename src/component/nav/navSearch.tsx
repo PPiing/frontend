@@ -4,7 +4,7 @@ import * as theme from "../../theme/theme";
 
 const NavSearch = styled("div", {
   minHeight: "30px",
-  maxHeight: "70px",
+  maxHeight: "50px",
   height: `${theme.NAV_SEARCH_HEIGHT}`,
   transition: "all 0.5s",
   alignItems: "center",

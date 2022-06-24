@@ -1,10 +1,11 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
+import { StatusDisplayDistributor } from "../../feat/profile/utils";
 
 const ProfileImage = styled("img", {
-  width: "75px",
-  height: "75px",
+  width: "70px",
+  height: "70px",
   padding: "0",
   margin: "0",
   border: "none",
@@ -16,10 +17,9 @@ const NavFriendBox = styled(theme.NeonHoverRed, {
   fontSize: "2rem",
   display: "flex",
   flexDirection: "row",
-  justifyContent: "space-between",
   alignItems: "center",
   background: `${theme.BACKGROUND_YELLOW}`,
-  height: `${theme.NAV_FRIEND_BOX_HEIGHT}`,
+  height: "28px",
   minHeight: "90px",
   border: "0",
   margin: "2px 4px",
@@ -45,6 +45,7 @@ const StatusCircle = styled("div", {
   backgroundColor: "white",
   margin: "0",
   padding: "0",
+  marginLeft: "12px",
 });
 
 const StatusMessage = styled("div", {
@@ -58,6 +59,7 @@ const StatusMessage = styled("div", {
 const Profile = styled("div", {
   display: "flex",
   flexDirection: "column",
+  marginLeft: "10px",
 });
 
 const Status = styled("div", {
@@ -65,7 +67,7 @@ const Status = styled("div", {
   flexDirection: "row",
 });
 
-export function ComponentNavFriendBox({ friend }:any) {
+export function ComponentNavFriendBox(props: any) {
   const setStatusColor = (status:string) => {
     if (status === "online") return ("green");
     if (status === "offline") return ("grey");
@@ -73,17 +75,17 @@ export function ComponentNavFriendBox({ friend }:any) {
     return ("red");
   };
 
-  const { name } = friend;
-  const link:string = friend.profile_link;
-  const statusColor:string = setStatusColor(friend.status);
+  const { friend } = props;
+
+  const statusColor:string = setStatusColor(StatusDisplayDistributor(friend.status));
   return (
     <NavFriendBox>
-      <ProfileImage className="profile" src={link} alt={name} />
+      <ProfileImage src={friend.img} className="profile" />
       <Profile>
-        <ProfileName> {friend.name} </ProfileName>
+        <ProfileName> {friend.nick} </ProfileName>
         <Status>
           <StatusCircle style={{ backgroundColor: statusColor }} />
-          <StatusMessage> {friend.status} </StatusMessage>
+          <StatusMessage> {StatusDisplayDistributor(friend.status)} </StatusMessage>
         </Status>
       </Profile>
     </NavFriendBox>

@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 import { ComponentNavFriendBox } from "./navFriendBox";
+import { FriendData } from "../../redux/slices/friendList";
+import { ReducerType } from "../../redux/rootReducer";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -20,51 +23,19 @@ const NavFriendZone = styled("div", {
   },
 });
 
-type User = {
-  name: string;
-  profile_link: string;
-  status: string;
-}
-
-const friends: User[] = [
-  {
-    name: "skim1",
-    profile_link: "/asset/profileImage/default.png",
-    status: "online",
-  },
-  {
-    name: "skim2",
-    profile_link: "/asset/profileImage/default.png",
-    status: "offline",
-  },
-  {
-    name: "skim3",
-    profile_link: "/asset/profileImage/default.png",
-    status: "in game",
-  },
-  {
-    name: "skim4",
-    profile_link: "/asset/profileImage/default.png",
-    status: "??",
-  },
-  {
-    name: "skim5",
-    profile_link: "/asset/profileImage/default.png",
-    status: "online",
-  }
-];
-
-const renderFrineds = () => {
-  const friendsList: any = [];
-  for (let i = 0; i < friends.length; i += 1) {
-    friendsList.push(
-      <ComponentNavFriendBox key={i} friend={friends[i]} />
-    );
-  }
-  return friendsList;
-};
-
 export function ComponentNavFriendZone() {
+  const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
+
+  const renderFrineds = () => {
+    const friendsList = [];
+    for (let i = 0; i < friendList.length; i += 1) {
+      friendsList.push(
+        <ComponentNavFriendBox friend={friendList[i]} />
+      );
+    }
+    return friendsList;
+  };
+
   return (
     <NavFriendZone>
       {renderFrineds()}

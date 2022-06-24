@@ -1,11 +1,13 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import users from "./slices/users";
+import friendList from "./slices/friendList";
+import choosableAlamList from "./slices/choosableAlamList";
 import loggedUser from "./slices/loggedUser";
 import auth from "./slices/auth";
 import display from "./slices/display";
 
 const reducer = combineReducers({
-  users,
+  friendList,
+  choosableAlamList,
   loggedUser,
   auth,
   display
