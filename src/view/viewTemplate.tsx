@@ -16,6 +16,7 @@ export const ContainerLeftBox = styled("div", {
 });
 
 export const ContainerRightBox = styled("div", {
+  minWidth: "300px",
   width: "calc(20% - 40px)",
   height: "calc(100% - 40px)",
   padding: "20px",

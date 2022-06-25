@@ -2,17 +2,16 @@ import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
 import * as theme from "../../theme/theme";
-import { ReqLoggedUserDate } from "../../feat/nav/request";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
+import { getLoggedUserProfile } from "../../network/api/axios.custom";
+import { StatusDisplayDistributor } from "../../feat/profile/utils";
 
 const ProfileTextName = styled("div", {
   width: "100%",
-  height: "65%",
-  fontSize: "3rem",
+  height: "auto",
+  fontSize: "2.5rem",
   color: "Orange",
-  // border: BORDER_BASIC
-
 });
 
 const ProfileTextStatus = styled("div", {
@@ -20,7 +19,6 @@ const ProfileTextStatus = styled("div", {
   height: "35%",
   fontSize: "1rem",
   color: "Orange",
-  // border: BORDER_BASIC
 });
 
 const NavAlarmProfileImg = styled("div", {
@@ -29,13 +27,16 @@ const NavAlarmProfileImg = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  // border: BORDER_BASIC
+  float: "left",
+  objectFit: "cover",
 });
 
 const NavAlarmProfileText = styled("div", {
   height: "100%",
   width: "50%",
-  // border: BORDER_BASIC
+  // marginTop: "3.5%",
+  paddingTop: "3%",
+  marginLeft: "10px",
 });
 
 const NavAlarmAlarm = styled("div", {
@@ -45,35 +46,21 @@ const NavAlarmAlarm = styled("div", {
 });
 
 const NavAlarm = styled("div", {
+  minHeight: "85px",
+  maxHeight: "100px",
   height: `${theme.NAV_ALARM_HEIGHT}`,
-  // border: BORDER_BASIC,
-  display: "flex"
+  display: "flex",
 });
 
 export function ComponentNavAlam() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const [reqTrig, setReqTrig] = useState(0);
 
+  // axios feat
   if (reqTrig === 0) {
-    ReqLoggedUserDate();
+    getLoggedUserProfile();
     setReqTrig(1);
   }
-
-  const StatusDisplayDistributor = () => {
-    switch (loggedUser.status) {
-      case "USST10":
-        return "online";
-      case "USST20":
-        return "offline";
-      case "USST30":
-        return "in game";
-      case "USST40":
-        return "sleeping";
-      default:
-        break;
-    }
-    return "statue error";
-  };
 
   return (
     <NavAlarm>
@@ -85,7 +72,7 @@ export function ComponentNavAlam() {
           {loggedUser.nick}
         </ProfileTextName>
         <ProfileTextStatus className="profilestatus">
-          {StatusDisplayDistributor()}
+          {StatusDisplayDistributor(loggedUser.status)}
         </ProfileTextStatus>
       </NavAlarmProfileText>
       <NavAlarmAlarm />

@@ -37,9 +37,9 @@ export const NAV_BOTTOM_HEIGHT = "90%";
 export const NAV_LEFT_HEIGHT = "100%";
 
 // community nav zone
-export const NAV_ALARM_HEIGHT = "10%";
-export const NAV_SEARCH_HEIGHT = "10%";
-export const NAV_FRIEND_HEIGHT = "45%";
+export const NAV_ALARM_HEIGHT = "12%";
+export const NAV_SEARCH_HEIGHT = "5%";
+export const NAV_FRIEND_HEIGHT = "48%";
 export const NAV_FRIEND_BOX_HEIGHT = "20%";
 export const NAV_INVITE_HEIGHT = "35%";
 export const NAV_INVITE_BOX_HEIGHT = "25%";
@@ -109,10 +109,11 @@ export const NeonZone = styled("div", {
 });
 
 export const ProfileImage = styled("img", {
-  width: "80%",
-  height: "60%",
+  width: "auto",
+  height: "80%",
   padding: "0%",
   margin: "0%",
+  marginLeft: "10px",
   border: "none",
   borderRadius: "50%",
 });
