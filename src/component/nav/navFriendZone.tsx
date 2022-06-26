@@ -23,10 +23,26 @@ const NavFriendZone = styled("div", {
   },
 });
 
+const EmptyFriend = styled("div", {
+  alignContent: "center",
+  alignItems: "center",
+  paddingTop: "10px",
+  marginLeft: "auto",
+  marginRight: "auto",
+  display: "table",
+  fontSize: "1.5rem",
+  color: "gray",
+});
+
 export function ComponentNavFriendZone() {
   const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
 
   const renderFrineds = () => {
+    if (friendList.length === 0) {
+      return (
+        <EmptyFriend>Friend list empty -_-</EmptyFriend>
+      );
+    }
     const friendsList = [];
     for (let i = 0; i < friendList.length; i += 1) {
       friendsList.push(

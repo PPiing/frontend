@@ -32,17 +32,27 @@ const NavInviteZone = styled("div", {
   },
 });
 
-// socket.intive event로 입력
-
-// useState = socket event를 배열화
-
-// -> 배열화된 event를 navInviteBox 에 전달하고 렌더링
+const EmptyAccessRequireAlam = styled("div", {
+  alignContent: "center",
+  alignItems: "center",
+  paddingTop: "10px",
+  marginLeft: "auto",
+  marginRight: "auto",
+  display: "table",
+  fontSize: "1.5rem",
+  color: "gray",
+});
 
 export function ComponentNavInviteZone() {
   const choosableAlamList =
     useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
 
   const renderChoosableAlams = () => {
+    if (choosableAlamList.length === 0) {
+      return (
+        <EmptyAccessRequireAlam>Alarm empty -_-</EmptyAccessRequireAlam>
+      );
+    }
     const alamList = [];
     for (let i = choosableAlamList.length - 1; i >= 0; i -= 1) {
       alamList.push(
