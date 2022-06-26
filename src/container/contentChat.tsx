@@ -4,6 +4,7 @@ import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import socketManager from "../feat/chat/socket";
 import { CreateRoom } from "../component/chat/chatCreateRoom";
+import { FindRoom } from "../component/chat/chatFindRoom";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -257,11 +258,9 @@ export function ContainerContents() {
           <CreateRoom propFunc={changeContent} user={userId} />
         );
       case "find":
+        console.log("FIND");
         return (
-          <ContentFind>
-            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
-            FIND
-          </ContentFind>
+          <FindRoom propFunc={changeContent} />
         );
       case "room":
         return (
