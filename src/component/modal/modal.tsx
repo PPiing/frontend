@@ -7,8 +7,27 @@ import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 // import * as display
 
-export function CallModal(props: any) {
-  const { width, height, left, top, content, } = props;
+let ModalContent = <p>ModalContent</p>;
+let ModalWidth = "0";
+let ModalHeight = "0";
+let ModalTop = "0";
+let ModalLeft = "0";
+
+export function SetModalSize(width: string, height: string, top: string, left: string) {
+  ModalWidth = width;
+  ModalHeight = height;
+  ModalTop = top;
+  ModalLeft = left;
+  console.log("SetModalSize", ModalWidth, ModalHeight, ModalTop, ModalLeft);
+}
+
+export function SetModalContent(content: JSX.Element) {
+  ModalContent = content;
+  console.log("SetModalContent", ModalContent);
+}
+  
+
+export function CallModal() {
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
   const dispatch = useDispatch();
   return (
@@ -29,13 +48,13 @@ export function CallModal(props: any) {
         content: {
           margin: "0",
           position: "absolute",
-          top: `${top}`,
-          left: `${left}`,
+          top: `${ModalTop}`,
+          left: `${ModalLeft}`,
           color: "white",
-          width: `${width}`,
-          height: `${height}`,
+          width: `${ModalWidth}`,
+          height: `${ModalHeight}`,
           background: "black",
-          border: `8px solid ${theme.NEON_RED}`,
+          border: `3px solid ${theme.NEON_RED}`,
           filter: `drop-shadow(0 0 10px ${theme.NEON_RED}) brightness(1.6)`,
           overflow: "auto",
           WebkitOverflowScrolling: "touch",
@@ -45,7 +64,7 @@ export function CallModal(props: any) {
         },
       }}
     >
-      {content}
+      {ModalContent}
       {/* eslint-disable-next-line react/button-has-type */}
       {/* <button onClick={() => setModalIsOpen(false)}>Modal Open</button> */}
     </Modal>

@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { Routes, Route, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import { ReqUserProfile } from "../feat/profile/request";
@@ -35,23 +35,12 @@ const DividedLeftSection = styled(template.DividedLeftSection, {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  const display = useSelector<ReducerType, DisplayData>((state) => state.display);
   const dispatch = useDispatch();
 
+  modal.SetModalSize("50%", "40%", "30%", "60%");
+  modal.SetModalContent(<div>userId={userId}</div>);
   return (
     <template.DividedContents>
-      <modal.CallModal
-        width="20%"
-        height="40%"
-        left="60%"
-        top="30%"
-        content={(
-          <div>
-            Hello
-            <p>user Id : {userId}</p>
-          </div>
-      )}
-      />
       {/* eslint-disable-next-line react/button-has-type */}
       <button
         onClick={() => { dispatch(setModalTrigger({ ismodal: true } as DisplayData)); }}
