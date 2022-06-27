@@ -66,8 +66,9 @@ export const getLoggedUserProfile = async () => {
 export const chatroomsSearch = async () => {
   try {
     const response = await axios.instance.get("/chatrooms/search");
-    console.log(response);
+    return (response);
   } catch (error) {
     console.log(error);
+    return (error);
   }
 };
