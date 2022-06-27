@@ -55,6 +55,14 @@ export const getLoggedUserProfile = async () => {
   }
 };
 
+export const getUserSearch = async (searchString: string) => {
+  try {
+    await axios.instance.get(`/users/search/${searchString}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // API for Login
 
 // API for Profile
