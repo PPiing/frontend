@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface LoggedUserData {
+  seq: string;
   nick: string;
   mail: string;
   img: string;
@@ -10,6 +11,7 @@ export interface LoggedUserData {
 export const loggedUser = createSlice({
   name: "loggedUser",
   initialState: {
+    seq: "1",
     nick: "unknown",
     mail: "unknown@unknown.com",
     img: "/asset/profileImage/default.png",
