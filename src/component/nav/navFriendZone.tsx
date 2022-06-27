@@ -5,6 +5,8 @@ import * as theme from "../../theme/theme";
 import { ComponentNavFriendBox } from "./navFriendBox";
 import { FriendData } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
+import { DisplayData } from "../../redux/slices/display";
+import { getUserSearch } from "../../network/api/axios.custom";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -36,14 +38,25 @@ const EmptyFriend = styled("div", {
 
 export function ComponentNavFriendZone() {
   const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
+  const display = useSelector<ReducerType, DisplayData>((state) => state.display);
 
-  const renderFrineds = () => {
+  if (display.searchSwitch === true) {
+    const response: Promise<any> = getUserSearch(display.searchString);
+
+    response.then((value) => {
+      for (let i = 0; i < value.data.length; i += 1) {
+        // ...
+      }
+    });
+  }
+
+  const renderList = () => {
+    const friendsList = [];
     if (friendList.length === 0) {
       return (
         <EmptyFriend>Friend list empty -_-</EmptyFriend>
       );
     }
-    const friendsList = [];
     for (let i = 0; i < friendList.length; i += 1) {
       friendsList.push(
         <ComponentNavFriendBox friend={friendList[i]} />
@@ -54,7 +67,7 @@ export function ComponentNavFriendZone() {
 
   return (
     <NavFriendZone>
-      {renderFrineds()}
+      {renderList()}
     </NavFriendZone>
   );
 }

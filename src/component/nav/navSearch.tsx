@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
+import store from "../../redux/store";
+import { DisplayData, setSearchString, setSearchSwitch } from "../../redux/slices/display";
 
 const NavSearch = styled("div", {
   minHeight: "30px",
@@ -31,12 +33,22 @@ const NavSearchBox = styled("input", {
 });
 
 export function ComponentNavSearch() {
+  const [searchSwitchInit, setSearchSwitchInit] = useState(0);
+
+  if (searchSwitchInit === 0) {
+    store.dispatch(setSearchSwitch({ searchSwitch: false } as DisplayData));
+    setSearchSwitchInit(1);
+  }
+
   const HandleKeyDown = (event: any) => {
     if (event.key === "Enter") {
       if (event.target.value.length > 0) {
-        // console.log("!", event.target.value);
-        // axios feat
+        store.dispatch(setSearchSwitch({ searchSwitch: true } as DisplayData));
+        store.dispatch(setSearchString({ searchString: event.target.value } as DisplayData));
       }
+    } if (event.target.value.length === 0) {
+      store.dispatch(setSearchSwitch({ searchSwitch: false } as DisplayData));
+      store.dispatch(setSearchString({ searchString: "" } as DisplayData));
     }
   };
 
