@@ -18,14 +18,11 @@ export function SetModalSize(width: string, height: string, top: string, left: s
   ModalHeight = height;
   ModalTop = top;
   ModalLeft = left;
-  console.log("SetModalSize", ModalWidth, ModalHeight, ModalTop, ModalLeft);
 }
 
 export function SetModalContent(content: JSX.Element) {
   ModalContent = content;
-  console.log("SetModalContent", ModalContent);
 }
-  
 
 export function CallModal() {
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
