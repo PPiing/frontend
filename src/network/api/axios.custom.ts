@@ -69,6 +69,9 @@ export const getFriendList = async () => {
   try {
     const response = await axios.instance.get("/community/friends");
 
+    // test
+    console.log("!!FL", response.data);
+
     store.dispatch(removeFriendList({} as FriendData));
     for (let i = 0; i < response.data.length; i += 1) {
       store.dispatch(addFriend({

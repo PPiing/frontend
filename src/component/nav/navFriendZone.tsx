@@ -54,14 +54,18 @@ export function ComponentNavFriendZone() {
       const response: Promise<any> = getUserSearch(display.searchString);
 
       response.then((value) => {
+        // test
+        console.log("!!", value);
+        console.log("!!", value.data);
+
         if (value.data.length === 0 || value.status !== 200) {
           renderResult.push(
-            <EmptyFriend>No search results</EmptyFriend>
+            <EmptyFriend key={0}>No search results</EmptyFriend>
           );
         } else {
           for (let i = 0; i < value.data.length; i += 1) {
             renderResult.push(
-              <ComponentNavSearchUserBox friend={value.data[i]} />
+              <ComponentNavSearchUserBox key={i} friend={value.data[i]} />
             );
           }
         }
@@ -69,12 +73,12 @@ export function ComponentNavFriendZone() {
     } else {
       if (friendList.length === 0) {
         return (
-          <EmptyFriend>Friend list empty -_-</EmptyFriend>
+          <EmptyFriend key={0}>Friend list empty -_-</EmptyFriend>
         );
       }
       for (let i = 0; i < friendList.length; i += 1) {
         renderResult.push(
-          <ComponentNavFriendBox friend={friendList[i]} />
+          <ComponentNavFriendBox key={i} friend={friendList[i]} />
         );
       }
     }
