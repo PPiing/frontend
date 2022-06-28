@@ -57,10 +57,12 @@ export function ComponentNavFriendZone() {
         // debug
         console.log("search result response log: ", value);
         if (value.data.length === 0 || value.status !== 200) {
+          console.log("!!!");
           renderResult.push(
             <EmptyFriend key={0}>No search results</EmptyFriend>
           );
         } else {
+          console.log("!!!222", value.data.length);
           for (let i = 0; i < value.data.length; i += 1) {
             renderResult.push(
               <ComponentNavSearchUserBox key={i} searchUser={value.data[i]} />
