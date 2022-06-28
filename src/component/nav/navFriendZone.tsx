@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
@@ -6,7 +6,8 @@ import { ComponentNavFriendBox } from "./navFriendBox";
 import { FriendData } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData } from "../../redux/slices/display";
-import { getUserSearch } from "../../network/api/axios.custom";
+import { getFriendList, getUserSearch } from "../../network/api/axios.custom";
+import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -40,29 +41,44 @@ export function ComponentNavFriendZone() {
   const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
 
-  if (display.searchSwitch === true) {
-    const response: Promise<any> = getUserSearch(display.searchString);
+  const [friendListReqSwitch, setFriendListReqSwitch] = useState(0);
 
-    response.then((value) => {
-      for (let i = 0; i < value.data.length; i += 1) {
-        // ...
-      }
-    });
+  if (friendListReqSwitch === 0) {
+    getFriendList();
+    setFriendListReqSwitch(1);
   }
 
   const renderList = () => {
-    const friendsList = [];
-    if (friendList.length === 0) {
-      return (
-        <EmptyFriend>Friend list empty -_-</EmptyFriend>
-      );
+    const renderResult = [];
+    if (display.searchSwitch) {
+      const response: Promise<any> = getUserSearch(display.searchString);
+
+      response.then((value) => {
+        if (value.data.length === 0 || value.status !== 200) {
+          renderResult.push(
+            <EmptyFriend>No search results</EmptyFriend>
+          );
+        } else {
+          for (let i = 0; i < value.data.length; i += 1) {
+            renderResult.push(
+              <ComponentNavSearchUserBox friend={value.data[i]} />
+            );
+          }
+        }
+      });
+    } else {
+      if (friendList.length === 0) {
+        return (
+          <EmptyFriend>Friend list empty -_-</EmptyFriend>
+        );
+      }
+      for (let i = 0; i < friendList.length; i += 1) {
+        renderResult.push(
+          <ComponentNavFriendBox friend={friendList[i]} />
+        );
+      }
     }
-    for (let i = 0; i < friendList.length; i += 1) {
-      friendsList.push(
-        <ComponentNavFriendBox friend={friendList[i]} />
-      );
-    }
-    return friendsList;
+    return renderResult;
   };
 
   return (
