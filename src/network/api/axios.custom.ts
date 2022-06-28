@@ -59,18 +59,17 @@ export const getLoggedUserProfile = async () => {
 
 export const getUserSearch = async (searchString: string) => {
   try {
-    await axios.instance.get(`/users/search/${searchString}`);
+    const response = await axios.instance.get(`/users/search/${searchString}`);
+    return (response);
   } catch (error) {
     console.log(error);
+    return (error);
   }
 }
 
 export const getFriendList = async () => {
   try {
     const response = await axios.instance.get("/community/friends");
-
-    // test
-    console.log("!!FL", response.data);
 
     store.dispatch(removeFriendList({} as FriendData));
     for (let i = 0; i < response.data.length; i += 1) {

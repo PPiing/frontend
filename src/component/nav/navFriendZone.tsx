@@ -54,10 +54,6 @@ export function ComponentNavFriendZone() {
       const response: Promise<any> = getUserSearch(display.searchString);
 
       response.then((value) => {
-        // test
-        console.log("!!", value);
-        console.log("!!", value.data);
-
         if (value.data.length === 0 || value.status !== 200) {
           renderResult.push(
             <EmptyFriend key={0}>No search results</EmptyFriend>
