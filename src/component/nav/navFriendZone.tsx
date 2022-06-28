@@ -54,6 +54,8 @@ export function ComponentNavFriendZone() {
       const response: Promise<any> = getUserSearch(display.searchString);
 
       response.then((value) => {
+        // debug
+        console.log("search result response log: ", value);
         if (value.data.length === 0 || value.status !== 200) {
           renderResult.push(
             <EmptyFriend key={0}>No search results</EmptyFriend>
@@ -61,7 +63,7 @@ export function ComponentNavFriendZone() {
         } else {
           for (let i = 0; i < value.data.length; i += 1) {
             renderResult.push(
-              <ComponentNavSearchUserBox key={i} friend={value.data[i]} />
+              <ComponentNavSearchUserBox key={i} searchUser={value.data[i]} />
             );
           }
         }
