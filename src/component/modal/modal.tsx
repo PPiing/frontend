@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-import React, { useState } from "react";
+import * as React from "react";
 import Modal from "react-modal";
 import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
