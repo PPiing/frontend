@@ -10,11 +10,11 @@ export interface ChoosableAlamData {
 export const choosableAlamList = createSlice({
   name: "choosableAlamList",
   initialState: [
-    { type: 0, from: "sample1" },
-    { type: 1, from: "sample2a" },
-    { type: 0, from: "sample3aa" },
-    { type: 1, from: "sample4a" },
-    { type: 0, from: "sample5" },
+    // { type: 0, from: "sample1" },
+    // { type: 1, from: "sample2a" },
+    // { type: 0, from: "sample3aa" },
+    // { type: 1, from: "sample4a" },
+    // { type: 0, from: "sample5" },
   ] as ChoosableAlamData[],
   reducers: {
     addChoosableAlam(state, action: PayloadAction<ChoosableAlamData>) {

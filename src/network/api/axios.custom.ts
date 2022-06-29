@@ -1,3 +1,4 @@
+import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
 import { LoggedUserData, setLoggedUser } from "../../redux/slices/loggedUser";
 import store from "../../redux/store";
 import * as axios from "./axios.instance";
@@ -44,6 +45,7 @@ export const getLoggedUserProfile = async () => {
 
     store.dispatch(setLoggedUser(
       {
+        seq: response.data.userSeq,
         nick: response.data.userName,
         mail: response.data.userEmail,
         img: response.data.userImage,
@@ -57,7 +59,26 @@ export const getLoggedUserProfile = async () => {
 
 export const getUserSearch = async (searchString: string) => {
   try {
-    await axios.instance.get(`/users/search/${searchString}`);
+    const response = await axios.instance.get(`/users/search/${searchString}`);
+    return (response);
+  } catch (error) {
+    console.log(error);
+    return (error);
+  }
+}
+
+export const getFriendList = async () => {
+  try {
+    const response = await axios.instance.get("/community/friends");
+
+    store.dispatch(removeFriendList({} as FriendData));
+    for (let i = 0; i < response.data.length; i += 1) {
+      store.dispatch(addFriend({
+        seq: response.data[i].userSeq,
+        nick: response.data[i].nickname,
+        img: response.data[i].avatarImgUri,
+        status: response.data[i].status } as FriendData));
+    }
   } catch (error) {
     console.log(error);
   }
