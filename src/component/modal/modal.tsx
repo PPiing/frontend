@@ -10,27 +10,22 @@ import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 let ModalContent = <p>ModalContent</p>;
 let ModalWidth = "0";
 let ModalHeight = "0";
-let ModalTop = "0";
-let ModalLeft = "0";
+let ModalBottom = "0";
+let ModalRight = "0";
 
-export function SetModalSize(width: string, height: string, top: string, left: string) {
+export function SetModalSize(width: string, height: string, bottom: string, right: string) {
   ModalWidth = width;
   ModalHeight = height;
-  ModalTop = top;
-  ModalLeft = left;
+  ModalBottom = bottom;
+  ModalRight = right;
 }
 
 export function SetModalContent(content: JSX.Element) {
   ModalContent = content;
 }
 
-export function TurnModalOn(content: JSX.Element) {
-  const dispatch = useDispatch();
-  ModalContent = content;
-  dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-}
-
 export function CallModal() {
+  Modal.setAppElement("#root");
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
   const dispatch = useDispatch();
   return (
@@ -51,8 +46,8 @@ export function CallModal() {
         content: {
           margin: "0",
           position: "absolute",
-          top: `${ModalTop}`,
-          left: `${ModalLeft}`,
+          top: `calc(100% - ${ModalHeight} - ${ModalBottom})`,
+          left: `calc(100% - ${ModalWidth} - ${ModalRight})`,
           color: "white",
           width: `${ModalWidth}`,
           height: `${ModalHeight}`,
@@ -63,7 +58,8 @@ export function CallModal() {
           WebkitOverflowScrolling: "touch",
           borderRadius: "20px",
           outline: "none",
-          padding: "20px"
+          padding: "20px",
+          //   inset: "0",
         },
       }}
     >

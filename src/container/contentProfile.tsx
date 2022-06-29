@@ -44,15 +44,13 @@ export function ContainerContents() {
         {/* eslint-disable-next-line react/button-has-type */}
         <button
           onClick={() => {
-            dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-            modal.SetModalSize("20%", "40%", "30%", "60%");
+            modal.SetModalSize("1300px", "800px", "10%", "15%");
             modal.SetModalContent(<div>userId={userId}</div>);
+            dispatch(setModalTrigger({ ismodal: true } as DisplayData));
           }}
         >
           Modal Open
         </button>
-        <ProfileImage className="profileimg" src="/asset/profileImage/default.png" />
-        profile: {userId}
       </DividedLeftSection>
       <template.DividedRightSection>
         profile: {userId}

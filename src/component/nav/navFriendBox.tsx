@@ -85,12 +85,11 @@ export function ComponentNavFriendBox(props: any) {
   return (
     <NavFriendBox
       onClick={() => {
-        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        modal.SetModalSize("20%", "40%", "30%", "60%");
+        modal.SetModalSize("350px", "600px", "20%", "10%");
         modal.SetModalContent(<ModalNavFriendBox friend={friend} />);
+        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
       }}
     >
-      {/* eslint-disable-next-line react/button-has-type */}
       <ProfileImage src={friend.img} className="profile" />
       <Profile>
         <ProfileName> {friend.nick} </ProfileName>
