@@ -79,13 +79,17 @@ export function ComponentNavFriendBox(props: any) {
     if (status === "in game") return ("yellow");
     return ("red");
   };
-  modal.SetModalSize("20%", "40%", "30%", "60%");
   const { friend } = props;
-  modal.SetModalContent(<ModalNavFriendBox friend={friend} />);
 
   const statusColor:string = setStatusColor(StatusDisplayDistributor(friend.status));
   return (
-    <NavFriendBox onClick={() => { dispatch(setModalTrigger({ ismodal: true } as DisplayData)); }}>
+    <NavFriendBox
+      onClick={() => {
+        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+        modal.SetModalSize("20%", "40%", "30%", "60%");
+        modal.SetModalContent(<ModalNavFriendBox friend={friend} />);
+      }}
+    >
       {/* eslint-disable-next-line react/button-has-type */}
       <ProfileImage src={friend.img} className="profile" />
       <Profile>

@@ -24,6 +24,12 @@ export function SetModalContent(content: JSX.Element) {
   ModalContent = content;
 }
 
+export function TurnModalOn(content: JSX.Element) {
+  const dispatch = useDispatch();
+  ModalContent = content;
+  dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+}
+
 export function CallModal() {
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
   const dispatch = useDispatch();

@@ -37,25 +37,26 @@ export function ContainerContents() {
   const { userId } = useParams();
   const dispatch = useDispatch();
 
-  modal.SetModalSize("50%", "40%", "30%", "60%");
-  modal.SetModalContent(<div>userId={userId}</div>);
   return (
     <template.DividedContents>
-      {/* eslint-disable-next-line react/button-has-type */}
-      <button
-        onClick={() => { dispatch(setModalTrigger({ ismodal: true } as DisplayData)); }}
-      >
-        Modal Open
-      </button>
-      {/* <DividedLeftSection> */}
-      {/* <theme.ProfileImage className="profileimg" src={profile.img} /> */}
-      {/* <ProfileImage className="profileimg" src="/asset/profileImage/default.png" /> */}
-      {/* profile: {userId} */}
-      {/* </DividedLeftSection> */}
-      {/* <template.DividedRightSection> */}
-      {/* profile: {userId} */}
-      {/* </template.DividedRightSection> */}
-      {/* <template. */}
+      <DividedLeftSection>
+        <theme.ProfileImage className="profileimg" />
+        {/* eslint-disable-next-line react/button-has-type */}
+        <button
+          onClick={() => {
+            dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+            modal.SetModalSize("20%", "40%", "30%", "60%");
+            modal.SetModalContent(<div>userId={userId}</div>);
+          }}
+        >
+          Modal Open
+        </button>
+        <ProfileImage className="profileimg" src="/asset/profileImage/default.png" />
+        profile: {userId}
+      </DividedLeftSection>
+      <template.DividedRightSection>
+        profile: {userId}
+      </template.DividedRightSection>
     </template.DividedContents>
   // <p>profile: {userId}</p>
   );
