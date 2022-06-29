@@ -1,7 +1,11 @@
 import React from "react";
 import { styled } from "@stitches/react";
+import { useDispatch } from "react-redux";
 import * as theme from "../../theme/theme";
+import * as modal from "../modal/modal";
+import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
+import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 
 const ProfileImage = styled("img", {
   width: "70px",
@@ -68,18 +72,24 @@ const Status = styled("div", {
 });
 
 export function ComponentNavFriendBox(props: any) {
+  const dispatch = useDispatch();
   const setStatusColor = (status:string) => {
     if (status === "online") return ("green");
     if (status === "offline") return ("grey");
     if (status === "in game") return ("yellow");
     return ("red");
   };
-
   const { friend } = props;
 
   const statusColor:string = setStatusColor(StatusDisplayDistributor(friend.status));
   return (
-    <NavFriendBox>
+    <NavFriendBox
+      onClick={() => {
+        modal.SetModalSize("350px", "600px", "20%", "10%");
+        modal.SetModalContent(<ModalNavFriendBox friend={friend} />);
+        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+      }}
+    >
       <ProfileImage src={friend.img} className="profile" />
       <Profile>
         <ProfileName> {friend.nick} </ProfileName>

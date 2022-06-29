@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import Modal from "react-modal";
 import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,8 +7,25 @@ import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 // import * as display
 
-export function CallModal(props: any) {
-  const { width, height, left, top, content, } = props;
+let ModalContent = <p>ModalContent</p>;
+let ModalWidth = "0";
+let ModalHeight = "0";
+let ModalBottom = "0";
+let ModalRight = "0";
+
+export function SetModalSize(width: string, height: string, bottom: string, right: string) {
+  ModalWidth = width;
+  ModalHeight = height;
+  ModalBottom = bottom;
+  ModalRight = right;
+}
+
+export function SetModalContent(content: JSX.Element) {
+  ModalContent = content;
+}
+
+export function CallModal() {
+  Modal.setAppElement("#root");
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
   const dispatch = useDispatch();
   return (
@@ -29,23 +46,24 @@ export function CallModal(props: any) {
         content: {
           margin: "0",
           position: "absolute",
-          top: `${top}`,
-          left: `${left}`,
+          top: `calc(100% - ${ModalHeight} - ${ModalBottom})`,
+          left: `calc(100% - ${ModalWidth} - ${ModalRight})`,
           color: "white",
-          width: `${width}`,
-          height: `${height}`,
+          width: `${ModalWidth}`,
+          height: `${ModalHeight}`,
           background: "black",
-          border: `8px solid ${theme.NEON_RED}`,
+          border: `3px solid ${theme.NEON_RED}`,
           filter: `drop-shadow(0 0 10px ${theme.NEON_RED}) brightness(1.6)`,
           overflow: "auto",
           WebkitOverflowScrolling: "touch",
           borderRadius: "20px",
           outline: "none",
-          padding: "20px"
+          padding: "20px",
+          //   inset: "0",
         },
       }}
     >
-      {content}
+      {ModalContent}
       {/* eslint-disable-next-line react/button-has-type */}
       {/* <button onClick={() => setModalIsOpen(false)}>Modal Open</button> */}
     </Modal>

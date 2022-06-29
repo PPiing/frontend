@@ -5,6 +5,7 @@ import { ComponentNavAlam } from "../component/nav/navAlam";
 import { ComponentNavSearch } from "../component/nav/navSearch";
 import { ComponentNavFriendZone } from "../component/nav/navFriendZone";
 import { ComponentNavInviteZone } from "../component/nav/navInviteZone";
+import * as modal from "../component/modal/modal";
 
 // navCommunity에서 사용할 status 정의
 //  (+ 현재 status는 socket으로 처리)
@@ -27,6 +28,7 @@ const NavCommunity = styled(theme.NeonHoverRed, {
 export function ContainerNavCommunity() {
   return (
     <NavCommunity className="navCommunity">
+      <modal.CallModal />
       <ComponentNavAlam />
       <ComponentNavSearch />
       <ComponentNavFriendZone />
