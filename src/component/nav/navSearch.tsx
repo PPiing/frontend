@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 import store from "../../redux/store";
-import { DisplayData, setSearchString, setSearchSwitch } from "../../redux/slices/display";
+import { DisplayData, setSearchRetRec, setSearchString, setSearchSwitch } from "../../redux/slices/display";
 
 const NavSearch = styled("div", {
   minHeight: "30px",
@@ -49,6 +49,7 @@ export function ComponentNavSearch() {
     } if (event.target.value.length === 0) {
       store.dispatch(setSearchSwitch({ searchSwitch: false } as DisplayData));
       store.dispatch(setSearchString({ searchString: "" } as DisplayData));
+      store.dispatch(setSearchRetRec({ searchRetRec: false } as DisplayData));
     }
   };
 

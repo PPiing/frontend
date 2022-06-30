@@ -4,6 +4,7 @@ export interface DisplayData {
   ismodal: boolean;
   searchSwitch: boolean;
   searchString: string;
+  searchRetRec: boolean;
 }
 
 export const display = createSlice({
@@ -12,6 +13,7 @@ export const display = createSlice({
     ismodal: false,
     searchSwitch: false,
     searchString: "",
+    searchRetRec: false,
   } as DisplayData,
   reducers: {
     // eslint-disable-next-line no-return-assign
@@ -23,9 +25,16 @@ export const display = createSlice({
     },
     setSearchString: (state, action: PayloadAction<DisplayData>) => {
       state.searchString = action.payload.searchString;
-    }
+    },
+    setSearchRetRec: (state, action: PayloadAction<DisplayData>) => {
+      state.searchRetRec = action.payload.searchRetRec;
+    },
   }
 });
 
-export const { setModalTrigger, setSearchSwitch, setSearchString } = display.actions;
+export const {
+  setModalTrigger,
+  setSearchSwitch,
+  setSearchString,
+  setSearchRetRec } = display.actions;
 export default display.reducer;

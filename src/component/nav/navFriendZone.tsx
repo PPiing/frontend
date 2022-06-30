@@ -5,9 +5,10 @@ import * as theme from "../../theme/theme";
 import { ComponentNavFriendBox } from "./navFriendBox";
 import { FriendData } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
-import { DisplayData } from "../../redux/slices/display";
+import { DisplayData, setSearchRetRec } from "../../redux/slices/display";
 import { getFriendList, getUserSearch } from "../../network/api/axios.custom";
 import { ComponentNavSearchUserBox } from "./navSearchResultBox";
+import store from "../../redux/store";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -42,6 +43,7 @@ export function ComponentNavFriendZone() {
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
 
   const [friendListReqSwitch, setFriendListReqSwitch] = useState(0);
+  const [searchResult, setSearchResult] = useState(null);
 
   if (friendListReqSwitch === 0) {
     getFriendList();
@@ -51,25 +53,49 @@ export function ComponentNavFriendZone() {
   const renderList = () => {
     const renderResult = [];
     if (display.searchSwitch) {
-      const response: Promise<any> = getUserSearch(display.searchString);
+      if (!display.searchRetRec) {
+        const response: Promise<any> = getUserSearch(display.searchString);
 
-      response.then((value) => {
-        // debug
-        console.log("search result response log: ", value);
-        if (value.data.length === 0 || value.status !== 200) {
+        response.then((value) => {
+          setSearchResult(value);
+          store.dispatch(setSearchRetRec({ searchRetRec: true } as DisplayData));
+        })
+      } else {
+        const res: any = searchResult;
+        if (res.response.data.length === 0 || res.response.status !== 200) {
           console.log("!!!");
           renderResult.push(
             <EmptyFriend key={0}>No search results</EmptyFriend>
           );
         } else {
-          console.log("!!!222", value.data.length);
-          for (let i = 0; i < value.data.length; i += 1) {
+          console.log("!!!222", res.response.data.length);
+          for (let i = 0; i < res.response.data.length; i += 1) {
             renderResult.push(
-              <ComponentNavSearchUserBox key={i} searchUser={value.data[i]} />
+              <ComponentNavSearchUserBox key={i} searchUser={res.response.data[i]} />
             );
           }
         }
-      });
+      }
+      // ...
+      // const response: Promise<any> = getUserSearch(display.searchString);
+
+      // response.then((value) => {
+      //   // debug
+      //   console.log("search result response log: ", value);
+      //   if (value.data.length === 0 || value.status !== 200) {
+      //     console.log("!!!");
+      //     renderResult.push(
+      //       <EmptyFriend key={0}>No search results</EmptyFriend>
+      //     );
+      //   } else {
+      //     console.log("!!!222", value.data.length);
+      //     for (let i = 0; i < value.data.length; i += 1) {
+      //       renderResult.push(
+      //         <ComponentNavSearchUserBox key={i} searchUser={value.data[i]} />
+      //       );
+      //     }
+      //   }
+      // });
     } else {
       if (friendList.length === 0) {
         return (
