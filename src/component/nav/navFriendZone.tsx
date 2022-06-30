@@ -62,16 +62,16 @@ export function ComponentNavFriendZone() {
         })
       } else {
         const res: any = searchResult;
-        if (res.response.data.length === 0 || res.response.status !== 200) {
+        if (res.data.length === 0 || res.status !== 200) {
           console.log("!!!");
           renderResult.push(
             <EmptyFriend key={0}>No search results</EmptyFriend>
           );
         } else {
-          console.log("!!!222", res.response.data.length);
-          for (let i = 0; i < res.response.data.length; i += 1) {
+          console.log("!!!222", res.data.length);
+          for (let i = 0; i < res.data.length; i += 1) {
             renderResult.push(
-              <ComponentNavSearchUserBox key={i} searchUser={res.response.data[i]} />
+              <ComponentNavSearchUserBox key={i} searchUser={res.data[i]} />
             );
           }
         }
