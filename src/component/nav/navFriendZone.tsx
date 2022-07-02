@@ -63,12 +63,10 @@ export function ComponentNavFriendZone() {
       } else {
         const res: any = searchResult;
         if (res.data.length === 0 || res.status !== 200) {
-          console.log("!!!");
           renderResult.push(
             <EmptyFriend key={0}>No search results</EmptyFriend>
           );
         } else {
-          console.log("!!!222", res.data.length);
           for (let i = 0; i < res.data.length; i += 1) {
             renderResult.push(
               <ComponentNavSearchUserBox key={i} searchUser={res.data[i]} />
@@ -76,26 +74,6 @@ export function ComponentNavFriendZone() {
           }
         }
       }
-      // ...
-      // const response: Promise<any> = getUserSearch(display.searchString);
-
-      // response.then((value) => {
-      //   // debug
-      //   console.log("search result response log: ", value);
-      //   if (value.data.length === 0 || value.status !== 200) {
-      //     console.log("!!!");
-      //     renderResult.push(
-      //       <EmptyFriend key={0}>No search results</EmptyFriend>
-      //     );
-      //   } else {
-      //     console.log("!!!222", value.data.length);
-      //     for (let i = 0; i < value.data.length; i += 1) {
-      //       renderResult.push(
-      //         <ComponentNavSearchUserBox key={i} searchUser={value.data[i]} />
-      //       );
-      //     }
-      //   }
-      // });
     } else {
       if (friendList.length === 0) {
         return (
