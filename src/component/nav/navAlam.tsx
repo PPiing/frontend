@@ -44,8 +44,29 @@ const NavAlarmProfileText = styled("div", {
 
 const NavAlarmAlarm = styled("div", {
   height: "100%",
-  width: "25%",
-  // border: BORDER_BASIC
+  width: "15%",
+  alignContent: "center",
+  alignItems: "center",
+  display: "flex",
+  flexDirection: "column",
+  marginLeft: "auto",
+  marginRight: "7px",
+});
+
+const NavNotificationButton = styled("img", {
+  width: "100%",
+  height: "auto",
+  margin: "auto",
+  transition: "all 0.5s",
+  "&:hover": {
+    color: "#FF0086",
+    filter: "drop-shadow(0 0 2px #FF0086)",
+  },
+  "&:active": {
+    color: "#FF0086",
+    transition: "all 0s",
+    filter: "drop-shadow(0 0 5px #FF0086)",
+  },
 });
 
 const NavAlarm = styled("div", {
@@ -86,7 +107,9 @@ export function ComponentNavAlam() {
           {StatusDisplayDistributor(loggedUser.status)}
         </ProfileTextStatus>
       </NavAlarmProfileText>
-      <NavAlarmAlarm />
+      <NavAlarmAlarm>
+        <NavNotificationButton src="/asset/notification_icon.png" />
+      </NavAlarmAlarm>
     </NavAlarm>
   );
 }
