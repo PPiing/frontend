@@ -20,6 +20,22 @@ export function SetModalSize(width: string, height: string, bottom: string, righ
   ModalRight = right;
 }
 
+export function SetModalWidth(width: string) {
+  ModalWidth = width;
+}
+
+export function SetModalHeight(height: string) {
+  ModalHeight = height;
+}
+
+export function SetModalBottom(bottom: string) {
+  ModalBottom = bottom;
+}
+
+export function SetModalRight(right: string) {
+  ModalRight = right;
+}
+
 export function SetModalContent(content: JSX.Element) {
   ModalContent = content;
 }
