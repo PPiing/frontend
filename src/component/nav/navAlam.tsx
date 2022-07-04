@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as theme from "../../theme/theme";
+import * as modal from "../modal/modal";
 import { ReducerType } from "../../redux/rootReducer";
+import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { getLoggedUserProfile } from "../../network/api/axios.custom";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
+import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 
 const ProfileTextName = styled("div", {
   width: "100%",
@@ -55,7 +58,7 @@ const NavAlarm = styled("div", {
 export function ComponentNavAlam() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const [reqTrig, setReqTrig] = useState(0);
-
+  const dispatch = useDispatch();
   // axios feat
   if (reqTrig === 0) {
     getLoggedUserProfile();
@@ -64,7 +67,15 @@ export function ComponentNavAlam() {
 
   return (
     <NavAlarm>
-      <NavAlarmProfileImg className="navAlarm">
+      <NavAlarmProfileImg
+        className="navAlarm"
+        onClick={() => {
+          modal.SetModalSize("300px", "350px", "20%", "20%");
+          modal.SetModalContent(<ModalNavFriendBox user={loggedUser} />);
+          // modal.SetModalContent(<ModalNavFriendBox nick={friend.nick} />);
+          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+        }}
+      >
         <theme.ProfileImage className="profileimg" src={loggedUser.img} />
       </NavAlarmProfileImg>
       <NavAlarmProfileText>
