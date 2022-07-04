@@ -11,7 +11,6 @@ function ReqUserProfile(userId: string) {
     // console.log("test");
     if (response.status === 200) {
       const rst = Object.values(response.data);
-      return (rst);
     //   return (rst);
     } if (response.status === 401) {
     //   console.log("test");
