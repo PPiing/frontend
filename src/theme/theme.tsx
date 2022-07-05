@@ -22,7 +22,21 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 
 //
 // *****************************************************************************
-// Nav bar settings starts
+// Tier Color settings
+// *****************************************************************************
+//
+export const TIER_NOOB_COLOR = "rgba(117, 249, 76)";
+export const TIER_NOOB_TEXT = "noob";
+export const TIER_PRO_COLOR = "rgba(81, 185, 229)";
+export const TIER_PRO_TEXT = "pro";
+export const TIER_HACKER_COLOR = "rgba(235, 51, 79)";
+export const TIER_HACKER_TEXT = "hacker";
+export const TIER_GOD_COLOR = "rgba(255, 255, 255)";
+export const TIER_GOD_TEXT = "~GOD~";
+
+//
+// *****************************************************************************
+// Nav bar settings
 // *****************************************************************************
 //
 // nav icons
@@ -91,8 +105,7 @@ export const NeonHoverRed = styled("div", {
   transition: "all 0.5s",
   "&:hover": {
     border: `3px solid ${NEON_RED}`,
-    color: `${NEON_RED}`,
-    filter: "brightness(1.6)",
+    filter: "brightness(0.8)",
   },
 });
 
