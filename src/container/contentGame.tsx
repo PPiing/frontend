@@ -198,7 +198,11 @@ function Basic() {
 
   const controlKeyUp = (e:any) => {
     if (e.key === "ArrowUp") {
-      if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {0);
+      if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
+        // if (isClicked === 1) {
+        //   isClicked = 0;
+        //   console.log("up up");
+        //   socket.emit("game:paddle", 0);
         // }
         return -1;
       }
@@ -206,15 +210,22 @@ function Basic() {
         isClicked = 0;
         socket.emit("game:paddle", 0);
       }
+      // setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
     }
     if (e.key === "ArrowDown") {
       if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
+        // if (isClicked === 1) {
+        //   isClicked = 0;
+        //   console.log("down up");
+        //   socket.emit("game:paddle", 0);
+        // }
         return -1;
       }
       if (isClicked === 1) {
         isClicked = 0;
         socket.emit("game:paddle", 0);
       }
+      // setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
     }
     return 0;
   };
