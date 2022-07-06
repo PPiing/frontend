@@ -25,14 +25,20 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 // Tier Color settings
 // *****************************************************************************
 //
-export const TIER_NOOB_COLOR = "rgba(117, 249, 76)";
-export const TIER_NOOB_TEXT = "noob";
-export const TIER_PRO_COLOR = "rgba(81, 185, 229)";
-export const TIER_PRO_TEXT = "pro";
-export const TIER_HACKER_COLOR = "rgba(235, 51, 79)";
-export const TIER_HACKER_TEXT = "hacker";
-export const TIER_GOD_COLOR = "rgba(255, 255, 255)";
-export const TIER_GOD_TEXT = "~GOD~";
+
+const TIER_NOOB_COLOR = "rgba(117, 249, 76)";
+const TIER_NOOB_TEXT = "noob";
+const TIER_PRO_COLOR = "#83EEFF";
+const TIER_PRO_TEXT = "pro";
+const TIER_HACKER_COLOR = "rgba(235, 51, 79)";
+const TIER_HACKER_TEXT = "hacker";
+const TIER_GOD_COLOR = "rgba(255, 255, 255)";
+const TIER_GOD_TEXT = "god";
+export const TIER_COLOR = new Map();
+TIER_COLOR.set(TIER_NOOB_TEXT, TIER_NOOB_COLOR);
+TIER_COLOR.set(TIER_PRO_TEXT, TIER_PRO_COLOR);
+TIER_COLOR.set(TIER_HACKER_TEXT, TIER_HACKER_COLOR);
+TIER_COLOR.set(TIER_GOD_TEXT, TIER_GOD_COLOR);
 
 //
 // *****************************************************************************
