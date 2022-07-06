@@ -50,13 +50,13 @@ export function ComponentNavInviteZone() {
   const renderChoosableAlams = () => {
     if (choosableAlamList.length === 0) {
       return (
-        <EmptyAccessRequireAlam>Alarm empty -_-</EmptyAccessRequireAlam>
+        <EmptyAccessRequireAlam key={0}>Alarm empty -_-</EmptyAccessRequireAlam>
       );
     }
     const alamList = [];
     for (let i = choosableAlamList.length - 1; i >= 0; i -= 1) {
       alamList.push(
-        <ComponentNavInviteBox alam={choosableAlamList[i]} />
+        <ComponentNavInviteBox key={i} alam={choosableAlamList[i]} />
       );
     }
     return alamList;
