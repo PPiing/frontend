@@ -279,11 +279,11 @@ function History(props: any) {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  // const response: Promise<any> = getUserSearch("kkim");
-  // console.log("userId : ", userId);
-  // response.then((value) => {
-  //   console.log("value : ", value);
-  // });
+  const response: Promise<any> = getUserSearch("kkim");
+  console.log("userId : ", userId);
+  response.then((value) => {
+    console.log("value : ", value);
+  });
 
   const tier = {
     tier: "pro",
