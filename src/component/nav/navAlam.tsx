@@ -108,7 +108,14 @@ export function ComponentNavAlam() {
         </ProfileTextStatus>
       </NavAlarmProfileText>
       <NavAlarmAlarm>
-        <NavNotificationButton src="/asset/notification_icon.png" />
+        <NavNotificationButton
+          src="/asset/notification_icon.png"
+          onClick={() => {
+            modal.SetModalSize("300px", "460px", "35%", "5%");
+            modal.SetModalContent(<div />);
+            dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+          }}
+        />
       </NavAlarmAlarm>
     </NavAlarm>
   );
