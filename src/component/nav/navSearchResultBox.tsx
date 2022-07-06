@@ -77,8 +77,6 @@ export function ComponentNavSearchUserBox(props: any) {
 
   const { searchUser } = props;
 
-  console.log("props data: ", searchUser);
-
   const statusColor:string = setStatusColor(StatusDisplayDistributor(searchUser.userStatus));
   return (
     <NavSearchResultBox>
