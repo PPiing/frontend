@@ -34,9 +34,9 @@ export const ViewWrapper = styled("div", {
 export function ViewTemplate({ content } : any) {
   const auth = useSelector<ReducerType, AuthData>((state) => state.auth);
 
-//   if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
-//     return (<Navigate replace to="/login" />);
-//   }
+  if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
+    return (<Navigate replace to="/login" />);
+  }
 
   return (
     <ViewWrapper className="view">
