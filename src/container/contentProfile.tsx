@@ -3,7 +3,7 @@ import { styled, keyframes } from "@stitches/react";
 import { Routes, Route, useParams } from "react-router-dom";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
-import { ReqUserProfile } from "../feat/profile/request";
+import { getUserSearch } from "../network/api/axios.custom";
 import * as modal from "../component/modal/modal";
 import { ReducerType } from "../redux/rootReducer";
 import { DisplayData, setModalTrigger } from "../redux/slices/display";
@@ -171,7 +171,10 @@ function History(props: any) {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  //   const user = ReqUserProfile(userId);
+  const response: Promise<any> = getUserSearch("kkim");
+  response.then((value) => {
+    console.log("value : ", value);
+  });
   const user = {
     nick: "skim",
     img: "/asset/profileImage/default.png",
