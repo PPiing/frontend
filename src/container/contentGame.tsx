@@ -22,6 +22,12 @@ const textureBrick = new THREE.TextureLoader().load("../../asset/background_bric
 
 const fontStr : string = JSON.stringify(fontPath);
 
+let tmpRedY = 0;
+let tmpBlueY = 0;
+
+let tmpballX = 0;
+let tmpballY = 0;
+
 socket.connect();
 
 socket.on("connect", () => {
@@ -74,16 +80,21 @@ const shakeCameraConfig = {
 
 };
 
-socket.on("game:paddle", (res) => {
-  console.log("listening=>", res);
-});
-
 function Basic() {
   const [redRacketYPos, setRedRacketYPos] = useState(0);
   const [blueRacketYPos, setBlueRacketYPos] = useState(0);
-  const [reactiveScore, setReactiveScore] = useState(-1);
   const [ballXpos, setBallXpos] = useState(0);
   const [ballYpos, setBallYpos] = useState(0);
+
+  // socket.emit("game:render", {
+  //   ball: { x: 2, y: -3 },
+  //   paddleTop: { x: 0, y: 0 },
+  //   paddleBtm: { x: 0, y: 0 }
+  // });
+
+  // socket.on("game:paddle", (res) => {
+  //   console.log("server =>", res);
+  // });
 
   const spinScore = () => {
     const { camera } = useThree();
@@ -119,7 +130,6 @@ function Basic() {
       }
     });
     return (
-      // <mesh position={[0, 0.3, 0]} ref={spinBall}>
       <mesh position={[ballXpos, 0.06, ballYpos]} ref={spinBall}>
         {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
         <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
@@ -141,111 +151,46 @@ function Basic() {
     return spinBall();
   };
 
-  // const RedRacket = () => {
-  //   return moveRacket();
-  // };
-  // const gamer1Name = "Polabear\n";
-  // const gamer1Score = "0";
-  // const gamer2Name = " Polabear\n";
-  // const gamer2Score = "42";
-  // const gameBoardHeight = 5;
-  // const gameBoardWidth = 7;
-
-  // const RacketMoveSpeed = 0.6;
-  // const RacketSize = 1;
-
-  // const nameTextConfig = useMemo(
-  //   () => ({ size: 0.3,
-  //     height: 0.1,
-  //     curveSegments: 0.2,
-  //     bevelEnabled: true,
-  //     bevelThickness: 0.1,
-  //     bevelSize: 0.01,
-  //     bevelOffset: 0,
-  //     bevelSegments: 8 }),
-  //   []
-  // );
-
-  // const scoreTextConfig = useMemo(
-  //   () => ({ size: 1.2,
-  //     height: 0.1,
-  //     curveSegments: 0.2,
-  //     bevelEnabled: true,
-  //     bevelThickness: 0.1,
-  //     bevelSize: 0.01,
-  //     bevelOffset: 0,
-  //     bevelSegments: 8 }),
-  //   []
-  // );
-
-  // const shakeCameraConfig = {
-  //   maxYaw: 0.1, // Max amount camera can yaw in either direction
-  //   maxPitch: 0.1, // Max amount camera can pitch in either direction
-  //   maxRoll: 0.1, // Max amount camera can roll in either direction
-  //   yawFrequency: 3, // Frequency of the the yaw rotation
-  //   pitchFrequency: 3, // Frequency of the pitch rotation
-  //   rollFrequency: 4, // Frequency of the roll rotation
-  //   intensity: 1, // initial intensity of the shake
-  //   additive: true,
-  //   decay: true,
-  //   decayRate: 0.28
-  // };
-
   const controlKeyDown = (e:any) => {
     if (e.key === "ArrowUp") {
       if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
-        if (isClicked === 0) {
-          isClicked = 1;
-          console.log("up press", isClicked);
-          socket.emit("game:paddle", -1);
-        }
         return -1;
       }
       if (isClicked === 0) {
         isClicked = 1;
-        console.log("up press", isClicked);
         socket.emit("game:paddle", -1);
       }
-      setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
+      // setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
     }
     if (e.key === "ArrowDown") {
       if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
-        if (isClicked === 0) {
-          isClicked = 1;
-          console.log("down press", isClicked);
-          socket.emit("game:paddle", 1);
-        }
         return -1;
       }
       if (isClicked === 0) {
         isClicked = 1;
-        console.log("down press", isClicked);
         socket.emit("game:paddle", 1);
       }
-      setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
     }
     if (e.key === "p") {
-      if (reactiveScore === -1) {
-        setReactiveScore(0);
-      } else if (reactiveScore === 0) {
-        setReactiveScore(-1);
-      }
+      tmpballX += 1;
+      tmpballY += 1;
+      tmpRedY += 1;
+      tmpBlueY -= 1;
       socket.emit("game:render", {
-        ball: { x: 0, y: 1 },
-        paddleTop: { x: 0, y: 0 },
-        paddleBtm: { x: 0, y: 0 }
+        ball: { x: tmpballX, y: tmpballY },
+        paddleTop: { x: 0, y: tmpRedY },
+        paddleBtm: { x: 0, y: tmpBlueY }
       });
     }
     if (e.key === "o") {
-      if (reactiveScore === -1) {
-        setReactiveScore(0);
-      } else if (reactiveScore === 0) {
-        setReactiveScore(-1);
-      }
+      tmpballX -= 1;
+      tmpballY -= 1;
+      tmpRedY -= 1;
+      tmpBlueY += 1;
       socket.emit("game:render", {
-        ball: { x: 2, y: -3 },
-        paddleTop: { x: 0, y: 0 },
-        paddleBtm: { x: 0, y: 0 }
+        ball: { x: tmpballX, y: tmpballY },
+        paddleTop: { x: 0, y: tmpRedY },
+        paddleBtm: { x: 0, y: tmpBlueY }
       });
     }
     return 0;
@@ -253,55 +198,25 @@ function Basic() {
 
   const controlKeyUp = (e:any) => {
     if (e.key === "ArrowUp") {
-      if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
-        if (isClicked === 1) {
-          isClicked = 0;
-          console.log("up up");
-          socket.emit("game:paddle", 0);
-        }
+      if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {0);
+        // }
         return -1;
       }
       if (isClicked === 1) {
         isClicked = 0;
-        console.log("up up");
         socket.emit("game:paddle", 0);
       }
-      setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
     }
     if (e.key === "ArrowDown") {
       if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
-        if (isClicked === 1) {
-          isClicked = 0;
-          console.log("down up");
-          socket.emit("game:paddle", 0);
-        }
         return -1;
       }
       if (isClicked === 1) {
         isClicked = 0;
-        console.log("down up");
         socket.emit("game:paddle", 0);
-      }
-      setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
-    }
-    if (e.key === "p") {
-      if (reactiveScore === -1) {
-        setReactiveScore(0);
-      } else if (reactiveScore === 0) {
-        setReactiveScore(-1);
       }
     }
     return 0;
-  };
-
-  const controlOppRacket = (e:any) => {
-    // console.log("down => ", e.key, "  =>   ", redRacketYPos);
-    if (e.key === "ArrowUp") {
-      setBlueRacketYPos(redRacketYPos - RacketMoveSpeed);
-    }
-    if (e.key === "ArrowDown") {
-      setBlueRacketYPos(redRacketYPos + RacketMoveSpeed);
-    }
   };
 
   useEffect(() => {
@@ -309,14 +224,17 @@ function Basic() {
     window.addEventListener("keyup", controlKeyUp);
 
     socket.on("game:render", (res) => {
-      console.log("+", res);
+      console.log("server =>", res);
       setBallXpos(res.ball.x);
       setBallYpos(res.ball.y);
+      setRedRacketYPos(res.paddleTop.y);
+      setBlueRacketYPos(res.paddleBtm.y);
     });
 
     return () => {
       window.removeEventListener("keydown", controlKeyDown);
       window.removeEventListener("keyup", controlKeyUp);
+      socket.off("game:render");
     };
   });
 
