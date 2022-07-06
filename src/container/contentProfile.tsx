@@ -18,7 +18,7 @@ const DividedLeftSection = styled(template.DividedLeftSection, {
 */
 
 function Profile(props: any) {
-  const { user, tierColor } = props;
+  const { response, tier } = props;
 
   const ProfileZone = styled("div", {
     justifyContent: "center",
@@ -33,8 +33,8 @@ function Profile(props: any) {
     left: "0rem",
     marginBottom: "-15px",
     borderRadius: "50%",
-    border: `5px solid ${tierColor}`,
-    boxShadow: `0 0 20px ${tierColor}`
+    border: `5px solid ${tier.tierColor}`,
+    boxShadow: `0 0 20px ${tier.tierColor}`
   });
 
   const ProfileTier = styled("p", {
@@ -42,8 +42,8 @@ function Profile(props: any) {
     fontWeight: "bold",
     textOverflow: "ellipsis",
     marginBottom: "-70px",
-    color: tierColor,
-    textShadow: `0px 0px 10px ${tierColor}`
+    color: tier.tierColor,
+    textShadow: `0px 0px 10px ${tier.tierColor}`
   });
 
   const ProfileName = styled("p", {
@@ -58,13 +58,13 @@ function Profile(props: any) {
   return (
     <ProfileZone>
       <ProfileImage
-        src={user.img}
+        src={response.user_info.user_image}
       />
       <ProfileTier>
-        - - - - - {user.tier} - - - - -
+        - - - - - {tier.tier} - - - - -
       </ProfileTier>
       <ProfileName>
-        {user.nick}
+        {response.user_info.user_name}
       </ProfileName>
     </ProfileZone>
   )
@@ -79,11 +79,11 @@ function Profile(props: any) {
 */
 
 function Progress(props: any) {
-  const { user, tierColor } = props;
+  const { response, tier } = props;
 
   const Load = keyframes({
     "0%": { width: "0" },
-    "100%": { width: `${user.tierValue}%` },
+    "100%": { width: `${tier.tierValue}%` },
   });
 
   const ProgressDiv = styled("div", {
@@ -100,10 +100,10 @@ function Progress(props: any) {
   });
 
   const ProgressValue = styled("div", {
-    background: `${tierColor}`,
+    background: `${tier.tierColor}`,
     borderRadius: "100px",
     height: "22px",
-    boxShadow: `0 2px 30px -3px ${tierColor}`,
+    boxShadow: `0 2px 30px -3px ${tier.tierColor}`,
     width: "0",
     animation: `${Load} 3s normal forwards`,
     fontSize: "18px",
@@ -113,7 +113,7 @@ function Progress(props: any) {
 
   return (
     <ProgressDiv>
-      <ProgressValue>{user.tierValue}%</ProgressValue>
+      <ProgressValue>{tier.tierValue}%</ProgressValue>
     </ProgressDiv>
   )
 }
@@ -127,7 +127,7 @@ function Progress(props: any) {
 */
 
 function History(props: any) {
-  const { user } = props;
+  const { response, tier } = props;
 
   const HistoryWrapper = styled("div", {
     width: "88%",
@@ -142,15 +142,16 @@ function History(props: any) {
   });
 
   const HistoryZone = styled("div", {
-    width: "calc(100% - 24px)",
-    height: "calc(100% - 24px)",
-    margin: "12px",
+    width: "calc(100% - 16px)",
+    height: "calc(100% - 16px)",
+    margin: "8px",
     overflowY: "scroll",
+    overflowX: "hidden",
     "&::-webkit-scrollbar": {
       width: "8px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "white",
+      backgroundColor: `${tier.tierColor}`,
       borderRadius: "10px",
     },
     "&::-webkit-scrollbar-track": {
@@ -158,9 +159,116 @@ function History(props: any) {
       borderRadius: "10px",
     },
   });
+
+  const HistoryBox = styled("div", {
+    width: "calc(100% - 8px)",
+    height: "20%",
+  });
+
+  const boxes = [];
+  for (let i = 0; i < response.game_log.length; i += 1) {
+    let name = response.game_log[i].winner_name;
+    let state = "LOSE";
+    let stateColor = "red";
+    if (response.game_log[i].winner_name === response.user_info.user_name) {
+      name = response.game_log[i].loser_name;
+      state = "WIN";
+      stateColor = "yellow";
+    }
+    boxes.push(
+      <HistoryBox>
+        <table style={{ width: "100%", height: "100%" }}>
+          <tr>
+            <td
+              rowSpan={2}
+              style={{ width: "35%", textAlign: "left" }}
+            >
+              <b
+                style={{
+                  marginLeft: "10px",
+                  fontSize: "20px",
+                  color: "#FFFFFF90",
+                  fontWeight: "bold",
+                  textShadow: "0px 0px 10px #FFFFFF90",
+                }}
+              >
+                vs:&nbsp;
+              </b>
+              <b
+                style={{
+                  fontSize: "25px",
+                  color: `${tier.tierColor}`,
+                  fontWeight: "bold",
+                  textShadow: "0px 0px 10px white",
+                }}
+              >{name}
+              </b>
+            </td>
+            <td
+              style={{
+                textAlign: "right",
+              }}
+            >
+              <b
+                style={{
+                  color: "gray",
+                  fontSize: "10px",
+                  fontWeight: "0",
+                  fontStyle: "italic",
+                }}
+              >
+                {response.game_log[i].start_time}&nbsp;&nbsp;
+              </b>
+              <b
+                style={{
+                  color: `${stateColor}`,
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  textShadow: `0px 0px 10px ${stateColor}`,
+                }}
+              >
+                {state}
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td
+              style={{
+                height: "30px",
+                marginTop: "-15px",
+                textAlign: "right",
+              }}
+            >
+              <b
+                style={{
+                  color: "white",
+                  fontSize: "30px",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  textShadow: `0px 0px 10px ${stateColor}`,
+                }}
+              >
+                {response.game_log[i].loser_score} : {response.game_log[i].winner_score}
+              </b>
+            </td>
+          </tr>
+        </table>
+      </HistoryBox>
+    );
+    if (i !== response.game_log.length - 1) {
+      boxes.push(<hr style={{
+        width: "40%",
+        boxShadow: `0 0 5px ${tier.tierColor}`,
+      }}
+      />);
+    }
+  }
   return (
     <HistoryWrapper>
-      <HistoryZone />
+      <HistoryZone>
+        {boxes}
+      </HistoryZone>
     </HistoryWrapper>
   );
 }
@@ -175,21 +283,94 @@ export function ContainerContents() {
   response.then((value) => {
     console.log("value : ", value);
   });
-  const user = {
-    nick: "skim",
-    img: "/asset/profileImage/default.png",
+
+  const tier = {
     tier: "pro",
+    tierColor: theme.TIER_COLOR.get("pro"),
     tierValue: "84",
-    winCount: "72",
-    loseCount: "54",
+  };
+
+  const tmpresponse = {
+    user_info: {
+      user_name: "skim",
+      user_email: "skim@42.kr",
+      user_secAuthStatus: true,
+      user_image: "/asset/profileImage/default.png",
+      isFriend: false,
+      isBlock: false,
+    },
+    achiv_info: [
+      {
+        achiv_title: "기본",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+    ],
+    game_count: {
+      count_win: 100,
+      count_lose: 100,
+      rank_score: 200,
+    },
+    game_log: [
+      {
+        winner_name: "kkim",
+        loser_name: "skim",
+        game_type: "rank",
+        winner_score: 11,
+        loser_score: 9,
+        start_time: "2022.07.06 18:12",
+      },
+      {
+        winner_name: "skim",
+        loser_name: "kkim",
+        game_type: "rank",
+        winner_score: 7,
+        loser_score: 11,
+        start_time: "2022.07.06 18:01",
+      },
+      {
+        winner_name: "kkim",
+        loser_name: "skim",
+        game_type: "rank",
+        winner_score: 11,
+        loser_score: 10,
+        start_time: "2022.07.06 17:56",
+      },
+      {
+        winner_name: "poopark",
+        loser_name: "skim",
+        game_type: "rank",
+        winner_score: 11,
+        loser_score: 2,
+        start_time: "2022.07.06 16:08",
+      },
+      {
+        winner_name: "poopark",
+        loser_name: "skim",
+        game_type: "rank",
+        winner_score: 11,
+        loser_score: 0,
+        start_time: "2022.07.06 15:56",
+      },
+      {
+        winner_name: "spark",
+        loser_name: "skim",
+        game_type: "rank",
+        winner_score: 11,
+        loser_score: 10,
+        start_time: "2022.07.05 16:08",
+      },
+
+    ]
   }
-  const tierColor = theme.TIER_COLOR.get(user.tier);
+
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile user={user} tierColor={tierColor} />
-        <Progress user={user} tierColor={tierColor} />
-        <History user={user} />
+        <Profile response={tmpresponse} tier={tier} />
+        <Progress response={tmpresponse} tier={tier} />
+        <History response={tmpresponse} tier={tier} />
       </DividedLeftSection>
       <template.DividedRightSection>
         profile: {userId}
