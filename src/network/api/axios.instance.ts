@@ -11,7 +11,9 @@ instance.interceptors.response.use((response) => {
   store.dispatch(setAuth({ auth: true } as AuthData));
   return response;
 }, (error) => {
-  store.dispatch(setAuth({ auth: false } as AuthData));
+  if (error.response.status === 401) {
+    store.dispatch(setAuth({ auth: false } as AuthData));
+  }
   return Promise.reject(error);
 });
 

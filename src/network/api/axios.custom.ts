@@ -1,5 +1,5 @@
 import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam } from "../../redux/slices/choosableAlamList";
-import { addCommonAlam, CommonAlamData, clearCommonAlamList } from "../../redux/slices/CommonAlam";
+import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/CommonAlam";
 import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
 import { LoggedUserData, setLoggedUser } from "../../redux/slices/loggedUser";
 import store from "../../redux/store";
@@ -139,6 +139,15 @@ export const postConfirm = async (alamSeq: string, isAccept: boolean) => {
       await axios.instance.post(`/community/friends/reject/${alamSeq}`);
       store.dispatch(removeChoosableAlam({ seq: alamSeq } as ChoosableAlamData));
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const putAlarmRead = async (alamSeq: string) => {
+  try {
+    await axios.instance.put(`/alarm/${alamSeq}`);
+    store.dispatch(removeCommonAlam({ seq: alamSeq } as CommonAlamData));
   } catch (error) {
     console.log(error);
   }
