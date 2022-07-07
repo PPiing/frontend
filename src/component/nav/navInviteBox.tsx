@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
+import { postConfirm } from "../../network/api/axios.custom";
 
 const NavInviteBox = styled("div", {
   color: "grey",
@@ -89,12 +90,12 @@ export function ComponentNavInviteBox(props: any) {
   return (
     <NavInviteBox>
       <AlamContent>
-        <FromName> {alam.from} </FromName>
+        <FromName> {alam.from_nick} </FromName>
         <AlamMessage> {alamTypeMsg()} </AlamMessage>
       </AlamContent>
       <AlamButtonArea>
-        <AlamAcceptButton>Accept</AlamAcceptButton>
-        <AlamDenyButton>Deny</AlamDenyButton>
+        <AlamAcceptButton onClick={() => postConfirm(alam.seq, true)}>Accept</AlamAcceptButton>
+        <AlamDenyButton onClick={() => postConfirm(alam.seq, false)}>Deny</AlamDenyButton>
       </AlamButtonArea>
     </NavInviteBox>
   );
