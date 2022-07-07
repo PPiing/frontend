@@ -6,9 +6,11 @@ import * as modal from "../modal/modal";
 import { ReducerType } from "../../redux/rootReducer";
 import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { getLoggedUserProfile } from "../../network/api/axios.custom";
+import { getCommonAlamList, getLoggedUserProfile } from "../../network/api/axios.custom";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { DisplayData, setModalTrigger } from "../../redux/slices/display";
+import { CommonAlamData } from "../../redux/slices/CommonAlam";
+import { ComponentNavAlamBox } from "./navAlamBox";
 
 const ProfileTextName = styled("div", {
   width: "100%",
@@ -76,15 +78,63 @@ const NavAlarm = styled("div", {
   display: "flex",
 });
 
+const NavAlarmList = styled("div", {
+  margin: "5px",
+  height: "450px",
+  overflowY: "scroll",
+  "&::-webkit-scrollbar": {
+    width: "5px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: theme.NEON_RED,
+    borderRadius: "10px",
+  },
+  "&::-webkit-scrollbar-track": {
+    backgroundColor: "grey",
+    borderRadius: "10px",
+  },
+});
+
+const EmptyAlarm = styled("div", {
+  alignContent: "center",
+  alignItems: "center",
+  paddingTop: "10px",
+  marginLeft: "auto",
+  marginRight: "auto",
+  display: "table",
+  fontSize: "1.5rem",
+  color: "gray",
+});
+
 export function ComponentNavAlam() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const commonAlamList = useSelector<ReducerType, CommonAlamData[]>(
+    (state) => state.commonAlamList
+  );
   const [reqTrig, setReqTrig] = useState(0);
   const dispatch = useDispatch();
   // axios feat
   if (reqTrig === 0) {
+    getCommonAlamList();
     getLoggedUserProfile();
     setReqTrig(1);
   }
+
+  const renderAlarmList = () => {
+    const renderResult = [];
+
+    if (commonAlamList.length === 0) {
+      renderResult.push(
+        <EmptyAlarm key={0}>Alarm list empty</EmptyAlarm>
+      );
+    }
+    for (let i = 0; i < commonAlamList.length; i += 1) {
+      renderResult.push(
+        <ComponentNavAlamBox key={i} alarm={commonAlamList[i]} />
+      );
+    }
+    return renderResult;
+  };
 
   return (
     <NavAlarm>
@@ -112,7 +162,13 @@ export function ComponentNavAlam() {
           src="/asset/notification_icon.png"
           onClick={() => {
             modal.SetModalSize("300px", "460px", "35%", "5%");
-            modal.SetModalContent(<div />);
+            modal.SetModalContent(
+              <div>
+                <NavAlarmList>
+                  {renderAlarmList()}
+                </NavAlarmList>
+              </div>
+            );
             dispatch(setModalTrigger({ ismodal: true } as DisplayData));
           }}
         />

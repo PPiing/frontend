@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
 import * as theme from "../../theme/theme";
 import { ComponentNavInviteBox } from "./navInviteBox";
 import { ReducerType } from "../../redux/rootReducer";
 import { ChoosableAlamData } from "../../redux/slices/choosableAlamList";
+import { getConfirmAlamList } from "../../network/api/axios.custom";
 
 const NavInviteZone = styled("div", {
   height: "calc(35% - 25px)",
@@ -46,17 +47,23 @@ const EmptyAccessRequireAlam = styled("div", {
 export function ComponentNavInviteZone() {
   const choosableAlamList =
     useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
+  const [reqSwitch, setReqSwitch] = useState(0);
+
+  if (reqSwitch === 0) {
+    getConfirmAlamList();
+    setReqSwitch(1);
+  }
 
   const renderChoosableAlams = () => {
     if (choosableAlamList.length === 0) {
       return (
-        <EmptyAccessRequireAlam>Alarm empty -_-</EmptyAccessRequireAlam>
+        <EmptyAccessRequireAlam key={0}>Alarm empty -_-</EmptyAccessRequireAlam>
       );
     }
     const alamList = [];
     for (let i = choosableAlamList.length - 1; i >= 0; i -= 1) {
       alamList.push(
-        <ComponentNavInviteBox alam={choosableAlamList[i]} />
+        <ComponentNavInviteBox key={i} alam={choosableAlamList[i]} />
       );
     }
     return alamList;

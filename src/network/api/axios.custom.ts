@@ -1,3 +1,5 @@
+import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam } from "../../redux/slices/choosableAlamList";
+import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/CommonAlam";
 import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
 import { LoggedUserData, setLoggedUser } from "../../redux/slices/loggedUser";
 import store from "../../redux/store";
@@ -79,6 +81,73 @@ export const getFriendList = async () => {
         img: response.data[i].avatarImgUri,
         status: response.data[i].status } as FriendData));
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getCommonAlamList = async () => {
+  try {
+    const response = await axios.instance.get("/alarm/alerts");
+
+    store.dispatch(clearCommonAlamList({} as CommonAlamData));
+    for (let i = 0; i < response.data.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
+      store.dispatch(addCommonAlam({
+        seq: response.data[i].alarmSeq,
+        from_seq: response.data[i].from,
+        from_nick: response2.data.userName,
+        type: response.data[i].type,
+        code: response.data[i].code } as CommonAlamData));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getConfirmAlamList = async () => {
+  try {
+    const response = await axios.instance.get("/alarm/confirms");
+
+    store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
+    for (let i = 0; i < response.data.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
+      let typeNum: number = 0;
+      if (response.data[i].code === "ALAM21") {
+        typeNum = 1;
+      }
+      store.dispatch(addChoosableAlam({
+        seq: response.data[i].alarmSeq,
+        from_seq: response.data[i].from,
+        from_nick: response2.data.userName,
+        type: typeNum,
+      } as ChoosableAlamData));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const postConfirm = async (alamSeq: string, isAccept: boolean) => {
+  try {
+    if (isAccept) {
+      await axios.instance.post(`/community/friends/accept/${alamSeq}`);
+      store.dispatch(removeChoosableAlam({ seq: alamSeq } as ChoosableAlamData));
+    } else {
+      await axios.instance.post(`/community/friends/reject/${alamSeq}`);
+      store.dispatch(removeChoosableAlam({ seq: alamSeq } as ChoosableAlamData));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const putAlarmRead = async (alamSeq: string) => {
+  try {
+    await axios.instance.put(`/alarm/${alamSeq}`);
+    store.dispatch(removeCommonAlam({ seq: alamSeq } as CommonAlamData));
   } catch (error) {
     console.log(error);
   }
