@@ -26,20 +26,18 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 // *****************************************************************************
 //
 
-const TIER_NOOB_COLOR = "rgba(117, 249, 76)";
-const TIER_NOOB_TEXT = "noob";
-const TIER_PRO_COLOR = "#83EEFF";
-const TIER_PRO_TEXT = "pro";
-const TIER_HACKER_COLOR = "rgba(235, 51, 79)";
-const TIER_HACKER_TEXT = "hacker";
-const TIER_GOD_COLOR = "rgba(255, 255, 255)";
-const TIER_GOD_TEXT = "god";
-export const TIER_COLOR = new Map();
-TIER_COLOR.set(TIER_NOOB_TEXT, TIER_NOOB_COLOR);
-TIER_COLOR.set(TIER_PRO_TEXT, TIER_PRO_COLOR);
-TIER_COLOR.set(TIER_HACKER_TEXT, TIER_HACKER_COLOR);
-TIER_COLOR.set(TIER_GOD_TEXT, TIER_GOD_COLOR);
+// export const TIER = [
+// 	"iron": {
 
+// 	}
+// ]
+export const TIER_LIST = new Map<String, any[]>();
+TIER_LIST.set("lol", ["#000000", null, -25]);
+TIER_LIST.set("iron", ["#D8D8D8", -24, 150]);
+TIER_LIST.set("gold", ["#FFFF00", 151, 300]);
+TIER_LIST.set("master", ["#FF4000", 301, 500]);
+TIER_LIST.set("challenger", ["#00FFFF", 501, 1000]);
+TIER_LIST.set("god", ["#FFFFFF", 1001, null]);
 //
 // *****************************************************************************
 // Nav bar settings
