@@ -1,5 +1,5 @@
 import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam } from "../../redux/slices/choosableAlamList";
-import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/CommonAlam";
+import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/commonAlam";
 import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
 import { LoggedUserData, setLoggedUser } from "../../redux/slices/loggedUser";
 import store from "../../redux/store";

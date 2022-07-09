@@ -3,12 +3,13 @@ import { useSelector } from "react-redux";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 import { ComponentNavFriendBox } from "./navFriendBox";
-import { FriendData } from "../../redux/slices/friendList";
+import { FriendData, modifiyFriendStatus } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData, setSearchRetRec } from "../../redux/slices/display";
 import { getFriendList, getUserSearch } from "../../network/api/axios.custom";
 import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 import store from "../../redux/store";
+import socketManager from "../../network/api/socket";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -38,6 +39,9 @@ const EmptyFriend = styled("div", {
   color: "gray",
 });
 
+const socket = socketManager.socket("/");
+socket.connect();
+
 export function ComponentNavFriendZone() {
   const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
@@ -49,6 +53,13 @@ export function ComponentNavFriendZone() {
     getFriendList();
     setFriendListReqSwitch(1);
   }
+
+  socket.on("status_update", (res) => {
+    store.dispatch(modifiyFriendStatus({ seq: res.userSeq, status: res.status } as FriendData));
+  });
+  socket.on("friend_list_update", () => {
+    setFriendListReqSwitch(0);
+  });
 
   const renderList = () => {
     const renderResult = [];

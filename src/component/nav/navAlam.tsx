@@ -9,8 +9,9 @@ import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { getCommonAlamList, getLoggedUserProfile } from "../../network/api/axios.custom";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { DisplayData, setModalTrigger } from "../../redux/slices/display";
-import { CommonAlamData } from "../../redux/slices/CommonAlam";
+import { CommonAlamData } from "../../redux/slices/commonAlam";
 import { ComponentNavAlamBox } from "./navAlamBox";
+import socketManager from "../../network/api/socket";
 
 const ProfileTextName = styled("div", {
   width: "100%",
@@ -106,6 +107,9 @@ const EmptyAlarm = styled("div", {
   color: "gray",
 });
 
+const socket = socketManager.socket("/");
+socket.connect();
+
 export function ComponentNavAlam() {
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const commonAlamList = useSelector<ReducerType, CommonAlamData[]>(
@@ -119,6 +123,10 @@ export function ComponentNavAlam() {
     getLoggedUserProfile();
     setReqTrig(1);
   }
+
+  socket.on("ivA", () => {
+    getCommonAlamList();
+  });
 
   const renderAlarmList = () => {
     const renderResult = [];
