@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import friendList from "./slices/friendList";
 import choosableAlamList from "./slices/choosableAlamList";
-import commonAlamList from "./slices/CommonAlam";
+import commonAlamList from "./slices/commonAlam";
 import loggedUser from "./slices/loggedUser";
 import auth from "./slices/auth";
 import display from "./slices/display";

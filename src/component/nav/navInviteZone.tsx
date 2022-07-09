@@ -6,6 +6,7 @@ import { ComponentNavInviteBox } from "./navInviteBox";
 import { ReducerType } from "../../redux/rootReducer";
 import { ChoosableAlamData } from "../../redux/slices/choosableAlamList";
 import { getConfirmAlamList } from "../../network/api/axios.custom";
+import socketManager from "../../network/api/socket";
 
 const NavInviteZone = styled("div", {
   height: "calc(35% - 25px)",
@@ -44,6 +45,9 @@ const EmptyAccessRequireAlam = styled("div", {
   color: "gray",
 });
 
+const socket = socketManager.socket("/");
+socket.connect();
+
 export function ComponentNavInviteZone() {
   const choosableAlamList =
     useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
@@ -53,6 +57,13 @@ export function ComponentNavInviteZone() {
     getConfirmAlamList();
     setReqSwitch(1);
   }
+
+  socket.on("ivF", () => {
+    setReqSwitch(0);
+  });
+  socket.on("ivG", () => {
+    setReqSwitch(0);
+  });
 
   const renderChoosableAlams = () => {
     if (choosableAlamList.length === 0) {
