@@ -8,10 +8,43 @@ import * as modal from "../component/modal/modal";
 import { ReducerType } from "../redux/rootReducer";
 import { DisplayData, setModalTrigger } from "../redux/slices/display";
 
+function getTierColor(mmr: number) {
+  if (mmr > theme.TIER.god.minMMR) {
+    return (theme.TIER.god);
+  }
+  if (mmr > theme.TIER.challenger.minMMR) {
+    return (theme.TIER.challenger);
+  }
+  if (mmr > theme.TIER.master.minMMR) {
+    return (theme.TIER.master);
+  }
+  if (mmr > theme.TIER.gold.minMMR) {
+    return (theme.TIER.gold);
+  }
+  if (mmr > theme.TIER.iron.minMMR) {
+    return (theme.TIER.iron);
+  }
+  return (theme.TIER.lol);
+}
+
+function getTierPercent(mmr: number) {
+  const tier = getTierColor(mmr);
+  console.log(tier);
+  if (tier.minMMR === null) {
+    return (100);
+  }
+  if (tier.maxMMR === null) {
+    return (100);
+  }
+  return (Math.round((mmr - (tier.minMMR < 0 ? 0 : tier.minMMR)) / (tier.maxMMR - tier.minMMR) * 100));
+}
+
 // Profile Zone
 
 function Profile(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+
+  const tier = getTierColor(response.game_count.rank_score);
 
   const ProfileZone = styled("div", {
     justifyContent: "center",
@@ -27,8 +60,8 @@ function Profile(props: any) {
     left: "0rem",
     marginBottom: "-10px",
     borderRadius: "50%",
-    border: `5px solid ${tier.tierColor}`,
-    boxShadow: `0 0 20px ${tier.tierColor}`
+    border: `5px solid ${tier.color}`,
+    boxShadow: `0 0 20px ${tier.color}`
   });
 
   const ProfileTier = styled("p", {
@@ -37,8 +70,8 @@ function Profile(props: any) {
     fontWeight: "bold",
     textOverflow: "ellipsis",
     marginBottom: "-70px",
-    color: tier.tierColor,
-    textShadow: `0px 0px 10px ${tier.tierColor}`
+    color: tier.color,
+    textShadow: `0px 0px 10px ${tier.color}`
   });
 
   const ProfileName = styled("p", {
@@ -56,7 +89,7 @@ function Profile(props: any) {
         src={response.user_info.user_image}
       />
       <ProfileTier>
-        ------- {tier.tier} -------
+        ------- {tier.name} -------
       </ProfileTier>
       <ProfileName>
         {response.user_info.user_name}
@@ -70,11 +103,14 @@ function Profile(props: any) {
 // Progress Zone
 
 function Progress(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+
+  const tier = getTierColor(response.game_count.rank_score);
+  const value = Math.floor(getTierPercent(response.game_count.rank_score));
 
   const Load = keyframes({
     "0%": { width: "0" },
-    "100%": { width: `${tier.tierValue}%` },
+    "100%": { width: `${value}%` },
   });
 
   const ProgressDiv = styled("div", {
@@ -91,10 +127,10 @@ function Progress(props: any) {
   });
 
   const ProgressValue = styled("div", {
-    background: `${tier.tierColor}`,
+    background: `${tier.color}`,
     borderRadius: "100px",
     height: "22px",
-    boxShadow: `0 2px 30px -3px ${tier.tierColor}`,
+    boxShadow: `0 2px 30px -3px ${tier.color}`,
     width: "0",
     animation: `${Load} 3s normal forwards`,
     fontSize: "18px",
@@ -104,7 +140,7 @@ function Progress(props: any) {
 
   return (
     <ProgressDiv>
-      <ProgressValue>{tier.tierValue}%</ProgressValue>
+      <ProgressValue>{value}%</ProgressValue>
     </ProgressDiv>
   )
 }
@@ -130,7 +166,9 @@ function Setting(props: any) {
 // History Zone
 
 function History(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+
+  const tier = getTierColor(response.game_count.rank_score);
 
   const HistoryWrapper = styled("div", {
     width: "88%",
@@ -154,7 +192,7 @@ function History(props: any) {
       width: "8px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: `${tier.tierColor}`,
+      backgroundColor: `${tier.color}`,
       borderRadius: "10px",
     },
     "&::-webkit-scrollbar-track": {
@@ -262,7 +300,7 @@ function History(props: any) {
     if (i !== response.game_log.length - 1) {
       boxes.push(<hr style={{
         width: "40%",
-        boxShadow: `0 0 5px ${tier.tierColor}`,
+        boxShadow: `0 0 5px ${tier.color}`,
       }}
       />);
     }
@@ -281,7 +319,8 @@ function History(props: any) {
 // Achievement Zone
 
 function Achievement(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+  const tier = getTierColor(response.game_count.rank_score);
 
   const AchievementZone = styled("div", {
     width: "calc(100% - 16px)",
@@ -293,7 +332,7 @@ function Achievement(props: any) {
       width: "8px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: `${tier.tierColor}`,
+      backgroundColor: `${tier.color}`,
       borderRadius: "10px",
     },
     "&::-webkit-scrollbar-track": {
@@ -400,7 +439,7 @@ function Achievement(props: any) {
     if (i !== response.game_log.length - 1) {
       boxes.push(<hr style={{
         width: "40%",
-        boxShadow: `0 0 5px ${tier.tierColor}`,
+        boxShadow: `0 0 5px ${tier.color}`,
       }}
       />);
     }
@@ -434,12 +473,6 @@ export function ContainerContents() {
   response.then((value) => {
     console.log("value : ", value);
   });
-
-  const tier = {
-    tier: "master",
-    tierColor: theme.TIER_LIST.master[0],
-    tierValue: "42",
-  };
 
   const tmpresponse = {
     user_info: {
@@ -491,7 +524,7 @@ export function ContainerContents() {
     game_count: {
       count_win: 100,
       count_lose: 100,
-      rank_score: 200,
+      rank_score: 511,
     },
     game_log: [
       {
@@ -549,13 +582,13 @@ export function ContainerContents() {
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={tmpresponse} tier={tier} />
-        <Progress response={tmpresponse} tier={tier} />
-        <Setting response={tmpresponse} tier={tier} />
-        <History response={tmpresponse} tier={tier} />
+        <Profile response={tmpresponse} />
+        <Progress response={tmpresponse} />
+        <Setting response={tmpresponse} />
+        <History response={tmpresponse} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={tmpresponse} tier={tier} />
+        <Achievement response={tmpresponse} />
       </DividedRightSection>
     </template.DividedContents>
   );
