@@ -10,9 +10,9 @@ export function RootControl() {
 
   getLoggedUserProfile();
 
-  // if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
-  //   return (<Navigate replace to="/login" />);
-  // }
+  if (!auth.auth || (auth.isRequire2f && !auth.auth2f)) {
+    return (<Navigate replace to="/login" />);
+  }
 
   return (
     <Navigate replace to="/home" />
