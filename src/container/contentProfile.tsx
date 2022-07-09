@@ -8,14 +8,7 @@ import * as modal from "../component/modal/modal";
 import { ReducerType } from "../redux/rootReducer";
 import { DisplayData, setModalTrigger } from "../redux/slices/display";
 
-const DividedLeftSection = styled(template.DividedLeftSection, {
-  justifyContent: "center",
-  textAlign: "center",
-});
-
-/*
-  Profile Zone
-*/
+// Profile Zone
 
 function Profile(props: any) {
   const { response, tier } = props;
@@ -26,19 +19,21 @@ function Profile(props: any) {
   });
 
   const ProfileImage = styled(theme.ProfileImage, {
-    width: "13rem",
-    height: "13rem",
+    width: "20vh",
+    height: "20vh",
+    overflow: "hidden",
     position: "relative",
     top: "0rem",
     left: "0rem",
-    marginBottom: "-15px",
+    marginBottom: "-10px",
     borderRadius: "50%",
     border: `5px solid ${tier.tierColor}`,
     boxShadow: `0 0 20px ${tier.tierColor}`
   });
 
   const ProfileTier = styled("p", {
-    fontSize: "31px",
+    marginTop: "1vh",
+    fontSize: "2.5vh",
     fontWeight: "bold",
     textOverflow: "ellipsis",
     marginBottom: "-70px",
@@ -47,7 +42,7 @@ function Profile(props: any) {
   });
 
   const ProfileName = styled("p", {
-    fontSize: "70px",
+    fontSize: "6vh",
     fontWeight: "bold",
     textOverflow: "ellipsis",
     marginBottom: "10px",
@@ -61,7 +56,7 @@ function Profile(props: any) {
         src={response.user_info.user_image}
       />
       <ProfileTier>
-        - - - - - {tier.tier} - - - - -
+        ------- {tier.tier} -------
       </ProfileTier>
       <ProfileName>
         {response.user_info.user_name}
@@ -70,13 +65,9 @@ function Profile(props: any) {
   )
 }
 
-/*
-  Profile Zone End
-*/
+// Profile Zone End
 
-/*
-  Progress Zone
-*/
+// Progress Zone
 
 function Progress(props: any) {
   const { response, tier } = props;
@@ -118,23 +109,35 @@ function Progress(props: any) {
   )
 }
 
-/*
-  Progress Zone End
-*/
+// Progress Zone End
 
-/*
-  History Zone
-*/
+// Setting Zone
+
+function Setting(props: any) {
+  const SettingWrapper = styled("div", {
+    color: "white",
+    marginBottom: "-5vh"
+  });
+  return (
+    <SettingWrapper>
+      <p>Setting</p>
+    </SettingWrapper>
+  );
+}
+
+// Setting Zone End
+
+// History Zone
 
 function History(props: any) {
   const { response, tier } = props;
 
   const HistoryWrapper = styled("div", {
     width: "88%",
-    height: "50%",
+    height: "50vh",
     background: "black",
     marginLeft: "6%",
-    marginTop: "50px",
+    marginTop: "5vh",
     borderRadius: "5px",
     border: "1px solid white",
     boxShadow: "0 0 5px white",
@@ -197,7 +200,7 @@ function History(props: any) {
               <b
                 style={{
                   fontSize: "25px",
-                  color: `${tier.tierColor}`,
+                  color: "white",
                   fontWeight: "bold",
                   textShadow: "0px 0px 10px white",
                 }}
@@ -273,21 +276,169 @@ function History(props: any) {
   );
 }
 
-/*
-  History Zone End
-*/
+// History Zone End
+
+// Achievement Zone
+
+function Achievement(props: any) {
+  const { response, tier } = props;
+
+  const AchievementZone = styled("div", {
+    width: "calc(100% - 16px)",
+    height: "calc(100% - 16px)",
+    margin: "8px",
+    overflowY: "scroll",
+    overflowX: "hidden",
+    "&::-webkit-scrollbar": {
+      width: "8px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: `${tier.tierColor}`,
+      borderRadius: "10px",
+    },
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "darkgrey",
+      borderRadius: "10px",
+    },
+  });
+
+  const AchievementBox = styled("div", {
+    width: "calc(100% - 8px)",
+    height: "20%",
+  });
+
+  const boxes = [];
+  for (let i = 0; i < response.achiv_info.length; i += 1) {
+    let name = response.game_log[i].winner_name;
+    let state = "LOSE";
+    let stateColor = "red";
+    if (response.game_log[i].winner_name === response.user_info.user_name) {
+      name = response.game_log[i].loser_name;
+      state = "WIN";
+      stateColor = "yellow";
+    }
+    console.log(response.achiv_info[i].achiv_title);
+    boxes.push(
+      <AchievementBox>
+        <table style={{ width: "100%", height: "100%" }}>
+          <tr>
+            <td
+              rowSpan={2}
+              style={{ width: "35%", textAlign: "left" }}
+            >
+              <img
+                alt="/asset/profileImage/default.png"
+                style={{
+                  width: "5rem",
+                  height: "5rem",
+                }}
+                src="/asset/profileImage/default.png"
+                // src={response.achiv_info[i].achiv_image}
+              />
+              <b
+                style={{
+                  fontSize: "25px",
+                  color: "white",
+                  fontWeight: "bold",
+                  textShadow: "0px 0px 10px white",
+                }}
+              >{name}
+              </b>
+            </td>
+            <td
+              style={{
+                textAlign: "right",
+              }}
+            >
+              <b
+                style={{
+                  color: "gray",
+                  fontSize: "10px",
+                  fontWeight: "0",
+                  fontStyle: "italic",
+                }}
+              >
+                {response.game_log[i].start_time}&nbsp;&nbsp;
+              </b>
+              <b
+                style={{
+                  color: `${stateColor}`,
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  textShadow: `0px 0px 10px ${stateColor}`,
+                }}
+              >
+                {state}
+              </b>
+            </td>
+          </tr>
+          <tr>
+            <td
+              style={{
+                height: "30px",
+                marginTop: "-15px",
+                textAlign: "right",
+              }}
+            >
+              <b
+                style={{
+                  color: "white",
+                  fontSize: "30px",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  textShadow: `0px 0px 10px ${stateColor}`,
+                }}
+              >
+                {response.game_log[i].loser_score} : {response.game_log[i].winner_score}
+              </b>
+            </td>
+          </tr>
+        </table>
+      </AchievementBox>
+    );
+    if (i !== response.game_log.length - 1) {
+      boxes.push(<hr style={{
+        width: "40%",
+        boxShadow: `0 0 5px ${tier.tierColor}`,
+      }}
+      />);
+    }
+  }
+
+  return (
+    <AchievementZone>
+      {boxes}
+    </AchievementZone>
+  );
+}
+
+// Achievement Zone End
+
+const DividedLeftSection = styled(template.DividedLeftSection, {
+  justifyContent: "center",
+  textAlign: "center",
+  overflow: "hidden",
+});
+
+const DividedRightSection = styled(template.DividedRightSection, {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  textAlign: "center",
+});
 
 export function ContainerContents() {
   const { userId } = useParams();
-  const response: Promise<any> = getUserSearch("kkim");
+  const response: Promise<any> = getUserSearch(userId || "");
   response.then((value) => {
     console.log("value : ", value);
   });
 
   const tier = {
-    tier: "pro",
-    tierColor: theme.TIER_COLOR.get("pro"),
-    tierValue: "84",
+    tier: "master",
+    tierColor: theme.TIER_LIST.master[0],
+    tierValue: "42",
   };
 
   const tmpresponse = {
@@ -302,6 +453,36 @@ export function ContainerContents() {
     achiv_info: [
       {
         achiv_title: "기본",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+      {
+        achiv_title: "기본2",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+      {
+        achiv_title: "기본3",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+      {
+        achiv_title: "기본4",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+      {
+        achiv_title: "기본5",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+      {
+        achiv_title: "기본6",
         achiv_condition: "none",
         achiv_image: "/asset/profileImage/default.png",
         achiv_complete: true,
@@ -370,11 +551,12 @@ export function ContainerContents() {
       <DividedLeftSection>
         <Profile response={tmpresponse} tier={tier} />
         <Progress response={tmpresponse} tier={tier} />
+        <Setting response={tmpresponse} tier={tier} />
         <History response={tmpresponse} tier={tier} />
       </DividedLeftSection>
-      <template.DividedRightSection>
-        profile: {userId}
-      </template.DividedRightSection>
+      <DividedRightSection>
+        <Achievement response={tmpresponse} tier={tier} />
+      </DividedRightSection>
     </template.DividedContents>
   );
 }
