@@ -26,18 +26,15 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 // *****************************************************************************
 //
 
-// export const TIER = [
-// 	"iron": {
+export const TIER_LIST = {
+  lol: ["#000000", null, -25],
+  iron: ["#D8D8D8", -24, 150],
+  gold: ["#FFFF00", 151, 300],
+  master: ["#FF4000", 301, 500],
+  challenger: ["#00FFFF", 501, 1000],
+  god: ["#FFFFFF", 1001, null],
+};
 
-// 	}
-// ]
-export const TIER_LIST = new Map<String, any[]>();
-TIER_LIST.set("lol", ["#000000", null, -25]);
-TIER_LIST.set("iron", ["#D8D8D8", -24, 150]);
-TIER_LIST.set("gold", ["#FFFF00", 151, 300]);
-TIER_LIST.set("master", ["#FF4000", 301, 500]);
-TIER_LIST.set("challenger", ["#00FFFF", 501, 1000]);
-TIER_LIST.set("god", ["#FFFFFF", 1001, null]);
 //
 // *****************************************************************************
 // Nav bar settings

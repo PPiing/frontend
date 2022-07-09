@@ -430,14 +430,14 @@ const DividedRightSection = styled(template.DividedRightSection, {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  const response: Promise<any> = getUserSearch(userId);
+  const response: Promise<any> = getUserSearch(userId || "");
   response.then((value) => {
     console.log("value : ", value);
   });
 
   const tier = {
     tier: "master",
-    tierColor: theme.TIER_LIST.get("master")[0],
+    tierColor: theme.TIER_LIST.master[0],
     tierValue: "42",
   };
 
