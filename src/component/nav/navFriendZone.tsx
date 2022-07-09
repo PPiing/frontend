@@ -10,6 +10,7 @@ import { getFriendList, getUserSearch } from "../../network/api/axios.custom";
 import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 import store from "../../redux/store";
 import socketManager from "../../network/api/socket";
+import { LoggedUserData } from "../../redux/slices/loggedUser";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -45,6 +46,7 @@ socket.connect();
 export function ComponentNavFriendZone() {
   const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+  const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
   const [friendListReqSwitch, setFriendListReqSwitch] = useState(0);
   const [searchResult, setSearchResult] = useState(null);
@@ -79,9 +81,11 @@ export function ComponentNavFriendZone() {
           );
         } else {
           for (let i = 0; i < res.data.length; i += 1) {
-            renderResult.push(
-              <ComponentNavSearchUserBox key={i} searchUser={res.data[i]} />
-            );
+            if (loggedUser.nick !== res.data[i].userName) {
+              renderResult.push(
+                <ComponentNavSearchUserBox key={i} searchUser={res.data[i]} />
+              );
+            }
           }
         }
       }
