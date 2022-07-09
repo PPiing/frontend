@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 import { ComponentNavFriendBox } from "./navFriendBox";
-import { FriendData } from "../../redux/slices/friendList";
+import { FriendData, modifiyFriendStatus } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData, setSearchRetRec } from "../../redux/slices/display";
 import { getFriendList, getUserSearch } from "../../network/api/axios.custom";
 import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 import store from "../../redux/store";
+import socketManager from "../../network/api/socket";
+import { LoggedUserData } from "../../redux/slices/loggedUser";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -38,9 +40,13 @@ const EmptyFriend = styled("div", {
   color: "gray",
 });
 
+const socket = socketManager.socket("/");
+socket.connect();
+
 export function ComponentNavFriendZone() {
   const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+  const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
   const [friendListReqSwitch, setFriendListReqSwitch] = useState(0);
   const [searchResult, setSearchResult] = useState(null);
@@ -49,6 +55,13 @@ export function ComponentNavFriendZone() {
     getFriendList();
     setFriendListReqSwitch(1);
   }
+
+  socket.on("status_update", (res) => {
+    store.dispatch(modifiyFriendStatus({ seq: res.userSeq, status: res.status } as FriendData));
+  });
+  socket.on("friend_list_update", () => {
+    setFriendListReqSwitch(0);
+  });
 
   const renderList = () => {
     const renderResult = [];
@@ -68,9 +81,11 @@ export function ComponentNavFriendZone() {
           );
         } else {
           for (let i = 0; i < res.data.length; i += 1) {
-            renderResult.push(
-              <ComponentNavSearchUserBox key={i} searchUser={res.data[i]} />
-            );
+            if (loggedUser.nick !== res.data[i].userName) {
+              renderResult.push(
+                <ComponentNavSearchUserBox key={i} searchUser={res.data[i]} />
+              );
+            }
           }
         }
       }
