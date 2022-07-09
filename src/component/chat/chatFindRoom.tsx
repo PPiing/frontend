@@ -53,6 +53,9 @@ export function FindRoom(props: any) {
 
   const [roomList, setRoomList] = useState<IRoomList[]>([]);
 
+  /*
+  마운트, 언마운트 시 채팅 룸 조회
+  */
   useEffect(() => {
     axios.chatroomsSearch()
       .then((promise: any) => promise.data)
@@ -62,6 +65,9 @@ export function FindRoom(props: any) {
       });
   }, []);
 
+  /*
+  조회해 온 룸 리스트 렌더
+  */
   const renderRoomList = () => {
     return (
       <div>

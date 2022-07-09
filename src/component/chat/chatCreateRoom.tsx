@@ -85,19 +85,33 @@ export function CreateRoom(props: any) {
   const [roomPassword, setRoomPassword] = useState("");
   const [roomType, setRoomType] = useState(ChatType.CHTP20);
 
+  /*
+  방 제목 입력
+  */
   const nameChange = (event: any) => {
     setRoomName(event.target.value);
   };
 
+  /*
+  방 패스워드 입력
+  */
   const passwordChange = (event: any) => {
     setRoomPassword(event.target.value);
   };
 
+  /*
+  방 타입 선택
+  CHTP30이 아닌 경우 패스워드 비활성화
+  */
   const setType = (type: ChatType) => {
     if (type !== ChatType.CHTP30) setRoomPassword("");
     if (roomType !== type) setRoomType(type);
   };
 
+  /*
+  api를 통해 방 생성
+  방 생성 성공 시 우측 컨텐츠 화면 empty 상태로 변경
+  */
   const createRoom = () => {
     axios.post(`/api/chatrooms/new/${user}`, {
       chatType: roomType,

@@ -119,7 +119,14 @@ const ContentExitButton = styled(theme.NeonHoverRed, {
   height: "30px",
   cursor: "pointer",
 });
-
+/*
+테스트용 임시 룸
+roomType이 chatType으로 변경되어야 함
+CHTP10 : 개인 채팅방 (DM)
+CHTP20 : 단체 채팅방 (public)
+CHTP30 : 단체 채팅방 (protected)
+CHTP40 : 비밀 채팅방 (private)
+*/
 const joinedRoomList = [
   {
     roomNumber: 1,
@@ -181,6 +188,9 @@ const joinedRoomList = [
 
 const socket = socketManager.socket("/chatrooms");
 
+/*
+소켓 연결 및 연결 확인 출력
+*/
 socket.on("connect", () => {
   console.log(socket.connected);
   console.log(socket);
@@ -194,16 +204,27 @@ export function ContainerContents() {
   useEffect(() => {
   }, [inputId]);
 
+  /*
+  소켓 연결
+  */
   useEffect(() => {
     if (userId !== -1 && userId !== 0) {
       socket.connect();
     }
   }, [userId]);
 
+  /*
+  temp
+  소켓 넘버 입력
+  */
   const handleChange = (e: any) => {
     setInputId(e.target.value);
   };
 
+  /*
+  temp
+  소켓 연결 시 입력한 넘버 리셋
+  */
   const login = () => {
     setUserId(Number(inputId));
     setInputId("");
@@ -214,10 +235,16 @@ export function ContainerContents() {
   const [roomId, setRoomId] = useState(-1);
   const [contentType, setContentType] = useState("");
 
+  /*
+  CHAT, DM 룸 렌더를 위한 타입 변경
+  */
   const changeListType = (type: string) => {
     if (listType !== type) setListType(type);
   };
 
+  /*
+  CHAT, DM 타입에 맞는 룸 렌더
+  */
   const renderJoinedRoomList = () => {
     const renderList = [];
     for (let i = 0; i < joinedRoomList.length; i += 1) {
@@ -233,10 +260,16 @@ export function ContainerContents() {
     return (renderList);
   };
 
+  /*
+  우측 화면에 보여줄 콘텐츠 타입 변경
+  */
   const changeContent = (content: string) => {
     if (contentType !== content) setContentType(content);
   };
 
+  /*
+  CHAT, DM 타입 선택
+  */
   const renderTypeSelectButton = () => {
     const renderList = [];
     const buttonText = ["chat", "dm"];
@@ -251,6 +284,9 @@ export function ContainerContents() {
     return renderList;
   };
 
+  /*
+  콘텐츠 선택에 따라 우측에 적절한 화면 렌더
+  */
   const renderContent = () => {
     switch (contentType) {
       case "create":
