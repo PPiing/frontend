@@ -47,11 +47,11 @@ export const getLoggedUserProfile = async () => {
 
     store.dispatch(setLoggedUser(
       {
-        seq: response.data.userSeq,
-        nick: response.data.userName,
-        mail: response.data.userEmail,
-        img: response.data.userImage,
-        status: response.data.userStatus
+        seq: response.data.user_info.userSeq,
+        nick: response.data.user_info.userName,
+        mail: response.data.user_info.userEmail,
+        img: response.data.user_info.data.userImage,
+        status: response.data.user_info.data.userStatus
       } as LoggedUserData
     ));
   } catch (error) {
