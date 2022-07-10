@@ -5,10 +5,12 @@ import commonAlamList from "./slices/commonAlam";
 import loggedUser from "./slices/loggedUser";
 import auth from "./slices/auth";
 import display from "./slices/display";
+import joinedChatRoomList from "./slices/joinedChatRoomList";
 
 const reducer = combineReducers({
   friendList,
   choosableAlamList,
+  joinedChatRoomList,
   commonAlamList,
   loggedUser,
   auth,
