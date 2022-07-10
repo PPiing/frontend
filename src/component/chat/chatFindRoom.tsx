@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 import socketManager from "../../feat/chat/socket";
 import * as axios from "../../network/api/axios.custom";
-import IRoomList from "../../interface/chat/roomlist.interface";
+import IRoomList from "../../interface/roomlist.interface";
 
 enum ChatType {
   CHTP10 = "CHTP10", // 개인 채팅방 (DM)

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
+import { useSelector } from "react-redux";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import socketManager from "../feat/chat/socket";
 import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
+import { ReducerType } from "../redux/rootReducer";
+import { JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -245,19 +248,35 @@ export function ContainerContents() {
   /*
   CHAT, DM 타입에 맞는 룸 렌더
   */
+  const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(
+    (state) => state.joinedChatRoomList
+  );
+  console.log(joinedChatRoomList);
   const renderJoinedRoomList = () => {
-    const renderList = [];
-    for (let i = 0; i < joinedRoomList.length; i += 1) {
-      if (joinedRoomList[i].roomType === listType) {
-        const isClicked: boolean = (roomId === i);
+    const renderList: any[] = [];
+    for (let i = 0; i < joinedChatRoomList.length; i += 1) {
+      const isClicked: boolean = (Number(joinedChatRoomList[i].seq) === i);
+      if (listType === "chat") {
+        if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
+          renderList.push(
+            <template.ListBox key={joinedChatRoomList[i].seq} onClick={() => { setRoomId(Number(joinedChatRoomList[i].seq)); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
+              {joinedChatRoomList[i].seq}
+              <br />
+              {joinedChatRoomList[i].name}
+            </template.ListBox>
+          );
+        }
+      } else if (joinedChatRoomList[i].type === "CHTP10") {
         renderList.push(
-          <template.ListBox key={i} onClick={() => { setRoomId(i); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
-            {joinedRoomList[i].roomNumber}
+          <template.ListBox key={joinedChatRoomList[i].seq} onClick={() => { setRoomId(Number(joinedChatRoomList[i].seq)); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
+            {joinedChatRoomList[i].seq}
+            <br />
+            {joinedChatRoomList[i].name}
           </template.ListBox>
         );
       }
     }
-    return (renderList);
+    return renderList;
   };
 
   /*
