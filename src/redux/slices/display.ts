@@ -5,6 +5,7 @@ export interface DisplayData {
   searchSwitch: boolean;
   searchString: string;
   searchRetRec: boolean;
+  chatRoomId: number;
 }
 
 export const display = createSlice({
@@ -14,6 +15,7 @@ export const display = createSlice({
     searchSwitch: false,
     searchString: "",
     searchRetRec: false,
+    chatRoomId: -1,
   } as DisplayData,
   reducers: {
     // eslint-disable-next-line no-return-assign
@@ -29,6 +31,9 @@ export const display = createSlice({
     setSearchRetRec: (state, action: PayloadAction<DisplayData>) => {
       state.searchRetRec = action.payload.searchRetRec;
     },
+    setChatRoomId: (state, action: PayloadAction<DisplayData>) => {
+      state.chatRoomId = action.payload.chatRoomId;
+    },
   }
 });
 
@@ -36,5 +41,6 @@ export const {
   setModalTrigger,
   setSearchSwitch,
   setSearchString,
-  setSearchRetRec } = display.actions;
+  setSearchRetRec,
+  setChatRoomId } = display.actions;
 export default display.reducer;

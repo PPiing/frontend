@@ -8,6 +8,9 @@ import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
 import { ReducerType } from "../redux/rootReducer";
 import { JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
+import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
+import { DisplayData } from "../redux/slices/display";
+import { ComponentChatRoom } from "../component/chat/chatRoom";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -88,17 +91,6 @@ const ContentFind = styled(theme.NeonHoverRed, {
   height: "95%",
 });
 
-const ContentRoom = styled(theme.NeonHoverRed, {
-  position: "relative",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "5rem",
-  borderRadius: "5%",
-  width: "95%",
-  height: "95%",
-});
-
 const ContentEmpty = styled(theme.NeonHoverRed, {
   display: "flex",
   justifyContent: "center",
@@ -107,6 +99,11 @@ const ContentEmpty = styled(theme.NeonHoverRed, {
   borderRadius: "5%",
   width: "95%",
   height: "95%",
+  flexDirection: "column",
+});
+
+const ContentEmptyDiscription = styled("div", {
+  fontSize: "20px",
 });
 
 const ContentExitButton = styled(theme.NeonHoverRed, {
@@ -122,6 +119,7 @@ const ContentExitButton = styled(theme.NeonHoverRed, {
   height: "30px",
   cursor: "pointer",
 });
+
 /*
 테스트용 임시 룸
 roomType이 chatType으로 변경되어야 함
@@ -130,70 +128,9 @@ CHTP20 : 단체 채팅방 (public)
 CHTP30 : 단체 채팅방 (protected)
 CHTP40 : 비밀 채팅방 (private)
 */
-const joinedRoomList = [
-  {
-    roomNumber: 1,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 2,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 3,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 4,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 5,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 6,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 7,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 8,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 9,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 10,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 11,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 12,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 13,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 14,
-    roomType: "dm",
-  },
-];
 
 const socket = socketManager.socket("/chatrooms");
 
-/*
-소켓 연결 및 연결 확인 출력
-*/
 socket.on("connect", () => {
   console.log(socket.connected);
   console.log(socket);
@@ -208,7 +145,7 @@ export function ContainerContents() {
   }, [inputId]);
 
   /*
-  소켓 연결
+  * Socket process.
   */
   useEffect(() => {
     if (userId !== -1 && userId !== 0) {
@@ -216,38 +153,31 @@ export function ContainerContents() {
     }
   }, [userId]);
 
-  /*
-  temp
-  소켓 넘버 입력
-  */
   const handleChange = (e: any) => {
     setInputId(e.target.value);
   };
 
-  /*
-  temp
-  소켓 연결 시 입력한 넘버 리셋
-  */
   const login = () => {
     setUserId(Number(inputId));
     setInputId("");
   };
-  //
-
-  const [listType, setListType] = useState("chat");
-  const [roomId, setRoomId] = useState(-1);
-  const [contentType, setContentType] = useState("");
 
   /*
-  CHAT, DM 룸 렌더를 위한 타입 변경
+  * Chat core.
   */
+  const [listType, setListType] = useState("chat");
+  const [contentType, setContentType] = useState("");
+
+  const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+
+  if (display.chatRoomId !== -1 && contentType !== "room") {
+    setContentType("room");
+  }
+
   const changeListType = (type: string) => {
     if (listType !== type) setListType(type);
   };
 
-  /*
-  CHAT, DM 타입에 맞는 룸 렌더
-  */
   const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(
     (state) => state.joinedChatRoomList
   );
@@ -255,40 +185,33 @@ export function ContainerContents() {
   const renderJoinedRoomList = () => {
     const renderList: any[] = [];
     for (let i = 0; i < joinedChatRoomList.length; i += 1) {
-      const isClicked: boolean = (Number(joinedChatRoomList[i].seq) === i);
       if (listType === "chat") {
         if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
           renderList.push(
-            <template.ListBox key={joinedChatRoomList[i].seq} onClick={() => { setRoomId(Number(joinedChatRoomList[i].seq)); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
-              {joinedChatRoomList[i].seq}
-              <br />
-              {joinedChatRoomList[i].name}
-            </template.ListBox>
+            <ComponentChatRoomListBox
+              key={joinedChatRoomList[i].seq}
+              chatRoomData={joinedChatRoomList[i]}
+              stateUpdateFunc={setContentType}
+            />
           );
         }
       } else if (joinedChatRoomList[i].type === "CHTP10") {
         renderList.push(
-          <template.ListBox key={joinedChatRoomList[i].seq} onClick={() => { setRoomId(Number(joinedChatRoomList[i].seq)); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
-            {joinedChatRoomList[i].seq}
-            <br />
-            {joinedChatRoomList[i].name}
-          </template.ListBox>
+          <ComponentChatRoomListBox
+            key={joinedChatRoomList[i].seq}
+            chatRoomData={joinedChatRoomList[i]}
+            stateUpdateFunc={setContentType}
+          />
         );
       }
     }
     return renderList;
   };
 
-  /*
-  우측 화면에 보여줄 콘텐츠 타입 변경
-  */
   const changeContent = (content: string) => {
     if (contentType !== content) setContentType(content);
   };
 
-  /*
-  CHAT, DM 타입 선택
-  */
   const renderTypeSelectButton = () => {
     const renderList = [];
     const buttonText = ["chat", "dm"];
@@ -303,9 +226,6 @@ export function ContainerContents() {
     return renderList;
   };
 
-  /*
-  콘텐츠 선택에 따라 우측에 적절한 화면 렌더
-  */
   const renderContent = () => {
     switch (contentType) {
       case "create":
@@ -313,21 +233,25 @@ export function ContainerContents() {
           <CreateRoom propFunc={changeContent} user={userId} />
         );
       case "find":
-        console.log("FIND");
         return (
           <FindRoom propFunc={changeContent} />
         );
       case "room":
         return (
-          <ContentRoom>
-            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
-            {joinedRoomList[roomId].roomType.toUpperCase()} ROOM {roomId + 1}
-          </ContentRoom>
+          <ComponentChatRoom
+            propFunc={changeContent}
+            chatRoomData={joinedChatRoomList[display.chatRoomId]}
+          >
+            {/* <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton> */}
+          </ComponentChatRoom>
         );
       default:
         return (
           <ContentEmpty>
-            EMPTY
+            CHAT
+            <ContentEmptyDiscription>
+              Community chat featrue.
+            </ContentEmptyDiscription>
           </ContentEmpty>
         );
     }
