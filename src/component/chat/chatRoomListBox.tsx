@@ -1,7 +1,6 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { useDispatch, useSelector } from "react-redux";
-import * as theme from "../../theme/theme";
 import * as template from "../../container/contentTemplate";
 import { DisplayData, setChatRoomId } from "../../redux/slices/display";
 import { ReducerType } from "../../redux/rootReducer";
