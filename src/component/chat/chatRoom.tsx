@@ -17,6 +17,7 @@ export function ComponentChatRoom(props: any) {
   const { propFunc } = props;
   const { chatRoomData } = props;
 
+  // ...
   return (
     <ContentRoom>
       a
