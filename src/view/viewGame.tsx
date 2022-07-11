@@ -15,7 +15,8 @@ export function Game() {
       isIngame ?
         (<ViewTemplate content={<GameRuleSet />} />) :
         (<ViewTemplate content={<InGame />} />)
-    }
+        }
+      {/* <ViewTemplate content={<InGame />} /> */}
     </div>
   );
 }

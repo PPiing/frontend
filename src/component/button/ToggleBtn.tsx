@@ -1,6 +1,9 @@
 import { styled } from "@stitches/react";
 import "./Toggle.css"
-
+import { useSelector } from "react-redux";
+import store from "../../redux/store";
+import { ReducerType } from "../../redux/rootReducer";
+import { GameRuleData, setIsRankGame } from "../../redux/slices/gameRule";
 import * as theme from "../../theme/theme";
 
 const Label = styled("label", {
@@ -41,12 +44,15 @@ const ToggleContainer = styled("div", {
 
 function Toggle(props : any) {
   const { selection1, selection2 } = props;
+  const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
 
-  console.log()
+  const handleClick = (e : any) => {
+    store.dispatch(setIsRankGame({ isRankGame: e.target.checked } as GameRuleData))
+  };
 
   return (
     <ToggleContainer className="toggle">
-      <InvisibleCheckBox id="checkbox" type="checkbox" />
+      <InvisibleCheckBox onClick={handleClick} id="checkbox" type="checkbox" />
       <Label id="label" htmlFor="checkbox">
         <div id="brief">
           {selection1}

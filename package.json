@@ -11,6 +11,9 @@
     "lint:fix": "eslint --ext .tsx --ext .ts src --fix"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/material": "^5.8.7",
     "@react-three/drei": "^9.11.3",
     "@react-three/fiber": "^8.0.21",
     "@reduxjs/toolkit": "^1.8.2",
