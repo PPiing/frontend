@@ -25,14 +25,37 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 // Tier Color settings
 // *****************************************************************************
 //
-
-export const TIER_LIST = {
-  lol: ["#000000", null, -25],
-  iron: ["#D8D8D8", -24, 150],
-  gold: ["#FFFF00", 151, 300],
-  master: ["#FF4000", 301, 500],
-  challenger: ["#00FFFF", 501, 1000],
-  god: ["#FFFFFF", 1001, null],
+export const TIER = {
+  lol:
+  { name: "개못핵",
+    color: "#000000",
+    minMMR: null,
+    maxMMR: -50 },
+  iron:
+  { name: "iron",
+    color: "#D8D8D8",
+    minMMR: -50,
+    maxMMR: 150 },
+  gold:
+  { name: "gold",
+    color: "#FFFF00",
+    minMMR: 150,
+    maxMMR: 300 },
+  master:
+  { name: "master",
+    color: "#FF4000",
+    minMMR: 300,
+    maxMMR: 500 },
+  challenger:
+  { name: "challenger",
+    color: "#00FFFF",
+    minMMR: 500,
+    maxMMR: 1000 },
+  god:
+  { name: "god",
+    color: "#FFFFFF",
+    minMMR: 1000,
+    maxMMR: null },
 };
 
 //

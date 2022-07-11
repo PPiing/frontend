@@ -8,14 +8,48 @@ import * as modal from "../component/modal/modal";
 import { ReducerType } from "../redux/rootReducer";
 import { DisplayData, setModalTrigger } from "../redux/slices/display";
 
+function getTierColor(mmr: number) {
+  if (mmr > theme.TIER.god.minMMR) {
+    return (theme.TIER.god);
+  }
+  if (mmr > theme.TIER.challenger.minMMR) {
+    return (theme.TIER.challenger);
+  }
+  if (mmr > theme.TIER.master.minMMR) {
+    return (theme.TIER.master);
+  }
+  if (mmr > theme.TIER.gold.minMMR) {
+    return (theme.TIER.gold);
+  }
+  if (mmr > theme.TIER.iron.minMMR) {
+    return (theme.TIER.iron);
+  }
+  return (theme.TIER.lol);
+}
+
+function getTierPercent(mmr: number) {
+  const tier = getTierColor(mmr);
+  if (tier.minMMR === null) {
+    return (100);
+  }
+  if (tier.maxMMR === null) {
+    return (100);
+  }
+  // eslint-disable-next-line no-unreachable, consistent-return, no-mixed-operators, max-len
+  return (Math.floor((mmr - (tier.minMMR < 0 ? 0 : tier.minMMR)) / (tier.maxMMR - tier.minMMR) * 100));
+}
+
 // Profile Zone
 
 function Profile(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+
+  const tier = getTierColor(response.game_count.rank_score);
 
   const ProfileZone = styled("div", {
     justifyContent: "center",
     alignItems: "center",
+    marginTop: "-6vh",
   });
 
   const ProfileImage = styled(theme.ProfileImage, {
@@ -27,8 +61,9 @@ function Profile(props: any) {
     left: "0rem",
     marginBottom: "-10px",
     borderRadius: "50%",
-    border: `5px solid ${tier.tierColor}`,
-    boxShadow: `0 0 20px ${tier.tierColor}`
+    border: `5px solid ${tier.color}`,
+    boxShadow: `0 0 20px ${tier.color}`,
+    cursor: "pointer",
   });
 
   const ProfileTier = styled("p", {
@@ -37,30 +72,57 @@ function Profile(props: any) {
     fontWeight: "bold",
     textOverflow: "ellipsis",
     marginBottom: "-70px",
-    color: tier.tierColor,
-    textShadow: `0px 0px 10px ${tier.tierColor}`
+    color: tier.color,
+    textShadow: `0px 0px 10px ${tier.color}`
   });
 
-  const ProfileName = styled("p", {
+  const ProfileName = styled("input", {
     fontSize: "6vh",
+    width: "80%",
     fontWeight: "bold",
     textOverflow: "ellipsis",
+    marginTop: "7vh",
     marginBottom: "10px",
     color: "white",
+    background: "none",
+    textAlign: "center",
+    border: "0",
     textShadow: "0px 0px 10px white"
   });
 
+  const ProfilePictureChangeEvent = (event:any) => {
+    if (event.key === "Enter") {
+      console.log("엔터를 누르다니");
+    }
+  }
+
+  const ProfileNameChangeEvent = (event:any) => {
+    console.log("가소롭군");
+  }
+
   return (
     <ProfileZone>
+      <input
+        type="file"
+        accept="image/jpg,impge/png,image/jpeg,image/gif"
+        onChange={ProfilePictureChangeEvent}
+        style={{ display: "none" }}
+        id="picture_change_input"
+      />
       <ProfileImage
         src={response.user_info.user_image}
+        onClick={() => {
+          document.getElementById("picture_change_input")?.click();
+        }}
       />
       <ProfileTier>
-        ------- {tier.tier} -------
+        ------- {tier.name} -------
       </ProfileTier>
-      <ProfileName>
-        {response.user_info.user_name}
-      </ProfileName>
+      <ProfileName
+        type="text"
+        defaultValue={response.user_info.user_name}
+        onKeyPress={ProfileNameChangeEvent}
+      />
     </ProfileZone>
   )
 }
@@ -70,11 +132,14 @@ function Profile(props: any) {
 // Progress Zone
 
 function Progress(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+
+  const tier = getTierColor(response.game_count.rank_score);
+  const value = Math.floor(getTierPercent(response.game_count.rank_score));
 
   const Load = keyframes({
     "0%": { width: "0" },
-    "100%": { width: `${tier.tierValue}%` },
+    "100%": { width: `${value}%` },
   });
 
   const ProgressDiv = styled("div", {
@@ -91,10 +156,11 @@ function Progress(props: any) {
   });
 
   const ProgressValue = styled("div", {
-    background: `${tier.tierColor}`,
-    borderRadius: "100px",
+    background: `${tier.color}`,
+    borderRadius: "1000px",
+    overflow: "hidden",
     height: "22px",
-    boxShadow: `0 2px 30px -3px ${tier.tierColor}`,
+    boxShadow: `0 2px 30px -3px ${tier.color}`,
     width: "0",
     animation: `${Load} 3s normal forwards`,
     fontSize: "18px",
@@ -104,40 +170,26 @@ function Progress(props: any) {
 
   return (
     <ProgressDiv>
-      <ProgressValue>{tier.tierValue}%</ProgressValue>
+      <ProgressValue>{value}%</ProgressValue>
     </ProgressDiv>
   )
 }
 
 // Progress Zone End
 
-// Setting Zone
-
-function Setting(props: any) {
-  const SettingWrapper = styled("div", {
-    color: "white",
-    marginBottom: "-5vh"
-  });
-  return (
-    <SettingWrapper>
-      <p>Setting</p>
-    </SettingWrapper>
-  );
-}
-
-// Setting Zone End
-
 // History Zone
 
 function History(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+
+  const tier = getTierColor(response.game_count.rank_score);
 
   const HistoryWrapper = styled("div", {
     width: "88%",
     height: "50vh",
     background: "black",
     marginLeft: "6%",
-    marginTop: "5vh",
+    marginTop: "1.5vh",
     borderRadius: "5px",
     border: "1px solid white",
     boxShadow: "0 0 5px white",
@@ -154,7 +206,7 @@ function History(props: any) {
       width: "8px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: `${tier.tierColor}`,
+      backgroundColor: `${tier.color}`,
       borderRadius: "10px",
     },
     "&::-webkit-scrollbar-track": {
@@ -262,7 +314,7 @@ function History(props: any) {
     if (i !== response.game_log.length - 1) {
       boxes.push(<hr style={{
         width: "40%",
-        boxShadow: `0 0 5px ${tier.tierColor}`,
+        boxShadow: `0 0 5px ${tier.color}`,
       }}
       />);
     }
@@ -278,22 +330,62 @@ function History(props: any) {
 
 // History Zone End
 
+// Setting Zone
+
+function Setting(props: any) {
+  const { response } = props;
+  const SettingWrapper = styled("div", {
+    color: "white",
+    margin: "1vh",
+    marginBottom: "-5vh"
+  });
+  const tier = getTierColor(response.game_count.rank_score);
+  const SecAuthText = response.user_info.user_secAuthStatus === true ? "ON" : "OFF";
+  const SecAuthColor = response.user_info.user_secAuthStatus === true ? tier.color : "#D8D8D8";
+
+  return (
+    <SettingWrapper>
+      <button
+        type="button"
+        id="toggle"
+        style={{
+          margin: "1vh",
+          width: "10rem",
+          height: "2.5vh",
+          display: "inline-block",
+          borderRadius: "2rem",
+          backgroundColor: `${SecAuthColor}`,
+          cursor: "pointer",
+          color: "black",
+          fontSize: "1rem",
+          border: "none",
+          boxShadow: `0 0 10px ${SecAuthColor}`,
+        }}
+      >
+        2nd Verification: <b>{SecAuthText}</b>
+      </button>
+    </SettingWrapper>
+  );
+}
+
+// Setting Zone End
+
 // Achievement Zone
 
 function Achievement(props: any) {
-  const { response, tier } = props;
+  const { response } = props;
+  const tier = getTierColor(response.game_count.rank_score);
 
   const AchievementZone = styled("div", {
     width: "calc(100% - 16px)",
     height: "calc(100% - 16px)",
-    margin: "8px",
     overflowY: "scroll",
     overflowX: "hidden",
     "&::-webkit-scrollbar": {
       width: "8px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: `${tier.tierColor}`,
+      backgroundColor: `${tier.color}`,
       borderRadius: "10px",
     },
     "&::-webkit-scrollbar-track": {
@@ -304,103 +396,100 @@ function Achievement(props: any) {
 
   const AchievementBox = styled("div", {
     width: "calc(100% - 8px)",
-    height: "20%",
+    height: "15%",
+    // display: "flex",
+    // justifyContent: "center",
+    position: "relative",
+  });
+
+  const AchievementText = styled("b", {
+    marginLeft: "1vh",
+    position: "absolute",
+    transform: "translate(0,-50%)",
+    textAlign: "left",
   });
 
   const boxes = [];
   for (let i = 0; i < response.achiv_info.length; i += 1) {
-    let name = response.game_log[i].winner_name;
-    let state = "LOSE";
-    let stateColor = "red";
-    if (response.game_log[i].winner_name === response.user_info.user_name) {
-      name = response.game_log[i].loser_name;
-      state = "WIN";
-      stateColor = "yellow";
+    let title = response.achiv_info[i].achiv_title.substr(0, 10);
+    let textColor = "white";
+    let tierColor = tier.color;
+    if (response.achiv_info[i].achiv_title.length > 10) {
+      title += "...";
     }
-    console.log(response.achiv_info[i].achiv_title);
+    if (response.achiv_info[i].achiv_complete === false) {
+      tierColor = "gray";
+      textColor = "gray";
+    }
     boxes.push(
       <AchievementBox>
-        <table style={{ width: "100%", height: "100%" }}>
-          <tr>
-            <td
-              rowSpan={2}
-              style={{ width: "35%", textAlign: "left" }}
-            >
-              <img
-                alt="/asset/profileImage/default.png"
-                style={{
-                  width: "5rem",
-                  height: "5rem",
-                }}
-                src="/asset/profileImage/default.png"
-                // src={response.achiv_info[i].achiv_image}
-              />
-              <b
-                style={{
-                  fontSize: "25px",
-                  color: "white",
-                  fontWeight: "bold",
-                  textShadow: "0px 0px 10px white",
-                }}
-              >{name}
-              </b>
-            </td>
-            <td
-              style={{
-                textAlign: "right",
-              }}
-            >
-              <b
-                style={{
-                  color: "gray",
-                  fontSize: "10px",
-                  fontWeight: "0",
-                  fontStyle: "italic",
-                }}
-              >
-                {response.game_log[i].start_time}&nbsp;&nbsp;
-              </b>
-              <b
-                style={{
-                  color: `${stateColor}`,
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  fontStyle: "italic",
-                  textShadow: `0px 0px 10px ${stateColor}`,
-                }}
-              >
-                {state}
-              </b>
-            </td>
-          </tr>
-          <tr>
-            <td
-              style={{
-                height: "30px",
-                marginTop: "-15px",
-                textAlign: "right",
-              }}
-            >
-              <b
-                style={{
-                  color: "white",
-                  fontSize: "30px",
-                  fontWeight: "bold",
-                  fontStyle: "italic",
-                  textShadow: `0px 0px 10px ${stateColor}`,
-                }}
-              >
-                {response.game_log[i].loser_score} : {response.game_log[i].winner_score}
-              </b>
-            </td>
-          </tr>
-        </table>
+        <img
+          alt="error"
+          src={response.achiv_info[i].achiv_image}
+          style={{
+            height: "13vh",
+            width: "13vh",
+            position: "absolute",
+            left: "13px",
+            top: "0",
+            border: `3px solid ${tierColor}`,
+            boxShadow: `0 0 10px ${tierColor}`,
+          }}
+        />
+        <AchievementText
+          style={{
+            color: `${textColor}`,
+            fontSize: "5vh",
+            textShadow: `0px 0px 8px ${textColor}`,
+            top: "40%",
+            left: "15vh",
+          }}
+        >
+          {title}
+        </AchievementText><br />
+        <AchievementText
+          style={{
+            color: `${textColor}`,
+            fontSize: "2vh",
+            textShadow: `0px 0px 4px ${textColor}`,
+            top: "70%",
+            left: "15vh",
+          }}
+        >
+          {response.achiv_info[i].achiv_condition}
+        </AchievementText>
+        <div
+          style={{
+            height: "13vh",
+          }}
+        >
+          <div style={{
+            position: "relative",
+            boxSizing: "border-box",
+            width: "40%",
+            height: "50%",
+            marginLeft: "60%",
+            // backgroundColor: "#191919",
+            zIndex: "1",
+          }}
+          />
+          <div style={{
+            position: "relative",
+            boxSizing: "border-box",
+            width: "40%",
+            height: "50%",
+            marginLeft: "60%",
+            // backgroundColor: "#191919",
+            zIndex: "1",
+          }}
+          />
+        </div>
       </AchievementBox>
     );
-    if (i !== response.game_log.length - 1) {
+    if (i !== response.achiv_info.length - 1) {
       boxes.push(<hr style={{
         width: "40%",
-        boxShadow: `0 0 5px ${tier.tierColor}`,
+        boxShadow: `0 0 5px ${tier.color}`,
       }}
       />);
     }
@@ -434,12 +523,6 @@ export function ContainerContents() {
   response.then((value) => {
     console.log("value : ", value);
   });
-
-  const tier = {
-    tier: "master",
-    tierColor: theme.TIER_LIST.master[0],
-    tierValue: "42",
-  };
 
   const tmpresponse = {
     user_info: {
@@ -487,11 +570,29 @@ export function ContainerContents() {
         achiv_image: "/asset/profileImage/default.png",
         achiv_complete: true,
       },
+      {
+        achiv_title: "기본777777777777777777",
+        achiv_condition: "100연승이라니!! 너 혹시 미쳤니?",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+      {
+        achiv_title: "기본8",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: true,
+      },
+      {
+        achiv_title: "기본9",
+        achiv_condition: "none",
+        achiv_image: "/asset/profileImage/default.png",
+        achiv_complete: false,
+      },
     ],
     game_count: {
       count_win: 100,
       count_lose: 100,
-      rank_score: 200,
+      rank_score: 1500,
     },
     game_log: [
       {
@@ -549,13 +650,13 @@ export function ContainerContents() {
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={tmpresponse} tier={tier} />
-        <Progress response={tmpresponse} tier={tier} />
-        <Setting response={tmpresponse} tier={tier} />
-        <History response={tmpresponse} tier={tier} />
+        <Profile response={tmpresponse} />
+        <Progress response={tmpresponse} />
+        <History response={tmpresponse} />
+        <Setting response={tmpresponse} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={tmpresponse} tier={tier} />
+        <Achievement response={tmpresponse} />
       </DividedRightSection>
     </template.DividedContents>
   );
