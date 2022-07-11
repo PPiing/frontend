@@ -45,7 +45,12 @@ export const getLoggedUserProfile = async () => {
   try {
     const response = await axios.instance.get("/users/profile");
 
-    console.log(response);
+    console.log("!!!");
+    console.log(response.data.user_info.userSeq);
+    console.log(response.data.user_info.userName);
+    console.log(response.data.user_info.userEmail);
+    console.log(response.data.user_info.userImage);
+    console.log(response.data.user_info.userStatus);
     store.dispatch(setLoggedUser(
       {
         seq: response.data.user_info.userSeq,
