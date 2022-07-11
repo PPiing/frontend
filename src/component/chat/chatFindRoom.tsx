@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
 import socketManager from "../../feat/chat/socket";
 import * as axios from "../../network/api/axios.custom";
-import IRoomList from "../../interface/chat/roomlist.interface";
+import IRoomList from "../../interface/roomlist.interface";
 
 enum ChatType {
   CHTP10 = "CHTP10", // 개인 채팅방 (DM)
@@ -53,6 +53,9 @@ export function FindRoom(props: any) {
 
   const [roomList, setRoomList] = useState<IRoomList[]>([]);
 
+  /*
+  마운트, 언마운트 시 채팅 룸 조회
+  */
   useEffect(() => {
     axios.chatroomsSearch()
       .then((promise: any) => promise.data)
@@ -62,6 +65,9 @@ export function FindRoom(props: any) {
       });
   }, []);
 
+  /*
+  조회해 온 룸 리스트 렌더
+  */
   const renderRoomList = () => {
     return (
       <div>

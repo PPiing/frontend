@@ -25,20 +25,38 @@ export const NEONFONT_MARQUEE_MOON = "url(../asset/font/marquee_moon.ttf)";
 // Tier Color settings
 // *****************************************************************************
 //
-
-const TIER_NOOB_COLOR = "rgba(117, 249, 76)";
-const TIER_NOOB_TEXT = "noob";
-const TIER_PRO_COLOR = "#83EEFF";
-const TIER_PRO_TEXT = "pro";
-const TIER_HACKER_COLOR = "rgba(235, 51, 79)";
-const TIER_HACKER_TEXT = "hacker";
-const TIER_GOD_COLOR = "rgba(255, 255, 255)";
-const TIER_GOD_TEXT = "god";
-export const TIER_COLOR = new Map();
-TIER_COLOR.set(TIER_NOOB_TEXT, TIER_NOOB_COLOR);
-TIER_COLOR.set(TIER_PRO_TEXT, TIER_PRO_COLOR);
-TIER_COLOR.set(TIER_HACKER_TEXT, TIER_HACKER_COLOR);
-TIER_COLOR.set(TIER_GOD_TEXT, TIER_GOD_COLOR);
+export const TIER = {
+  lol:
+  { name: "개못핵",
+    color: "#000000",
+    minMMR: null,
+    maxMMR: -50 },
+  iron:
+  { name: "iron",
+    color: "#D8D8D8",
+    minMMR: -50,
+    maxMMR: 150 },
+  gold:
+  { name: "gold",
+    color: "#FFFF00",
+    minMMR: 150,
+    maxMMR: 300 },
+  master:
+  { name: "master",
+    color: "#FF4000",
+    minMMR: 300,
+    maxMMR: 500 },
+  challenger:
+  { name: "challenger",
+    color: "#00FFFF",
+    minMMR: 500,
+    maxMMR: 1000 },
+  god:
+  { name: "god",
+    color: "#FFFFFF",
+    minMMR: 1000,
+    maxMMR: null },
+};
 
 //
 // *****************************************************************************

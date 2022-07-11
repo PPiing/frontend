@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
+import { useSelector } from "react-redux";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import socketManager from "../feat/chat/socket";
 import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
+import { ReducerType } from "../redux/rootReducer";
+import { JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
+import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
+import { DisplayData } from "../redux/slices/display";
+import { ComponentChatRoom } from "../component/chat/chatRoom";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -85,17 +91,6 @@ const ContentFind = styled(theme.NeonHoverRed, {
   height: "95%",
 });
 
-const ContentRoom = styled(theme.NeonHoverRed, {
-  position: "relative",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "5rem",
-  borderRadius: "5%",
-  width: "95%",
-  height: "95%",
-});
-
 const ContentEmpty = styled(theme.NeonHoverRed, {
   display: "flex",
   justifyContent: "center",
@@ -104,6 +99,11 @@ const ContentEmpty = styled(theme.NeonHoverRed, {
   borderRadius: "5%",
   width: "95%",
   height: "95%",
+  flexDirection: "column",
+});
+
+const ContentEmptyDiscription = styled("div", {
+  fontSize: "20px",
 });
 
 const ContentExitButton = styled(theme.NeonHoverRed, {
@@ -120,64 +120,14 @@ const ContentExitButton = styled(theme.NeonHoverRed, {
   cursor: "pointer",
 });
 
-const joinedRoomList = [
-  {
-    roomNumber: 1,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 2,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 3,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 4,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 5,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 6,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 7,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 8,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 9,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 10,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 11,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 12,
-    roomType: "chat",
-  },
-  {
-    roomNumber: 13,
-    roomType: "dm",
-  },
-  {
-    roomNumber: 14,
-    roomType: "dm",
-  },
-];
+/*
+테스트용 임시 룸
+roomType이 chatType으로 변경되어야 함
+CHTP10 : 개인 채팅방 (DM)
+CHTP20 : 단체 채팅방 (public)
+CHTP30 : 단체 채팅방 (protected)
+CHTP40 : 비밀 채팅방 (private)
+*/
 
 const socket = socketManager.socket("/chatrooms");
 
@@ -194,6 +144,9 @@ export function ContainerContents() {
   useEffect(() => {
   }, [inputId]);
 
+  /*
+  * Socket process.
+  */
   useEffect(() => {
     if (userId !== -1 && userId !== 0) {
       socket.connect();
@@ -208,29 +161,51 @@ export function ContainerContents() {
     setUserId(Number(inputId));
     setInputId("");
   };
-  //
 
+  /*
+  * Chat core.
+  */
   const [listType, setListType] = useState("chat");
-  const [roomId, setRoomId] = useState(-1);
   const [contentType, setContentType] = useState("");
+
+  const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+
+  if (display.chatRoomId !== -1 && contentType !== "room") {
+    setContentType("room");
+  }
 
   const changeListType = (type: string) => {
     if (listType !== type) setListType(type);
   };
 
+  const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(
+    (state) => state.joinedChatRoomList
+  );
+  console.log(joinedChatRoomList);
   const renderJoinedRoomList = () => {
-    const renderList = [];
-    for (let i = 0; i < joinedRoomList.length; i += 1) {
-      if (joinedRoomList[i].roomType === listType) {
-        const isClicked: boolean = (roomId === i);
+    const renderList: any[] = [];
+    for (let i = 0; i < joinedChatRoomList.length; i += 1) {
+      if (listType === "chat") {
+        if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
+          renderList.push(
+            <ComponentChatRoomListBox
+              key={joinedChatRoomList[i].seq}
+              chatRoomData={joinedChatRoomList[i]}
+              stateUpdateFunc={setContentType}
+            />
+          );
+        }
+      } else if (joinedChatRoomList[i].type === "CHTP10") {
         renderList.push(
-          <template.ListBox key={i} onClick={() => { setRoomId(i); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
-            {joinedRoomList[i].roomNumber}
-          </template.ListBox>
+          <ComponentChatRoomListBox
+            key={joinedChatRoomList[i].seq}
+            chatRoomData={joinedChatRoomList[i]}
+            stateUpdateFunc={setContentType}
+          />
         );
       }
     }
-    return (renderList);
+    return renderList;
   };
 
   const changeContent = (content: string) => {
@@ -258,21 +233,25 @@ export function ContainerContents() {
           <CreateRoom propFunc={changeContent} user={userId} />
         );
       case "find":
-        console.log("FIND");
         return (
           <FindRoom propFunc={changeContent} />
         );
       case "room":
         return (
-          <ContentRoom>
-            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
-            {joinedRoomList[roomId].roomType.toUpperCase()} ROOM {roomId + 1}
-          </ContentRoom>
+          <ComponentChatRoom
+            propFunc={changeContent}
+            chatRoomData={joinedChatRoomList[display.chatRoomId]}
+          >
+            {/* <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton> */}
+          </ComponentChatRoom>
         );
       default:
         return (
           <ContentEmpty>
-            EMPTY
+            CHAT
+            <ContentEmptyDiscription>
+              Community chat featrue.
+            </ContentEmptyDiscription>
           </ContentEmpty>
         );
     }

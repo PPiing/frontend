@@ -1,5 +1,5 @@
 import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam } from "../../redux/slices/choosableAlamList";
-import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/CommonAlam";
+import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/commonAlam";
 import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
 import { LoggedUserData, setLoggedUser } from "../../redux/slices/loggedUser";
 import store from "../../redux/store";
@@ -47,11 +47,11 @@ export const getLoggedUserProfile = async () => {
 
     store.dispatch(setLoggedUser(
       {
-        seq: response.data.userSeq,
-        nick: response.data.userName,
-        mail: response.data.userEmail,
-        img: response.data.userImage,
-        status: response.data.userStatus
+        seq: response.data.user_info.userSeq,
+        nick: response.data.user_info.userName,
+        mail: response.data.user_info.userEmail,
+        img: response.data.user_info.data.userImage,
+        status: response.data.user_info.data.userStatus
       } as LoggedUserData
     ));
   } catch (error) {
@@ -61,7 +61,7 @@ export const getLoggedUserProfile = async () => {
 
 export const getUserSearch = async (searchString: string) => {
   try {
-    const response = await axios.instance.get(`/users/search/${searchString}`);
+    const response = await axios.instance.get(`/users/search/nickname/${searchString}`);
     return (response);
   } catch (error) {
     console.log(error);
