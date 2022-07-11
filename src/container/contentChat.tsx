@@ -8,6 +8,7 @@ import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
 import { ReducerType } from "../redux/rootReducer";
 import { JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
+import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -254,16 +255,36 @@ export function ContainerContents() {
   console.log(joinedChatRoomList);
   const renderJoinedRoomList = () => {
     const renderList: any[] = [];
+    // for (let i = 0; i < joinedChatRoomList.length; i += 1) {
+    //   const isClicked: boolean = (Number(joinedChatRoomList[i].seq) === i);
+    //   if (listType === "chat") {
+    //     if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
+    //       renderList.push(
+    //         <template.ListBox key={joinedChatRoomList[i].seq} onClick={() => { setRoomId(Number(joinedChatRoomList[i].seq)); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
+    //           {joinedChatRoomList[i].seq}
+    //           <br />
+    //           {joinedChatRoomList[i].name}
+    //         </template.ListBox>
+    //       );
+    //     }
+    //   } else if (joinedChatRoomList[i].type === "CHTP10") {
+    //     renderList.push(
+    //       <template.ListBox key={joinedChatRoomList[i].seq} onClick={() => { setRoomId(Number(joinedChatRoomList[i].seq)); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
+    //         {joinedChatRoomList[i].seq}
+    //         <br />
+    //         {joinedChatRoomList[i].name}
+    //       </template.ListBox>
+    //     );
+    //   }
     for (let i = 0; i < joinedChatRoomList.length; i += 1) {
       const isClicked: boolean = (Number(joinedChatRoomList[i].seq) === i);
       if (listType === "chat") {
         if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
           renderList.push(
-            <template.ListBox key={joinedChatRoomList[i].seq} onClick={() => { setRoomId(Number(joinedChatRoomList[i].seq)); setContentType("room"); }} className={isClicked ? "clicked" : "non-clicked"}>
-              {joinedChatRoomList[i].seq}
-              <br />
-              {joinedChatRoomList[i].name}
-            </template.ListBox>
+            <ComponentChatRoomListBox
+              key={joinedChatRoomList[i].seq}
+              chatRoomData={joinedChatRoomList[i]}
+            />
           );
         }
       } else if (joinedChatRoomList[i].type === "CHTP10") {
