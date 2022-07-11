@@ -10,6 +10,7 @@ import { ReducerType } from "../redux/rootReducer";
 import { JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
 import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
 import { DisplayData } from "../redux/slices/display";
+import { ComponentChatRoom } from "../component/chat/chatRoom";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
@@ -90,17 +91,6 @@ const ContentFind = styled(theme.NeonHoverRed, {
   height: "95%",
 });
 
-const ContentRoom = styled(theme.NeonHoverRed, {
-  position: "relative",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "5rem",
-  borderRadius: "5%",
-  width: "95%",
-  height: "95%",
-});
-
 const ContentEmpty = styled(theme.NeonHoverRed, {
   display: "flex",
   justifyContent: "center",
@@ -109,6 +99,11 @@ const ContentEmpty = styled(theme.NeonHoverRed, {
   borderRadius: "5%",
   width: "95%",
   height: "95%",
+  flexDirection: "column",
+});
+
+const ContentEmptyDiscription = styled("div", {
+  fontSize: "20px",
 });
 
 const ContentExitButton = styled(theme.NeonHoverRed, {
@@ -173,6 +168,12 @@ export function ContainerContents() {
   const [listType, setListType] = useState("chat");
   const [contentType, setContentType] = useState("");
 
+  const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+
+  if (display.chatRoomId !== -1 && contentType !== "room") {
+    setContentType("room");
+  }
+
   const changeListType = (type: string) => {
     if (listType !== type) setListType(type);
   };
@@ -232,20 +233,25 @@ export function ContainerContents() {
           <CreateRoom propFunc={changeContent} user={userId} />
         );
       case "find":
-        console.log("FIND");
         return (
           <FindRoom propFunc={changeContent} />
         );
       case "room":
         return (
-          <ContentRoom>
-            <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton>
-          </ContentRoom>
+          <ComponentChatRoom
+            propFunc={changeContent}
+            chatRoomData={joinedChatRoomList[display.chatRoomId]}
+          >
+            {/* <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton> */}
+          </ComponentChatRoom>
         );
       default:
         return (
           <ContentEmpty>
-            EMPTY
+            CHAT
+            <ContentEmptyDiscription>
+              Community chat featrue.
+            </ContentEmptyDiscription>
           </ContentEmpty>
         );
     }
