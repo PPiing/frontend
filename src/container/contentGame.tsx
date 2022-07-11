@@ -172,6 +172,7 @@ function Basic() {
       }
     }
     if (e.key === "p") {
+      console.log("Press p");
       tmpballX += 1;
       tmpballY += 1;
       tmpRedY += 1;
@@ -183,6 +184,7 @@ function Basic() {
       });
     }
     if (e.key === "o") {
+      console.log("Press o");
       tmpballX -= 1;
       tmpballY -= 1;
       tmpRedY -= 1;
@@ -370,18 +372,17 @@ function Basic() {
     </Canvas>
   );
 }
-
-export function ContainerContents() {
-  return (
-    <Contents className="contents">
-      <Basic />
-    </Contents>
-  );
-}
-
 const Contents = styled(template.Contents, {
   "&:hover": {
     border: `3px solid ${theme.NEON_RED}`,
     filter: "drop-shadow(0 0 2px gray)"
   },
 });
+
+export default function InGame() {
+  return (
+    <Contents className="contents">
+      <Basic />
+    </Contents>
+  );
+}

@@ -3,11 +3,21 @@ import { styled } from "@stitches/react";
 import { ViewTemplate } from "./viewTemplate";
 import * as theme from "../theme/theme";
 
-import { ContainerContents } from "../container/contentGame";
+import InGame from "../container/contentGame";
+import GameRuleSet from "../container/contentGameRule";
 
 export function Game() {
+  const isIngame : boolean = true;
+
   return (
-    <ViewTemplate content={<ContainerContents />} />
+    <div>
+      {
+      isIngame ?
+        (<ViewTemplate content={<GameRuleSet />} />) :
+        (<ViewTemplate content={<InGame />} />)
+        }
+      {/* <ViewTemplate content={<InGame />} /> */}
+    </div>
   );
 }
 
