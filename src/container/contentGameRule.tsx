@@ -60,7 +60,7 @@ export default function GameRuleSet() {
     isRankGame: myRule.isRankGame,
   };
 
-  console.log("=>>", myRule);
+  console.log("start=>", memoRule);
 
   const handleValue = (e:any) => {
     if (e.target.name === "score") {
@@ -83,13 +83,13 @@ export default function GameRuleSet() {
         <ToggleBtn selection1="Rank" selection2="Normal" />
         <SlidersContainer>
           <SliderWrapper>
-            <Slider key={myRule.score} name="score" onChange={handleValue} orientation="vertical" aria-label="ball" valueLabelDisplay="on" defaultValue={myRule.score} max={10} min={1} color="primary" marks />
+            <Slider name="score" onChange={handleValue} orientation="vertical" aria-label="ball" valueLabelDisplay="on" defaultValue={myRule.score} max={10} min={1} color="primary" marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider key={myRule.speed} name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={myRule.speed} max={3} min={1} color="secondary" marks />
+            <Slider name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={myRule.speed} max={3} min={1} color="secondary" marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider key={myRule.size} name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={myRule.size} max={2} min={-2} color="primary" marks />
+            <Slider name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={myRule.size} max={2} min={-2} color="primary" marks />
           </SliderWrapper>
         </SlidersContainer>
         <TextContainer>
