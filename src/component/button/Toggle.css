@@ -1,0 +1,41 @@
+
+#checkbox:checked + #label #activetoggle {
+    transform: translateX(145px);
+}
+
+#label #brief{
+    width: 50%;
+    text-align: center;
+}
+
+#label #specize{
+    width: 50%;
+    text-align: center;
+}
+
+#label #activetoggle{
+    width: 50%;
+    text-align: center;
+}
+
+#brief{
+    font-weight: bold;
+    color: #646464;
+}
+
+#specize{
+    font-weight: bold;
+    color: #a0a0a0;
+}
+
+#checkbox:checked + #label #brief{
+    color: #a0a0a0;
+}
+
+#checkbox:checked + #label #specize{
+    color: #646464;
+}
+
+#label{
+    cursor: pointer;
+}
