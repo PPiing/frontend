@@ -33,7 +33,7 @@ export const TIER = {
     maxMMR: -50 },
   iron:
   { name: "iron",
-    color: "#D8D8D8",
+    color: "#A4A4A4",
     minMMR: -50,
     maxMMR: 150 },
   gold:

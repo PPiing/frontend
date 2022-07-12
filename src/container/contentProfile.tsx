@@ -42,7 +42,7 @@ function getTierPercent(mmr: number) {
 // Profile Zone
 
 function Profile(props: any) {
-  const { response } = props;
+  const { response, profile } = props;
 
   const tier = getTierColor(response.game_count.rank_score);
 
@@ -81,7 +81,6 @@ function Profile(props: any) {
     width: "80%",
     fontWeight: "bold",
     textOverflow: "ellipsis",
-    marginTop: "7vh",
     marginBottom: "10px",
     color: "white",
     background: "none",
@@ -91,13 +90,13 @@ function Profile(props: any) {
   });
 
   const ProfilePictureChangeEvent = (event:any) => {
-    if (event.key === "Enter") {
-      console.log("엔터를 누르다니");
-    }
+    console.log("가소롭군");
   }
 
   const ProfileNameChangeEvent = (event:any) => {
-    console.log("가소롭군");
+    if (event.key === "Enter") {
+      console.log("엔터를 누르다니");
+    }
   }
 
   return (
@@ -116,7 +115,40 @@ function Profile(props: any) {
         }}
       />
       <ProfileTier>
-        ------- {tier.name} -------
+        <div
+          style={{
+            marginLeft: "35px",
+            float: "left",
+            width: "calc(33% - 20px)", }}
+        >
+          <hr
+            style={{
+              width: "75%",
+              marginRight: "-20%",
+              border: `solid 8px ${tier.color}`,
+              boxShadow: `0 0 20px ${tier.color}`,
+              borderRadius: "10px 0 0 10px", }}
+          />
+        </div>
+        <div
+          style={{
+            float: "left",
+            width: "calc(33% - 20px)", }}
+        >{tier.name}
+        </div>
+        <div
+          style={{
+            float: "left",
+            width: "calc(33% - 20px)", }}
+        ><hr
+          style={{
+            width: "75%",
+            marginLeft: "-20%",
+            border: `solid 8px ${tier.color}`,
+            boxShadow: `0 0 20px ${tier.color}`,
+            borderRadius: "0 10px 10px 0", }}
+        />
+        </div>
       </ProfileTier>
       <ProfileName
         type="text"
@@ -132,7 +164,7 @@ function Profile(props: any) {
 // Progress Zone
 
 function Progress(props: any) {
-  const { response } = props;
+  const { response, profile } = props;
 
   const tier = getTierColor(response.game_count.rank_score);
   const value = Math.floor(getTierPercent(response.game_count.rank_score));
@@ -180,7 +212,7 @@ function Progress(props: any) {
 // History Zone
 
 function History(props: any) {
-  const { response } = props;
+  const { response, profile } = props;
 
   const tier = getTierColor(response.game_count.rank_score);
 
@@ -333,7 +365,7 @@ function History(props: any) {
 // Setting Zone
 
 function Setting(props: any) {
-  const { response } = props;
+  const { response, profile } = props;
   const SettingWrapper = styled("div", {
     color: "white",
     margin: "1vh",
@@ -342,6 +374,9 @@ function Setting(props: any) {
   const tier = getTierColor(response.game_count.rank_score);
   const SecAuthText = response.user_info.user_secAuthStatus === true ? "ON" : "OFF";
   const SecAuthColor = response.user_info.user_secAuthStatus === true ? tier.color : "#D8D8D8";
+  const SecAuthToggle = () => {
+    console.log(profile);
+  }
 
   return (
     <SettingWrapper>
@@ -361,6 +396,7 @@ function Setting(props: any) {
           border: "none",
           boxShadow: `0 0 10px ${SecAuthColor}`,
         }}
+        onClick={SecAuthToggle}
       >
         2nd Verification: <b>{SecAuthText}</b>
       </button>
@@ -373,7 +409,7 @@ function Setting(props: any) {
 // Achievement Zone
 
 function Achievement(props: any) {
-  const { response } = props;
+  const { response, profile } = props;
   const tier = getTierColor(response.game_count.rank_score);
 
   const AchievementZone = styled("div", {
@@ -411,10 +447,10 @@ function Achievement(props: any) {
 
   const boxes = [];
   for (let i = 0; i < response.achiv_info.length; i += 1) {
-    let title = response.achiv_info[i].achiv_title.substr(0, 10);
+    let title = response.achiv_info[i].achiv_title.substr(0, 15);
     let textColor = "white";
     let tierColor = tier.color;
-    if (response.achiv_info[i].achiv_title.length > 10) {
+    if (response.achiv_info[i].achiv_title.length > 15) {
       title += "...";
     }
     if (response.achiv_info[i].achiv_complete === false) {
@@ -458,37 +494,12 @@ function Achievement(props: any) {
         >
           {response.achiv_info[i].achiv_condition}
         </AchievementText>
-        <div
-          style={{
-            height: "13vh",
-          }}
-        >
-          <div style={{
-            position: "relative",
-            boxSizing: "border-box",
-            width: "40%",
-            height: "50%",
-            marginLeft: "60%",
-            // backgroundColor: "#191919",
-            zIndex: "1",
-          }}
-          />
-          <div style={{
-            position: "relative",
-            boxSizing: "border-box",
-            width: "40%",
-            height: "50%",
-            marginLeft: "60%",
-            // backgroundColor: "#191919",
-            zIndex: "1",
-          }}
-          />
-        </div>
       </AchievementBox>
     );
     if (i !== response.achiv_info.length - 1) {
       boxes.push(<hr style={{
-        width: "40%",
+        marginRight: "10%",
+        width: "60%",
         boxShadow: `0 0 5px ${tier.color}`,
       }}
       />);
@@ -508,6 +519,7 @@ const DividedLeftSection = styled(template.DividedLeftSection, {
   justifyContent: "center",
   textAlign: "center",
   overflow: "hidden",
+  width: "600px",
 });
 
 const DividedRightSection = styled(template.DividedRightSection, {
@@ -515,16 +527,17 @@ const DividedRightSection = styled(template.DividedRightSection, {
   flexDirection: "column",
   justifyContent: "center",
   textAlign: "center",
+  width: "calc(100% - 620px)",
 });
 
 export function ContainerContents() {
   const { userId } = useParams();
-  const response: Promise<any> = getUserSearch(userId || "");
-  response.then((value) => {
+  const tmpresponse: Promise<any> = getUserSearch(userId || "");
+  tmpresponse.then((value) => {
     console.log("value : ", value);
   });
 
-  const tmpresponse = {
+  const response = {
     user_info: {
       user_name: "skim",
       user_email: "skim@42.kr",
@@ -571,7 +584,7 @@ export function ContainerContents() {
         achiv_complete: true,
       },
       {
-        achiv_title: "기본777777777777777777",
+        achiv_title: "기본777777777777777777기본777777777777777777",
         achiv_condition: "100연승이라니!! 너 혹시 미쳤니?",
         achiv_image: "/asset/profileImage/default.png",
         achiv_complete: true,
@@ -592,7 +605,7 @@ export function ContainerContents() {
     game_count: {
       count_win: 100,
       count_lose: 100,
-      rank_score: 1500,
+      rank_score: 300,
     },
     game_log: [
       {
@@ -647,16 +660,23 @@ export function ContainerContents() {
     ]
   }
 
+  const profile = {
+    nickname: response.user_info.user_name,
+    email: response.user_info.user_email,
+    secAuthStatus: response.user_info.user_secAuthStatus,
+    avartarImgUri: response.user_info.user_image,
+  }
+
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={tmpresponse} />
-        <Progress response={tmpresponse} />
-        <History response={tmpresponse} />
-        <Setting response={tmpresponse} />
+        <Profile response={response} profile={profile} />
+        <Progress response={response} profile={profile} />
+        <History response={response} profile={profile} />
+        <Setting response={response} profile={profile} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={tmpresponse} />
+        <Achievement response={response} profile={profile} />
       </DividedRightSection>
     </template.DividedContents>
   );
