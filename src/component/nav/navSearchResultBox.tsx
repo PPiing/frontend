@@ -1,7 +1,11 @@
 import React from "react";
 import { styled } from "@stitches/react";
+import { useDispatch } from "react-redux";
 import * as theme from "../../theme/theme";
+import * as modal from "../modal/modal";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
+import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
+import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 
 const ProfileImage = styled("img", {
   width: "70px",
@@ -68,6 +72,7 @@ const Status = styled("div", {
 });
 
 export function ComponentNavSearchUserBox(props: any) {
+  const dispatch = useDispatch();
   const setStatusColor = (status:string) => {
     if (status === "online") return ("green");
     if (status === "offline") return ("grey");
@@ -79,7 +84,13 @@ export function ComponentNavSearchUserBox(props: any) {
 
   const statusColor:string = setStatusColor(StatusDisplayDistributor(searchUser.userStatus));
   return (
-    <NavSearchResultBox>
+    <NavSearchResultBox
+      onClick={() => {
+        modal.SetModalSize("300px", "460px", "20%", "20%");
+        modal.SetModalContent(<ModalNavFriendBox user={searchUser} />);
+        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+      }}
+    >
       <ProfileImage src={searchUser.userImage} className="profile" />
       <Profile>
         <ProfileName> {searchUser.userName} </ProfileName>
