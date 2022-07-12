@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useMemo, useRef, MutableRefObject } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled, } from "@stitches/react";
 import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
-import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles, CameraShake, useGLTF, useAnimations } from "@react-three/drei";
+import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
 import socketManager from "../feat/game/socket";
 
-// import fontPath from "../../public/asset/font/Neon 80s_Regular.json";
 import fontPath from "../../public/asset/font/Retro_Stereo_Wide_Regular.json";
 
 extend({ TextGeometry });
@@ -77,7 +76,6 @@ const shakeCameraConfig = {
   additive: true,
   decay: true,
   decayRate: 0.28
-
 };
 
 function Basic() {
@@ -201,33 +199,21 @@ function Basic() {
   const controlKeyUp = (e:any) => {
     if (e.key === "ArrowUp") {
       if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
-        // if (isClicked === 1) {
-        //   isClicked = 0;
-        //   console.log("up up");
-        //   socket.emit("game:paddle", 0);
-        // }
         return -1;
       }
       if (isClicked === 1) {
         isClicked = 0;
         socket.emit("game:paddle", 0);
       }
-      // setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
     }
     if (e.key === "ArrowDown") {
       if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
-        // if (isClicked === 1) {
-        //   isClicked = 0;
-        //   console.log("down up");
-        //   socket.emit("game:paddle", 0);
-        // }
         return -1;
       }
       if (isClicked === 1) {
         isClicked = 0;
         socket.emit("game:paddle", 0);
       }
-      // setRedRacketYPos(redRacketYPos + RacketMoveSpeed);
     }
     return 0;
   };
