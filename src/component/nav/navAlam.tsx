@@ -155,7 +155,7 @@ export function ComponentNavAlam() {
           dispatch(setModalTrigger({ ismodal: true } as DisplayData));
         }}
       >
-        <theme.ProfileImage className="profileimg" src={`https://bongcheonmountainclub.iptime.org/${loggedUser.img}`} />
+        <theme.ProfileImage className="profileimg" src={`${window.location.origin}${loggedUser.img}`} />
       </NavAlarmProfileImg>
       <NavAlarmProfileText>
         <ProfileTextName className="profiletext">
