@@ -93,7 +93,7 @@ export function ComponentNavSearchUserBox(props: any) {
     >
       <ProfileImage src={searchUser.userImage} className="profile" />
       <Profile>
-        <ProfileName> {searchUser.userName} </ProfileName>
+        <ProfileName> {searchUser.nickName} </ProfileName>
         <Status>
           <StatusCircle style={{ backgroundColor: statusColor }} />
           <StatusMessage> {StatusDisplayDistributor(searchUser.userStatus)} </StatusMessage>
