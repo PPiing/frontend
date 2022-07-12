@@ -80,8 +80,6 @@ export function CallModal() {
       }}
     >
       {ModalContent}
-      {/* eslint-disable-next-line react/button-has-type */}
-      {/* <button onClick={() => setModalIsOpen(false)}>Modal Open</button> */}
     </Modal>
   );
 }

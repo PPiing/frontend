@@ -58,6 +58,37 @@ export const TIER = {
     maxMMR: null },
 };
 
+export function getTierColor(mmr: number) {
+  if (mmr > TIER.god.minMMR) {
+    return (TIER.god);
+  }
+  if (mmr > TIER.challenger.minMMR) {
+    return (TIER.challenger);
+  }
+  if (mmr > TIER.master.minMMR) {
+    return (TIER.master);
+  }
+  if (mmr > TIER.gold.minMMR) {
+    return (TIER.gold);
+  }
+  if (mmr > TIER.iron.minMMR) {
+    return (TIER.iron);
+  }
+  return (TIER.lol);
+}
+
+export function getTierPercent(mmr: number) {
+  const tier = getTierColor(mmr);
+  if (tier.minMMR === null) {
+    return (100);
+  }
+  if (tier.maxMMR === null) {
+    return (100);
+  }
+  // eslint-disable-next-line no-unreachable, consistent-return, no-mixed-operators, max-len
+  return (Math.floor((mmr - (tier.minMMR < 0 ? 0 : tier.minMMR)) / (tier.maxMMR - tier.minMMR) * 100));
+}
+
 //
 // *****************************************************************************
 // Nav bar settings

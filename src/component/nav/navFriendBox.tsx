@@ -87,7 +87,6 @@ export function ComponentNavFriendBox(props: any) {
       onClick={() => {
         modal.SetModalSize("300px", "460px", "20%", "20%");
         modal.SetModalContent(<ModalNavFriendBox user={friend} />);
-        // modal.SetModalContent(<ModalNavFriendBox nick={friend.nick} />);
         dispatch(setModalTrigger({ ismodal: true } as DisplayData));
       }}
     >
