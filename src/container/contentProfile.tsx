@@ -1,11 +1,15 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from "react";
 import { styled, keyframes } from "@stitches/react";
 import { Routes, Route, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import { getUserSearch } from "../network/api/axios.custom";
 import * as modal from "../component/modal/modal";
-import { ReducerType } from "../redux/rootReducer";
+import { ModalNavFriendBox } from "../component/modal/content/modalNavFriendBox";
 import { DisplayData, setModalTrigger } from "../redux/slices/display";
 
 // Profile Zone
@@ -59,12 +63,30 @@ function Profile(props: any) {
   });
 
   const ProfilePictureChangeEvent = (event:any) => {
-    console.log("가소롭군");
+    axios.patch("/api/users/profile", {
+      nickName: profile.nickName,
+      email: profile.email,
+      secAuthStatus: profile.secAuthStatus,
+      avatarImgUri: event.target.files[0].name,
+    }).then((res) => {
+      console.log("updated!", res);
+    }).then((err) => {
+      console.log("error!", err);
+    });
   }
 
   const ProfileNameChangeEvent = (event:any) => {
     if (event.key === "Enter") {
-      console.log("엔터를 누르다니");
+      axios.patch("/api/users/profile", {
+        nickName: event.target.value,
+        email: profile.email,
+        secAuthStatus: profile.secAuthStatus,
+        avatarImgUri: profile.avartarImgUri,
+      }).then((res) => {
+        console.log("updated!", res);
+      }).then((err) => {
+        console.log("error!", err);
+      });
     }
   }
 
@@ -96,7 +118,7 @@ function Profile(props: any) {
               marginRight: "-20%",
               border: `solid 8px ${tier.color}`,
               boxShadow: `0 0 20px ${tier.color}`,
-              borderRadius: "10px 0 0 10px", }}
+              borderRadius: "2px 0 0 10px", }}
           />
         </div>
         <div
@@ -113,7 +135,7 @@ function Profile(props: any) {
           style={{
             width: "75%",
             marginLeft: "-20%",
-            border: `solid 8px ${tier.color}`,
+            border: `solid 4px ${tier.color}`,
             boxShadow: `0 0 20px ${tier.color}`,
             borderRadius: "0 10px 10px 0", }}
         />
@@ -182,14 +204,14 @@ function Progress(props: any) {
 
 function History(props: any) {
   const { response, profile } = props;
-
+  const dispatch = useDispatch();
   const tier = theme.getTierColor(response.game_count.rank_score);
 
   const HistoryWrapper = styled("div", {
-    width: "88%",
+    width: "76%",
     height: "50vh",
     background: "black",
-    marginLeft: "6%",
+    marginLeft: "12%",
     marginTop: "1.5vh",
     borderRadius: "5px",
     border: "1px solid white",
@@ -239,26 +261,32 @@ function History(props: any) {
               rowSpan={2}
               style={{ width: "35%", textAlign: "left" }}
             >
-              <b
-                style={{
-                  marginLeft: "10px",
-                  fontSize: "20px",
-                  color: "#FFFFFF90",
-                  fontWeight: "bold",
-                  textShadow: "0px 0px 10px #FFFFFF90",
-                }}
-              >
-                vs:&nbsp;
-              </b>
-              <b
+              <div
                 style={{
                   fontSize: "25px",
                   color: "white",
                   fontWeight: "bold",
                   textShadow: "0px 0px 10px white",
                 }}
-              >{name}
-              </b>
+                onClick={() => {
+                  modal.SetModalSize("300px", "460px", "10%", "75%");
+                  modal.SetModalContent(<ModalNavFriendBox user={response} />);
+                  dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+                }}
+              >
+                <b
+                  style={{
+                    marginLeft: "10px",
+                    fontSize: "20px",
+                    color: "#FFFFFF90",
+                    fontWeight: "bold",
+                    textShadow: "0px 0px 10px #FFFFFF90",
+                  }}
+                >
+                  vs:&nbsp;
+                </b>
+                {name}
+              </div>
             </td>
             <td
               style={{
@@ -344,7 +372,16 @@ function Setting(props: any) {
   const SecAuthText = response.user_info.user_secAuthStatus === true ? "ON" : "OFF";
   const SecAuthColor = response.user_info.user_secAuthStatus === true ? tier.color : "#D8D8D8";
   const SecAuthToggle = () => {
-    console.log(profile);
+    axios.patch("/api/users/profile", {
+      nickName: profile.nickName,
+      email: profile.email,
+      secAuthStatus: !(profile.secAuthStatus),
+      avatarImgUri: profile.avartarImgUri,
+    }).then((res) => {
+      console.log("updated!", res);
+    }).then((err) => {
+      console.log("error!", err);
+    });
   }
 
   return (
@@ -488,7 +525,7 @@ const DividedLeftSection = styled(template.DividedLeftSection, {
   justifyContent: "center",
   textAlign: "center",
   overflow: "hidden",
-  width: "600px",
+  width: "550px",
 });
 
 const DividedRightSection = styled(template.DividedRightSection, {
@@ -496,7 +533,7 @@ const DividedRightSection = styled(template.DividedRightSection, {
   flexDirection: "column",
   justifyContent: "center",
   textAlign: "center",
-  width: "calc(100% - 620px)",
+  width: "calc(100% - 570px)",
 });
 
 export function ContainerContents() {
