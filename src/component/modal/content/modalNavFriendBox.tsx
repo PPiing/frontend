@@ -98,7 +98,7 @@ function Profile(props: any) {
   return (
     <ProfileZone>
       <ProfileImage
-        src={response.user_info.user_image}
+        src={`${window.location.origin}${response.user_info.user_image}`}
         style={{
           border: `3px solid ${tier.color}`,
           boxShadow: `0 0 15px ${tier.color}` }}
