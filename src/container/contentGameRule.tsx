@@ -20,7 +20,7 @@ socket.on("connect", () => {
   console.log("gameSocket", socket.connected);
 });
 
-const targetModel = "../../public/asset/Iron_Man_Mark_44_Hulkbuster_fbx.FBX"
+const targetModel = "../../asset/Iron_Man_Mark_44_Hulkbuster_fbx.FBX"
 
 const fontStr : string = JSON.stringify(fontPath);
 
