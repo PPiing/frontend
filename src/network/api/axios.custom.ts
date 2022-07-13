@@ -170,3 +170,12 @@ export const chatroomsSearch = async () => {
     return (error);
   }
 };
+
+export const chatUserCount = async (chatSeq: string) => {
+  try {
+    const response = await axios.instance.get(`/chatrooms/room/${chatSeq}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
