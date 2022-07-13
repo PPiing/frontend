@@ -1,18 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface GameRuleData {
-    score: Number;
-    speed: Number;
-    size: Number;
-    isRankGame: Boolean;
+    matchScore: number;
+    ballSpeed: number;
+    paddleSize: number;
+    isRankGame: boolean;
 };
 
 export const gameRule = createSlice({
   name: "gamerule",
   initialState: {
-    score: 3,
-    speed: 1,
-    size: 0,
+    matchScore: 3,
+    ballSpeed: 1.0,
+    paddleSize: 1.0,
     isRankGame: false,
   } as GameRuleData,
   reducers: {
