@@ -90,7 +90,7 @@ export function ComponentNavFriendBox(props: any) {
         dispatch(setModalTrigger({ ismodal: true } as DisplayData));
       }}
     >
-      <ProfileImage src={friend.img} className="profile" />
+      <ProfileImage src={`${window.location.origin}${friend.img}`} className="profile" />
       <Profile>
         <ProfileName> {friend.nick} </ProfileName>
         <Status>

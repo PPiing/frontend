@@ -91,7 +91,7 @@ export function ComponentNavSearchUserBox(props: any) {
         dispatch(setModalTrigger({ ismodal: true } as DisplayData));
       }}
     >
-      <ProfileImage src={searchUser.userImage} className="profile" />
+      <ProfileImage src={`${window.location.origin}${searchUser.userImage}`} className="profile" />
       <Profile>
         <ProfileName> {searchUser.nickName} </ProfileName>
         <Status>
