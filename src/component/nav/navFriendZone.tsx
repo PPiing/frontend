@@ -81,7 +81,7 @@ export function ComponentNavFriendZone() {
           );
         } else {
           for (let i = 0; i < res.data.length; i += 1) {
-            if (loggedUser.nick !== res.data[i].userName) {
+            if (loggedUser.nick !== res.data[i].nickName) {
               renderResult.push(
                 <ComponentNavSearchUserBox key={i} searchUser={res.data[i]} />
               );
