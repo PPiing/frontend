@@ -667,22 +667,22 @@ export function ContainerContents() {
   }
 
   const profile = {
-    nickname: response.user_info.user_name,
-    email: response.user_info.user_email,
-    secAuthStatus: response.user_info.user_secAuthStatus,
-    avartarImgUri: response.user_info.user_image,
+    nickname: tmpresponse.user_info.user_name,
+    email: tmpresponse.user_info.user_email,
+    secAuthStatus: tmpresponse.user_info.user_secAuthStatus,
+    avartarImgUri: tmpresponse.user_info.user_image,
   }
 
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={response} profile={profile} />
-        <Progress response={response} profile={profile} />
-        <History response={response} profile={profile} />
-        <Setting response={response} profile={profile} />
+        <Profile response={tmpresponse} profile={profile} />
+        <Progress response={tmpresponse} profile={profile} />
+        <History response={tmpresponse} profile={profile} />
+        <Setting response={tmpresponse} profile={profile} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={response} profile={profile} />
+        <Achievement response={tmpresponse} profile={profile} />
       </DividedRightSection>
     </template.DividedContents>
   );

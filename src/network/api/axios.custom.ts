@@ -61,7 +61,7 @@ export const getLoggedUserProfile = async () => {
 
 export const getUserSearch = async (searchString: string) => {
   try {
-    const response = await axios.instance.get(`/users/search/nickname/${searchString}`);
+    const response = await axios.instance.get(`/users/search/${searchString}`);
     return (response);
   } catch (error) {
     console.log(error);
