@@ -1,13 +1,14 @@
 /* eslint-disable prefer-destructuring */
 import React from "react";
 import { styled } from "@stitches/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as theme from "../../../theme/theme";
 import { ReducerType } from "../../../redux/rootReducer";
 import { StatusDisplayDistributor } from "../../../feat/profile/utils";
 import { ReqUserProfile } from "../../../feat/profile/request";
 import { LoggedUserData } from "../../../redux/slices/loggedUser";
 import * as modal from "../modal";
+import { DisplayData, setModalTrigger } from "../../../redux/slices/display";
 
 /*
   Define Rules
@@ -184,13 +185,15 @@ const ButtonZone = styled("div", {
 });
 
 const ButtonTd = styled("td", {
-  width: "300px",
+  width: "280px",
+  marginLeft: "10px",
+  marginRight: "10px",
   height: "30px",
 });
 
-const ButtonTemplate = styled("a", {
-  minWidth: "300px",
-  minHeight: "30px",
+const ButtonTemplate = styled("div", {
+  paddingTop: "5px",
+  paddingBottom: "5px",
   marginBottom: "15px",
   fontSize: "18px",
   backgroundColor: "black",
@@ -205,6 +208,12 @@ const ButtonTemplate = styled("a", {
 function Buttons(props: any) {
   const { response, renderList } = props;
   const result = [];
+  const dispatch = useDispatch();
+
+  function ButtonClickHref(link: string) {
+    dispatch(setModalTrigger({ ismodal: false } as DisplayData));
+    window.location.href = link;
+  }
 
   for (let i = 0; i < renderList.buttons.length; i += 2) {
     let buttonLink0 = renderList.buttons[i].link;
@@ -218,12 +227,12 @@ function Buttons(props: any) {
     result.push(
       <tr key={i}>
         <ButtonTd key={i}>
-          <ButtonTemplate href={buttonLink0}>
+          <ButtonTemplate onClick={() => ButtonClickHref(buttonLink0)}>
             {renderList.buttons[i].name}
           </ButtonTemplate>
         </ButtonTd>
         <ButtonTd key={i + 1}>
-          <ButtonTemplate href={buttonLink1}>
+          <ButtonTemplate onClick={() => ButtonClickHref(buttonLink1)}>
             {renderList.buttons[i + 1].name}
           </ButtonTemplate>
         </ButtonTd>

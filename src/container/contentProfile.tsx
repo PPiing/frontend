@@ -574,7 +574,7 @@ export function ContainerContents() {
     game_count: {
       count_win: 100,
       count_lose: 100,
-      rank_score: 280,
+      rank_score: 1500,
     },
     game_log: [
       {
