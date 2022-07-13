@@ -181,7 +181,16 @@ export function ContainerContents() {
   const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(
     (state) => state.joinedChatRoomList
   );
-  console.log(joinedChatRoomList);
+
+  const getIndexChatRoomList = (seq: number) => {
+    for (let i = 0; i < joinedChatRoomList.length; i += 1) {
+      if (String(seq) === joinedChatRoomList[i].seq) {
+        return i;
+      }
+    }
+    return 0;
+  };
+
   const renderJoinedRoomList = () => {
     const renderList: any[] = [];
     for (let i = 0; i < joinedChatRoomList.length; i += 1) {
@@ -240,10 +249,8 @@ export function ContainerContents() {
         return (
           <ComponentChatRoom
             propFunc={changeContent}
-            chatRoomData={joinedChatRoomList[display.chatRoomId]}
-          >
-            {/* <ContentExitButton onClick={() => changeContent("empty")}>X</ContentExitButton> */}
-          </ComponentChatRoom>
+            chatRoomData={joinedChatRoomList[getIndexChatRoomList(display.chatRoomId)]}
+          />
         );
       default:
         return (
