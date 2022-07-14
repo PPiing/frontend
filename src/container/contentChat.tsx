@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import socketManager from "../feat/chat/socket";
@@ -9,7 +9,7 @@ import { FindRoom } from "../component/chat/chatFindRoom";
 import { ReducerType } from "../redux/rootReducer";
 import { JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
 import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
-import { DisplayData } from "../redux/slices/display";
+import { DisplayData, setChatRoomId } from "../redux/slices/display";
 import { ComponentChatRoom } from "../component/chat/chatRoom";
 
 const TypeSelectSection = styled("div", {
@@ -140,6 +140,8 @@ export function ContainerContents() {
   // login for test
   const [userId, setUserId] = useState(-1);
   const [inputId, setInputId] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
   }, [inputId]);
@@ -276,8 +278,8 @@ export function ContainerContents() {
         <MenuSection>
           <input style={{ width: "100px", height: "50px", marginRight: "15px", color: "white", backgroundColor: "black", fontSize: "30px" }} value={inputId} onChange={(event) => handleChange(event)} />
           <MenuButton onClick={() => login()}>login</MenuButton>
-          <MenuButton onClick={() => changeContent("create")}>create</MenuButton>
-          <MenuButton onClick={() => changeContent("find")}>find</MenuButton>
+          <MenuButton onClick={() => { changeContent("create"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>create</MenuButton>
+          <MenuButton onClick={() => { changeContent("find"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>find</MenuButton>
         </MenuSection>
       </template.DividedLeftSection>
       <template.DividedRightSection>
