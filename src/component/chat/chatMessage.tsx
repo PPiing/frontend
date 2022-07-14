@@ -9,27 +9,30 @@ interface ChatMessageData {
 const Message = styled("div", {
   display: "flex",
   flexDirection: "row",
-  width: "90%",
+  width: "96%",
   height: "4rem",
   backgroundColor: "#252525",
   borderRadius: "1rem",
   fontSize: "1.5rem",
   margin: "0.5rem",
+  marginTop: "1.2rem",
+  marginBottom: "0rem",
 })
 
 const MessageSender = styled("div", {
   display: "flex",
   alignItems: "center",
   marginLeft: "1rem",
-  width: "25%",
+  width: "16%",
   fontWeight: "bold",
+  textOverflow: "ellipsis",
 })
 
 const MessageText = styled("div", {
   display: "flex",
   color: "white",
   alignItems: "center",
-  width: "75%",
+  width: "84%",
 
 })
 

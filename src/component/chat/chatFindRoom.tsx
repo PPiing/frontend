@@ -35,7 +35,7 @@ const ContentExitButton = styled("div", {
   cursor: "pointer",
 });
 
-const RoomListBox = styled("div", {
+const RoomListBox = styled(theme.NeonHoverRed, {
   display: "inline-block",
   justifyContent: "center",
   alignItems: "center",

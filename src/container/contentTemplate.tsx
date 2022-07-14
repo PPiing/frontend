@@ -34,29 +34,33 @@ export const DividedRightSection = styled(theme.NeonHoverRed, {
   height: `calc(${theme.NAV_LEFT_HEIGHT})`,
 });
 
-export const ListBox = styled(theme.NeonHoverRed, {
+export const ListBox = styled("div", {
   color: "grey",
   width: "90%",
   height: "100px",
   marginLeft: "1rem",
   marginRight: "1rem",
   marginBottom: "1rem",
+  transition: "all 1s",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   cursor: "pointer",
   filter: "drop-shadow(0 0 0px gray)",
+  borderRadius: "10px",
   "&.clicked": {
     color: `${theme.NEON_RED}`,
     borderColor: `${theme.NEON_RED}`,
+    backgroundColor: "#2E2E2E",
   },
   "&.non-clicked": {
     color: "grey",
     borderColor: "grey",
   },
   "&:hover": {
-    border: `3px solid ${theme.NEON_RED}`,
+    // border: `3px solid ${theme.NEON_RED}`,
     color: `${theme.NEON_RED}`,
-    filter: `drop-shadow(0 0 0px ${theme.NEON_RED}) brightness(1.6)`,
+    backgroundColor: "#1C1C1C",
+    filter: "drop-shadow(0 0 0px #000) brightness(1.6)",
   },
 });

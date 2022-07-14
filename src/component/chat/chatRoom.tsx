@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useDispatch } from "react-redux";
@@ -40,10 +42,11 @@ const ChatRoomHeader = styled("div", {
   justifyContent: "space-between",
   width: "100%",
   height: "120px",
+  backgroundColor: "#000000",
 })
 
 const HeaderTitle = styled("p", {
-  marginLeft: "2rem",
+  marginRight: "2rem",
 })
 
 const HeaderInfo = styled("div", {
@@ -54,10 +57,11 @@ const HeaderInfo = styled("div", {
 
 const HeaderButton = styled("div", {
   fontSize: "1rem",
-  width: "2rem",
-  height: "2rem",
+  width: "1.3rem",
+  height: "1.3rem",
   margin: "0.5rem",
   cursor: "pointer",
+  marginTop: "-2rem",
   border: "1px solid #fff",
   textAlign: "center",
   verticalAlign: "middle",
@@ -115,30 +119,65 @@ export function ComponentChatRoom(props: any) {
 
   return (
     <ContentRoom>
-      <ContentExitButton onClick={() => { propFunc("empty"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>X</ContentExitButton>
       <ChatRoomHeader>
-        <HeaderTitle>{chatRoomData.name}</HeaderTitle>
         <HeaderInfo>
-          <HeaderButton
+          <HeaderButton // room exit button
+            onClick={() => {
+              modal.SetModalSize("700px", "300px", "40%", "30%");
+              modal.SetModalContent(<div />);
+              dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+            }}
+            style={{
+              border: "0",
+              backgroundColor: "#fd4546",
+              borderRadius: "100%",
+              marginLeft: "1.5rem",
+            }}
+          />
+          <HeaderButton // hide tab
+            onClick={() => {
+              propFunc("empty");
+              dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
+            }}
+            style={{
+              border: "0",
+              backgroundColor: "#fdaf24",
+              borderRadius: "100%",
+            }}
+          />
+          <HeaderButton // modal on : setting
             onClick={() => {
               modal.SetModalSize("900px", "900px", "7%", "24%");
               modal.SetModalContent(<div />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
-          >
-            L
-          </HeaderButton>
-          <HeaderButton
+            style={{
+              border: "0",
+              backgroundColor: "#28c231",
+              borderRadius: "100%",
+            }}
+          />
+          <HeaderButton // modal on : user list
             onClick={() => {
               modal.SetModalSize("900px", "900px", "7%", "24%");
               modal.SetModalContent(<div />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
+            style={{
+              background: "#FBFBEF",
+              borderRadius: "10px",
+              width: "5.7rem",
+              height: "1.3rem",
+              textAlign: "center",
+              verticalAlign: "middle",
+              fontSize: "1rem",
+              color: "black",
+            }}
           >
-            S
+            <b>00</b> joined
           </HeaderButton>
-          <HeaderButton>E</HeaderButton>
         </HeaderInfo>
+        <HeaderTitle>{chatRoomData.name}</HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
         <ChatMessage username="hyungyyo" message="sample message" />
