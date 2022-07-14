@@ -674,15 +674,16 @@ export function ContainerContents() {
 
   response.then((value) => {
     setUserInfo(value);
-    console.log("response : ", response);
-    console.log("value : ", value);
-    console.log("userInfo : ", userInfo);
-    profile = {
+     profile = {
       nickname: userInfo.data?.user_info.userName,
       email: userInfo.data?.user_info.userEmail,
       secAuthStatus: userInfo.data?.user_info.secAuthStatus,
       avartarImgUri: userInfo.data?.user_info.userImage,
     }
+    console.log("response : ", response);
+    console.log("value : ", value);
+    console.log("userInfo.data : ", userInfo.data);
+    console.log("profile : ", profile);
     return (
       <template.DividedContents>
         <DividedLeftSection>
