@@ -158,9 +158,10 @@ export const Hr = styled("hr", {
 export const NeonHoverRed = styled("div", {
   border: "3px solid gray",
   transition: "all 0.5s",
+  overflow: "hidden",
   "&:hover": {
     border: `3px solid ${NEON_RED}`,
-    filter: "brightness(0.8)",
+    filter: "brightness(1.3)",
   },
 });
 

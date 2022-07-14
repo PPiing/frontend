@@ -47,6 +47,8 @@ const ChatRoomHeader = styled("div", {
 
 const HeaderTitle = styled("p", {
   marginRight: "2rem",
+  color: "white",
+  textShadow: "0px 0px 10px #ffffff",
 })
 
 const HeaderInfo = styled("div", {
@@ -175,7 +177,7 @@ export function ComponentChatRoom(props: any) {
           </HeaderButton>
           <HeaderButton // modal on : setting
             onClick={() => {
-              modal.SetModalSize("900px", "900px", "7%", "24%");
+              modal.SetModalSize("800px", "800px", "10%", "27%");
               modal.SetModalContent(<div />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
@@ -199,7 +201,7 @@ export function ComponentChatRoom(props: any) {
           </HeaderButton>
           <HeaderButton // modal on : setting
             onClick={() => {
-              modal.SetModalSize("900px", "900px", "7%", "24%");
+              modal.SetModalSize("800px", "800px", "10%", "27%");
               modal.SetModalContent(<div />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
