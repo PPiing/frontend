@@ -2,23 +2,24 @@ import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useDispatch } from "react-redux";
 import * as theme from "../../theme/theme";
-import { setChatRoomId, DisplayData } from "../../redux/slices/display";
+import * as modal from "../modal/modal";
+import { setChatRoomId, DisplayData, setModalTrigger } from "../../redux/slices/display";
 import { chatUserCount } from "../../network/api/axios.custom";
+import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { ChatMessage } from "./chatMessage";
 
-const ContentRoom = styled(theme.NeonHoverRed, {
+const ContentRoom = styled("div", {
   position: "relative",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
   fontSize: "5rem",
-  borderRadius: "5%",
-  width: "95%",
-  height: "95%",
+  width: "100%",
+  height: "100%",
 });
 
-const ContentExitButton = styled(theme.NeonHoverRed, {
+const ContentExitButton = styled("div", {
   position: "absolute",
   right: "20px",
   top: "20px",
@@ -30,6 +31,7 @@ const ContentExitButton = styled(theme.NeonHoverRed, {
   width: "30px",
   height: "30px",
   cursor: "pointer",
+  border: "1px solid #fff",
 });
 
 const ChatRoomHeader = styled("div", {
@@ -50,12 +52,15 @@ const HeaderInfo = styled("div", {
   marginRight: "5rem",
 })
 
-const HeaderButton = styled(theme.NeonHoverRed, {
+const HeaderButton = styled("div", {
   fontSize: "1rem",
   width: "2rem",
   height: "2rem",
   margin: "0.5rem",
   cursor: "pointer",
+  border: "1px solid #fff",
+  textAlign: "center",
+  verticalAlign: "middle",
 })
 
 const ChatRoomRecvArea = styled("div", {
@@ -106,7 +111,6 @@ export function ComponentChatRoom(props: any) {
 
   console.log(`${chatRoomData.seq}!`);
   const chatUsers = chatUserCount(chatRoomData.seq);
-
   console.log(chatUsers);
 
   return (
@@ -115,9 +119,25 @@ export function ComponentChatRoom(props: any) {
       <ChatRoomHeader>
         <HeaderTitle>{chatRoomData.name}</HeaderTitle>
         <HeaderInfo>
-          <HeaderButton>1</HeaderButton>
-          <HeaderButton>1</HeaderButton>
-          <HeaderButton>1</HeaderButton>
+          <HeaderButton
+            onClick={() => {
+              modal.SetModalSize("900px", "900px", "7%", "24%");
+              modal.SetModalContent(<div />);
+              dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+            }}
+          >
+            L
+          </HeaderButton>
+          <HeaderButton
+            onClick={() => {
+              modal.SetModalSize("900px", "900px", "7%", "24%");
+              modal.SetModalContent(<div />);
+              dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+            }}
+          >
+            S
+          </HeaderButton>
+          <HeaderButton>E</HeaderButton>
         </HeaderInfo>
       </ChatRoomHeader>
       <ChatRoomRecvArea>

@@ -12,7 +12,7 @@ enum ChatType {
   CHTP40 = "CHTP40", // 비밀 채팅방 (private)
 }
 
-const ChatFindRoom = styled(theme.NeonHoverRed, {
+const ChatFindRoom = styled("div", {
   position: "relative",
   display: "inline-block",
   fontSize: "5rem",
@@ -21,7 +21,7 @@ const ChatFindRoom = styled(theme.NeonHoverRed, {
   height: "95%",
 });
 
-const ContentExitButton = styled(theme.NeonHoverRed, {
+const ContentExitButton = styled("div", {
   position: "absolute",
   right: "20px",
   top: "20px",
@@ -35,7 +35,7 @@ const ContentExitButton = styled(theme.NeonHoverRed, {
   cursor: "pointer",
 });
 
-const RoomListBox = styled(theme.NeonHoverRed, {
+const RoomListBox = styled("div", {
   display: "inline-block",
   justifyContent: "center",
   alignItems: "center",
