@@ -57,14 +57,18 @@ const HeaderInfo = styled("div", {
 
 const HeaderButton = styled("div", {
   fontSize: "1rem",
-  width: "1.3rem",
-  height: "1.3rem",
+  width: "2.5rem",
+  height: "2.5rem",
   margin: "0.5rem",
   cursor: "pointer",
   marginTop: "-2rem",
   border: "1px solid #fff",
   textAlign: "center",
   verticalAlign: "middle",
+})
+
+const HeaderButtonIcon = styled("img", {
+  position: "absolute",
 })
 
 const ChatRoomRecvArea = styled("div", {
@@ -115,7 +119,7 @@ export function ComponentChatRoom(props: any) {
 
   console.log(`${chatRoomData.seq}!`);
   const chatUsers = chatUserCount(chatRoomData.seq);
-  console.log(chatUsers);
+  console.log("마으마ㅡ아므아므아ㅡ", chatUsers);
 
   return (
     <ContentRoom>
@@ -123,9 +127,8 @@ export function ComponentChatRoom(props: any) {
         <HeaderInfo>
           <HeaderButton // room exit button
             onClick={() => {
-              modal.SetModalSize("700px", "300px", "40%", "30%");
-              modal.SetModalContent(<div />);
-              dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+              propFunc("empty");
+              dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
             }}
             style={{
               border: "0",
@@ -133,18 +136,43 @@ export function ComponentChatRoom(props: any) {
               borderRadius: "100%",
               marginLeft: "1.5rem",
             }}
-          />
+          >
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/x_mark.svg"
+              style={{
+                width: "2.3rem",
+                height: "2.3rem",
+                top: "1.4rem",
+                left: "1.6rem",
+                opacity: "0.7",
+              }}
+            />
+          </HeaderButton>
           <HeaderButton // hide tab
             onClick={() => {
-              propFunc("empty");
-              dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
+              modal.SetModalSize("700px", "300px", "40%", "30%");
+              modal.SetModalContent(<div />);
+              dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
             style={{
               border: "0",
               backgroundColor: "#fdaf24",
               borderRadius: "100%",
             }}
-          />
+          >
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/exit_mark.svg"
+              style={{
+                width: "1.8rem",
+                height: "1.8rem",
+                top: "1.6rem",
+                left: "5.3rem",
+                opacity: "0.7",
+              }}
+            />
+          </HeaderButton>
           <HeaderButton // modal on : setting
             onClick={() => {
               modal.SetModalSize("900px", "900px", "7%", "24%");
@@ -156,25 +184,42 @@ export function ComponentChatRoom(props: any) {
               backgroundColor: "#28c231",
               borderRadius: "100%",
             }}
-          />
-          <HeaderButton // modal on : user list
+          >
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/setting_mark.svg"
+              style={{
+                width: "1.8rem",
+                height: "1.8rem",
+                top: "1.6rem",
+                left: "8.8rem",
+                opacity: "0.7",
+              }}
+            />
+          </HeaderButton>
+          <HeaderButton // modal on : setting
             onClick={() => {
               modal.SetModalSize("900px", "900px", "7%", "24%");
               modal.SetModalContent(<div />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
             style={{
-              background: "#FBFBEF",
-              borderRadius: "10px",
-              width: "5.7rem",
-              height: "1.3rem",
-              textAlign: "center",
-              verticalAlign: "middle",
-              fontSize: "1rem",
-              color: "black",
+              border: "0",
+              backgroundColor: "#F2F2F2",
+              borderRadius: "100%",
             }}
           >
-            <b>00</b> joined
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/users_mark.svg"
+              style={{
+                width: "1.8rem",
+                height: "1.8rem",
+                top: "1.6rem",
+                left: "12.35rem",
+                opacity: "0.7",
+              }}
+            />
           </HeaderButton>
         </HeaderInfo>
         <HeaderTitle>{chatRoomData.name}</HeaderTitle>
