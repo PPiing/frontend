@@ -543,33 +543,6 @@ export function ContainerContents() {
   const [userInfo, setUserInfo] = useState({} as any);
   const response = getUserSearch(userId || "");
 
-  response.then((value) => {
-    setUserInfo(value);
-    console.log("response : ", response);
-    console.log("value : ", value);
-    console.log("userInfo : ", userInfo);
-    const profile = {
-      nickname: userInfo.user_info.user_name,
-      email: userInfo.user_info.user_email,
-      secAuthStatus: userInfo.user_info.user_secAuthStatus,
-      avartarImgUri: userInfo.user_info.user_image,
-    }
-
-    return (
-      <template.DividedContents>
-        <DividedLeftSection>
-          <Profile response={userInfo} profile={profile} />
-          <Progress response={userInfo} profile={profile} />
-          <History response={userInfo} profile={profile} />
-          <Setting response={userInfo} profile={profile} />
-        </DividedLeftSection>
-        <DividedRightSection>
-          <Achievement response={userInfo} profile={profile} />
-        </DividedRightSection>
-      </template.DividedContents>
-    );
-  });
-
   const tmpresponse = {
     user_info: {
       user_name: "skim",
@@ -691,23 +664,36 @@ export function ContainerContents() {
     ]
   }
 
-  const profile = {
+  let profile = {
     nickname: tmpresponse.user_info.user_name,
     email: tmpresponse.user_info.user_email,
     secAuthStatus: tmpresponse.user_info.user_secAuthStatus,
     avartarImgUri: tmpresponse.user_info.user_image,
   }
 
+  response.then((value) => {
+    setUserInfo(value);
+    console.log("response : ", response);
+    console.log("value : ", value);
+    console.log("userInfo : ", userInfo);
+    profile = {
+      nickname: userInfo.user_info.user_name,
+      email: userInfo.user_info.user_email,
+      secAuthStatus: userInfo.user_info.user_secAuthStatus,
+      avartarImgUri: userInfo.user_info.user_image,
+    }
+  });
+
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={tmpresponse} profile={profile} />
-        <Progress response={tmpresponse} profile={profile} />
-        <History response={tmpresponse} profile={profile} />
-        <Setting response={tmpresponse} profile={profile} />
+        <Profile response={userInfo} profile={profile} />
+        <Progress response={userInfo} profile={profile} />
+        <History response={userInfo} profile={profile} />
+        <Setting response={userInfo} profile={profile} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={tmpresponse} profile={profile} />
+        <Achievement response={userInfo} profile={profile} />
       </DividedRightSection>
     </template.DividedContents>
   );
