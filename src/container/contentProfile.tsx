@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from "react";
+import React, { useState } from "react";
 import { styled, keyframes } from "@stitches/react";
 import { Routes, Route, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -540,11 +540,33 @@ const DividedRightSection = styled(template.DividedRightSection, {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  const response = getUserSearch(userId || "");
-  let userInfo;
+  const [userInfo, setUserInfo] = useState({} as any);
+  const response: Promise<any> = getUserSearch(userId || "");
+
   response.then((value) => {
-    userInfo = value;
-    console.log("value : ", userInfo);
+    console.log("value : ", value);
+    console.log("userInfo : ", userInfo);
+    setUserInfo(value);
+    const profile = {
+      nickname: userInfo.user_info.user_name,
+      email: userInfo.user_info.user_email,
+      secAuthStatus: userInfo.user_info.user_secAuthStatus,
+      avartarImgUri: userInfo.user_info.user_image,
+    }
+
+    return (
+      <template.DividedContents>
+        <DividedLeftSection>
+          <Profile response={userInfo} profile={profile} />
+          <Progress response={userInfo} profile={profile} />
+          <History response={userInfo} profile={profile} />
+          <Setting response={userInfo} profile={profile} />
+        </DividedLeftSection>
+        <DividedRightSection>
+          <Achievement response={userInfo} profile={profile} />
+        </DividedRightSection>
+      </template.DividedContents>
+    );
   });
 
   const tmpresponse = {
@@ -675,31 +697,16 @@ export function ContainerContents() {
     avartarImgUri: tmpresponse.user_info.user_image,
   }
 
-  if (typeof userInfo === "undefined") {
-    return (
-      <template.DividedContents>
-        <DividedLeftSection>
-          <Profile response={tmpresponse} profile={profile} />
-          <Progress response={tmpresponse} profile={profile} />
-          <History response={tmpresponse} profile={profile} />
-          <Setting response={tmpresponse} profile={profile} />
-        </DividedLeftSection>
-        <DividedRightSection>
-          <Achievement response={tmpresponse} profile={profile} />
-        </DividedRightSection>
-      </template.DividedContents>
-    );
-  }
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={userInfo} profile={profile} />
-        <Progress response={userInfo} profile={profile} />
-        <History response={userInfo} profile={profile} />
-        <Setting response={userInfo} profile={profile} />
+        <Profile response={tmpresponse} profile={profile} />
+        <Progress response={tmpresponse} profile={profile} />
+        <History response={tmpresponse} profile={profile} />
+        <Setting response={tmpresponse} profile={profile} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={userInfo} profile={profile} />
+        <Achievement response={tmpresponse} profile={profile} />
       </DividedRightSection>
     </template.DividedContents>
   );
