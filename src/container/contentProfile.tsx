@@ -541,8 +541,10 @@ const DividedRightSection = styled(template.DividedRightSection, {
 export function ContainerContents() {
   const { userId } = useParams();
   const response = getUserSearch(userId || "");
+  let userInfo;
   response.then((value) => {
-    console.log("value : ", value);
+    userInfo = value;
+    console.log("value : ", userInfo);
   });
 
   const tmpresponse = {
@@ -668,10 +670,10 @@ export function ContainerContents() {
   }
 
   const profile = {
-    nickname: response.user_info.user_name,
-    email: response.user_info.user_email,
-    secAuthStatus: response.user_info.user_secAuthStatus,
-    avartarImgUri: response.user_info.user_image,
+    nickname: tmpresponse.user_info.user_name,
+    email: tmpresponse.user_info.user_email,
+    secAuthStatus: tmpresponse.user_info.user_secAuthStatus,
+    avartarImgUri: tmpresponse.user_info.user_image,
   }
 
   return (

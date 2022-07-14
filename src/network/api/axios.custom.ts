@@ -69,6 +69,16 @@ export const getUserSearch = async (searchString: string) => {
   }
 }
 
+export const getUserSimpleSearch = async (searchString: string) => {
+  try {
+    const response = await axios.instance.get(`/users/search/nickname/${searchString}`);
+    return (response);
+  } catch (error) {
+    console.log(error);
+    return (error);
+  }
+}
+
 export const getFriendList = async () => {
   try {
     const response = await axios.instance.get("/community/friends");
