@@ -11,7 +11,7 @@ enum ChatType {
   CHTP40 = "CHTP40", // 비밀 채팅방 (private)
 }
 
-const ChatCreateRoom = styled(theme.NeonHoverRed, {
+const ChatCreateRoom = styled("div", {
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -63,7 +63,7 @@ const ButtonArea = styled("div", {
   margin: "3rem",
 });
 
-const NeonBox = styled(theme.NeonHoverRed, {
+const NeonBox = styled("div", {
   width: "20rem",
   height: "3rem",
   borderRadius: "10px",
