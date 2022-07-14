@@ -665,7 +665,6 @@ export function ContainerContents() {
         loser_score: 10,
         start_time: "2022.07.05 16:08",
       },
-
     ]
   }
 
@@ -676,16 +675,31 @@ export function ContainerContents() {
     avartarImgUri: tmpresponse.user_info.user_image,
   }
 
+  if (typeof userInfo === "undefined") {
+    return (
+      <template.DividedContents>
+        <DividedLeftSection>
+          <Profile response={tmpresponse} profile={profile} />
+          <Progress response={tmpresponse} profile={profile} />
+          <History response={tmpresponse} profile={profile} />
+          <Setting response={tmpresponse} profile={profile} />
+        </DividedLeftSection>
+        <DividedRightSection>
+          <Achievement response={tmpresponse} profile={profile} />
+        </DividedRightSection>
+      </template.DividedContents>
+    );
+  }
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={response} profile={profile} />
-        <Progress response={response} profile={profile} />
-        <History response={response} profile={profile} />
-        <Setting response={response} profile={profile} />
+        <Profile response={userInfo} profile={profile} />
+        <Progress response={userInfo} profile={profile} />
+        <History response={userInfo} profile={profile} />
+        <Setting response={userInfo} profile={profile} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={response} profile={profile} />
+        <Achievement response={userInfo} profile={profile} />
       </DividedRightSection>
     </template.DividedContents>
   );

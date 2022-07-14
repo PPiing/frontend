@@ -33,7 +33,8 @@ const MessageText = styled("div", {
   color: "white",
   alignItems: "center",
   width: "84%",
-
+  backgroundColor: "#252525",
+  marginLeft: "10px",
 })
 
 export function ChatMessage(props: ChatMessageData) {
