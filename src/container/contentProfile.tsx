@@ -544,9 +544,10 @@ export function ContainerContents() {
   const response = getUserSearch(userId || "");
 
   response.then((value) => {
+    setUserInfo(value);
+    console.log("response : ", response);
     console.log("value : ", value);
     console.log("userInfo : ", userInfo);
-    setUserInfo(value);
     const profile = {
       nickname: userInfo.user_info.user_name,
       email: userInfo.user_info.user_email,
