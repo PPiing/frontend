@@ -19,6 +19,7 @@ const TypeSelectSection = styled("div", {
   alignItems: "center",
   height: "10%",
   margin: "10px",
+  cursor: "pointer",
 });
 
 const RoomListSection = styled("div", {
@@ -47,7 +48,7 @@ const MenuSection = styled("div", {
   alignItems: "center",
 });
 
-const MenuButton = styled(theme.NeonHoverRed, {
+const MenuButton = styled("div", {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -58,7 +59,7 @@ const MenuButton = styled(theme.NeonHoverRed, {
   color: "grey",
 });
 
-const NeonBox = styled(theme.NeonHoverRed, {
+const NeonBox = styled("div", {
   width: "45%",
   height: "70%",
   borderRadius: "10px",
@@ -68,19 +69,27 @@ const NeonBox = styled(theme.NeonHoverRed, {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  transition: "all 1s",
   "&.clicked": {
     color: `${theme.NEON_RED}`,
     borderColor: `${theme.NEON_RED}`,
+    backgroundColor: "#2E2E2E",
   },
   "&.non-clicked": {
     color: "grey",
     borderColor: "grey",
   },
+  "&:hover": {
+    // border: `3px solid ${theme.NEON_RED}`,
+    color: `${theme.NEON_RED}`,
+    backgroundColor: "#1C1C1C",
+    filter: "drop-shadow(0 0 0px #000) brightness(1.6)",
+  },
 });
 
 // Content~ 컴포넌트는 렌더링 확인을 위한 샘플입니다.
 
-const ContentFind = styled(theme.NeonHoverRed, {
+const ContentFind = styled("div", {
   position: "relative",
   display: "flex",
   justifyContent: "center",
@@ -91,7 +100,7 @@ const ContentFind = styled(theme.NeonHoverRed, {
   height: "95%",
 });
 
-const ContentEmpty = styled(theme.NeonHoverRed, {
+const ContentEmpty = styled("div", {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -106,7 +115,7 @@ const ContentEmptyDiscription = styled("div", {
   fontSize: "20px",
 });
 
-const ContentExitButton = styled(theme.NeonHoverRed, {
+const ContentExitButton = styled("div", {
   position: "absolute",
   right: "20px",
   top: "20px",
@@ -199,11 +208,20 @@ export function ContainerContents() {
       if (listType === "chat") {
         if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
           renderList.push(
-            <ComponentChatRoomListBox
-              key={joinedChatRoomList[i].seq}
-              chatRoomData={joinedChatRoomList[i]}
-              stateUpdateFunc={setContentType}
-            />
+            <div>
+              <ComponentChatRoomListBox
+                key={joinedChatRoomList[i].seq}
+                chatRoomData={joinedChatRoomList[i]}
+                stateUpdateFunc={setContentType}
+              />
+              {/* <hr
+                key={joinedChatRoomList[i].seq}
+                style={{
+                  border: "1px dashed gray",
+                  width: "80%",
+                }}
+              /> */}
+            </div>
           );
         }
       } else if (joinedChatRoomList[i].type === "CHTP10") {
@@ -272,6 +290,7 @@ export function ContainerContents() {
         <TypeSelectSection>
           {renderTypeSelectButton()}
         </TypeSelectSection>
+        <hr style={{ border: "1px solid gray", width: "80%" }} />
         <RoomListSection>
           {renderJoinedRoomList()}
         </RoomListSection>

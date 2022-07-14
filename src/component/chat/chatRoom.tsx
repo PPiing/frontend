@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useDispatch } from "react-redux";
@@ -40,10 +42,11 @@ const ChatRoomHeader = styled("div", {
   justifyContent: "space-between",
   width: "100%",
   height: "120px",
+  backgroundColor: "#000000",
 })
 
 const HeaderTitle = styled("p", {
-  marginLeft: "2rem",
+  marginRight: "2rem",
 })
 
 const HeaderInfo = styled("div", {
@@ -54,13 +57,18 @@ const HeaderInfo = styled("div", {
 
 const HeaderButton = styled("div", {
   fontSize: "1rem",
-  width: "2rem",
-  height: "2rem",
+  width: "2.5rem",
+  height: "2.5rem",
   margin: "0.5rem",
   cursor: "pointer",
+  marginTop: "-2rem",
   border: "1px solid #fff",
   textAlign: "center",
   verticalAlign: "middle",
+})
+
+const HeaderButtonIcon = styled("img", {
+  position: "absolute",
 })
 
 const ChatRoomRecvArea = styled("div", {
@@ -111,34 +119,110 @@ export function ComponentChatRoom(props: any) {
 
   console.log(`${chatRoomData.seq}!`);
   const chatUsers = chatUserCount(chatRoomData.seq);
-  console.log(chatUsers);
+  console.log("마으마ㅡ아므아므아ㅡ", chatUsers);
 
   return (
     <ContentRoom>
-      <ContentExitButton onClick={() => { propFunc("empty"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>X</ContentExitButton>
       <ChatRoomHeader>
-        <HeaderTitle>{chatRoomData.name}</HeaderTitle>
         <HeaderInfo>
-          <HeaderButton
+          <HeaderButton // room exit button
+            onClick={() => {
+              propFunc("empty");
+              dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
+            }}
+            style={{
+              border: "0",
+              backgroundColor: "#fd4546",
+              borderRadius: "100%",
+              marginLeft: "1.5rem",
+            }}
+          >
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/x_mark.svg"
+              style={{
+                width: "2.3rem",
+                height: "2.3rem",
+                top: "1.4rem",
+                left: "1.6rem",
+                opacity: "0.7",
+              }}
+            />
+          </HeaderButton>
+          <HeaderButton // hide tab
+            onClick={() => {
+              modal.SetModalSize("700px", "300px", "40%", "30%");
+              modal.SetModalContent(<div />);
+              dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+            }}
+            style={{
+              border: "0",
+              backgroundColor: "#fdaf24",
+              borderRadius: "100%",
+            }}
+          >
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/exit_mark.svg"
+              style={{
+                width: "1.8rem",
+                height: "1.8rem",
+                top: "1.6rem",
+                left: "5.3rem",
+                opacity: "0.7",
+              }}
+            />
+          </HeaderButton>
+          <HeaderButton // modal on : setting
             onClick={() => {
               modal.SetModalSize("900px", "900px", "7%", "24%");
               modal.SetModalContent(<div />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
+            style={{
+              border: "0",
+              backgroundColor: "#28c231",
+              borderRadius: "100%",
+            }}
           >
-            L
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/setting_mark.svg"
+              style={{
+                width: "1.8rem",
+                height: "1.8rem",
+                top: "1.6rem",
+                left: "8.8rem",
+                opacity: "0.7",
+              }}
+            />
           </HeaderButton>
-          <HeaderButton
+          <HeaderButton // modal on : setting
             onClick={() => {
               modal.SetModalSize("900px", "900px", "7%", "24%");
               modal.SetModalContent(<div />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
+            style={{
+              border: "0",
+              backgroundColor: "#F2F2F2",
+              borderRadius: "100%",
+            }}
           >
-            S
+            <HeaderButtonIcon
+              alt="x"
+              src="/asset/users_mark.svg"
+              style={{
+                width: "1.8rem",
+                height: "1.8rem",
+                top: "1.6rem",
+                left: "12.35rem",
+                opacity: "0.7",
+              }}
+            />
           </HeaderButton>
-          <HeaderButton>E</HeaderButton>
         </HeaderInfo>
+        <HeaderTitle>{chatRoomData.name}</HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
         <ChatMessage username="hyungyyo" message="sample message" />
