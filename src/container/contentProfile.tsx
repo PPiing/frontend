@@ -678,24 +678,26 @@ export function ContainerContents() {
     console.log("value : ", value);
     console.log("userInfo : ", userInfo);
     profile = {
-      nickname: userInfo.user_info.userName,
-      email: userInfo.user_info.userEmail,
-      secAuthStatus: userInfo.user_info.secAuthStatus,
-      avartarImgUri: userInfo.user_info.userImage,
+      nickname: userInfo.data?.user_info.userName,
+      email: userInfo.data?.user_info.userEmail,
+      secAuthStatus: userInfo.data?.user_info.secAuthStatus,
+      avartarImgUri: userInfo.data?.user_info.userImage,
     }
+    return (
+      <template.DividedContents>
+        <DividedLeftSection>
+          <Profile response={userInfo.data} profile={profile} />
+          <Progress response={userInfo.data} profile={profile} />
+          <History response={userInfo.data} profile={profile} />
+          <Setting response={userInfo.data} profile={profile} />
+        </DividedLeftSection>
+        <DividedRightSection>
+          <Achievement response={userInfo.data} profile={profile} />
+        </DividedRightSection>
+      </template.DividedContents>
+    );
+  }).catch((error) => {
+    return (<div>{error}</div>)
   });
-
-  return (
-    <template.DividedContents>
-      <DividedLeftSection>
-        <Profile response={tmpresponse} profile={profile} />
-        <Progress response={tmpresponse} profile={profile} />
-        <History response={tmpresponse} profile={profile} />
-        <Setting response={tmpresponse} profile={profile} />
-      </DividedLeftSection>
-      <DividedRightSection>
-        <Achievement response={tmpresponse} profile={profile} />
-      </DividedRightSection>
-    </template.DividedContents>
-  );
+  return (<div />)
 }
