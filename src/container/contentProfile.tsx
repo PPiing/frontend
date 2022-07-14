@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from "react";
+import React, { useState } from "react";
 import { styled, keyframes } from "@stitches/react";
 import { Routes, Route, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -540,28 +540,30 @@ const DividedRightSection = styled(template.DividedRightSection, {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  const response = getUserSearch(userId || "");
+  const [userInfo, setUserInfo] = useState({} as any);
+  const response: Promise<any> = getUserSearch(userId || "");
 
   response.then((value) => {
     console.log("value : ", value);
-
+    console.log("userInfo : ", userInfo);
+    setUserInfo(value);
     const profile = {
-      nickname: value.user_info.user_name,
-      email: value.user_info.user_email,
-      secAuthStatus: value.user_info.user_secAuthStatus,
-      avartarImgUri: value.user_info.user_image,
+      nickname: userInfo.user_info.user_name,
+      email: userInfo.user_info.user_email,
+      secAuthStatus: userInfo.user_info.user_secAuthStatus,
+      avartarImgUri: userInfo.user_info.user_image,
     }
 
     return (
       <template.DividedContents>
         <DividedLeftSection>
-          <Profile response={value} profile={profile} />
-          <Progress response={value} profile={profile} />
-          <History response={value} profile={profile} />
-          <Setting response={value} profile={profile} />
+          <Profile response={userInfo} profile={profile} />
+          <Progress response={userInfo} profile={profile} />
+          <History response={userInfo} profile={profile} />
+          <Setting response={userInfo} profile={profile} />
         </DividedLeftSection>
         <DividedRightSection>
-          <Achievement response={value} profile={profile} />
+          <Achievement response={userInfo} profile={profile} />
         </DividedRightSection>
       </template.DividedContents>
     );
