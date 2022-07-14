@@ -100,7 +100,7 @@ function Profile(props: any) {
         id="picture_change_input"
       />
       <ProfileImage
-        src={response.user_info.user_image}
+        src={response.user_info.userImage}
         onClick={() => {
           document.getElementById("picture_change_input")?.click();
         }}
@@ -143,7 +143,7 @@ function Profile(props: any) {
       </ProfileTier>
       <ProfileName
         type="text"
-        defaultValue={response.user_info.user_name}
+        defaultValue={response.user_info.userName}
         onKeyPress={ProfileNameChangeEvent}
       />
     </ProfileZone>
@@ -248,7 +248,7 @@ function History(props: any) {
     let name = response.game_log[i].winner_name;
     let state = "LOSE";
     let stateColor = "red";
-    if (response.game_log[i].winner_name === response.user_info.user_name) {
+    if (response.game_log[i].winner_name === response.user_info.userName) {
       name = response.game_log[i].loser_name;
       state = "WIN";
       stateColor = "yellow";
@@ -371,8 +371,8 @@ function Setting(props: any) {
     marginBottom: "-5vh"
   });
   const tier = theme.getTierColor(response.rank_info.rank_score);
-  const SecAuthText = response.user_info.user_secAuthStatus === true ? "ON" : "OFF";
-  const SecAuthColor = response.user_info.user_secAuthStatus === true ? tier.color : "#D8D8D8";
+  const SecAuthText = response.user_info.secAuthStatus === true ? "ON" : "OFF";
+  const SecAuthColor = response.user_info.secAuthStatus === true ? tier.color : "#D8D8D8";
   const SecAuthToggle = () => {
     axios.patch("/api/users/profile", {
       nickName: profile.nickName,
@@ -545,10 +545,11 @@ export function ContainerContents() {
 
   const tmpresponse = {
     user_info: {
-      user_name: "skim",
-      user_email: "skim@42.kr",
-      user_secAuthStatus: true,
-      user_image: "/asset/profileImage/default.png",
+	  userSeq: "1",
+      userName: "skim",
+      userEmail: "skim@42.kr",
+      secAuthStatus: true,
+      userImage: "/asset/profileImage/default.png",
       isFriend: false,
       isBlock: false,
     },
@@ -665,10 +666,10 @@ export function ContainerContents() {
   }
 
   let profile = {
-    nickname: tmpresponse.user_info.user_name,
-    email: tmpresponse.user_info.user_email,
-    secAuthStatus: tmpresponse.user_info.user_secAuthStatus,
-    avartarImgUri: tmpresponse.user_info.user_image,
+    nickname: tmpresponse.user_info.userName,
+    email: tmpresponse.user_info.userEmail,
+    secAuthStatus: tmpresponse.user_info.secAuthStatus,
+    avartarImgUri: tmpresponse.user_info.userImage,
   }
 
   response.then((value) => {
@@ -677,23 +678,23 @@ export function ContainerContents() {
     console.log("value : ", value);
     console.log("userInfo : ", userInfo);
     profile = {
-      nickname: userInfo.user_info.user_name,
-      email: userInfo.user_info.user_email,
-      secAuthStatus: userInfo.user_info.user_secAuthStatus,
-      avartarImgUri: userInfo.user_info.user_image,
+      nickname: userInfo.user_info.userName,
+      email: userInfo.user_info.userEmail,
+      secAuthStatus: userInfo.user_info.secAuthStatus,
+      avartarImgUri: userInfo.user_info.userImage,
     }
   });
 
   return (
     <template.DividedContents>
       <DividedLeftSection>
-        <Profile response={userInfo} profile={profile} />
-        <Progress response={userInfo} profile={profile} />
-        <History response={userInfo} profile={profile} />
-        <Setting response={userInfo} profile={profile} />
+        <Profile response={tmpresponse} profile={profile} />
+        <Progress response={tmpresponse} profile={profile} />
+        <History response={tmpresponse} profile={profile} />
+        <Setting response={tmpresponse} profile={profile} />
       </DividedLeftSection>
       <DividedRightSection>
-        <Achievement response={userInfo} profile={profile} />
+        <Achievement response={tmpresponse} profile={profile} />
       </DividedRightSection>
     </template.DividedContents>
   );
