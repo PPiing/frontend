@@ -219,10 +219,10 @@ function Buttons(props: any) {
     let buttonLink0 = renderList.buttons[i].link;
     let buttonLink1 = renderList.buttons[i + 1].link;
     if (renderList.buttons[i].name === "profile") {
-      buttonLink0 += `/${response.user_info.user_id}`;
+      buttonLink0 += `/${response.user_info.user_name}`;
     }
     if (renderList.buttons[i + 1].name === "profile") {
-      buttonLink1 += `/${response.user_info.user_id}`;
+      buttonLink1 += `/${response.user_info.user_name}`;
     }
     result.push(
       <tr key={i}>

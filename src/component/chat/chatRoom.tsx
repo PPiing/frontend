@@ -54,7 +54,7 @@ const HeaderTitle = styled("p", {
 const HeaderInfo = styled("div", {
   display: "flex",
   flexDirection: "row",
-  marginRight: "5rem",
+  marginRight: "6rem",
 })
 
 const HeaderButton = styled("div", {
