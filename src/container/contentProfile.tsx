@@ -541,7 +541,7 @@ const DividedRightSection = styled(template.DividedRightSection, {
 export function ContainerContents() {
   const { userId } = useParams();
   const [userInfo, setUserInfo] = useState({} as any);
-  const response: Promise<any> = getUserSearch(userId || "");
+  const response = getUserSearch(userId || "");
 
   response.then((value) => {
     console.log("value : ", value);
