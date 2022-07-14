@@ -17,7 +17,7 @@ import { DisplayData, setModalTrigger } from "../redux/slices/display";
 function Profile(props: any) {
   const { response, profile } = props;
 
-  const tier = theme.getTierColor(response.game_count.rank_score);
+  const tier = theme.getTierColor(response.rank_info.rank_score);
 
   const ProfileZone = styled("div", {
     justifyContent: "center",
@@ -39,7 +39,7 @@ function Profile(props: any) {
     cursor: "pointer",
   });
 
-  const ProfileTier = styled("p", {
+  const ProfileTier = styled("div", {
     marginTop: "1vh",
     fontSize: "2.5vh",
     fontWeight: "bold",
@@ -157,8 +157,8 @@ function Profile(props: any) {
 function Progress(props: any) {
   const { response, profile } = props;
 
-  const tier = theme.getTierColor(response.game_count.rank_score);
-  const value = Math.floor(theme.getTierPercent(response.game_count.rank_score));
+  const tier = theme.getTierColor(response.rank_info.rank_score);
+  const value = Math.floor(theme.getTierPercent(response.rank_info.rank_score));
 
   const Load = keyframes({
     "0%": { width: "0" },
@@ -205,7 +205,7 @@ function Progress(props: any) {
 function History(props: any) {
   const { response, profile } = props;
   const dispatch = useDispatch();
-  const tier = theme.getTierColor(response.game_count.rank_score);
+  const tier = theme.getTierColor(response.rank_info.rank_score);
 
   const HistoryWrapper = styled("div", {
     width: "76%",
@@ -254,89 +254,91 @@ function History(props: any) {
       stateColor = "yellow";
     }
     boxes.push(
-      <HistoryBox>
+      <HistoryBox key={i.toString()}>
         <table style={{ width: "100%", height: "100%" }}>
-          <tr>
-            <td
-              rowSpan={2}
-              style={{ width: "35%", textAlign: "left" }}
-            >
-              <div
+          <tbody>
+            <tr>
+              <td
+                rowSpan={2}
+                style={{ width: "35%", textAlign: "left" }}
+              >
+                <div
+                  style={{
+                    fontSize: "25px",
+                    color: "white",
+                    fontWeight: "bold",
+                    textShadow: "0px 0px 10px white",
+                  }}
+                  onClick={() => {
+                    modal.SetModalSize("300px", "460px", "10%", "75%");
+                    modal.SetModalContent(<ModalNavFriendBox user={response} />);
+                    dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+                  }}
+                >
+                  <b
+                    style={{
+                      marginLeft: "10px",
+                      fontSize: "20px",
+                      color: "#FFFFFF90",
+                      fontWeight: "bold",
+                      textShadow: "0px 0px 10px #FFFFFF90",
+                    }}
+                  >
+                    vs:&nbsp;
+                  </b>
+                  {name}
+                </div>
+              </td>
+              <td
                 style={{
-                  fontSize: "25px",
-                  color: "white",
-                  fontWeight: "bold",
-                  textShadow: "0px 0px 10px white",
-                }}
-                onClick={() => {
-                  modal.SetModalSize("300px", "460px", "10%", "75%");
-                  modal.SetModalContent(<ModalNavFriendBox user={response} />);
-                  dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+                  textAlign: "right",
                 }}
               >
                 <b
                   style={{
-                    marginLeft: "10px",
-                    fontSize: "20px",
-                    color: "#FFFFFF90",
-                    fontWeight: "bold",
-                    textShadow: "0px 0px 10px #FFFFFF90",
+                    color: "gray",
+                    fontSize: "10px",
+                    fontWeight: "0",
+                    fontStyle: "italic",
                   }}
                 >
-                  vs:&nbsp;
+                  {response.game_log[i].start_time}&nbsp;&nbsp;
                 </b>
-                {name}
-              </div>
-            </td>
-            <td
-              style={{
-                textAlign: "right",
-              }}
-            >
-              <b
+                <b
+                  style={{
+                    color: `${stateColor}`,
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    fontStyle: "italic",
+                    textShadow: `0px 0px 10px ${stateColor}`,
+                  }}
+                >
+                  {state}
+                </b>
+              </td>
+            </tr>
+            <tr>
+              <td
                 style={{
-                  color: "gray",
-                  fontSize: "10px",
-                  fontWeight: "0",
-                  fontStyle: "italic",
+                  height: "30px",
+                  marginTop: "-15px",
+                  textAlign: "right",
                 }}
               >
-                {response.game_log[i].start_time}&nbsp;&nbsp;
-              </b>
-              <b
-                style={{
-                  color: `${stateColor}`,
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  fontStyle: "italic",
-                  textShadow: `0px 0px 10px ${stateColor}`,
-                }}
-              >
-                {state}
-              </b>
-            </td>
-          </tr>
-          <tr>
-            <td
-              style={{
-                height: "30px",
-                marginTop: "-15px",
-                textAlign: "right",
-              }}
-            >
-              <b
-                style={{
-                  color: "white",
-                  fontSize: "30px",
-                  fontWeight: "bold",
-                  fontStyle: "italic",
-                  textShadow: `0px 0px 10px ${stateColor}`,
-                }}
-              >
-                {response.game_log[i].loser_score} : {response.game_log[i].winner_score}
-              </b>
-            </td>
-          </tr>
+                <b
+                  style={{
+                    color: "white",
+                    fontSize: "30px",
+                    fontWeight: "bold",
+                    fontStyle: "italic",
+                    textShadow: `0px 0px 10px ${stateColor}`,
+                  }}
+                >
+                  {response.game_log[i].loser_score} : {response.game_log[i].winner_score}
+                </b>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </HistoryBox>
     );
@@ -368,7 +370,7 @@ function Setting(props: any) {
     margin: "1vh",
     marginBottom: "-5vh"
   });
-  const tier = theme.getTierColor(response.game_count.rank_score);
+  const tier = theme.getTierColor(response.rank_info.rank_score);
   const SecAuthText = response.user_info.user_secAuthStatus === true ? "ON" : "OFF";
   const SecAuthColor = response.user_info.user_secAuthStatus === true ? tier.color : "#D8D8D8";
   const SecAuthToggle = () => {
@@ -416,7 +418,7 @@ function Setting(props: any) {
 
 function Achievement(props: any) {
   const { response, profile } = props;
-  const tier = theme.getTierColor(response.game_count.rank_score);
+  const tier = theme.getTierColor(response.rank_info.rank_score);
 
   const AchievementZone = styled("div", {
     width: "calc(100% - 16px)",
@@ -464,7 +466,7 @@ function Achievement(props: any) {
       textColor = "gray";
     }
     boxes.push(
-      <AchievementBox>
+      <AchievementBox key={i.toString()}>
         <img
           alt="error"
           src={response.achiv_info[i].achiv_image}
@@ -538,12 +540,14 @@ const DividedRightSection = styled(template.DividedRightSection, {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  const tmpresponse: Promise<any> = getUserSearch(userId || "");
-  tmpresponse.then((value) => {
-    console.log("value : ", value);
+  const response = getUserSearch(userId || "");
+  let userInfo;
+  response.then((value) => {
+    userInfo = value;
+    console.log("value : ", userInfo);
   });
 
-  const response = {
+  const tmpresponse = {
     user_info: {
       user_name: "skim",
       user_email: "skim@42.kr",
@@ -608,10 +612,9 @@ export function ContainerContents() {
         achiv_complete: false,
       },
     ],
-    game_count: {
-      count_win: 100,
-      count_lose: 100,
+    rank_info: {
       rank_score: 1500,
+      rank_name: "challenger",
     },
     game_log: [
       {
@@ -667,10 +670,10 @@ export function ContainerContents() {
   }
 
   const profile = {
-    nickname: response.user_info.user_name,
-    email: response.user_info.user_email,
-    secAuthStatus: response.user_info.user_secAuthStatus,
-    avartarImgUri: response.user_info.user_image,
+    nickname: tmpresponse.user_info.user_name,
+    email: tmpresponse.user_info.user_email,
+    secAuthStatus: tmpresponse.user_info.user_secAuthStatus,
+    avartarImgUri: tmpresponse.user_info.user_image,
   }
 
   return (

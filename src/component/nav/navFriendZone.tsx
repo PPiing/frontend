@@ -6,7 +6,7 @@ import { ComponentNavFriendBox } from "./navFriendBox";
 import { FriendData, modifiyFriendStatus } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData, setSearchRetRec } from "../../redux/slices/display";
-import { getFriendList, getUserSearch } from "../../network/api/axios.custom";
+import { getFriendList, getUserSimpleSearch } from "../../network/api/axios.custom";
 import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 import store from "../../redux/store";
 import socketManager from "../../network/api/socket";
@@ -67,7 +67,7 @@ export function ComponentNavFriendZone() {
     const renderResult = [];
     if (display.searchSwitch) {
       if (!display.searchRetRec) {
-        const response: Promise<any> = getUserSearch(display.searchString);
+        const response: Promise<any> = getUserSimpleSearch(display.searchString);
 
         response.then((value) => {
           setSearchResult(value);
