@@ -674,7 +674,7 @@ export function ContainerContents() {
 
   response.then((value) => {
     setUserInfo(value);
-     profile = {
+    profile = {
       nickname: userInfo.data?.user_info.userName,
       email: userInfo.data?.user_info.userEmail,
       secAuthStatus: userInfo.data?.user_info.secAuthStatus,
