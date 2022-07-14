@@ -170,7 +170,7 @@ export function ComponentChatRoom(props: any) {
                 width: "1.8rem",
                 height: "1.8rem",
                 top: "1.6rem",
-                left: "5.3rem",
+                left: "5.35rem",
                 opacity: "0.7",
               }}
             />
@@ -194,7 +194,7 @@ export function ComponentChatRoom(props: any) {
                 width: "1.8rem",
                 height: "1.8rem",
                 top: "1.6rem",
-                left: "8.8rem",
+                left: "8.85rem",
                 opacity: "0.7",
               }}
             />
