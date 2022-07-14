@@ -157,6 +157,7 @@ function Basic() {
       if (isClicked === 0) {
         isClicked = 1;
         socket.emit("game:paddle", -1);
+        console.log("Press Up, emit -1");
       }
       // setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
     }
@@ -167,10 +168,10 @@ function Basic() {
       if (isClicked === 0) {
         isClicked = 1;
         socket.emit("game:paddle", 1);
+        console.log("Press Up, emit 1");
       }
     }
     if (e.key === "p") {
-      console.log("Press p");
       tmpballX += 1;
       tmpballY += 1;
       tmpRedY += 1;
@@ -180,9 +181,9 @@ function Basic() {
         paddleTop: { x: 0, y: tmpRedY },
         paddleBtm: { x: 0, y: tmpBlueY }
       });
+      console.log("Press p, emit moving infos.", tmpballX, tmpballY, tmpRedY, tmpBlueY);
     }
     if (e.key === "o") {
-      console.log("Press o");
       tmpballX -= 1;
       tmpballY -= 1;
       tmpRedY -= 1;
@@ -192,6 +193,7 @@ function Basic() {
         paddleTop: { x: 0, y: tmpRedY },
         paddleBtm: { x: 0, y: tmpBlueY }
       });
+      console.log("Press o, , emit moving infos.", tmpballX, tmpballY, tmpRedY, tmpBlueY);
     }
     return 0;
   };
@@ -204,6 +206,7 @@ function Basic() {
       if (isClicked === 1) {
         isClicked = 0;
         socket.emit("game:paddle", 0);
+        console.log("Press Up end, emit 0");
       }
     }
     if (e.key === "ArrowDown") {
@@ -213,6 +216,7 @@ function Basic() {
       if (isClicked === 1) {
         isClicked = 0;
         socket.emit("game:paddle", 0);
+        console.log("Press Down end, emit 0");
       }
     }
     return 0;

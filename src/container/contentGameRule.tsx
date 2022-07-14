@@ -1,4 +1,4 @@
-import React, { useState, useRef, Suspense } from "react";
+import React, { useState, useRef, Suspense, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "@stitches/react";
 import { Slider, Button } from "@mui/material";
@@ -9,11 +9,18 @@ import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import ToggleBtn from "../component/button/ToggleBtn";
 import { ReducerType } from "../redux/rootReducer";
-import { GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
+import { gameRule, GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
 import store from "../redux/store";
 import fontPath from "../../public/asset/font/Retro_Stereo_Wide_Regular.json";
+import socketManager from "../feat/game/socket";
 
-const targetModel = "../../dist/asset/Iron_Man_Mark_44_Hulkbuster_fbx.FBX"
+const socket = socketManager.socket("/");
+
+socket.on("connect", () => {
+  console.log("gameSocket", socket.connected);
+});
+
+const targetModel = "../../asset/Iron_Man_Mark_44_Hulkbuster_fbx.FBX"
 
 const fontStr : string = JSON.stringify(fontPath);
 
@@ -75,27 +82,29 @@ export default function GameRuleSet() {
   const [modelYpos, setModelYpos] = useState(0);
 
   const memoRule : GameRuleData = {
-    score: myRule.score,
-    speed: myRule.speed,
-    size: myRule.size,
+    matchScore: myRule.matchScore,
+    ballSpeed: myRule.ballSpeed,
+    paddleSize: myRule.paddleSize,
     isRankGame: myRule.isRankGame,
   };
 
   const handleValue = (e:any) => {
     if (e.target.name === "score") {
-      memoRule.score = e.target.value;
+      memoRule.matchScore = e.target.value;
     } else if (e.target.name === "speed") {
-      memoRule.speed = e.target.value;
+      memoRule.ballSpeed = e.target.value;
     } else if (e.target.name === "size") {
-      memoRule.size = e.target.value;
+      memoRule.paddleSize = e.target.value;
     };
   };
 
   const handleReady = () => {
     // eslint-disable-next-line max-len
     store.dispatch(setGameRuleData({ ...memoRule, isRankGame: memoRule.isRankGame } as GameRuleData))
+    console.log("=> emit ready", memoRule);
+    socket.emit("test:render", {
+    });
   };
-
   const spinModel = () => {
     const spinModel : React.Ref<any> = useRef();
     const fbx = useLoader(FBXLoader, targetModel);
@@ -117,6 +126,24 @@ export default function GameRuleSet() {
     return spinModel();
   };
 
+  useEffect(() => {
+    socket.on("game:ready", (res) => {
+      console.log("server's ready =>", res);
+    });
+    socket.on("game:render", (res) => {
+      console.log("server's render =>", res);
+    });
+    socket.on("game:score", (res) => {
+      console.log("server's score =>", res);
+    });
+
+    return () => {
+      socket.off("game:ready");
+      socket.off("game:render");
+      socket.off("game:score");
+    };
+  });
+
   return (
     <template.DividedContents>
       <RuleSelectionContainer>
@@ -126,10 +153,10 @@ export default function GameRuleSet() {
             <Slider name="score" onChange={handleValue} orientation="vertical" aria-label="ball" valueLabelDisplay="on" defaultValue={3} max={10} min={1} color="primary" marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={1} max={3} min={1} color="secondary" marks />
+            <Slider name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={1} max={1.5} min={0.5} color="secondary" step={0.1} marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={0} max={2} min={-2} color="primary" marks />
+            <Slider name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={1} max={1.2} min={0.8} color="primary" step={0.1} marks />
           </SliderWrapper>
         </SlidersContainer>
         <TextContainer>
