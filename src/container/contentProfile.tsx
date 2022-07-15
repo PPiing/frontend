@@ -72,16 +72,16 @@ function Profile(props: any) {
       },
     });
     console.log("uploadFileName :", uploadFile.data);
-    // await axios.patch("/api/users/profile", {
-    //   nickName: profile.nickName,
-    //   email: profile.email,
-    //   secAuthStatus: profile.secAuthStatus,
-    //   avatarImgUri: uploadFile.data, // "f1ece5d0-93a8-458a-8363-f4da888b118a.jpeg"
-    // }).then((res) => {
-    //   console.log("updated :", res);
-    // }).then((err) => {
-    //   console.log("error :", err);
-    // });
+    await axios.patch("/api/users/profile", {
+      nickName: profile.nickName,
+      email: profile.email,
+      secAuthStatus: profile.secAuthStatus,
+      avatarImgUri: `/api/upload/${uploadFile.data}`, // "f1ece5d0-93a8-458a-8363-f4da888b118a.jpeg"
+    }).then((res) => {
+      console.log("updated :", res);
+    }).then((err) => {
+      console.log("error :", err);
+    });
   }
 
   const ProfileNameChangeEvent = (event:any) => {
@@ -549,8 +549,8 @@ const DividedRightSection = styled(template.DividedRightSection, {
 
 export function ContainerContents() {
   const { userId } = useParams();
-  //   const [userInfo, setUserInfo] = useState({} as any);
-  //   const response = getUserSearch(userId || "");
+  const [userInfo, setUserInfo] = useState({} as any);
+  const response = getUserSearch(userId || "");
 
   const tmpresponse = {
     user_info: {
@@ -674,52 +674,53 @@ export function ContainerContents() {
     ]
   }
 
-  const profile = {
+  let profile = {
     nickname: tmpresponse.user_info.userName,
     email: tmpresponse.user_info.userEmail,
     secAuthStatus: tmpresponse.user_info.secAuthStatus,
     avartarImgUri: tmpresponse.user_info.userImage,
   }
 
-  //   response.then((value) => {
-  //     setUserInfo(value);
-  //     profile = {
-  //       nickname: userInfo.data?.user_info.userName,
-  //       email: userInfo.data?.user_info.userEmail,
-  //       secAuthStatus: userInfo.data?.user_info.secAuthStatus,
-  //       avartarImgUri: userInfo.data?.user_info.userImage,
-  //     }
-  //     console.log("response : ", response);
-  //     console.log("value : ", value);
-  //     console.log("userInfo.data : ", userInfo.data);
-  //     console.log("profile : ", profile);
-  //     return (
-  //       <template.DividedContents>
-  //         <DividedLeftSection>
-  //           <Profile response={userInfo.data} profile={profile} />
-  //           <Progress response={userInfo.data} profile={profile} />
-  //           <History response={userInfo.data} profile={profile} />
-  //           <Setting response={userInfo.data} profile={profile} />
-  //         </DividedLeftSection>
-  //         <DividedRightSection>
-  //           <Achievement response={userInfo.data} profile={profile} />
-  //         </DividedRightSection>
-  //       </template.DividedContents>
-  //     );
-  //   }).catch((error) => {
-  //     return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
-  //   });
-  return (
-    <template.DividedContents>
-      <DividedLeftSection>
-        <Profile response={tmpresponse} profile={profile} />
-        <Progress response={tmpresponse} profile={profile} />
-        <History response={tmpresponse} profile={profile} />
-        <Setting response={tmpresponse} profile={profile} />
-      </DividedLeftSection>
-      <DividedRightSection>
-        <Achievement response={tmpresponse} profile={profile} />
-      </DividedRightSection>
-    </template.DividedContents>
-  );
+  response.then((value) => {
+    setUserInfo(value);
+    profile = {
+      nickname: userInfo.data?.user_info.userName,
+      email: userInfo.data?.user_info.userEmail,
+      secAuthStatus: userInfo.data?.user_info.secAuthStatus,
+      avartarImgUri: userInfo.data?.user_info.userImage,
+    }
+    console.log("response : ", response);
+    console.log("value : ", value);
+    console.log("userInfo.data : ", userInfo.data);
+    console.log("profile : ", profile);
+    return (
+      <template.DividedContents>
+        <DividedLeftSection>
+          <Profile response={userInfo.data} profile={profile} />
+          <Progress response={userInfo.data} profile={profile} />
+          <History response={userInfo.data} profile={profile} />
+          <Setting response={userInfo.data} profile={profile} />
+        </DividedLeftSection>
+        <DividedRightSection>
+          <Achievement response={userInfo.data} profile={profile} />
+        </DividedRightSection>
+      </template.DividedContents>
+    );
+  }).catch((error) => {
+    return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
+  });
+  return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
+  // return (
+  //   <template.DividedContents>
+  //     <DividedLeftSection>
+  //       <Profile response={tmpresponse} profile={profile} />
+  //       <Progress response={tmpresponse} profile={profile} />
+  //       <History response={tmpresponse} profile={profile} />
+  //       <Setting response={tmpresponse} profile={profile} />
+  //     </DividedLeftSection>
+  //     <DividedRightSection>
+  //       <Achievement response={tmpresponse} profile={profile} />
+  //     </DividedRightSection>
+  //   </template.DividedContents>
+  // );
 }
