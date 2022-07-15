@@ -125,7 +125,7 @@ export function ComponentChatRoom(props: any) {
 
   console.log(`${chatRoomData.seq}!`);
   const chatUsers = chatUserCount(chatRoomData.seq);
-  console.log("마으마ㅡ아므아므아ㅡ", chatUsers);
+  console.log("마으마ㅡ아므아므아ㅡ", chatRoomData.seq);
 
   return (
     <ContentRoom>
@@ -158,7 +158,7 @@ export function ComponentChatRoom(props: any) {
           <HeaderButton // exit button
             onClick={() => {
               modal.SetModalSize("700px", "300px", "40%", "30%");
-              modal.SetModalContent(<ModalChatExit />);
+              modal.SetModalContent(<ModalChatExit room={chatRoomData.seq} />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
             style={{
