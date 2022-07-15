@@ -676,7 +676,7 @@ export function ContainerContents() {
     setUserInfo(value);
     console.log("response : ", response);
     console.log("value : ", value);
-    console.log("userInfo : ", userInfo);
+    console.log("userInfo.data : ", userInfo.data);
     profile = {
       nickname: userInfo.data?.user_info.userName,
       email: userInfo.data?.user_info.userEmail,
@@ -697,7 +697,7 @@ export function ContainerContents() {
       </template.DividedContents>
     );
   }).catch((error) => {
-    return (<div>{error}</div>)
+    return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
   });
-  return (<div />)
+  return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
 }
