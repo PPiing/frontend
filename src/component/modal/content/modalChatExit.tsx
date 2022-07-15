@@ -1,8 +1,12 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import * as modal from "../modal";
 import { DisplayData, setModalTrigger } from "../../../redux/slices/display";
+import { LoggedUserData } from "../../../redux/slices/loggedUser";
+import { getLoggedUserProfile } from "../../../network/api/axios.custom";
+import { ReducerType } from "../../../redux/rootReducer";
 
 const ExitZone = styled("div", {
   width: "100%",
@@ -68,13 +72,24 @@ const ExitButtonRed = styled(ExitButton, {
 });
 
 export function ModalChatExit(props: any) {
+  const { room } = props;
+  const LoggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  console.log(`room number : ${room}`);
   const dispatch = useDispatch();
   return (
     <ExitZone>
       <ExitText>Are you sure you want to<ExitTextBold> leave </ExitTextBold>the room?
       </ExitText>
       <ExitButtonZone>
-        <ExitButtonGreen>
+        <ExitButtonGreen
+          onClick={() => {
+            axios.delete(`/api/chatrooms/leave/${room}/${LoggedUser?.seq}`).then((response) => {
+              console.log("response :", response);
+            }).catch((error) => {
+              console.log("error :", error);
+            });
+          }}
+        >
           <a>
             <img
               alt="Y"
