@@ -5,6 +5,7 @@ import { styled } from "@stitches/react";
 import { useDispatch } from "react-redux";
 import * as theme from "../../theme/theme";
 import * as modal from "../modal/modal";
+import { ModalChatExit } from "../modal/content/modalChatExit";
 import { setChatRoomId, DisplayData, setModalTrigger } from "../../redux/slices/display";
 import { chatUserCount } from "../../network/api/axios.custom";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
@@ -71,6 +72,9 @@ const HeaderButton = styled("div", {
 
 const HeaderButtonIcon = styled("img", {
   position: "absolute",
+  "&:hover": {
+    display: "none",
+  }
 })
 
 const ChatRoomRecvArea = styled("div", {
@@ -127,7 +131,7 @@ export function ComponentChatRoom(props: any) {
     <ContentRoom>
       <ChatRoomHeader>
         <HeaderInfo>
-          <HeaderButton // room exit button
+          <HeaderButton // hide tab
             onClick={() => {
               propFunc("empty");
               dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
@@ -151,10 +155,10 @@ export function ComponentChatRoom(props: any) {
               }}
             />
           </HeaderButton>
-          <HeaderButton // hide tab
+          <HeaderButton // exit button
             onClick={() => {
               modal.SetModalSize("700px", "300px", "40%", "30%");
-              modal.SetModalContent(<div />);
+              modal.SetModalContent(<ModalChatExit />);
               dispatch(setModalTrigger({ ismodal: true } as DisplayData));
             }}
             style={{
