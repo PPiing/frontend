@@ -65,25 +65,23 @@ function Profile(props: any) {
   const ProfilePictureChangeEvent = async (event:any) => {
     const formData = new FormData();
     formData.append("file", event.target.files[0]);
-    const uploadFileName = await axios.post("/api/upload", {
-      data: formData,
+    console.log("formData :", formData);
+    const uploadFile = await axios.post("/api/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log("uploadFileName :", uploadFileName.data);
-    /*
-    await axios.patch("/api/users/profile", {
-      nickName: profile.nickName,
-      email: profile.email,
-      secAuthStatus: profile.secAuthStatus,
-      avatarImgUri: event.target.files[0].name, // "/~~~~/skim.png"
-    }).then((res) => {
-      console.log("updated :", res);
-    }).then((err) => {
-      console.log("error :", err);
-    });
-*/
+    console.log("uploadFileName :", uploadFile.data);
+    // await axios.patch("/api/users/profile", {
+    //   nickName: profile.nickName,
+    //   email: profile.email,
+    //   secAuthStatus: profile.secAuthStatus,
+    //   avatarImgUri: uploadFile.data, // "f1ece5d0-93a8-458a-8363-f4da888b118a.jpeg"
+    // }).then((res) => {
+    //   console.log("updated :", res);
+    // }).then((err) => {
+    //   console.log("error :", err);
+    // });
   }
 
   const ProfileNameChangeEvent = (event:any) => {
