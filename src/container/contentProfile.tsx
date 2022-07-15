@@ -64,7 +64,7 @@ function Profile(props: any) {
 
   const ProfilePictureChangeEvent = async (event:any) => {
     const formData = new FormData();
-    formData.append("files", event.target.files[0]);
+    formData.append("file", event.target.files[0]);
     const uploadFileName = await axios.post("/api/upload", {
       data: formData,
       headers: {
