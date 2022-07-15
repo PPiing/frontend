@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from "react";
+import React, { useState } from "react";
 import { styled, keyframes } from "@stitches/react";
 import { Routes, Route, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -100,7 +100,7 @@ function Profile(props: any) {
         id="picture_change_input"
       />
       <ProfileImage
-        src={response.user_info.user_image}
+        src={response.user_info.userImage}
         onClick={() => {
           document.getElementById("picture_change_input")?.click();
         }}
@@ -143,7 +143,7 @@ function Profile(props: any) {
       </ProfileTier>
       <ProfileName
         type="text"
-        defaultValue={response.user_info.user_name}
+        defaultValue={response.user_info.userName}
         onKeyPress={ProfileNameChangeEvent}
       />
     </ProfileZone>
@@ -248,7 +248,7 @@ function History(props: any) {
     let name = response.game_log[i].winner_name;
     let state = "LOSE";
     let stateColor = "red";
-    if (response.game_log[i].winner_name === response.user_info.user_name) {
+    if (response.game_log[i].winner_name === response.user_info.userName) {
       name = response.game_log[i].loser_name;
       state = "WIN";
       stateColor = "yellow";
@@ -371,8 +371,8 @@ function Setting(props: any) {
     marginBottom: "-5vh"
   });
   const tier = theme.getTierColor(response.rank_info.rank_score);
-  const SecAuthText = response.user_info.user_secAuthStatus === true ? "ON" : "OFF";
-  const SecAuthColor = response.user_info.user_secAuthStatus === true ? tier.color : "#D8D8D8";
+  const SecAuthText = response.user_info.secAuthStatus === true ? "ON" : "OFF";
+  const SecAuthColor = response.user_info.secAuthStatus === true ? tier.color : "#D8D8D8";
   const SecAuthToggle = () => {
     axios.patch("/api/users/profile", {
       nickName: profile.nickName,
@@ -540,19 +540,16 @@ const DividedRightSection = styled(template.DividedRightSection, {
 
 export function ContainerContents() {
   const { userId } = useParams();
+  const [userInfo, setUserInfo] = useState({} as any);
   const response = getUserSearch(userId || "");
-  let userInfo;
-  response.then((value) => {
-    userInfo = value;
-    console.log("value : ", userInfo);
-  });
 
   const tmpresponse = {
     user_info: {
-      user_name: "skim",
-      user_email: "skim@42.kr",
-      user_secAuthStatus: true,
-      user_image: "/asset/profileImage/default.png",
+      userSeq: "1",
+      userName: "skim",
+      userEmail: "skim@42.kr",
+      secAuthStatus: true,
+      userImage: "/asset/profileImage/default.png",
       isFriend: false,
       isBlock: false,
     },
@@ -665,28 +662,43 @@ export function ContainerContents() {
         loser_score: 10,
         start_time: "2022.07.05 16:08",
       },
-
     ]
   }
 
-  const profile = {
-    nickname: tmpresponse.user_info.user_name,
-    email: tmpresponse.user_info.user_email,
-    secAuthStatus: tmpresponse.user_info.user_secAuthStatus,
-    avartarImgUri: tmpresponse.user_info.user_image,
+  let profile = {
+    nickname: tmpresponse.user_info.userName,
+    email: tmpresponse.user_info.userEmail,
+    secAuthStatus: tmpresponse.user_info.secAuthStatus,
+    avartarImgUri: tmpresponse.user_info.userImage,
   }
 
-  return (
-    <template.DividedContents>
-      <DividedLeftSection>
-        <Profile response={response} profile={profile} />
-        <Progress response={response} profile={profile} />
-        <History response={response} profile={profile} />
-        <Setting response={response} profile={profile} />
-      </DividedLeftSection>
-      <DividedRightSection>
-        <Achievement response={response} profile={profile} />
-      </DividedRightSection>
-    </template.DividedContents>
-  );
+  response.then((value) => {
+    setUserInfo(value);
+    profile = {
+      nickname: userInfo.data?.user_info.userName,
+      email: userInfo.data?.user_info.userEmail,
+      secAuthStatus: userInfo.data?.user_info.secAuthStatus,
+      avartarImgUri: userInfo.data?.user_info.userImage,
+    }
+    console.log("response : ", response);
+    console.log("value : ", value);
+    console.log("userInfo.data : ", userInfo.data);
+    console.log("profile : ", profile);
+    return (
+      <template.DividedContents>
+        <DividedLeftSection>
+          <Profile response={userInfo.data} profile={profile} />
+          <Progress response={userInfo.data} profile={profile} />
+          <History response={userInfo.data} profile={profile} />
+          <Setting response={userInfo.data} profile={profile} />
+        </DividedLeftSection>
+        <DividedRightSection>
+          <Achievement response={userInfo.data} profile={profile} />
+        </DividedRightSection>
+      </template.DividedContents>
+    );
+  }).catch((error) => {
+    return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
+  });
+  return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
 }
