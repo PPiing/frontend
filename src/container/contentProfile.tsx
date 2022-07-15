@@ -698,7 +698,7 @@ export function ContainerContents() {
       </template.DividedContents>
     );
   }).catch((error) => {
-    return (<div>{error}</div>)
+    return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
   });
-  return (<div />)
+  return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
 }
