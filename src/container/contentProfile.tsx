@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
-import { getUserSearch } from "../network/api/axios.custom";
+import { getUserSearch, getUserSimpleSearch } from "../network/api/axios.custom";
 import * as modal from "../component/modal/modal";
 import { ModalNavFriendBox } from "../component/modal/content/modalNavFriendBox";
 import { DisplayData, setModalTrigger } from "../redux/slices/display";
@@ -547,180 +547,177 @@ const DividedRightSection = styled(template.DividedRightSection, {
   width: "calc(100% - 570px)",
 });
 
+interface UserSeqResponseType {
+  userSeq: number;
+  userName: string;
+  userEmail: string;
+  userStatus: string;
+  userImage: string;
+}
+
 export function ContainerContents() {
   const { userId } = useParams();
-  const [userInfo, setUserInfo] = useState({} as any);
-  const response = getUserSearch(userId || "");
-
-  const tmpresponse = {
-    user_info: {
-      userSeq: "1",
-      userName: "skim",
-      userEmail: "skim@42.kr",
-      secAuthStatus: true,
-      userImage: "/asset/profileImage/default.png",
-      isFriend: false,
-      isBlock: false,
-    },
-    achiv_info: [
-      {
-        achiv_title: "기본",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본2",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본3",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본4",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본5",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본6",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본777777777777777777기본777777777777777777",
-        achiv_condition: "100연승이라니!! 너 혹시 미쳤니?",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본8",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본9",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: false,
-      },
-    ],
-    rank_info: {
-      rank_score: 1500,
-      rank_name: "challenger",
-    },
-    game_log: [
-      {
-        winner_name: "kkim",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 9,
-        start_time: "2022.07.06 18:12",
-      },
-      {
-        winner_name: "skim",
-        loser_name: "kkim",
-        game_type: "rank",
-        winner_score: 7,
-        loser_score: 11,
-        start_time: "2022.07.06 18:01",
-      },
-      {
-        winner_name: "kkim",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 10,
-        start_time: "2022.07.06 17:56",
-      },
-      {
-        winner_name: "poopark",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 2,
-        start_time: "2022.07.06 16:08",
-      },
-      {
-        winner_name: "poopark",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 0,
-        start_time: "2022.07.06 15:56",
-      },
-      {
-        winner_name: "spark",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 10,
-        start_time: "2022.07.05 16:08",
-      },
-    ]
-  }
-
-  let profile = {
-    nickname: tmpresponse.user_info.userName,
-    email: tmpresponse.user_info.userEmail,
-    secAuthStatus: tmpresponse.user_info.secAuthStatus,
-    avartarImgUri: tmpresponse.user_info.userImage,
-  }
-
-  response.then((value) => {
-    setUserInfo(value);
-    profile = {
-      nickname: userInfo.data?.user_info.userName,
-      email: userInfo.data?.user_info.userEmail,
-      secAuthStatus: userInfo.data?.user_info.secAuthStatus,
-      avartarImgUri: userInfo.data?.user_info.userImage,
-    }
-    console.log("response : ", response);
-    console.log("value : ", value);
-    console.log("userInfo.data : ", userInfo.data);
-    console.log("profile : ", profile);
-    return (
-      <template.DividedContents>
-        <DividedLeftSection>
-          <Profile response={userInfo.data} profile={profile} />
-          <Progress response={userInfo.data} profile={profile} />
-          <History response={userInfo.data} profile={profile} />
-          <Setting response={userInfo.data} profile={profile} />
-        </DividedLeftSection>
-        <DividedRightSection>
-          <Achievement response={userInfo.data} profile={profile} />
-        </DividedRightSection>
-      </template.DividedContents>
-    );
+  //   const [userInfo, setUserInfo] = useState({} as any);
+  getUserSimpleSearch(userId || "").then((response) => {
+    const typedResponse = response as UserSeqResponseType;
+    console.log("userSeq :", typedResponse);
+    // getUserSearch(userSeq || "").then((userInfoResponse) => {
+    //   const profile = {
+    //     nickname: userInfoResponse?.data[0]?.user_info.userName,
+    //     email: userInfoResponse?.data[0]?.user_info.userEmail,
+    //     secAuthStatus: userInfoResponse?.data[0]?.user_info.secAuthStatus,
+    //     avartarImgUri: userInfoResponse?.data[0]?.user_info.userImage,
+    //   };
+    //   console.log("response : ", userInfoResponse);
+    //   console.log("userInfo.data : ", userInfoResponse?.data);
+    //   console.log("profile : ", profile);
+    //   return (
+    //     <template.DividedContents>
+    //       <DividedLeftSection>
+    //         <Profile response={userInfoResponse.data[0]} profile={profile} />
+    //         <Progress response={userInfoResponse.data[0]} profile={profile} />
+    //         <History response={userInfoResponse.data[0]} profile={profile} />
+    //         <Setting response={userInfoResponse.data[0]} profile={profile} />
+    //       </DividedLeftSection>
+    //       <DividedRightSection>
+    //         <Achievement response={userInfoResponse.data[0]} profile={profile} />
+    //       </DividedRightSection>
+    //     </template.DividedContents>
+    //   );
+    // }).catch((error) => {
+    //   return (<template.Contents>존재하지 않는 유저입니다. error : {error}</template.Contents>)
+    // });
   }).catch((error) => {
-    return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
+    return (<template.Contents>존재하지 않는 유저입니다. error : {error}</template.Contents>)
   });
-  return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>)
-  // return (
-  //   <template.DividedContents>
-  //     <DividedLeftSection>
-  //       <Profile response={tmpresponse} profile={profile} />
-  //       <Progress response={tmpresponse} profile={profile} />
-  //       <History response={tmpresponse} profile={profile} />
-  //       <Setting response={tmpresponse} profile={profile} />
-  //     </DividedLeftSection>
-  //     <DividedRightSection>
-  //       <Achievement response={tmpresponse} profile={profile} />
-  //     </DividedRightSection>
-  //   </template.DividedContents>
-  // );
+  return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>);
+
+  //   const tmpresponse = {
+  //     user_info: {
+  //       userSeq: "1",
+  //       userName: "skim",
+  //       userEmail: "skim@42.kr",
+  //       secAuthStatus: true,
+  //       userImage: "/asset/profileImage/default.png",
+  //       isFriend: false,
+  //       isBlock: false,
+  //     },
+  //     achiv_info: [
+  //       {
+  //         achiv_title: "기본",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본2",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본3",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본4",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본5",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본6",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본777777777777777777기본777777777777777777",
+  //         achiv_condition: "100연승이라니!! 너 혹시 미쳤니?",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본8",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: true,
+  //       },
+  //       {
+  //         achiv_title: "기본9",
+  //         achiv_condition: "none",
+  //         achiv_image: "/asset/profileImage/default.png",
+  //         achiv_complete: false,
+  //       },
+  //     ],
+  //     rank_info: {
+  //       rank_score: 1500,
+  //       rank_name: "challenger",
+  //     },
+  //     game_log: [
+  //       {
+  //         winner_name: "kkim",
+  //         loser_name: "skim",
+  //         game_type: "rank",
+  //         winner_score: 11,
+  //         loser_score: 9,
+  //         start_time: "2022.07.06 18:12",
+  //       },
+  //       {
+  //         winner_name: "skim",
+  //         loser_name: "kkim",
+  //         game_type: "rank",
+  //         winner_score: 7,
+  //         loser_score: 11,
+  //         start_time: "2022.07.06 18:01",
+  //       },
+  //       {
+  //         winner_name: "kkim",
+  //         loser_name: "skim",
+  //         game_type: "rank",
+  //         winner_score: 11,
+  //         loser_score: 10,
+  //         start_time: "2022.07.06 17:56",
+  //       },
+  //       {
+  //         winner_name: "poopark",
+  //         loser_name: "skim",
+  //         game_type: "rank",
+  //         winner_score: 11,
+  //         loser_score: 2,
+  //         start_time: "2022.07.06 16:08",
+  //       },
+  //       {
+  //         winner_name: "poopark",
+  //         loser_name: "skim",
+  //         game_type: "rank",
+  //         winner_score: 11,
+  //         loser_score: 0,
+  //         start_time: "2022.07.06 15:56",
+  //       },
+  //       {
+  //         winner_name: "spark",
+  //         loser_name: "skim",
+  //         game_type: "rank",
+  //         winner_score: 11,
+  //         loser_score: 10,
+  //         start_time: "2022.07.05 16:08",
+  //       },
+  //     ]
+  //   }
+
+  //   let profile = {
+  //     nickname: tmpresponse.user_info.userName,
+  //     email: tmpresponse.user_info.userEmail,
+  //     secAuthStatus: tmpresponse.user_info.secAuthStatus,
+  //     avartarImgUri: tmpresponse.user_info.userImage,
+  //   }
 }
