@@ -584,11 +584,8 @@ export function ContainerContents() {
         <Achievement response={userInfo} profile={profile} />
       </>
     );
-
-    return (userSeq);
   }).catch((err) => {
     console.log("error in getUserSimpleSearch :", err);
-    return (null);
   });
   return (
     <template.DividedContents>
