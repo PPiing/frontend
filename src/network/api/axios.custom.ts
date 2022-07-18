@@ -54,8 +54,9 @@ export const getLoggedUserProfile = async () => {
         status: response.data.user_info.userStatus
       } as LoggedUserData
     ));
+    return (null);
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 };
 
@@ -64,7 +65,6 @@ export const getUserSearch = async (searchString: string) => {
     const response = await axios.instance.get(`/users/search/${searchString}`);
     return (response);
   } catch (error) {
-    console.log(error);
     return (error);
   }
 }
@@ -74,7 +74,6 @@ export const getUserSimpleSearch = async (searchString: string) => {
     const response = await axios.instance.get(`/users/search/nickname/${searchString}`);
     return (response);
   } catch (error) {
-    console.log(error);
     return (error);
   }
 }
@@ -91,8 +90,9 @@ export const getFriendList = async () => {
         img: response.data[i].avatarImgUri,
         status: response.data[i].status } as FriendData));
     }
+    return (null);
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -111,8 +111,9 @@ export const getCommonAlamList = async () => {
         type: response.data[i].type,
         code: response.data[i].code } as CommonAlamData));
     }
+    return (null);
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -135,8 +136,9 @@ export const getConfirmAlamList = async () => {
         type: typeNum,
       } as ChoosableAlamData));
     }
+    return (null);
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -149,8 +151,9 @@ export const postConfirm = async (alamSeq: string, isAccept: boolean) => {
       await axios.instance.post(`/community/friends/reject/${alamSeq}`);
       store.dispatch(removeChoosableAlam({ seq: alamSeq } as ChoosableAlamData));
     }
+    return (null);
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -158,8 +161,9 @@ export const putAlarmRead = async (alamSeq: string) => {
   try {
     await axios.instance.put(`/alarm/${alamSeq}`);
     store.dispatch(removeCommonAlam({ seq: alamSeq } as CommonAlamData));
+    return (null);
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -176,7 +180,6 @@ export const chatroomsSearch = async () => {
     const response = await axios.instance.get("/chatrooms/search");
     return (response);
   } catch (error) {
-    console.log(error);
     return (error);
   }
 };
