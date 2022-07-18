@@ -94,8 +94,9 @@ const ChatRoomSendArea = styled("div", {
 })
 
 export function ComponentChatRoom(props: any) {
-  const { propFunc, chatRoomData } = props;
+  const { propFunc, chatRoomData, socket } = props;
   const [inputMsg, setInputMsg] = useState("");
+
   const handleChange = (e: any) => {
     setInputMsg(e.target.value);
   };
@@ -106,7 +107,10 @@ export function ComponentChatRoom(props: any) {
     if (event.key === "Enter") {
       setInputMsg("");
       if (inputMsg !== "") {
-        //...socket 으로 메세지 전송
+        socket.emit("chat", {
+          content: inputMsg,
+          at: chatRoomData.seq,
+        });
       }
     }
   };
@@ -122,10 +126,6 @@ export function ComponentChatRoom(props: any) {
   //     null
   //   ]
   // }
-
-  console.log(`${chatRoomData.seq}!`);
-  const chatUsers = chatUserCount(chatRoomData.seq);
-  console.log("마으마ㅡ아므아므아ㅡ", chatRoomData.seq);
 
   return (
     <ContentRoom>
