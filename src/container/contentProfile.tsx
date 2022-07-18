@@ -547,48 +547,44 @@ const DividedRightSection = styled(template.DividedRightSection, {
   width: "calc(100% - 570px)",
 });
 
-interface UserSeqResponseType {
-  userSeq: number;
-  userName: string;
-  userEmail: string;
-  userStatus: string;
-  userImage: string;
-}
-
 export function ContainerContents() {
   const { userId } = useParams();
   //   const [userInfo, setUserInfo] = useState({} as any);
-  getUserSimpleSearch(userId || "").then((response) => {
-    const typedResponse = response as UserSeqResponseType;
-    console.log("userSeq :", typedResponse);
-    // getUserSearch(userSeq || "").then((userInfoResponse) => {
-    //   const profile = {
-    //     nickname: userInfoResponse?.data[0]?.user_info.userName,
-    //     email: userInfoResponse?.data[0]?.user_info.userEmail,
-    //     secAuthStatus: userInfoResponse?.data[0]?.user_info.secAuthStatus,
-    //     avartarImgUri: userInfoResponse?.data[0]?.user_info.userImage,
-    //   };
-    //   console.log("response : ", userInfoResponse);
-    //   console.log("userInfo.data : ", userInfoResponse?.data);
-    //   console.log("profile : ", profile);
-    //   return (
-    //     <template.DividedContents>
-    //       <DividedLeftSection>
-    //         <Profile response={userInfoResponse.data[0]} profile={profile} />
-    //         <Progress response={userInfoResponse.data[0]} profile={profile} />
-    //         <History response={userInfoResponse.data[0]} profile={profile} />
-    //         <Setting response={userInfoResponse.data[0]} profile={profile} />
-    //       </DividedLeftSection>
-    //       <DividedRightSection>
-    //         <Achievement response={userInfoResponse.data[0]} profile={profile} />
-    //       </DividedRightSection>
-    //     </template.DividedContents>
-    //   );
-    // }).catch((error) => {
-    //   return (<template.Contents>존재하지 않는 유저입니다. error : {error}</template.Contents>)
-    // });
-  }).catch((error) => {
-    return (<template.Contents>존재하지 않는 유저입니다. error : {error}</template.Contents>)
+  console.log("userId :", userId);
+  getUserSimpleSearch(userId || "").then((response: any) => {
+    const { userSeq } = response.data[0];
+    console.log("userSeq :", userSeq);
+    getUserSearch(userSeq).then((userInfoResponse: any) => {
+      const userInfo = userInfoResponse.data[0];
+      const profile = {
+        nickname: userInfo.user_info?.userName,
+        email: userInfo.user_info?.userEmail,
+        secAuthStatus: userInfo.user_info?.secAuthStatus,
+        avartarImgUri: userInfo.user_info?.userImage,
+      };
+      console.log("response :", userInfoResponse);
+      console.log("userInfo.data :", userInfo);
+      console.log("profile :", profile);
+      return (
+        <template.DividedContents>
+          <DividedLeftSection>
+            <Profile response={userInfo} profile={profile} />
+            <Progress response={userInfo} profile={profile} />
+            <History response={userInfo} profile={profile} />
+            <Setting response={userInfo} profile={profile} />
+          </DividedLeftSection>
+          <DividedRightSection>
+            <Achievement response={userInfo} profile={profile} />
+          </DividedRightSection>
+        </template.DividedContents>
+      );
+    }).catch((err) => {
+      console.log("error in getUserSearch :", err);
+      return (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>);
+    });
+  }).catch((err) => {
+    console.log("error in getUserSimpleSearch :", err);
+    return (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>)
   });
   return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>);
 
