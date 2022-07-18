@@ -208,20 +208,11 @@ export function ContainerContents() {
       if (listType === "chat") {
         if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
           renderList.push(
-            <div>
-              <ComponentChatRoomListBox
-                key={joinedChatRoomList[i].seq}
-                chatRoomData={joinedChatRoomList[i]}
-                stateUpdateFunc={setContentType}
-              />
-              {/* <hr
-                key={joinedChatRoomList[i].seq}
-                style={{
-                  border: "1px dashed gray",
-                  width: "80%",
-                }}
-              /> */}
-            </div>
+            <ComponentChatRoomListBox
+              key={joinedChatRoomList[i].seq}
+              chatRoomData={joinedChatRoomList[i]}
+              stateUpdateFunc={setContentType}
+            />
           );
         }
       } else if (joinedChatRoomList[i].type === "CHTP10") {
