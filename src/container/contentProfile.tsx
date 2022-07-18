@@ -547,10 +547,11 @@ const DividedRightSection = styled(template.DividedRightSection, {
   width: "calc(100% - 570px)",
 });
 
-export function ContainerContents() {
+export function ContainerContents(): JSX.Element {
   const { userId } = useParams();
   //   const [userInfo, setUserInfo] = useState({} as any);
   console.log("userId :", userId);
+  let result: JSX.Element = <div>Loading...</div>;
   getUserSimpleSearch(userId || "").then((response: any) => {
     const { userSeq } = response.data[0];
     console.log("userSeq :", userSeq);
@@ -565,7 +566,7 @@ export function ContainerContents() {
       console.log("response :", userInfoResponse);
       console.log("userInfo.data :", userInfo);
       console.log("profile :", profile);
-      return (
+      result = (
         <template.DividedContents>
           <DividedLeftSection>
             <Profile response={userInfo} profile={profile} />
@@ -580,13 +581,13 @@ export function ContainerContents() {
       );
     }).catch((err) => {
       console.log("error in getUserSearch :", err);
-      return (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>);
+      result = (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>);
     });
   }).catch((err) => {
     console.log("error in getUserSimpleSearch :", err);
-    return (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>)
+    result = (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>)
   });
-  return (<template.Contents>존재하지 않는 유저입니다.</template.Contents>);
+  return (result);
 
   //   const tmpresponse = {
   //     user_info: {
