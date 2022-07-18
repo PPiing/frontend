@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from "react";
@@ -547,47 +549,54 @@ const DividedRightSection = styled(template.DividedRightSection, {
   width: "calc(100% - 570px)",
 });
 
-export function ContainerContents(): JSX.Element {
-  const { userId } = useParams();
-  //   const [userInfo, setUserInfo] = useState({} as any);
-  console.log("userId :", userId);
-  let result: JSX.Element = <div>Loading...</div>;
-  getUserSimpleSearch(userId || "").then((response: any) => {
-    const { userSeq } = response.data[0];
-    console.log("userSeq :", userSeq);
-    getUserSearch(userSeq).then((userInfoResponse: any) => {
-      const userInfo = userInfoResponse.data[0];
-      const profile = {
-        nickname: userInfo.user_info?.userName,
-        email: userInfo.user_info?.userEmail,
-        secAuthStatus: userInfo.user_info?.secAuthStatus,
-        avartarImgUri: userInfo.user_info?.userImage,
-      };
-      console.log("response :", userInfoResponse);
-      console.log("userInfo.data :", userInfo);
-      console.log("profile :", profile);
-      result = (
-        <template.DividedContents>
-          <DividedLeftSection>
-            <Profile response={userInfo} profile={profile} />
-            <Progress response={userInfo} profile={profile} />
-            <History response={userInfo} profile={profile} />
-            <Setting response={userInfo} profile={profile} />
-          </DividedLeftSection>
-          <DividedRightSection>
-            <Achievement response={userInfo} profile={profile} />
-          </DividedRightSection>
-        </template.DividedContents>
-      );
-    }).catch((err) => {
-      console.log("error in getUserSearch :", err);
-      result = (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>);
-    });
+export function ContainerContents() {
+  const { userSeq } = useParams();
+  const [left, setLeft] = useState<JSX.Element>(
+    <div>
+      <b>... loading ...</b>
+    </div>
+  );
+  const [right, setRight] = useState<JSX.Element>(
+    <div>
+      <b>... loading ...</b>
+    </div>
+  );
+
+  getUserSearch(userSeq || "").then((response: any) => {
+    const userInfo = response.data;
+    const profile = {
+      nickname: userInfo?.user_info?.userName,
+      email: userInfo?.user_info?.userEmail,
+      secAuthStatus: userInfo?.user_info?.secAuthStatus,
+      avartarImgUri: userInfo?.user_info?.userImage,
+    };
+
+    setLeft(
+      <>
+        <Profile response={userInfo} profile={profile} />
+        <Progress response={userInfo} profile={profile} />
+        <History response={userInfo} profile={profile} />
+        <Setting response={userInfo} profile={profile} />
+      </>
+    );
+    setRight(
+      <>
+        <Achievement response={userInfo} profile={profile} />
+      </>
+    );
   }).catch((err) => {
     console.log("error in getUserSimpleSearch :", err);
-    result = (<template.Contents>존재하지 않는 유저입니다. error : {err}</template.Contents>)
   });
-  return (result);
+  return (
+    <template.DividedContents>
+      <DividedLeftSection>
+        {left}
+      </DividedLeftSection>
+      <DividedRightSection>
+        {right}
+      </DividedRightSection>
+    </template.DividedContents>
+  );
 
   //   const tmpresponse = {
   //     user_info: {
@@ -718,3 +727,26 @@ export function ContainerContents(): JSX.Element {
   //     avartarImgUri: tmpresponse.user_info.userImage,
   //   }
 }
+
+// export const ContainerContents = async () => {
+//   try {
+//     const { userId } = useParams();
+//     const userSeqInfo = await axios.get(`/api/users/search/nickname/${userId}`);
+//   } catch (err) {
+//     console.log(err);
+//     return (
+//       <template.DividedContents>
+//         <DividedLeftSection>Error!</DividedLeftSection>
+//         <DividedRightSection>Error!</DividedRightSection>
+//       </template.DividedContents>
+//     )
+//   }
+//   // const { userId } = useParams();
+//   // const userSeq = getUserSimpleSearch(userId).then((response: any) => {
+//   //   const { userSeq } = response.data[0];
+//   // }).catch((error) => {
+//   //   return (null);
+//   // });
+//   // console.log("userSeq: !!!! :", userSeq);
+//   // return (<template.DividedContents>Hello world, {userId}!</template.DividedContents>);
+// }
