@@ -55,7 +55,7 @@ export const getLoggedUserProfile = async () => {
       } as LoggedUserData
     ));
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 };
 
@@ -64,7 +64,6 @@ export const getUserSearch = async (searchString: string) => {
     const response = await axios.instance.get(`/users/search/${searchString}`);
     return (response);
   } catch (error) {
-    console.log(error);
     return (error);
   }
 }
@@ -74,7 +73,6 @@ export const getUserSimpleSearch = async (searchString: string) => {
     const response = await axios.instance.get(`/users/search/nickname/${searchString}`);
     return (response);
   } catch (error) {
-    console.log(error);
     return (error);
   }
 }
@@ -92,7 +90,7 @@ export const getFriendList = async () => {
         status: response.data[i].status } as FriendData));
     }
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -112,7 +110,7 @@ export const getCommonAlamList = async () => {
         code: response.data[i].code } as CommonAlamData));
     }
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -136,7 +134,7 @@ export const getConfirmAlamList = async () => {
       } as ChoosableAlamData));
     }
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -150,7 +148,7 @@ export const postConfirm = async (alamSeq: string, isAccept: boolean) => {
       store.dispatch(removeChoosableAlam({ seq: alamSeq } as ChoosableAlamData));
     }
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -159,7 +157,7 @@ export const putAlarmRead = async (alamSeq: string) => {
     await axios.instance.put(`/alarm/${alamSeq}`);
     store.dispatch(removeCommonAlam({ seq: alamSeq } as CommonAlamData));
   } catch (error) {
-    console.log(error);
+    return (error);
   }
 }
 
@@ -176,7 +174,6 @@ export const chatroomsSearch = async () => {
     const response = await axios.instance.get("/chatrooms/search");
     return (response);
   } catch (error) {
-    console.log(error);
     return (error);
   }
 };
