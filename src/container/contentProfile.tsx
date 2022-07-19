@@ -607,17 +607,6 @@ export function ContainerContents() {
           </>
         );
       }
-    }).catch((err) => {
-      setLeft(
-        <div>
-          <b>존재하지 않는 유저입니다.</b>
-        </div>
-      );
-      setRight(
-        <div>
-          <b>존재하지 않는 유저입니다.</b>
-        </div>
-      );
     });
   }, []);
   return (
