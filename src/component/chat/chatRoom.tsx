@@ -47,6 +47,7 @@ const ChatRoomHeader = styled("div", {
   width: "100%",
   height: "120px",
   backgroundColor: "#000000",
+  overflowX: "scroll",
 })
 
 const HeaderTitle = styled("p", {
@@ -58,26 +59,29 @@ const HeaderTitle = styled("p", {
 const HeaderButtonZone = styled("div", {
   display: "flex",
   flexDirection: "row",
-  marginRight: "6rem",
+  //   justifyContent: "space-around",
+  //   width: "30%",
 })
 
 const HeaderButton = styled("div", {
-  fontSize: "1rem",
   width: "2.5rem",
   height: "2.5rem",
-  margin: "0.5rem",
   cursor: "pointer",
-  marginTop: "-2rem",
-  border: "1px solid #fff",
-  textAlign: "center",
-  verticalAlign: "middle",
+  borderRadius: "100%",
+  marginRight: "1rem",
+  position: "relative",
+  //   margin: "0.5rem",
+  //   marginTop: "-2rem",
 })
 
 const HeaderButtonIcon = styled("img", {
   position: "absolute",
-  "&:hover": {
-    display: "none",
-  }
+  width: "1.8rem",
+  height: "1.8rem",
+  opacity: "0.7",
+  transform: "translate(-50%, -50%)",
+  top: "50%",
+  left: "50%",
 })
 
 const ChatRoomRecvArea = styled("div", {
@@ -106,105 +110,73 @@ function HeaderInfo(props: any) {
         dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
       }}
       style={{
-        border: "0",
         backgroundColor: "#fd4546",
-        borderRadius: "100%",
         marginLeft: "1.5rem",
       }}
+      key="1"
     >
       <HeaderButtonIcon
         alt="x"
         src="/asset/x_mark.svg"
-        style={{
-          width: "2.3rem",
-          height: "2.3rem",
-          top: "1.4rem",
-          left: "1.6rem",
-          opacity: "0.7",
-        }}
       />
     </HeaderButton>
   );
-  // if (chatRoomData.type !== "CHTP10") {
-  rst.push(
-    <HeaderButton // exit button
-      onClick={() => {
-        modal.SetModalSize("700px", "300px", "40%", "30%");
-        modal.SetModalContent(<ModalChatExit room={chatRoomData.seq} />);
-        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-      }}
-      style={{
-        border: "0",
-        backgroundColor: "#fdaf24",
-        borderRadius: "100%",
-      }}
-    >
-      <HeaderButtonIcon
-        alt="x"
-        src="/asset/exit_mark.svg"
-        style={{
-          width: "1.8rem",
-          height: "1.8rem",
-          top: "1.6rem",
-          left: "5.35rem",
-          opacity: "0.7",
+  if (chatRoomData.type !== "CHTP10") {
+    rst.push(
+      <HeaderButton // exit button
+        onClick={() => {
+          modal.SetModalSize("700px", "300px", "40%", "30%");
+          modal.SetModalContent(<ModalChatExit room={chatRoomData.seq} />);
+          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
         }}
-      />
-    </HeaderButton>
-  );
-  rst.push(
-    <HeaderButton // modal on : setting
-      onClick={() => {
-        modal.SetModalSize("800px", "800px", "10%", "27%");
-        modal.SetModalContent(<div />);
-        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-      }}
-      style={{
-        border: "0",
-        backgroundColor: "#28c231",
-        borderRadius: "100%",
-      }}
-    >
-      <HeaderButtonIcon
-        alt="x"
-        src="/asset/setting_mark.svg"
         style={{
-          width: "1.8rem",
-          height: "1.8rem",
-          top: "1.6rem",
-          left: "8.85rem",
-          opacity: "0.7",
+          backgroundColor: "#fdaf24",
         }}
-      />
-    </HeaderButton>
-  );
-  rst.push(
-    <HeaderButton // modal on : setting
-      onClick={() => {
-        modal.SetModalSize("800px", "800px", "10%", "27%");
-        modal.SetModalContent(<ModalChatUserList chatInfo={chatInfo} />);
-        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-      }}
-      style={{
-        border: "0",
-        backgroundColor: "#F2F2F2",
-        borderRadius: "100%",
-      }}
-    >
-      <HeaderButtonIcon
-        alt="x"
-        src="/asset/users_mark.svg"
+        key="2"
+      >
+        <HeaderButtonIcon
+          alt="x"
+          src="/asset/exit_mark.svg"
+        />
+      </HeaderButton>
+    );
+    rst.push(
+      <HeaderButton // modal on : setting
+        onClick={() => {
+          modal.SetModalSize("800px", "800px", "10%", "27%");
+          modal.SetModalContent(<div />);
+          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+        }}
         style={{
-          width: "1.8rem",
-          height: "1.8rem",
-          top: "1.6rem",
-          left: "12.35rem",
-          opacity: "0.7",
+          backgroundColor: "#28c231",
         }}
-      />
-    </HeaderButton>
-  );
-  // }
+        key="3"
+      >
+        <HeaderButtonIcon
+          alt="x"
+          src="/asset/setting_mark.svg"
+        />
+      </HeaderButton>
+    );
+    rst.push(
+      <HeaderButton // modal on : setting
+        onClick={() => {
+          modal.SetModalSize("800px", "800px", "10%", "27%");
+          modal.SetModalContent(<ModalChatUserList chatInfo={chatInfo} />);
+          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+        }}
+        style={{
+          backgroundColor: "#F2F2F2",
+        }}
+        key="4"
+      >
+        <HeaderButtonIcon
+          alt="x"
+          src="/asset/users_mark.svg"
+        />
+      </HeaderButton>
+    );
+  }
   return (
     <HeaderButtonZone>
       {rst}
