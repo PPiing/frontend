@@ -218,7 +218,7 @@ const renderMessage = () => {
 
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
-  console.log("히히 콘솔로그 발싸", chatRoomData, "그리고, ", propFunc);
+  //   console.log("히히 콘솔로그 발싸", chatRoomData, "그리고, ", propFunc);
   const [inputMsg, setInputMsg] = useState("");
   const [chatInfo, setchatInfo] = useState([]);
   const dispatch = useDispatch();
@@ -264,7 +264,7 @@ export function ComponentChatRoom(props: any) {
       setchatInfo(response?.data);
     });
   }, []);
-  console.log("마으마ㅡ아므아므아ㅡ", chatInfo);
+  //   console.log("마으마ㅡ아므아므아ㅡ", chatInfo);
 
   return (
     <ContentRoom>

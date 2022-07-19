@@ -21,7 +21,7 @@ function App() {
         <Route path="/game" element={<Game />} />
         <Route path="/watch" element={<Watch />} />
         <Route path="/profile/" element={<Profile />} />
-        <Route path="/profile/:userId" element={<Profile />} />
+        <Route path="/profile/:userSeq" element={<Profile />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/*" element={<RootControl />} />
       </Routes>
