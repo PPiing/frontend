@@ -29,9 +29,9 @@ let tmpballY = 0;
 
 socket.connect();
 
-socket.on("connect", () => {
-  console.log("gameSocket", socket.connected);
-});
+// socket.on("connect", () => {
+//   console.log("gameSocket", socket.connected);
+// });
 
 const gamer1Name = "Polarbear\n";
 const gamer1Score = "0";

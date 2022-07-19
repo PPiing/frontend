@@ -3,8 +3,9 @@ import { useSelector } from "react-redux";
 import { styled } from "@stitches/react";
 import { Slider, Button } from "@mui/material";
 import { OrbitControls, Stars, Text3D, Float } from "@react-three/drei";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader"
+import * as THREE from "three";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import ToggleBtn from "../component/button/ToggleBtn";
@@ -16,11 +17,12 @@ import socketManager from "../feat/game/socket";
 
 const socket = socketManager.socket("/");
 
-socket.on("connect", () => {
-  console.log("gameSocket", socket.connected);
-});
+// socket.on("connect", () => {
+//   console.log("gameSocket", socket.connected);
+// });
 
-const targetModel = "../../asset/Iron_Man_Mark_44_Hulkbuster_fbx.FBX"
+const targetModel2 = "../../asset/Iron_Man_Mark_44_Hulkbuster_fbx.FBX"
+const targetModel1 = "../../asset/PaddleAndBall.FBX"
 
 const fontStr : string = JSON.stringify(fontPath);
 
@@ -80,6 +82,7 @@ export default function GameRuleSet() {
   const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
   const [modelXpos, setModelXpos] = useState(0);
   const [modelYpos, setModelYpos] = useState(0);
+  const [isReady, setIsReady] = useState(false);
 
   const memoRule : GameRuleData = {
     matchScore: myRule.matchScore,
@@ -98,21 +101,48 @@ export default function GameRuleSet() {
     };
   };
 
+  const Rig = () => {
+    const { camera, mouse } = useThree();
+    const vec = new THREE.Vector3();
+    return useFrame(() =>
+      camera.position.lerp(
+        vec.set(mouse.x, mouse.y, camera.position.z),
+        0.0049
+      ));
+  };
+
   const handleReady = () => {
     // eslint-disable-next-line max-len
     store.dispatch(setGameRuleData({ ...memoRule, isRankGame: memoRule.isRankGame } as GameRuleData))
     console.log("=> emit ready", memoRule);
     socket.emit("test:render", {
     });
+    setIsReady(true);
   };
-  const spinModel = () => {
+  const spinModel1 = () => {
     const spinModel : React.Ref<any> = useRef();
-    const fbx = useLoader(FBXLoader, targetModel);
+    const fbx = useLoader(FBXLoader, targetModel1);
 
     useFrame(({ clock }) => {
       const a = clock.getElapsedTime();
       if (spinModel !== undefined) {
-        spinModel.current.rotation.y = a * 0.2;
+        spinModel.current.rotation.y = a * 0.4;
+      }
+    });
+    return (
+      <mesh position={[modelXpos, 0.06, modelYpos]} ref={spinModel}>
+        <primitive object={fbx} scale={0.05} />
+      </mesh>
+    );
+  };
+  const spinModel2 = () => {
+    const spinModel : React.Ref<any> = useRef();
+    const fbx = useLoader(FBXLoader, targetModel2);
+
+    useFrame(({ clock }) => {
+      const a = clock.getElapsedTime();
+      if (spinModel !== undefined) {
+        spinModel.current.rotation.y = a * 0.6;
       }
     });
     return (
@@ -122,8 +152,11 @@ export default function GameRuleSet() {
     );
   };
 
-  const AutoSpinModel = () => {
-    return spinModel();
+  const AutoSpinModel1 = () => {
+    return spinModel1();
+  };
+  const AutoSpinModel2 = () => {
+    return spinModel2();
   };
 
   useEffect(() => {
@@ -182,7 +215,7 @@ export default function GameRuleSet() {
         <Button onClick={handleReady} variant="contained" size="large" color="error">Ready</Button>
       </RuleSelectionContainer>
       <template.DividedRightSection>
-        <Canvas dpr={[1, 10]} camera={{ fov: 6, position: [15, 30, 80] }}>
+        <Canvas dpr={[1, 10]} camera={{ fov: 6, position: [99.3, 100, 100] }}>
           <Suspense fallback={null}>
             <OrbitControls maxDistance={500} minDistance={6} makeDefault />
             <pointLight color="red" position={[0, 5, 2]} intensity={1} />
@@ -196,21 +229,27 @@ export default function GameRuleSet() {
               floatingRange={[0.1, 0.2]}
             >
               {/* <ModelGLTFOdj /> */}
-              <AutoSpinModel />
+              <AutoSpinModel1 />
             </Float>
-            <mesh position={[0.5, 0, 60]} rotation={[0, 600, 0]}>
+            <mesh position={[0.5, 10, 60]} rotation={[0, 600, 0]}>
               <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
                 Choose Rule
                 <meshNormalMaterial />
               </Text3D>
             </mesh>
-            <mesh position={[0.5, 0, 20]} rotation={[0, 600, 0]}>
+            <mesh position={[0.5, 10, 20]} rotation={[0, 600, 0]}>
               <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
                 And Ready To Game
                 <meshNormalMaterial />
               </Text3D>
             </mesh>
+            <mesh position={[-0.1, -1.0, 50]} rotation={[0, 600, 0]}>
+              <AutoSpinModel2 />
+            </mesh>
           </Suspense>
+          {
+            isReady ? <Rig /> : " "
+          }
         </Canvas>
       </template.DividedRightSection>
     </template.DividedContents>
