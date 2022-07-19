@@ -269,7 +269,12 @@ export function ComponentChatRoom(props: any) {
   return (
     <ContentRoom>
       <ChatRoomHeader>
-        <HeaderInfo dispatch={dispatch} chatRoomData={chatRoomData} propFunc={propFunc} chatInfo={chatInfo} />
+        <HeaderInfo
+          dispatch={dispatch}
+          chatRoomData={chatRoomData}
+          propFunc={propFunc}
+          chatInfo={chatInfo}
+        />
         <HeaderTitle>{chatRoomData.name}</HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
