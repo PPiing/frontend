@@ -13,6 +13,8 @@ import { setChatRoomId, DisplayData, setModalTrigger } from "../../redux/slices/
 import { chatUserCount } from "../../network/api/axios.custom";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { ChatMessage } from "./chatMessage";
+import IRecvMessage from "../../interface/recvMessage.interface";
+import * as axios from "../../network/api/axios.custom";
 
 const ContentRoom = styled("div", {
   position: "relative",
@@ -184,17 +186,44 @@ function HeaderInfo(props: any) {
   );
 }
 
-const renderMessage = () => {
-
-}
-
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
   //   console.log("히히 콘솔로그 발싸", chatRoomData, "그리고, ", propFunc);
   const [inputMsg, setInputMsg] = useState("");
-  const [chatInfo, setchatInfo] = useState([]);
+  const [chatInfo, setChatInfo] = useState([]);
   const dispatch = useDispatch();
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const [messages, setMessages] = useState<IRecvMessage[]>([]);
+
+  useEffect(() => {
+    console.log("AXIOS");
+    axios.getAllMessages(chatRoomData.seq)
+      .then((promise: any) => promise.data)
+      .then((data) => {
+        console.log(`AXIOS RESULT : ${data}`);
+      })
+  }, []);
+
+  useEffect(() => {
+    socket.on("room:chat", (res:any) => {
+      console.log(`getMessage : ${res}`);
+    });
+  });
+
+  useEffect(() => {
+    chatUserCount(chatRoomData.seq || "").then((response: any) => {
+      setChatInfo(response?.data);
+    });
+  }, []);
+
+  // socket.on("room:chat", (message: any) => {
+  //   console.log(message);
+  //   //setMessages([...messages, message]);
+  // })
+
+  const renderMessage = () => {
+
+  }
 
   // TODO
   // 채팅룸에서 다른 채팅룸으로 넘어갈 떄 useEffect를 통한 메세지 조회 동작하지 않음
@@ -216,6 +245,7 @@ export function ComponentChatRoom(props: any) {
           content: inputMsg,
           at: chatRoomData.seq,
         });
+        console.log("MSG SEND");
       }
     }
   };
@@ -231,11 +261,7 @@ export function ComponentChatRoom(props: any) {
   //     null
   //   ]
   // }
-  useEffect(() => {
-    chatUserCount(chatRoomData.seq || "").then((response: any) => {
-      setchatInfo(response?.data);
-    });
-  }, []);
+
   //   console.log("마으마ㅡ아므아므아ㅡ", chatInfo);
 
   return (

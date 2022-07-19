@@ -261,6 +261,7 @@ export function ContainerContents() {
           <ComponentChatRoom
             propFunc={changeContent}
             chatRoomData={joinedChatRoomList[getIndexChatRoomList(display.chatRoomId)]}
+            socket={socket}
           />
         );
       default:
