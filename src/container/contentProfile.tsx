@@ -522,11 +522,13 @@ function Achievement(props: any) {
       </AchievementBox>
     );
     if (i !== response?.achiv_info?.length - 1) {
-      boxes.push(<hr style={{
-        marginRight: "10%",
-        width: "60%",
-        boxShadow: `0 0 5px ${tier.color}`,
-      }}
+      boxes.push(<hr
+        style={{
+          marginRight: "10%",
+          width: "60%",
+          boxShadow: `0 0 5px ${tier.color}`,
+        }}
+        key={(i + response?.achiv_info.length).toString()}
       />);
     }
   }
