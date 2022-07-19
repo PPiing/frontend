@@ -97,7 +97,7 @@ const ChatRoomSendArea = styled("div", {
 })
 
 function HeaderInfo(props: any) {
-  const { dispatch, chatRoomData, propFunc } = props;
+  const { dispatch, chatRoomData, propFunc, chatInfo } = props;
   const rst = [];
   rst.push(
     <HeaderButton // hide tab
@@ -125,86 +125,86 @@ function HeaderInfo(props: any) {
       />
     </HeaderButton>
   );
-  if (chatRoomData.type !== "CHTP10") {
-    rst.push(
-      <HeaderButton // exit button
-        onClick={() => {
-          modal.SetModalSize("700px", "300px", "40%", "30%");
-          modal.SetModalContent(<ModalChatExit room={chatRoomData.seq} />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
+  // if (chatRoomData.type !== "CHTP10") {
+  rst.push(
+    <HeaderButton // exit button
+      onClick={() => {
+        modal.SetModalSize("700px", "300px", "40%", "30%");
+        modal.SetModalContent(<ModalChatExit room={chatRoomData.seq} />);
+        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+      }}
+      style={{
+        border: "0",
+        backgroundColor: "#fdaf24",
+        borderRadius: "100%",
+      }}
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/exit_mark.svg"
         style={{
-          border: "0",
-          backgroundColor: "#fdaf24",
-          borderRadius: "100%",
+          width: "1.8rem",
+          height: "1.8rem",
+          top: "1.6rem",
+          left: "5.35rem",
+          opacity: "0.7",
         }}
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/exit_mark.svg"
-          style={{
-            width: "1.8rem",
-            height: "1.8rem",
-            top: "1.6rem",
-            left: "5.35rem",
-            opacity: "0.7",
-          }}
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton // modal on : setting
-        onClick={() => {
-          modal.SetModalSize("800px", "800px", "10%", "27%");
-          modal.SetModalContent(<div />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton // modal on : setting
+      onClick={() => {
+        modal.SetModalSize("800px", "800px", "10%", "27%");
+        modal.SetModalContent(<div />);
+        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+      }}
+      style={{
+        border: "0",
+        backgroundColor: "#28c231",
+        borderRadius: "100%",
+      }}
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/setting_mark.svg"
         style={{
-          border: "0",
-          backgroundColor: "#28c231",
-          borderRadius: "100%",
+          width: "1.8rem",
+          height: "1.8rem",
+          top: "1.6rem",
+          left: "8.85rem",
+          opacity: "0.7",
         }}
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/setting_mark.svg"
-          style={{
-            width: "1.8rem",
-            height: "1.8rem",
-            top: "1.6rem",
-            left: "8.85rem",
-            opacity: "0.7",
-          }}
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton // modal on : setting
-        onClick={() => {
-          modal.SetModalSize("800px", "800px", "10%", "27%");
-          modal.SetModalContent(<ModalChatUserList chatRoomData={chatRoomData} />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton // modal on : setting
+      onClick={() => {
+        modal.SetModalSize("800px", "800px", "10%", "27%");
+        modal.SetModalContent(<ModalChatUserList chatInfo={chatInfo} />);
+        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+      }}
+      style={{
+        border: "0",
+        backgroundColor: "#F2F2F2",
+        borderRadius: "100%",
+      }}
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/users_mark.svg"
         style={{
-          border: "0",
-          backgroundColor: "#F2F2F2",
-          borderRadius: "100%",
+          width: "1.8rem",
+          height: "1.8rem",
+          top: "1.6rem",
+          left: "12.35rem",
+          opacity: "0.7",
         }}
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/users_mark.svg"
-          style={{
-            width: "1.8rem",
-            height: "1.8rem",
-            top: "1.6rem",
-            left: "12.35rem",
-            opacity: "0.7",
-          }}
-        />
-      </HeaderButton>
-    );
-  }
+      />
+    </HeaderButton>
+  );
+  // }
   return (
     <HeaderButtonZone>
       {rst}
@@ -218,7 +218,9 @@ const renderMessage = () => {
 
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
+  console.log("히히 콘솔로그 발싸", chatRoomData, "그리고, ", propFunc);
   const [inputMsg, setInputMsg] = useState("");
+  const [chatInfo, setchatInfo] = useState([]);
   const dispatch = useDispatch();
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
@@ -257,15 +259,22 @@ export function ComponentChatRoom(props: any) {
   //     null
   //   ]
   // }
-
-  console.log(`${chatRoomData.seq}!`);
-  const chatUsers = chatUserCount(chatRoomData.seq);
-  console.log("마으마ㅡ아므아므아ㅡ", chatRoomData.seq);
+  useEffect(() => {
+    chatUserCount(chatRoomData.seq || "").then((response: any) => {
+      setchatInfo(response?.data);
+    });
+  }, []);
+  console.log("마으마ㅡ아므아므아ㅡ", chatInfo);
 
   return (
     <ContentRoom>
       <ChatRoomHeader>
-        <HeaderInfo dispatch={dispatch} chatRoomData={chatRoomData} propFunc={propFunc} />
+        <HeaderInfo
+          dispatch={dispatch}
+          chatRoomData={chatRoomData}
+          propFunc={propFunc}
+          chatInfo={chatInfo}
+        />
         <HeaderTitle>{chatRoomData.name}</HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
