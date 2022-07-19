@@ -11,6 +11,7 @@ const UserListBox = styled("div", {
 });
 
 export function ModalChatUserListBox(props: any) {
+  const { chatInfo } = props;
   return (
     <UserListBox />
   );

@@ -37,13 +37,13 @@ const UserListTable = styled("div", {
 });
 
 export function ModalChatUserList(props: any) {
-  const { chatRoomData } = props;
+  const { chatInfo } = props;
 
   const renderList = () => {
     const renderResult = [];
     for (let i = 0; i < 3; i += 1) {
       renderResult.push(
-        <ModalChatUserListBox key={i} chatRoomData={chatRoomData} />
+        <ModalChatUserListBox key={i} chatInfo={chatInfo} />
       );
     }
     return renderResult;
