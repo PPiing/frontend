@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { ViewTemplate } from "./viewTemplate";
 import * as theme from "../theme/theme";
+import socketManager from "../feat/game/socket";
 
 import InGame from "../container/contentGame";
 import GameRuleSet from "../container/contentGameRule";
 
+const socket = socketManager.socket("/");
+
+socket.on("connect", () => {
+  console.log("gameRoomSocket", socket.connected);
+});
+
 export function Game() {
-  const isIngame : boolean = true;
+  const [isInGame, setIsInGame] = useState(true);
+
+  // socket.on("test:ready", () => {
+  //   console.log("test Game Ready!");
+  //   setIsInGame(false);
+  // });
 
   return (
     <div>
       {
-      isIngame ?
+      isInGame ?
         (<ViewTemplate content={<GameRuleSet />} />) :
         (<ViewTemplate content={<InGame />} />)
         }
