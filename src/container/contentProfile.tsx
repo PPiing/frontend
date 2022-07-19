@@ -20,6 +20,9 @@ import { DisplayData, setModalTrigger } from "../redux/slices/display";
 function Profile(props: any) {
   const { response, profile } = props;
 
+  const [nickname, setNickname] = useState(response?.user_info.userName);
+  const [profileURI, setProfileURI] = useState(response?.user_info.userImage);
+
   const tier = theme.getTierColor(response?.rank_info?.rank_score);
 
   const ProfileZone = styled("div", {
@@ -66,25 +69,27 @@ function Profile(props: any) {
   });
 
   const ProfilePictureChangeEvent = async (event:any) => {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
-    console.log("formData :", formData);
-    const uploadFile = await axios.post("/api/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    console.log("uploadFileName :", uploadFile.data);
-    await axios.patch("/api/users/profile", {
-      nickName: profile.nickName,
-      email: profile.email,
-      secAuthStatus: profile.secAuthStatus,
-      avatarImgUri: `/api/upload/${uploadFile.data}`, // "f1ece5d0-93a8-458a-8363-f4da888b118a.jpeg"
-    }).then((res) => {
-      console.log("updated :", res);
-    }).then((err) => {
-      console.log("error :", err);
-    });
+    if (!event.target.files[0]) {
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      const imgUp = await axios.post("/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      await axios.patch("/api/users/profile", {
+        nickName: profile.nickname,
+        email: profile.email,
+        secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
+        avatarImgUri: imgUp.data,
+      });
+      setProfileURI(`./api/upload/${imgUp.data}`);
+    } catch (e) {
+      console.log("error :", e);
+    }
   }
 
   const ProfileNameChangeEvent = (event:any) => {
@@ -92,11 +97,11 @@ function Profile(props: any) {
       axios.patch("/api/users/profile", {
         nickName: event.target.value,
         email: profile.email,
-        secAuthStatus: profile.secAuthStatus,
+        secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
         avatarImgUri: profile.avartarImgUri,
       }).then((res) => {
-        console.log("updated!", res);
-      }).then((err) => {
+        setNickname(event.target.value);
+      }).catch((err) => {
         console.log("error!", err);
       });
     }
@@ -112,7 +117,7 @@ function Profile(props: any) {
         id="picture_change_input"
       />
       <ProfileImage
-        src={response?.user_info.userImage}
+        src={profileURI}
         onClick={() => {
           document.getElementById("picture_change_input")?.click();
         }}
@@ -155,7 +160,7 @@ function Profile(props: any) {
       </ProfileTier>
       <ProfileName
         type="text"
-        defaultValue={response?.user_info.userName}
+        defaultValue={nickname}
         onKeyPress={ProfileNameChangeEvent}
       />
     </ProfileZone>
@@ -393,7 +398,7 @@ function Setting(props: any) {
       avatarImgUri: profile.avartarImgUri,
     }).then((res) => {
       console.log("updated!", res);
-    }).then((err) => {
+    }).catch((err) => {
       console.log("error!", err);
     });
   }
