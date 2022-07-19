@@ -1,15 +1,16 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled, keyframes } from "@stitches/react";
-import { Routes, Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
-import { getUserSearch, getUserSimpleSearch } from "../network/api/axios.custom";
+import { getUserSearch } from "../network/api/axios.custom";
 import * as modal from "../component/modal/modal";
 import { ModalNavFriendBox } from "../component/modal/content/modalNavFriendBox";
 import { DisplayData, setModalTrigger } from "../redux/slices/display";
@@ -19,7 +20,7 @@ import { DisplayData, setModalTrigger } from "../redux/slices/display";
 function Profile(props: any) {
   const { response, profile } = props;
 
-  const tier = theme.getTierColor(response.rank_info.rank_score);
+  const tier = theme.getTierColor(response?.rank_info?.rank_score);
 
   const ProfileZone = styled("div", {
     justifyContent: "center",
@@ -111,7 +112,7 @@ function Profile(props: any) {
         id="picture_change_input"
       />
       <ProfileImage
-        src={response.user_info.userImage}
+        src={response?.user_info.userImage}
         onClick={() => {
           document.getElementById("picture_change_input")?.click();
         }}
@@ -154,7 +155,7 @@ function Profile(props: any) {
       </ProfileTier>
       <ProfileName
         type="text"
-        defaultValue={response.user_info.userName}
+        defaultValue={response?.user_info.userName}
         onKeyPress={ProfileNameChangeEvent}
       />
     </ProfileZone>
@@ -168,8 +169,8 @@ function Profile(props: any) {
 function Progress(props: any) {
   const { response, profile } = props;
 
-  const tier = theme.getTierColor(response.rank_info.rank_score);
-  const value = Math.floor(theme.getTierPercent(response.rank_info.rank_score));
+  const tier = theme.getTierColor(response?.rank_info.rank_score);
+  const value = Math.floor(theme.getTierPercent(response?.rank_info.rank_score));
 
   const Load = keyframes({
     "0%": { width: "0" },
@@ -216,7 +217,7 @@ function Progress(props: any) {
 function History(props: any) {
   const { response, profile } = props;
   const dispatch = useDispatch();
-  const tier = theme.getTierColor(response.rank_info.rank_score);
+  const tier = theme.getTierColor(response?.rank_info.rank_score);
 
   const HistoryWrapper = styled("div", {
     width: "76%",
@@ -255,12 +256,12 @@ function History(props: any) {
   });
 
   const boxes = [];
-  for (let i = 0; i < response.game_log.length; i += 1) {
-    let name = response.game_log[i].winner_name;
+  for (let i = 0; i < response?.game_log.length; i += 1) {
+    let name = response?.game_log[i].winner_name;
     let state = "LOSE";
     let stateColor = "red";
-    if (response.game_log[i].winner_name === response.user_info.userName) {
-      name = response.game_log[i].loser_name;
+    if (response?.game_log[i].winner_name === response?.user_info.userName) {
+      name = response?.game_log[i].loser_name;
       state = "WIN";
       stateColor = "yellow";
     }
@@ -313,7 +314,7 @@ function History(props: any) {
                     fontStyle: "italic",
                   }}
                 >
-                  {response.game_log[i].start_time}&nbsp;&nbsp;
+                  {response?.game_log[i].start_time}&nbsp;&nbsp;
                 </b>
                 <b
                   style={{
@@ -345,7 +346,7 @@ function History(props: any) {
                     textShadow: `0px 0px 10px ${stateColor}`,
                   }}
                 >
-                  {response.game_log[i].loser_score} : {response.game_log[i].winner_score}
+                  {response?.game_log[i].loser_score} : {response?.game_log[i].winner_score}
                 </b>
               </td>
             </tr>
@@ -353,7 +354,7 @@ function History(props: any) {
         </table>
       </HistoryBox>
     );
-    if (i !== response.game_log.length - 1) {
+    if (i !== response?.game_log.length - 1) {
       boxes.push(<hr style={{
         width: "40%",
         boxShadow: `0 0 5px ${tier.color}`,
@@ -381,9 +382,9 @@ function Setting(props: any) {
     margin: "1vh",
     marginBottom: "-5vh"
   });
-  const tier = theme.getTierColor(response.rank_info.rank_score);
-  const SecAuthText = response.user_info.secAuthStatus === true ? "ON" : "OFF";
-  const SecAuthColor = response.user_info.secAuthStatus === true ? tier.color : "#D8D8D8";
+  const tier = theme.getTierColor(response?.rank_info.rank_score);
+  const SecAuthText = response?.user_info.secAuthStatus === true ? "ON" : "OFF";
+  const SecAuthColor = response?.user_info.secAuthStatus === true ? tier.color : "#D8D8D8";
   const SecAuthToggle = () => {
     axios.patch("/api/users/profile", {
       nickName: profile.nickName,
@@ -429,7 +430,7 @@ function Setting(props: any) {
 
 function Achievement(props: any) {
   const { response, profile } = props;
-  const tier = theme.getTierColor(response.rank_info.rank_score);
+  const tier = theme.getTierColor(response?.rank_info.rank_score);
 
   const AchievementZone = styled("div", {
     width: "calc(100% - 16px)",
@@ -465,14 +466,14 @@ function Achievement(props: any) {
   });
 
   const boxes = [];
-  for (let i = 0; i < response.achiv_info.length; i += 1) {
-    let title = response.achiv_info[i].achiv_title.substr(0, 15);
+  for (let i = 0; i < response?.achiv_info.length; i += 1) {
+    let title = response?.achiv_info[i].achiv_title.substr(0, 15);
     let textColor = "white";
     let tierColor = tier.color;
-    if (response.achiv_info[i].achiv_title.length > 15) {
+    if (response?.achiv_info[i].achiv_title.length > 15) {
       title += "...";
     }
-    if (response.achiv_info[i].achiv_complete === false) {
+    if (response?.achiv_info[i].achiv_complete === false) {
       tierColor = "gray";
       textColor = "gray";
     }
@@ -480,7 +481,7 @@ function Achievement(props: any) {
       <AchievementBox key={i.toString()}>
         <img
           alt="error"
-          src={response.achiv_info[i].achiv_image}
+          src={response?.achiv_info[i].achiv_image}
           style={{
             height: "13vh",
             width: "13vh",
@@ -511,11 +512,11 @@ function Achievement(props: any) {
             left: "15vh",
           }}
         >
-          {response.achiv_info[i].achiv_condition}
+          {response?.achiv_info[i].achiv_condition}
         </AchievementText>
       </AchievementBox>
     );
-    if (i !== response.achiv_info.length - 1) {
+    if (i !== response?.achiv_info?.length - 1) {
       boxes.push(<hr style={{
         marginRight: "10%",
         width: "60%",
@@ -562,31 +563,33 @@ export function ContainerContents() {
     </div>
   );
 
-  getUserSearch(userSeq || "").then((response: any) => {
-    const userInfo = response.data;
-    const profile = {
-      nickname: userInfo?.user_info?.userName,
-      email: userInfo?.user_info?.userEmail,
-      secAuthStatus: userInfo?.user_info?.secAuthStatus,
-      avartarImgUri: userInfo?.user_info?.userImage,
-    };
+  useEffect(() => {
+    getUserSearch(userSeq || "").then((response: any) => {
+      const userInfo = response?.data;
+      const profile = {
+        nickname: userInfo?.user_info?.userName,
+        email: userInfo?.user_info?.userEmail,
+        secAuthStatus: userInfo?.user_info?.secAuthStatus,
+        avartarImgUri: userInfo?.user_info?.userImage,
+      };
 
-    setLeft(
-      <>
-        <Profile response={userInfo} profile={profile} />
-        <Progress response={userInfo} profile={profile} />
-        <History response={userInfo} profile={profile} />
-        <Setting response={userInfo} profile={profile} />
-      </>
-    );
-    setRight(
-      <>
-        <Achievement response={userInfo} profile={profile} />
-      </>
-    );
-  }).catch((err) => {
-    console.log("error in getUserSimpleSearch :", err);
-  });
+      setLeft(
+        <>
+          <Profile response={userInfo} profile={profile} />
+          <Progress response={userInfo} profile={profile} />
+          <History response={userInfo} profile={profile} />
+          <Setting response={userInfo} profile={profile} />
+        </>
+      );
+      setRight(
+        <>
+          <Achievement response={userInfo} profile={profile} />
+        </>
+      );
+    }).catch((err) => {
+      console.log("error in getUserSimpleSearch :", err);
+    });
+  }, []);
   return (
     <template.DividedContents>
       <DividedLeftSection>
@@ -721,10 +724,10 @@ export function ContainerContents() {
   //   }
 
   //   let profile = {
-  //     nickname: tmpresponse.user_info.userName,
-  //     email: tmpresponse.user_info.userEmail,
-  //     secAuthStatus: tmpresponse.user_info.secAuthStatus,
-  //     avartarImgUri: tmpresponse.user_info.userImage,
+  //     nickname: tmpresponse?.user_info.userName,
+  //     email: tmpresponse?.user_info.userEmail,
+  //     secAuthStatus: tmpresponse?.user_info.secAuthStatus,
+  //     avartarImgUri: tmpresponse?.user_info.userImage,
   //   }
 }
 
@@ -743,7 +746,7 @@ export function ContainerContents() {
 //   }
 //   // const { userId } = useParams();
 //   // const userSeq = getUserSimpleSearch(userId).then((response: any) => {
-//   //   const { userSeq } = response.data[0];
+//   //   const { userSeq } = response?.data[0];
 //   // }).catch((error) => {
 //   //   return (null);
 //   // });
