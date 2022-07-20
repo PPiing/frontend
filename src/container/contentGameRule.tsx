@@ -22,7 +22,7 @@ const socket = socketManager.socket("/");
 // });
 
 const targetModel2 = "/asset/Iron_Man_Mark_44_Hulkbuster_fbx.FBX"
-const targetModel1 = "/asset/PaddleAndBall.FBX"
+const targetModel1 = "/asset/PaddleAndBall.fbx"
 
 const fontStr : string = JSON.stringify(fontPath);
 
