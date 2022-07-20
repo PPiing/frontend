@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
 import { useDispatch, useSelector } from "react-redux";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import * as theme from "../../theme/theme";
@@ -102,9 +104,25 @@ const ChatRoomSendArea = styled("div", {
 
 function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
+  const smallStyle = theme.modalStyle;
+  const bigStyle = theme.modalStyle;
+  console.log("styles :", smallStyle, bigStyle)
+
+  const [exitOpen, setExitOpen] = useState(false);
+  const handleExitOpen = () => setExitOpen(true);
+  const handleExitClose = () => setExitOpen(false);
+
+  const [settingOpen, setSettingOpen] = useState(false);
+  const handleSettingOpen = () => setSettingOpen(true);
+  const handleSettingClose = () => setSettingOpen(false);
+
+  const [listOpen, setListOpen] = useState(false);
+  const handleListOpen = () => setListOpen(true);
+  const handleListClose = () => setListOpen(false);
+
   const rst = [];
   rst.push(
-    <HeaderButton // hide tab
+    <HeaderButton
       onClick={() => {
         propFunc("empty");
         dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
@@ -123,15 +141,9 @@ function HeaderInfo(props: any) {
   );
   if (chatRoomData.type !== "CHTP10") {
     rst.push(
-      <HeaderButton // exit button
-        onClick={() => {
-          modal.SetModalSize("700px", "300px", "40%", "30%");
-          modal.SetModalContent(<ModalChatExit room={chatRoomData.seq} />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
-        style={{
-          backgroundColor: "#fdaf24",
-        }}
+      <HeaderButton
+        onClick={handleExitOpen}
+        style={{ backgroundColor: "#fdaf24", }}
         key="2"
       >
         <HeaderButtonIcon
@@ -141,15 +153,9 @@ function HeaderInfo(props: any) {
       </HeaderButton>
     );
     rst.push(
-      <HeaderButton // modal on : setting
-        onClick={() => {
-          modal.SetModalSize("800px", "800px", "10%", "27%");
-          modal.SetModalContent(<div />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
-        style={{
-          backgroundColor: "#28c231",
-        }}
+      <HeaderButton
+        onClick={handleSettingOpen}
+        style={{ backgroundColor: "#28c231", }}
         key="3"
       >
         <HeaderButtonIcon
@@ -159,26 +165,32 @@ function HeaderInfo(props: any) {
       </HeaderButton>
     );
     rst.push(
-      <HeaderButton // modal on : setting
-        onClick={() => {
-          modal.SetModalSize("800px", "800px", "10%", "27%");
-          modal.SetModalContent(<ModalChatUserList chatInfo={chatInfo} />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
-        style={{
-          backgroundColor: "#F2F2F2",
-        }}
+      <HeaderButton
+        onClick={handleListOpen}
+        style={{ backgroundColor: "#F2F2F2", }}
         key="4"
       >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/users_mark.svg"
-        />
+        <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
       </HeaderButton>
     );
   }
   return (
     <HeaderButtonZone>
+      <Modal open={exitOpen} onClose={handleExitClose}>
+        <Box sx={smallStyle} component="div">
+          <ModalChatExit room={chatRoomData.seq} />
+        </Box>
+      </Modal>
+      <Modal open={settingOpen} onClose={handleSettingClose}>
+        <Box sx={bigStyle} component="div">
+          <div />
+        </Box>
+      </Modal>
+      <Modal open={listOpen} onClose={handleListClose}>
+        <Box sx={bigStyle} component="div">
+          <ModalChatUserList chatInfo={chatInfo} />
+        </Box>
+      </Modal>
       {rst}
     </HeaderButtonZone>
   );
