@@ -19,7 +19,7 @@ const ExitText = styled("div", {
   // background: "red",
   textAlign: "center",
   verticalAlign: "bottom",
-  marginTop: "8vh",
+  marginTop: "2vh",
   marginBottom: "2vh",
   fontSize: "2vw",
   fontWeight: "bold",
@@ -52,12 +52,12 @@ const ExitButton = styled("div", {
 });
 
 const ExitButtonGreen = styled(ExitButton, {
-  backgroundColor: "#28c231",
-  boxShadow: "0px 0px 10px #28c231",
+  backgroundColor: "#00FF40",
+  boxShadow: "0px 0px 10px #00FF40",
   transition: "0.7s",
   "&:hover": {
-    backgroundColor: "green",
-    boxShadow: "0px 0px 10px green",
+    backgroundColor: "#04B404",
+    boxShadow: "0px 0px 10px #04B404",
   }
 });
 

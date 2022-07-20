@@ -104,9 +104,15 @@ const ChatRoomSendArea = styled("div", {
 
 function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
+  console.log("chatInfo in headerInfo :", chatInfo);
   const smallStyle = theme.modalStyle;
+  smallStyle.width = "600";
+  smallStyle.top = "50%";
+  smallStyle.left = "50%";
   const bigStyle = theme.modalStyle;
-  console.log("styles :", smallStyle, bigStyle)
+  bigStyle.width = "600";
+  bigStyle.top = "50%";
+  bigStyle.left = "50%";
 
   const [exitOpen, setExitOpen] = useState(false);
   const handleExitOpen = () => setExitOpen(true);
@@ -139,41 +145,41 @@ function HeaderInfo(props: any) {
       />
     </HeaderButton>
   );
-  if (chatRoomData.type !== "CHTP10") {
-    rst.push(
-      <HeaderButton
-        onClick={handleExitOpen}
-        style={{ backgroundColor: "#fdaf24", }}
-        key="2"
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/exit_mark.svg"
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton
-        onClick={handleSettingOpen}
-        style={{ backgroundColor: "#28c231", }}
-        key="3"
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/setting_mark.svg"
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton
-        onClick={handleListOpen}
-        style={{ backgroundColor: "#F2F2F2", }}
-        key="4"
-      >
-        <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
-      </HeaderButton>
-    );
-  }
+  //   if (chatRoomData.type !== "CHTP10") {
+  rst.push(
+    <HeaderButton
+      onClick={handleExitOpen}
+      style={{ backgroundColor: "#fdaf24", }}
+      key="2"
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/exit_mark.svg"
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton
+      onClick={handleSettingOpen}
+      style={{ backgroundColor: "#28c231", }}
+      key="3"
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/setting_mark.svg"
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton
+      onClick={handleListOpen}
+      style={{ backgroundColor: "#F2F2F2", }}
+      key="4"
+    >
+      <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
+    </HeaderButton>
+  );
+  //   }
   return (
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
@@ -244,7 +250,7 @@ export function ComponentChatRoom(props: any) {
   //   ]
   // }
   useEffect(() => {
-    chatUserCount(chatRoomData.seq || "").then((response: any) => {
+    chatUserCount(chatRoomData.seq).then((response: any) => {
       setchatInfo(response?.data);
     });
   }, []);
