@@ -207,12 +207,11 @@ export const modalStyle = {
 };
 
 /*
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
 const style = theme.modalStyle;
-style.boxShadow = "0 0 10px #fff";
 const [open, setOpen] = useState(false);
 const handleOpen = () => setOpen(true);
 const handleClose = () => setOpen(false);
