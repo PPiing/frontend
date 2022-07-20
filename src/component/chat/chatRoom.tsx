@@ -113,7 +113,6 @@ function HeaderInfo(props: any) {
   bigStyle.width = "600";
   bigStyle.top = "50%";
   bigStyle.left = "50%";
-  console.log("styles :", smallStyle, bigStyle)
 
   const [exitOpen, setExitOpen] = useState(false);
   const handleExitOpen = () => setExitOpen(true);
@@ -146,41 +145,41 @@ function HeaderInfo(props: any) {
       />
     </HeaderButton>
   );
-  if (chatRoomData.type !== "CHTP10") {
-    rst.push(
-      <HeaderButton
-        onClick={handleExitOpen}
-        style={{ backgroundColor: "#fdaf24", }}
-        key="2"
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/exit_mark.svg"
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton
-        onClick={handleSettingOpen}
-        style={{ backgroundColor: "#28c231", }}
-        key="3"
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/setting_mark.svg"
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton
-        onClick={handleListOpen}
-        style={{ backgroundColor: "#F2F2F2", }}
-        key="4"
-      >
-        <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
-      </HeaderButton>
-    );
-  }
+  //   if (chatRoomData.type !== "CHTP10") {
+  rst.push(
+    <HeaderButton
+      onClick={handleExitOpen}
+      style={{ backgroundColor: "#fdaf24", }}
+      key="2"
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/exit_mark.svg"
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton
+      onClick={handleSettingOpen}
+      style={{ backgroundColor: "#28c231", }}
+      key="3"
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/setting_mark.svg"
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton
+      onClick={handleListOpen}
+      style={{ backgroundColor: "#F2F2F2", }}
+      key="4"
+    >
+      <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
+    </HeaderButton>
+  );
+  //   }
   return (
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
@@ -251,8 +250,7 @@ export function ComponentChatRoom(props: any) {
   //   ]
   // }
   useEffect(() => {
-    chatUserCount(chatRoomData.seq || "").then((response: any) => {
-      // console.log
+    chatUserCount(chatRoomData.seq).then((response: any) => {
       setchatInfo(response?.data);
     });
   }, []);
