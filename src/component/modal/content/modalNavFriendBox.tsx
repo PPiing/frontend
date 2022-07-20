@@ -73,8 +73,8 @@ function Profile(props: any) {
   });
 
   const ProfileImage = styled(theme.ProfileImage, {
-    width: "8rem",
-    height: "8rem",
+    width: "150px",
+    height: "150px",
     position: "relative",
     top: "0.8rem",
     left: "0rem",
@@ -96,22 +96,22 @@ function Profile(props: any) {
     fontWeight: "bold",
     textOverflow: "ellipsis",
     marginBottom: "5px",
+    textShadow: "0 0 5px white",
   });
 
   return (
     <ProfileZone>
       <ProfileImage
-        src={`${window.location.origin}${response.user_info.user_image}`}
+        src={`${window.location.origin}${response.user_info.userImage}`}
         style={{
           border: `3px solid ${tier.color}`,
           boxShadow: `0 0 15px ${tier.color}` }}
       />
-      {/* <ProfileStatus style={{ backgroundColor: StatusColor }} /> */}
-      <ProfileTier style={{ color: `${tier.color}`, filter: `textShadow(0px 0px 10px ${tier.color})` }}>
+      <ProfileTier style={{ color: `${tier.color}`, textShadow: `0px 0px 10px ${tier.color}` }}>
         - - - - {tier.name} - - - -
       </ProfileTier>
       <ProfileName>
-        {response.user_info.user_name}
+        {response.user_info.userName}
       </ProfileName>
     </ProfileZone>
   )

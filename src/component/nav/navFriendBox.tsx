@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
-import { useDispatch } from "react-redux";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as theme from "../../theme/theme";
-import * as modal from "../modal/modal";
 import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
-import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 
 const ProfileImage = styled("img", {
   width: "70px",
@@ -74,7 +71,6 @@ const Status = styled("div", {
 });
 
 export function ComponentNavFriendBox(props: any) {
-  const dispatch = useDispatch();
   const setStatusColor = (status:string) => {
     if (status === "online") return ("green");
     if (status === "offline") return ("grey");
