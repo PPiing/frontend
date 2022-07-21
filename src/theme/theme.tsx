@@ -203,7 +203,7 @@ export const modalStyle = {
   color: "white",
   p: 4,
   boxShadow: "0 0 10px #fff",
-  overflow: "scroll"
+  overflow: "hidden"
 };
 
 /*
