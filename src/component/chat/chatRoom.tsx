@@ -106,12 +106,13 @@ function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
   console.log("chatInfo in headerInfo :", chatInfo);
   const smallStyle = theme.modalStyle;
-  smallStyle.width = "600px";
+  smallStyle.width = "auto";
+  smallStyle.height = "auto";
   smallStyle.top = "50%";
   smallStyle.left = "50%";
   const bigStyle = theme.modalStyle;
-  bigStyle.width = "60vw";
-  bigStyle.height = "70vh";
+  bigStyle.width = "auto";
+  bigStyle.height = "40vh";
   bigStyle.top = "50%";
   bigStyle.left = "50%";
 
@@ -180,6 +181,7 @@ function HeaderInfo(props: any) {
       <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
     </HeaderButton>
   );
+  console.log("smallStyle : ", smallStyle);
   //   }
   return (
     <HeaderButtonZone>
