@@ -202,6 +202,10 @@ function HeaderInfo(props: any) {
   );
 }
 
+const renderMessage = () => {
+
+}
+
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
   //   console.log("히히 콘솔로그 발싸", chatRoomData, "그리고, ", propFunc);
