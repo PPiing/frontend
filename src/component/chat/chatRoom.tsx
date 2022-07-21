@@ -49,7 +49,7 @@ const ChatRoomHeader = styled("div", {
   width: "100%",
   height: "120px",
   backgroundColor: "#000000",
-  overflowX: "scroll",
+  overflow: "hidden",
 })
 
 const HeaderTitle = styled("p", {
