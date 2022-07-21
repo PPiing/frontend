@@ -281,7 +281,7 @@ export function ComponentChatRoom(props: any) {
   // }
   useEffect(() => {
     chatUserCount(chatRoomData.seq).then((response: any) => {
-      setchatInfo(response?.data);
+      setChatInfo(response?.data);
     });
   }, []);
   //   console.log("마으마ㅡ아므아므아ㅡ", chatInfo);
