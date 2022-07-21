@@ -4,7 +4,7 @@ import * as theme from "../../../theme/theme";
 
 const UserListBox = styled("div", {
   width: "100%",
-  height: "12.5%",
+  height: "5vh",
   overflow: "hidden",
   border: "1px solid gray",
   fontSize: "15px",
@@ -14,6 +14,8 @@ const UserListBox = styled("div", {
 export function ModalChatUserListBox(props: any) {
   const { chatInfo } = props;
   return (
-    <UserListBox />
+    <UserListBox>
+      <p>asd</p>
+    </UserListBox>
   );
 }

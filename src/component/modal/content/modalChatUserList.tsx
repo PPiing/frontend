@@ -8,7 +8,6 @@ const UserListZone = styled("div", {
   width: "100%",
   height: "100%",
   overflow: "hidden",
-  // backgroundColor: "#FFFFFF",
   fontSize: "15px",
 });
 
@@ -28,6 +27,7 @@ const UserListTable = styled("div", {
   overflowX: "hidden",
   "&::-webkit-scrollbar": {
     width: "5px",
+    margin: "5px",
   },
   "&::-webkit-scrollbar-thumb": {
     backgroundColor: theme.NEON_RED,
@@ -41,20 +41,19 @@ const UserListTable = styled("div", {
 
 export function ModalChatUserList(props: any) {
   const { chatInfo } = props;
-  console.log("chat info : ", chatInfo);
 
   const renderList = () => {
     const renderResult: JSX.Element[] = [];
     for (let i = 0; i < chatInfo.participants.length; i += 1) {
-      console.log("test debug");
-      getUserSearch(chatInfo.participants[i].userSeq).then((response: any) => {
-        console.log("inside then ", chatInfo.participants[i].userSeq, response);
-        renderResult.push(
-          <ModalChatUserListBox key={i} userInfo={response?.data} />
-        );
-      }).catch((error) => {
-        console.log("ModalChatUserList, getUserSearch", error);
-      });
+      console.log("test : ", chatInfo.participants[i]);
+      //   getUserSearch(chatInfo.participants[i].userSeq).then((response: any) => {
+      //     console.log("inside then ", chatInfo.participants[i].userSeq, response);
+      renderResult.push(
+        <ModalChatUserListBox key={i} />
+      );
+    //   }).catch((error) => {
+    //     console.log("ModalChatUserList, getUserSearch", error);
+    //   });
     }
     return renderResult;
   };
