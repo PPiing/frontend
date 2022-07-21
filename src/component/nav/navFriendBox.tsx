@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
-import { useDispatch } from "react-redux";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import * as theme from "../../theme/theme";
-import * as modal from "../modal/modal";
 import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
-import { DisplayData, setModalTrigger } from "../../redux/slices/display";
 
 const ProfileImage = styled("img", {
   width: "70px",
@@ -72,7 +71,6 @@ const Status = styled("div", {
 });
 
 export function ComponentNavFriendBox(props: any) {
-  const dispatch = useDispatch();
   const setStatusColor = (status:string) => {
     if (status === "online") return ("green");
     if (status === "offline") return ("grey");
@@ -82,14 +80,28 @@ export function ComponentNavFriendBox(props: any) {
   const { friend } = props;
 
   const statusColor:string = setStatusColor(StatusDisplayDistributor(friend.status));
+
+  const style = theme.modalStyle;
+  style.top = "45%";
+  style.width = "300px";
+  style.left = "calc(100% - 450px)";
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <NavFriendBox
-      onClick={() => {
-        modal.SetModalSize("300px", "460px", "20%", "20%");
-        modal.SetModalContent(<ModalNavFriendBox user={friend} />);
-        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-      }}
+      onClick={handleOpen}
     >
+      <Modal
+        open={open}
+        onClose={handleClose}
+      >
+        <Box sx={style} component="div">
+          <ModalNavFriendBox user={friend} />
+        </Box>
+      </Modal>
+
       <ProfileImage src={`${window.location.origin}${friend.img}`} className="profile" />
       <Profile>
         <ProfileName> {friend.nick} </ProfileName>

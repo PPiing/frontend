@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
 import { useDispatch, useSelector } from "react-redux";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import * as theme from "../../theme/theme";
@@ -49,7 +51,7 @@ const ChatRoomHeader = styled("div", {
   width: "100%",
   height: "120px",
   backgroundColor: "#000000",
-  overflowX: "scroll",
+  overflow: "hidden",
 })
 
 const HeaderTitle = styled("p", {
@@ -104,9 +106,31 @@ const ChatRoomSendArea = styled("div", {
 
 function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
+  console.log("chatInfo in headerInfo :", chatInfo);
+  const smallStyle = theme.modalStyle;
+  smallStyle.width = "600";
+  smallStyle.top = "50%";
+  smallStyle.left = "50%";
+  const bigStyle = theme.modalStyle;
+  bigStyle.width = "600";
+  bigStyle.top = "50%";
+  bigStyle.left = "50%";
+
+  const [exitOpen, setExitOpen] = useState(false);
+  const handleExitOpen = () => setExitOpen(true);
+  const handleExitClose = () => setExitOpen(false);
+
+  const [settingOpen, setSettingOpen] = useState(false);
+  const handleSettingOpen = () => setSettingOpen(true);
+  const handleSettingClose = () => setSettingOpen(false);
+
+  const [listOpen, setListOpen] = useState(false);
+  const handleListOpen = () => setListOpen(true);
+  const handleListClose = () => setListOpen(false);
+
   const rst = [];
   rst.push(
-    <HeaderButton // hide tab
+    <HeaderButton
       onClick={() => {
         propFunc("empty");
         dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
@@ -123,64 +147,58 @@ function HeaderInfo(props: any) {
       />
     </HeaderButton>
   );
-  if (chatRoomData.type !== "CHTP10") {
-    rst.push(
-      <HeaderButton // exit button
-        onClick={() => {
-          modal.SetModalSize("700px", "300px", "40%", "30%");
-          modal.SetModalContent(<ModalChatExit room={chatRoomData.seq} />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
-        style={{
-          backgroundColor: "#fdaf24",
-        }}
-        key="2"
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/exit_mark.svg"
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton // modal on : setting
-        onClick={() => {
-          modal.SetModalSize("800px", "800px", "10%", "27%");
-          modal.SetModalContent(<div />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
-        style={{
-          backgroundColor: "#28c231",
-        }}
-        key="3"
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/setting_mark.svg"
-        />
-      </HeaderButton>
-    );
-    rst.push(
-      <HeaderButton // modal on : setting
-        onClick={() => {
-          modal.SetModalSize("800px", "800px", "10%", "27%");
-          modal.SetModalContent(<ModalChatUserList chatInfo={chatInfo} />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
-        style={{
-          backgroundColor: "#F2F2F2",
-        }}
-        key="4"
-      >
-        <HeaderButtonIcon
-          alt="x"
-          src="/asset/users_mark.svg"
-        />
-      </HeaderButton>
-    );
-  }
+  //   if (chatRoomData.type !== "CHTP10") {
+  rst.push(
+    <HeaderButton
+      onClick={handleExitOpen}
+      style={{ backgroundColor: "#fdaf24", }}
+      key="2"
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/exit_mark.svg"
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton
+      onClick={handleSettingOpen}
+      style={{ backgroundColor: "#28c231", }}
+      key="3"
+    >
+      <HeaderButtonIcon
+        alt="x"
+        src="/asset/setting_mark.svg"
+      />
+    </HeaderButton>
+  );
+  rst.push(
+    <HeaderButton
+      onClick={handleListOpen}
+      style={{ backgroundColor: "#F2F2F2", }}
+      key="4"
+    >
+      <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
+    </HeaderButton>
+  );
+  //   }
   return (
     <HeaderButtonZone>
+      <Modal open={exitOpen} onClose={handleExitClose}>
+        <Box sx={smallStyle} component="div">
+          <ModalChatExit room={chatRoomData.seq} />
+        </Box>
+      </Modal>
+      <Modal open={settingOpen} onClose={handleSettingClose}>
+        <Box sx={bigStyle} component="div">
+          <div />
+        </Box>
+      </Modal>
+      <Modal open={listOpen} onClose={handleListClose}>
+        <Box sx={bigStyle} component="div">
+          <ModalChatUserList chatInfo={chatInfo} />
+        </Box>
+      </Modal>
       {rst}
     </HeaderButtonZone>
   );
@@ -261,7 +279,11 @@ export function ComponentChatRoom(props: any) {
   //     null
   //   ]
   // }
-
+  useEffect(() => {
+    chatUserCount(chatRoomData.seq).then((response: any) => {
+      setchatInfo(response?.data);
+    });
+  }, []);
   //   console.log("마으마ㅡ아므아므아ㅡ", chatInfo);
 
   return (

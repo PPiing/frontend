@@ -189,6 +189,46 @@ export const ProfileImage = styled("img", {
 
 //
 // *****************************************************************************
+// modal style && template comment
+// *****************************************************************************
+//
+export const modalStyle = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "400px",
+  bgcolor: "black",
+  border: "2px solid #000",
+  color: "white",
+  p: 4,
+  boxShadow: "0 0 10px #fff",
+  overflow: "hidden"
+};
+
+/*
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+
+const style = theme.modalStyle;
+const [open, setOpen] = useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
+
+<Button onClick={handleOpen}>Open modal</Button>
+<Modal
+  open={open}
+  onClose={handleClose}
+>
+  <Box sx={style} component="div">
+    <div>{content}</div>
+  </Box>
+</Modal>
+*/
+
+//
+// *****************************************************************************
 // global style && reactive
 // *****************************************************************************
 //

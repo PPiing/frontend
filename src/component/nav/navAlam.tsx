@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import * as theme from "../../theme/theme";
 import * as modal from "../modal/modal";
 import { ReducerType } from "../../redux/rootReducer";
@@ -144,16 +146,51 @@ export function ComponentNavAlam() {
     return renderResult;
   };
 
+  const profileStyle = theme.modalStyle;
+  profileStyle.top = "40%";
+  profileStyle.width = "300px";
+  profileStyle.left = "calc(100% - 450px)";
+  const [profileOpen, setProfileOpen] = useState(false);
+  const handleProfileOpen = () => setProfileOpen(true);
+  const handleProfileClose = () => setProfileOpen(false);
+
+  const alarmStyle = theme.modalStyle;
+  alarmStyle.top = "40%";
+  alarmStyle.width = "270px";
+  alarmStyle.left = "calc(100% - 300px)";
+  const [alarmOpen, setAlarmOpen] = useState(false);
+  const handleAlarmOpen = () => setAlarmOpen(true);
+  const handleAlarmClose = () => setAlarmOpen(false);
+
   return (
     <NavAlarm>
+      <Modal
+        open={profileOpen}
+        onClose={handleProfileClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={profileStyle} component="div">
+          <ModalNavFriendBox user={loggedUser} />
+        </Box>
+      </Modal>
+      <Modal
+        open={alarmOpen}
+        onClose={handleAlarmClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={alarmStyle} component="div">
+          <div>
+            <NavAlarmList>
+              {renderAlarmList()}
+            </NavAlarmList>
+          </div>
+        </Box>
+      </Modal>
       <NavAlarmProfileImg
         className="navAlarm"
-        onClick={() => {
-          modal.SetModalSize("300px", "350px", "20%", "20%");
-          modal.SetModalContent(<ModalNavFriendBox user={loggedUser} />);
-          // modal.SetModalContent(<ModalNavFriendBox nick={friend.nick} />);
-          dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-        }}
+        onClick={handleProfileOpen}
       >
         <theme.ProfileImage className="profileimg" src={`${window.location.origin}${loggedUser.img}`} />
       </NavAlarmProfileImg>
@@ -168,17 +205,15 @@ export function ComponentNavAlam() {
       <NavAlarmAlarm>
         <NavNotificationButton
           src="/asset/notification_icon.png"
-          onClick={() => {
-            modal.SetModalSize("300px", "460px", "35%", "5%");
-            modal.SetModalContent(
-              <div>
-                <NavAlarmList>
-                  {renderAlarmList()}
-                </NavAlarmList>
-              </div>
-            );
-            dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-          }}
+          onClick={handleAlarmOpen}
+          //   modal.SetModalContent(
+          //     <div>
+          //       <NavAlarmList>
+          //         {renderAlarmList()}
+          //       </NavAlarmList>
+          //     </div>
+          //   );
+          // }}
         />
       </NavAlarmAlarm>
     </NavAlarm>

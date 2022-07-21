@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
 import * as theme from "../../../theme/theme";
@@ -9,6 +9,7 @@ import { ReqUserProfile } from "../../../feat/profile/request";
 import { LoggedUserData } from "../../../redux/slices/loggedUser";
 import * as modal from "../modal";
 import { DisplayData, setModalTrigger } from "../../../redux/slices/display";
+import { getUserSearch } from "../../../network/api/axios.custom";
 
 /*
   Define Rules
@@ -65,14 +66,15 @@ const DefineList: ButtonVector[] = [
   Profile Zone
 */
 function Profile(props: any) {
-  const { response, tier, renderList } = props;
+  const { response, renderList } = props;
 
+  const tier = theme.getTierColor(response?.rank_info?.rank_score);
   const ProfileZone = styled("div", {
   });
 
   const ProfileImage = styled(theme.ProfileImage, {
-    width: "8rem",
-    height: "8rem",
+    width: "150px",
+    height: "150px",
     position: "relative",
     top: "0.8rem",
     left: "0rem",
@@ -94,22 +96,22 @@ function Profile(props: any) {
     fontWeight: "bold",
     textOverflow: "ellipsis",
     marginBottom: "5px",
+    textShadow: "0 0 5px white",
   });
 
   return (
     <ProfileZone>
       <ProfileImage
-        src={`${window.location.origin}${response.user_info.user_image}`}
+        src={`${window.location.origin}${response.user_info.userImage}`}
         style={{
           border: `3px solid ${tier.color}`,
           boxShadow: `0 0 15px ${tier.color}` }}
       />
-      {/* <ProfileStatus style={{ backgroundColor: StatusColor }} /> */}
-      <ProfileTier style={{ color: `${tier.color}`, filter: `textShadow(0px 0px 10px ${tier.color})` }}>
+      <ProfileTier style={{ color: `${tier.color}`, textShadow: `0px 0px 10px ${tier.color}` }}>
         - - - - {tier.name} - - - -
       </ProfileTier>
       <ProfileName>
-        {response.user_info.user_name}
+        {response.user_info.userName}
       </ProfileName>
     </ProfileZone>
   )
@@ -219,10 +221,10 @@ function Buttons(props: any) {
     let buttonLink0 = renderList.buttons[i].link;
     let buttonLink1 = renderList.buttons[i + 1].link;
     if (renderList.buttons[i].name === "profile") {
-      buttonLink0 += `/${response.user_info.user_name}`;
+      buttonLink0 += `/${response.user_info.userSeq}`;
     }
     if (renderList.buttons[i + 1].name === "profile") {
-      buttonLink1 += `/${response.user_info.user_name}`;
+      buttonLink1 += `/${response.user_info.userSeq}`;
     }
     result.push(
       <tr key={i}>
@@ -266,143 +268,54 @@ const ModalContentDiv = styled("div", {
   overflow: "hidden",
 });
 
+function isNumber(str: any): boolean {
+  if (typeof str !== "string") {
+    return false;
+  }
+  if (str.trim() === "") {
+    return false;
+  }
+  return !Number.isNaN(Number(str));
+};
+
 export function ModalNavFriendBox(props: any) {
   const { user } = props;
-
-  const response = {
-    user_info: {
-      user_name: "skim",
-      user_email: "skim@42.kr",
-      user_secAuthStatus: true,
-      user_image: "/asset/profileImage/default.png",
-      isFriend: false,
-      isBlock: false,
-    },
-    achiv_info: [
-      {
-        achiv_title: "기본",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본2",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본3",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본4",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본5",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본6",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본777777777777777777기본777777777777777777",
-        achiv_condition: "100연승이라니!! 너 혹시 미쳤니?",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본8",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: true,
-      },
-      {
-        achiv_title: "기본9",
-        achiv_condition: "none",
-        achiv_image: "/asset/profileImage/default.png",
-        achiv_complete: false,
-      },
-    ],
-    game_count: {
-      count_win: 100,
-      count_lose: 100,
-      rank_score: 280,
-    },
-    game_log: [
-      {
-        winner_name: "kkim",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 9,
-        start_time: "2022.07.06 18:12",
-      },
-      {
-        winner_name: "skim",
-        loser_name: "kkim",
-        game_type: "rank",
-        winner_score: 7,
-        loser_score: 11,
-        start_time: "2022.07.06 18:01",
-      },
-      {
-        winner_name: "kkim",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 10,
-        start_time: "2022.07.06 17:56",
-      },
-      {
-        winner_name: "poopark",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 2,
-        start_time: "2022.07.06 16:08",
-      },
-      {
-        winner_name: "poopark",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 0,
-        start_time: "2022.07.06 15:56",
-      },
-      {
-        winner_name: "spark",
-        loser_name: "skim",
-        game_type: "rank",
-        winner_score: 11,
-        loser_score: 10,
-        start_time: "2022.07.05 16:08",
-      },
-
-    ]
-  }
-
-  const tier = theme.getTierColor(response.game_count.rank_score);
+  console.log("user props : ", user);
+  const [content, setContent] = useState<JSX.Element>(
+    <div>
+      <b>로딩중입니다.</b>
+    </div>
+  )
   const logged = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
-  let Define = DefineList[0];
-  if (response.user_info.isFriend === true) Define = DefineList[1];
-  if (logged.nick === response.user_info.user_name) Define = DefineList[2];
+
+  useEffect(() => {
+    let searchSeq: any = "-1";
+    if (isNumber(user.seq)) searchSeq = user.seq.toString();
+    getUserSearch(user.seq).then((response) => {
+      const anyResponse: any = response;
+      const userInfo: any = anyResponse?.data;
+      if (anyResponse?.name !== "AxiosError") {
+        let Define = DefineList[0];
+        if (userInfo.user_info.isFriend === true) Define = DefineList[1];
+        if (logged.nick === userInfo.user_info.userName) Define = DefineList[2];
+        setContent(
+          <>
+            <Profile response={userInfo} renderList={Define} />
+            <Status status={user.status} renderList={Define} />
+            <Buttons response={userInfo} renderList={Define} />
+          </>
+        );
+      }
+    }).catch((error) => {
+      setContent(
+        <b style={{ color: "red" }}>An error occurred. {error}</b>
+      );
+    });
+  }, []);
 
   return (
     <ModalContentDiv>
-      <Profile response={response} tier={tier} renderList={Define} />
-      <Status status={user.status} renderList={Define} />
-      <Buttons response={response} renderList={Define} />
+      {content}
     </ModalContentDiv>
   );
 }

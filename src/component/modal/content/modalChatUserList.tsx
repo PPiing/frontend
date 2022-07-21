@@ -41,6 +41,7 @@ const UserListTable = styled("div", {
 
 export function ModalChatUserList(props: any) {
   const { chatInfo } = props;
+  console.log("chat info : ", chatInfo);
 
   const renderList = () => {
     const renderResult: JSX.Element[] = [];

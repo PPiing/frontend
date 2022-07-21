@@ -21,7 +21,7 @@ function Profile(props: any) {
   const { response, profile } = props;
 
   const [nickname, setNickname] = useState(response?.user_info.userName);
-  const [profileURI, setProfileURI] = useState(response?.user_info.userImage);
+  const [profileURI, setProfileURI] = useState(`${window.location.origin}${response.user_info.userImage}`);
 
   const tier = theme.getTierColor(response?.rank_info?.rank_score);
 
@@ -86,7 +86,7 @@ function Profile(props: any) {
         secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
         avatarImgUri: imgUp.data,
       });
-      setProfileURI(`./api/upload/${imgUp.data}`);
+      setProfileURI(`${window.location.origin}${imgUp.data}`);
     } catch (e) {
       console.log("error :", e);
     }
@@ -132,10 +132,10 @@ function Profile(props: any) {
           <hr
             style={{
               width: "75%",
-              marginRight: "-20%",
-              border: `solid 8px ${tier.color}`,
+              marginRight: "-30%",
+              border: `solid 4px ${tier.color}`,
               boxShadow: `0 0 20px ${tier.color}`,
-              borderRadius: "2px 0 0 10px", }}
+              borderRadius: "10px 0 0 10px", }}
           />
         </div>
         <div
@@ -151,7 +151,7 @@ function Profile(props: any) {
         ><hr
           style={{
             width: "75%",
-            marginLeft: "-20%",
+            marginLeft: "-30%",
             border: `solid 4px ${tier.color}`,
             boxShadow: `0 0 20px ${tier.color}`,
             borderRadius: "0 10px 10px 0", }}
@@ -172,7 +172,8 @@ function Profile(props: any) {
 // Progress Zone
 
 function Progress(props: any) {
-  const { response, profile } = props;
+  const { response } = props;
+  console.log(response);
 
   const tier = theme.getTierColor(response?.rank_info.rank_score);
   const value = Math.floor(theme.getTierPercent(response?.rank_info.rank_score));
