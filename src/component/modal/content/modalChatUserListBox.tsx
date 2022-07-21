@@ -6,13 +6,13 @@ const UserListBox = styled("div", {
   width: "100%",
   height: "5vh",
   overflow: "hidden",
-  border: "1px solid gray",
   fontSize: "15px",
 
 });
 
 export function ModalChatUserListBox(props: any) {
-  const { chatInfo } = props;
+  const { partcInfo } = props;
+  console.log(partcInfo);
   return (
     <UserListBox>
       <p>asd</p>

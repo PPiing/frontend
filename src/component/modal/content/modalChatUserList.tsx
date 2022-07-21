@@ -41,19 +41,18 @@ const UserListTable = styled("div", {
 
 export function ModalChatUserList(props: any) {
   const { chatInfo } = props;
+  chatInfo.participants[0].userSeq = 1;
+  chatInfo.participants[1].userSeq = 1;
 
   const renderList = () => {
     const renderResult: JSX.Element[] = [];
     for (let i = 0; i < chatInfo.participants.length; i += 1) {
-      console.log("test : ", chatInfo.participants[i]);
-      //   getUserSearch(chatInfo.participants[i].userSeq).then((response: any) => {
-      //     console.log("inside then ", chatInfo.participants[i].userSeq, response);
       renderResult.push(
-        <ModalChatUserListBox key={i} />
+        <>
+          <ModalChatUserListBox key={i} partcInfo={chatInfo.participants[i]} />
+          <hr key={chatInfo.participants.length + i} />
+        </>
       );
-    //   }).catch((error) => {
-    //     console.log("ModalChatUserList, getUserSearch", error);
-    //   });
     }
     return renderResult;
   };
