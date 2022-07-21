@@ -8,12 +8,10 @@ import Modal from "@mui/material/Modal";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import * as theme from "../../theme/theme";
-import * as modal from "../modal/modal";
 import { ModalChatExit } from "../modal/content/modalChatExit";
 import { ModalChatUserList } from "../modal/content/modalChatUserList";
-import { setChatRoomId, DisplayData, setModalTrigger } from "../../redux/slices/display";
+import { setChatRoomId, DisplayData } from "../../redux/slices/display";
 import { chatUserCount } from "../../network/api/axios.custom";
-import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { ChatMessage } from "./chatMessage";
 
 const ContentRoom = styled("div", {
