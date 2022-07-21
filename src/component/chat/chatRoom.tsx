@@ -8,12 +8,10 @@ import Modal from "@mui/material/Modal";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import * as theme from "../../theme/theme";
-import * as modal from "../modal/modal";
 import { ModalChatExit } from "../modal/content/modalChatExit";
 import { ModalChatUserList } from "../modal/content/modalChatUserList";
-import { setChatRoomId, DisplayData, setModalTrigger } from "../../redux/slices/display";
+import { setChatRoomId, DisplayData } from "../../redux/slices/display";
 import { chatUserCount } from "../../network/api/axios.custom";
-import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { ChatMessage } from "./chatMessage";
 import IRecvMessage from "../../interface/recvMessage.interface";
 import * as axios from "../../network/api/axios.custom";
@@ -107,15 +105,9 @@ const ChatRoomSendArea = styled("div", {
 function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
   console.log("chatInfo in headerInfo :", chatInfo);
-  const smallStyle = theme.modalStyle;
-  smallStyle.width = "600";
-  smallStyle.top = "50%";
-  smallStyle.left = "50%";
-  const bigStyle = theme.modalStyle;
-  bigStyle.width = "600";
-  bigStyle.top = "50%";
-  bigStyle.left = "50%";
-
+  theme.modalStyle.top = "50%";
+  theme.modalStyle.left = "50%";
+  theme.modalStyle.width = "auto";
   const [exitOpen, setExitOpen] = useState(false);
   const handleExitOpen = () => setExitOpen(true);
   const handleExitClose = () => setExitOpen(false);
@@ -185,23 +177,27 @@ function HeaderInfo(props: any) {
   return (
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
-        <Box sx={smallStyle} component="div">
+        <Box sx={theme.modalStyle} component="div">
           <ModalChatExit room={chatRoomData.seq} />
         </Box>
       </Modal>
       <Modal open={settingOpen} onClose={handleSettingClose}>
-        <Box sx={bigStyle} component="div">
+        <Box sx={theme.modalStyle} component="div">
           <div />
         </Box>
       </Modal>
       <Modal open={listOpen} onClose={handleListClose}>
-        <Box sx={bigStyle} component="div">
+        <Box sx={theme.modalStyle} component="div">
           <ModalChatUserList chatInfo={chatInfo} />
         </Box>
       </Modal>
       {rst}
     </HeaderButtonZone>
   );
+}
+
+const renderMessage = () => {
+
 }
 
 export function ComponentChatRoom(props: any) {

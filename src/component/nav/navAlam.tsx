@@ -149,6 +149,7 @@ export function ComponentNavAlam() {
   const profileStyle = theme.modalStyle;
   profileStyle.top = "40%";
   profileStyle.width = "300px";
+  profileStyle.height = "auto";
   profileStyle.left = "calc(100% - 450px)";
   const [profileOpen, setProfileOpen] = useState(false);
   const handleProfileOpen = () => setProfileOpen(true);
@@ -157,6 +158,7 @@ export function ComponentNavAlam() {
   const alarmStyle = theme.modalStyle;
   alarmStyle.top = "40%";
   alarmStyle.width = "270px";
+  profileStyle.height = "auto";
   alarmStyle.left = "calc(100% - 300px)";
   const [alarmOpen, setAlarmOpen] = useState(false);
   const handleAlarmOpen = () => setAlarmOpen(true);

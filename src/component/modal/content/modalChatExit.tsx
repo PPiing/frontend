@@ -19,10 +19,10 @@ const ExitText = styled("div", {
   // background: "red",
   textAlign: "center",
   verticalAlign: "bottom",
-  marginTop: "2vh",
+  marginTop: "1.5vh",
   marginBottom: "2vh",
   fontSize: "2vw",
-  fontWeight: "bold",
+  //   fontWeight: "bold",
   textShadow: "0px 0px 1px #ffffff",
 });
 
@@ -40,14 +40,13 @@ const ExitButtonZone = styled("div", {
 
 const ExitButton = styled("div", {
   display: "inline-block",
-  fontSize: "1.5vw",
+  fontSize: "1.3vw",
   fontWeight: "bold",
   width: "4vw",
   height: "4vw",
   borderRadius: "5px",
   color: "black",
   cursor: "pointer",
-  margin: "1.5vw",
   marginTop: "1vh",
 });
 
@@ -74,11 +73,9 @@ const ExitButtonRed = styled(ExitButton, {
 export function ModalChatExit(props: any) {
   const { room } = props;
   const LoggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
-  console.log(`room number : ${room}`);
-  const dispatch = useDispatch();
   return (
     <ExitZone>
-      <ExitText>Are you sure you want to<ExitTextBold> leave </ExitTextBold>the room?
+      <ExitText>Are you sure you want to<ExitTextBold> leave </ExitTextBold>this room?
       </ExitText>
       <ExitButtonZone>
         <ExitButtonGreen
@@ -98,10 +95,8 @@ export function ModalChatExit(props: any) {
             />
           </a>
         </ExitButtonGreen>
-        <ExitButtonRed
-          onClick={() => {
-            dispatch(setModalTrigger({ ismodal: false } as DisplayData));
-          }}
+        {/* <ExitButtonRed
+          onClick={handleExitClose}
         >
           <a>
             <img
@@ -110,7 +105,7 @@ export function ModalChatExit(props: any) {
               style={{ width: "3.5vw", height: "3.5vw", marginTop: "0.25vw" }}
             />
           </a>
-        </ExitButtonRed>
+        </ExitButtonRed> */}
       </ExitButtonZone>
     </ExitZone>
   )
