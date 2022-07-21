@@ -184,7 +184,7 @@ function HeaderInfo(props: any) {
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
         <Box sx={smallStyle} component="div">
-          <ModalChatExit room={chatRoomData.seq} />
+          <ModalChatExit room={chatRoomData.seq} close={handleExitClose} />
         </Box>
       </Modal>
       <Modal open={settingOpen} onClose={handleSettingClose}>
