@@ -105,17 +105,9 @@ const ChatRoomSendArea = styled("div", {
 function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
   console.log("chatInfo in headerInfo :", chatInfo);
-  const smallStyle = theme.modalStyle;
-  smallStyle.width = "auto";
-  smallStyle.height = "auto";
-  smallStyle.top = "50%";
-  smallStyle.left = "50%";
-  const bigStyle = theme.modalStyle;
-  bigStyle.width = "auto";
-  bigStyle.height = "40vh";
-  bigStyle.top = "50%";
-  bigStyle.left = "50%";
-
+  theme.modalStyle.top = "50%";
+  theme.modalStyle.left = "50%";
+  theme.modalStyle.width = "auto";
   const [exitOpen, setExitOpen] = useState(false);
   const handleExitOpen = () => setExitOpen(true);
   const handleExitClose = () => setExitOpen(false);
@@ -181,22 +173,21 @@ function HeaderInfo(props: any) {
       <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
     </HeaderButton>
   );
-  console.log("smallStyle : ", smallStyle);
   //   }
   return (
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
-        <Box sx={smallStyle} component="div">
+        <Box sx={theme.modalStyle} component="div">
           <ModalChatExit room={chatRoomData.seq} />
         </Box>
       </Modal>
       <Modal open={settingOpen} onClose={handleSettingClose}>
-        <Box sx={bigStyle} component="div">
+        <Box sx={theme.modalStyle} component="div">
           <div />
         </Box>
       </Modal>
       <Modal open={listOpen} onClose={handleListClose}>
-        <Box sx={bigStyle} component="div">
+        <Box sx={theme.modalStyle} component="div">
           <ModalChatUserList chatInfo={chatInfo} />
         </Box>
       </Modal>
