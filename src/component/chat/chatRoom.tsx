@@ -135,7 +135,7 @@ function HeaderInfo(props: any) {
     >
       <HeaderButtonIcon
         alt="x"
-        src="/asset/x_mark.svg"
+        src="/asset/icon_x.svg"
       />
     </HeaderButton>
   );
@@ -148,7 +148,7 @@ function HeaderInfo(props: any) {
     >
       <HeaderButtonIcon
         alt="x"
-        src="/asset/exit_mark.svg"
+        src="/asset/icon_exit.svg"
       />
     </HeaderButton>
   );
@@ -160,7 +160,7 @@ function HeaderInfo(props: any) {
     >
       <HeaderButtonIcon
         alt="x"
-        src="/asset/setting_mark.svg"
+        src="/asset/icon_setting.svg"
       />
     </HeaderButton>
   );
@@ -170,7 +170,7 @@ function HeaderInfo(props: any) {
       style={{ backgroundColor: "#F2F2F2", }}
       key="4"
     >
-      <HeaderButtonIcon alt="x" src="/asset/users_mark.svg" />
+      <HeaderButtonIcon alt="x" src="/asset/icon_users.svg" />
     </HeaderButton>
   );
   //   }
