@@ -15,10 +15,10 @@ export interface JoinedChatRoomListData {
 export const joinedChatRoomList = createSlice({
   name: "joinedChatRoomList",
   initialState: [
-    { seq: "1", type: "CHTP10", name: "abc123" },
-    { seq: "5", type: "CHTP40", name: "abc1234" },
-    { seq: "3", type: "CHTP30", name: "abc12345" },
-    { seq: "7", type: "CHTP20", name: "abc123456" },
+    { seq: "1", type: "CHTP10", name: "redux_1" },
+    { seq: "2", type: "CHTP40", name: "redux_2" },
+    { seq: "3", type: "CHTP30", name: "redux_3" },
+    { seq: "4", type: "CHTP20", name: "redux_4" },
   ] as JoinedChatRoomListData[],
   reducers: {
     addJoinedChatRoom(state, action: PayloadAction<JoinedChatRoomListData>) {

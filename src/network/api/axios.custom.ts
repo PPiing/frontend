@@ -195,7 +195,7 @@ export const chatUserCount = async (chatSeq: string) => {
 
 export const getAllMessages = async (chatSeq: number) => {
   try {
-    const response = await axios.instance.get(`chatrooms/message/${chatSeq}/-1/10/1`);
+    const response = await axios.instance.get(`chatrooms/message/${chatSeq}/-1/10`);
     return (response);
   } catch (error) {
     return (error);

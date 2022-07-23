@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
-import socketManager from "../feat/chat/socket";
+import socketManager from "../network/api/socket";
 import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
 import { ReducerType } from "../redux/rootReducer";
@@ -140,37 +140,32 @@ CHTP40 : 비밀 채팅방 (private)
 
 const socket = socketManager.socket("/chatrooms");
 
-socket.on("connect", () => {
-  console.log(socket.connected);
-  console.log(socket);
+socket.on("error", () => {
+  window.location.href = "/";
 });
 
 export function ContainerContents() {
   // login for test
-  const [userId, setUserId] = useState(-1);
   const [inputId, setInputId] = useState("");
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-  }, [inputId]);
 
   /*
   * Socket process.
   */
   useEffect(() => {
-    if (userId !== -1 && userId !== 0) {
+    if (!socket.connected) {
       socket.connect();
+
+      socket.on("chat:init", (data) => {
+        // TODO: 이 시점에서 방의 정보를 리덕스에 삽입해야 함.
+        console.log(data);
+      });
     }
-  }, [userId]);
+  }, []);
 
   const handleChange = (e: any) => {
     setInputId(e.target.value);
-  };
-
-  const login = () => {
-    setUserId(Number(inputId));
-    setInputId("");
   };
 
   /*
@@ -250,7 +245,7 @@ export function ContainerContents() {
     switch (contentType) {
       case "create":
         return (
-          <CreateRoom propFunc={changeContent} user={userId} />
+          <CreateRoom propFunc={changeContent} />
         );
       case "find":
         return (
@@ -288,7 +283,6 @@ export function ContainerContents() {
         </RoomListSection>
         <MenuSection>
           <input style={{ width: "100px", height: "50px", marginRight: "15px", color: "white", backgroundColor: "black", fontSize: "30px" }} value={inputId} onChange={(event) => handleChange(event)} />
-          <MenuButton onClick={() => login()}>login</MenuButton>
           <MenuButton onClick={() => { changeContent("create"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>create</MenuButton>
           <MenuButton onClick={() => { changeContent("find"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>find</MenuButton>
         </MenuSection>
