@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import * as theme from "../../theme/theme";
-import socketManager from "../../feat/chat/socket";
 import * as axios from "../../network/api/axios.custom";
 import IRoomList from "../../interface/roomlist.interface";
 

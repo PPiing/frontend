@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import axios from "axios";
-import * as theme from "../../theme/theme";
-import socketManager from "../../feat/chat/socket";
 
 enum ChatType {
   CHTP10 = "CHTP10", // 개인 채팅방 (DM)
