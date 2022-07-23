@@ -76,10 +76,11 @@ export function getDefinedUserType(code: string): UserLevel {
   return (DefineUser[2]);
 }
 
-export function getDefinedActionList(type: UserLevel): ActionLevel[] {
+export function getDefinedActionList(MyLevel: UserLevel, TargetLevel: UserLevel): ActionLevel[] {
   const result: ActionLevel[] = [];
   for (let i = 0; i < DefineAction.length; i += 1) {
-    if (DefineAction[i].level >= type.level) {
+    if (DefineAction[i].level >= MyLevel.level &&
+      MyLevel.level >= TargetLevel.level) {
       result.push(DefineAction[i]);
     }
   }
@@ -147,21 +148,20 @@ const ButtonImg = styled("div", {
 
 function RenderButton(partcpUser: any, partcpType: UserLevel, loggedType: UserLevel): JSX.Element {
   const result: JSX.Element[] = [];
-  const actionList: ActionLevel[] = getDefinedActionList(loggedType);
+  const actionList: ActionLevel[] = getDefinedActionList(loggedType, partcpType);
   console.log("actionList :", actionList);
   console.log("partcpUser :", partcpUser);
   console.log("partcpType :", partcpType);
   console.log("loggedType :", loggedType);
-  // const actionList
-  //   for (let i = 0; i < actionList.length; i += 1) {
-  //     result.push(
-  //       <ButtonDiv key={i}>
-  //         <ButtonImg>
-  //           <img src={actionList[i].icon} alt={actionList[i].name} />
-  //         </ButtonImg>
-  //       </ButtonDiv>
-  //     );
-  //   }
+  for (let i = 0; i < actionList.length; i += 1) {
+    result.push(
+      <ButtonDiv key={i}>
+        <ButtonImg>
+          <img src={actionList[i].icon} alt={actionList[i].name} />
+        </ButtonImg>
+      </ButtonDiv>
+    );
+  }
   return (
     <ButtonZone>
       {result}
