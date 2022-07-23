@@ -90,22 +90,11 @@ export function ModalChatExit(props: any) {
           <a>
             <img
               alt="Y"
-              src="/asset/check_mark.svg"
+              src="/asset/icon_check.svg"
               style={{ width: "3.5vw", height: "3.5vw", marginTop: "0.25vw" }}
             />
           </a>
         </ExitButtonGreen>
-        {/* <ExitButtonRed
-          onClick={handleExitClose}
-        >
-          <a>
-            <img
-              alt="X"
-              src="/asset/x_mark.svg"
-              style={{ width: "3.5vw", height: "3.5vw", marginTop: "0.25vw" }}
-            />
-          </a>
-        </ExitButtonRed> */}
       </ExitButtonZone>
     </ExitZone>
   )
