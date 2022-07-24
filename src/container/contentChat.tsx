@@ -145,9 +145,6 @@ socket.on("error", () => {
 });
 
 export function ContainerContents() {
-  // login for test
-  const [inputId, setInputId] = useState("");
-
   const dispatch = useDispatch();
 
   /*
@@ -163,10 +160,6 @@ export function ContainerContents() {
       });
     }
   }, []);
-
-  const handleChange = (e: any) => {
-    setInputId(e.target.value);
-  };
 
   /*
   * Chat core.
@@ -282,7 +275,6 @@ export function ContainerContents() {
           {renderJoinedRoomList()}
         </RoomListSection>
         <MenuSection>
-          <input style={{ width: "100px", height: "50px", marginRight: "15px", color: "white", backgroundColor: "black", fontSize: "30px" }} value={inputId} onChange={(event) => handleChange(event)} />
           <MenuButton onClick={() => { changeContent("create"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>create</MenuButton>
           <MenuButton onClick={() => { changeContent("find"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>find</MenuButton>
         </MenuSection>
