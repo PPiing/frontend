@@ -7,19 +7,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type chatType = "CHTP10" | "CHTP20" | "CHTP30" | "CHTP40";
 
 export interface JoinedChatRoomListData {
-  seq: string;
-  type: string;
+  seq: number;
+  type: chatType;
   name: string;
 }
 
 export const joinedChatRoomList = createSlice({
   name: "joinedChatRoomList",
-  initialState: [
-    { seq: "1", type: "CHTP10", name: "redux_1" },
-    { seq: "2", type: "CHTP40", name: "redux_2" },
-    { seq: "3", type: "CHTP30", name: "redux_3" },
-    { seq: "4", type: "CHTP20", name: "redux_4" },
-  ] as JoinedChatRoomListData[],
+  initialState: [] as JoinedChatRoomListData[],
   reducers: {
     addJoinedChatRoom(state, action: PayloadAction<JoinedChatRoomListData>) {
       return [...state, action.payload];

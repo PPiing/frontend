@@ -7,7 +7,7 @@ import socketManager from "../network/api/socket";
 import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
 import { ReducerType } from "../redux/rootReducer";
-import { JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
+import { addJoinedChatRoom, JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
 import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
 import { DisplayData, setChatRoomId } from "../redux/slices/display";
 import { ComponentChatRoom } from "../component/chat/chatRoom";
@@ -146,20 +146,17 @@ socket.on("error", () => {
 
 export function ContainerContents() {
   const dispatch = useDispatch();
-
   /*
   * Socket process.
   */
-  useEffect(() => {
-    if (!socket.connected) {
-      socket.connect();
+  if (!socket.connected) {
+    socket.connect();
 
-      socket.on("chat:init", (data) => {
-        // TODO: 이 시점에서 방의 정보를 리덕스에 삽입해야 함.
-        console.log(data);
-      });
-    }
-  }, []);
+    socket.on("chat:init", (data) => {
+      data.map((item: JoinedChatRoomListData) => dispatch(addJoinedChatRoom(item)));
+      console.log(data);
+    });
+  }
 
   /*
   * Chat core.
@@ -183,7 +180,7 @@ export function ContainerContents() {
 
   const getIndexChatRoomList = (seq: number) => {
     for (let i = 0; i < joinedChatRoomList.length; i += 1) {
-      if (String(seq) === joinedChatRoomList[i].seq) {
+      if (seq === joinedChatRoomList[i].seq) {
         return i;
       }
     }
