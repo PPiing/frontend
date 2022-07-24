@@ -5,7 +5,7 @@ import { AuthData, setAuth } from "../../redux/slices/auth";
 
 async function ReqUserProfile(userId: string) {
   await axios.get(
-    `https://bongcheonmountainclub.iptime.org/api/users/search/${userId}`
+    `${window.location.origin}/api/users/search/${userId}`
   // eslint-disable-next-line consistent-return
   ).then((response) => {
     if (response.status === 200) {

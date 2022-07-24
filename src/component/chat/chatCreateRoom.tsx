@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import axios from "axios";
-import * as theme from "../../theme/theme";
-import socketManager from "../../feat/chat/socket";
 
 enum ChatType {
   CHTP10 = "CHTP10", // 개인 채팅방 (DM)
@@ -77,9 +75,7 @@ const NeonBox = styled("div", {
 });
 
 export function CreateRoom(props: any) {
-  const { propFunc, user } = props;
-
-  console.log(user);
+  const { propFunc } = props;
 
   const [roomName, setRoomName] = useState("");
   const [roomPassword, setRoomPassword] = useState("");
@@ -113,7 +109,7 @@ export function CreateRoom(props: any) {
   방 생성 성공 시 우측 컨텐츠 화면 empty 상태로 변경
   */
   const createRoom = () => {
-    axios.post(`/api/chatrooms/new/${user}`, {
+    axios.post("/api/chatrooms/new", {
       chatType: roomType,
       chatName: roomName,
       password: roomPassword,
