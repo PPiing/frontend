@@ -18,7 +18,12 @@ import socketManager from "../../network/api/socket";
 const ProfileTextName = styled("div", {
   width: "100%",
   height: "auto",
+  marginTop: "5px",
   fontSize: "2.5rem",
+  textOverflow: "ellipsis",
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  display: "block",
   color: "Orange",
 });
 
