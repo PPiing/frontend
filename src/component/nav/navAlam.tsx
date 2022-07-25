@@ -29,15 +29,25 @@ const ProfileTextStatus = styled("div", {
   color: "Orange",
 });
 
-const NavAlarmProfileImg = styled("div", {
-  height: "100%",
-  width: "25%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  float: "left",
-  objectFit: "cover",
+const ProfileImage = styled(theme.ProfileImage, {
+//   width: "8vh",
+//   height: "8vh",
+  maxWidth: "auto",
+  height: "85%",
+  marginTop: "6.5px",
+  overflow: "hidden",
+  position: "relative",
 });
+
+// const NavAlarmProfileImg = styled("div", {
+//   height: "100%",
+//   width: "25%",
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "center",
+//   float: "left",
+//   objectFit: "cover",
+// });
 
 const NavAlarmProfileText = styled("div", {
   height: "100%",
@@ -190,12 +200,16 @@ export function ComponentNavAlam() {
           </div>
         </Box>
       </Modal>
-      <NavAlarmProfileImg
+      {/* <NavAlarmProfileImg
         className="navAlarm"
         onClick={handleProfileOpen}
-      >
-        <theme.ProfileImage className="profileimg" src={`${window.location.origin}${loggedUser.img}`} />
-      </NavAlarmProfileImg>
+      > */}
+      <ProfileImage
+        className="profileimg"
+        src={`${window.location.origin}${loggedUser.img}`}
+        onClick={handleProfileOpen}
+      />
+      {/* </NavAlarmProfileImg> */}
       <NavAlarmProfileText>
         <ProfileTextName className="profiletext">
           {loggedUser.nick}
