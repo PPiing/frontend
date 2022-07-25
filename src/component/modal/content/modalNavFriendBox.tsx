@@ -226,6 +226,12 @@ function Buttons(props: any) {
     if (renderList.buttons[i + 1].name === "profile") {
       buttonLink1 += `/${response.user_info.userSeq}`;
     }
+    if (renderList.buttons[i].name === "logout") {
+      buttonLink1 = "/api/auth/logout";
+    }
+    if (renderList.buttons[i + 1].name === "logout") {
+      buttonLink1 = "/api/auth/logout";
+    }
     result.push(
       <tr key={i}>
         <ButtonTd key={i}>
