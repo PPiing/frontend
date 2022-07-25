@@ -178,13 +178,12 @@ export const NeonZone = styled("div", {
 });
 
 export const ProfileImage = styled("img", {
-  width: "auto",
-  height: "80%",
   padding: "0%",
   margin: "0%",
   marginLeft: "10px",
   border: "none",
   borderRadius: "50%",
+  aspectRatio: 1,
 });
 
 //

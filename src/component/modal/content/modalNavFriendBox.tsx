@@ -1,14 +1,11 @@
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import * as theme from "../../../theme/theme";
 import { ReducerType } from "../../../redux/rootReducer";
 import { StatusDisplayDistributor } from "../../../feat/profile/utils";
-import { ReqUserProfile } from "../../../feat/profile/request";
 import { LoggedUserData } from "../../../redux/slices/loggedUser";
-import * as modal from "../modal";
-import { DisplayData, setModalTrigger } from "../../../redux/slices/display";
 import { getUserSearch } from "../../../network/api/axios.custom";
 
 /*
@@ -210,10 +207,8 @@ const ButtonTemplate = styled("div", {
 function Buttons(props: any) {
   const { response, renderList } = props;
   const result = [];
-  const dispatch = useDispatch();
 
   function ButtonClickHref(link: string) {
-    dispatch(setModalTrigger({ ismodal: false } as DisplayData));
     window.location.href = link;
   }
 
