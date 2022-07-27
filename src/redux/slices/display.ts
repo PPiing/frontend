@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface DisplayData {
-  ismodal: boolean;
   searchSwitch: boolean;
   searchString: string;
   searchRetRec: boolean;
@@ -11,7 +10,6 @@ export interface DisplayData {
 export const display = createSlice({
   name: "display",
   initialState: {
-    ismodal: false,
     searchSwitch: false,
     searchString: "",
     searchRetRec: false,
@@ -19,9 +17,6 @@ export const display = createSlice({
   } as DisplayData,
   reducers: {
     // eslint-disable-next-line no-return-assign
-    setModalTrigger: (state, action: PayloadAction<DisplayData>) => {
-      state.ismodal = action.payload.ismodal;
-    },
     setSearchSwitch: (state, action: PayloadAction<DisplayData>) => {
       state.searchSwitch = action.payload.searchSwitch;
     },
@@ -38,7 +33,6 @@ export const display = createSlice({
 });
 
 export const {
-  setModalTrigger,
   setSearchSwitch,
   setSearchString,
   setSearchRetRec,

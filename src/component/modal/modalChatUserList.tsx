@@ -1,11 +1,11 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
-import * as theme from "../../../theme/theme";
+import * as theme from "../../theme/theme";
 import * as child from "./modalChatUserListBox";
-import { getUserSearch } from "../../../network/api/axios.custom";
-import { ReducerType } from "../../../redux/rootReducer";
-import { LoggedUserData } from "../../../redux/slices/loggedUser";
+import { getUserSearch } from "../../network/api/axios.custom";
+import { ReducerType } from "../../redux/rootReducer";
+import { LoggedUserData } from "../../redux/slices/loggedUser";
 
 const UserListZone = styled("div", {
   width: "100%",

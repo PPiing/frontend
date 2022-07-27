@@ -4,9 +4,9 @@ import { styled } from "@stitches/react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { ModalUserAdmin } from "./modalCheck";
-import * as theme from "../../../theme/theme";
-import { getUserSearch } from "../../../network/api/axios.custom";
-import { ToolTip } from "../../button/ToolTip";
+import * as theme from "../../theme/theme";
+import { getUserSearch } from "../../network/api/axios.custom";
+import { ToolTip } from "../button/ToolTip";
 
 // *****************************************************************************
 // Type, Define, Getter start

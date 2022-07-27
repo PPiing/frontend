@@ -11,9 +11,7 @@ import axios from "axios";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import { getUserSearch } from "../network/api/axios.custom";
-import * as modal from "../component/modal/modal";
-import { ModalNavFriendBox } from "../component/modal/content/modalNavFriendBox";
-import { DisplayData, setModalTrigger } from "../redux/slices/display";
+import { ModalNavFriendBox } from "../component/modal/modalNavFriendBox";
 
 // Profile Zone
 
@@ -287,11 +285,11 @@ function History(props: any) {
                     fontWeight: "bold",
                     textShadow: "0px 0px 10px white",
                   }}
-                  onClick={() => {
-                    modal.SetModalSize("300px", "460px", "10%", "75%");
-                    modal.SetModalContent(<ModalNavFriendBox user={response} />);
-                    dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-                  }}
+                //   onClick={() => {
+                //     modal.SetModalSize("300px", "460px", "10%", "75%");
+                //     modal.SetModalContent(<ModalNavFriendBox user={response} />);
+                //     dispatch(setModalTrigger({ ismodal: true } as DisplayData));
+                //   }}
                 >
                   <b
                     style={{

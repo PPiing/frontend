@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { styled } from "@stitches/react";
 import { ViewTemplate } from "./viewTemplate";
-import * as theme from "../theme/theme";
 import socketManager from "../feat/game/socket";
 
 import InGame from "../container/contentGame";

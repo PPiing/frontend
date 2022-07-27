@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
-import * as theme from "../../../theme/theme";
-import { ReducerType } from "../../../redux/rootReducer";
-import { StatusDisplayDistributor } from "../../../feat/profile/utils";
-import { LoggedUserData } from "../../../redux/slices/loggedUser";
-import { getUserSearch } from "../../../network/api/axios.custom";
+import * as theme from "../../theme/theme";
+import { ReducerType } from "../../redux/rootReducer";
+import { StatusDisplayDistributor } from "../../feat/profile/utils";
+import { LoggedUserData } from "../../redux/slices/loggedUser";
+import { getUserSearch } from "../../network/api/axios.custom";
 
 /*
   Define Rules
@@ -63,7 +63,7 @@ const DefineList: ButtonVector[] = [
   Profile Zone
 */
 function Profile(props: any) {
-  const { response, renderList } = props;
+  const { response } = props;
 
   const tier = theme.getTierColor(response?.rank_info?.rank_score);
   const ProfileZone = styled("div", {
@@ -302,7 +302,7 @@ export function ModalNavFriendBox(props: any) {
         setContent(
           <>
             <Profile response={userInfo} renderList={Define} />
-            <Status status={user.status} renderList={Define} />
+            <Status status={user.status} />
             <Buttons response={userInfo} renderList={Define} />
           </>
         );
