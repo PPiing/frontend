@@ -1,0 +1,40 @@
+.myToolTipParent {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; */
+}
+  
+.myToolTipParent .myToolTipText {
+  visibility: hidden;
+  width: 270px;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 0 3px #fff;
+  box-shadow: 0 0 5px #000;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -255px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+  
+.myToolTipParent .myToolTipText::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: calc(100% - 15px);
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #222 transparent transparent transparent;
+}
+  
+.myToolTipParent:hover .myToolTipText {
+  visibility: visible;
+  opacity: 1;
+}

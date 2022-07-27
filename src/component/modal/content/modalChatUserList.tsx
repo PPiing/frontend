@@ -12,7 +12,7 @@ const UserListZone = styled("div", {
   minWidth: "700px",
   height: "100%",
   maxHeight: "700px",
-  overflow: "hidden",
+  //   overflow: "hidden",
   fontSize: "15px",
 });
 
@@ -28,8 +28,8 @@ const UserListTable = styled("div", {
   margin: "5px",
   padding: "15px",
   height: "95%",
-  overflowY: "scroll",
-  overflowX: "hidden",
+  //   overflowY: "scroll",
+  //   overflowX: "hidden",
   backgroundColor: "rgb(37, 37, 37)",
   borderRadius: "20px",
   "&::-webkit-scrollbar": {
@@ -57,15 +57,18 @@ const UserListTable = styled("div", {
 
 export function ModalChatUserList(props: any) {
   const { chatInfo } = props;
-  chatInfo.participants[0].userSeq = 0;
-  chatInfo.participants[0].userType = "CPAU10";
-  chatInfo.participants[1].userSeq = 1;
-  chatInfo.participants[1].userType = "CPAU20";
+  //   chatInfo.participants[0].userSeq = 0;
+  chatInfo.participants[0].partcAuth = "CPAU30";
+  chatInfo.participants[1].partcAuth = "CPAU20";
+  chatInfo.participants[2].partcAuth = "CPAU10";
+  //   chatInfo.participants[1].userSeq = 1;
+  //   chatInfo.participants[1].userType = "CPAU20";
+  console.log("chatInfo", chatInfo);
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   let loggedType: any;
   for (let i = 0; i < chatInfo?.participants.length; i += 1) {
     if (chatInfo?.participants[i].userSeq === loggedUser.seq) {
-      loggedType = child.getDefinedUserType(chatInfo?.participants[i].userType);
+      loggedType = child.getDefinedUserType(chatInfo?.participants[i].partcAuth);
     }
   }
   const renderList = () => {

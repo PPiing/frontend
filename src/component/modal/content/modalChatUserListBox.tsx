@@ -1,8 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from "react";
 import { styled } from "@stitches/react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import * as theme from "../../../theme/theme";
 import { getUserSearch } from "../../../network/api/axios.custom";
+import { ToolTip } from "../../button/ToolTip";
+
 // *****************************************************************************
 // Type, Define, Getter start
 // *****************************************************************************
@@ -17,13 +21,14 @@ type ActionLevel = {
   name: string,
   level: number,
   icon: string,
+  tooltip: string,
   enable: boolean,
 }
 
 export const DefineUser: UserLevel[] = [
-  { name: "Owner", level: 0, code: "CPAU10" },
-  { name: "Admin", level: 1, code: "CPAU20" },
-  { name: "User", level: 2, code: "CPAU30" },
+  { name: "Owner", level: 3, code: "CPAU30" },
+  { name: "Admin", level: 2, code: "CPAU20" },
+  { name: "User", level: 1, code: "CPAU10" },
 ];
 
 export const DefineAction: ActionLevel[] = [
@@ -34,14 +39,17 @@ export const DefineAction: ActionLevel[] = [
   { name: "Ban",
     level: 1,
     icon: "/asset/icon_ban.svg",
+    tooltip: "Ban the user from chatroom.",
     enable: true },
   { name: "Mute",
     level: 1,
     icon: "/asset/icon_mute.svg",
+    tooltip: "Mute the user for 5 minutes.",
     enable: true, },
   { name: "AdminAppoint",
     level: 0,
     icon: "/asset/icon_admin.svg",
+    tooltip: "Set the user as administrator.",
     enable: true },
   //   { name: "RoomToggle", // public / private
   //     level: 0 },
@@ -54,7 +62,7 @@ export const DefineAction: ActionLevel[] = [
 const UserListBox = styled("div", {
   width: "100%",
   height: "5vh",
-  overflow: "hidden",
+  // overflow: "hidden",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -78,9 +86,12 @@ export function getDefinedUserType(code: string): UserLevel {
 
 export function getDefinedActionList(MyLevel: UserLevel, TargetLevel: UserLevel): ActionLevel[] {
   const result: ActionLevel[] = [];
+  console.log("MyLevel :", MyLevel);
+  console.log("TargetLevel :", TargetLevel);
   for (let i = 0; i < DefineAction.length; i += 1) {
-    if (DefineAction[i].level >= MyLevel.level &&
-      MyLevel.level >= TargetLevel.level) {
+    console.log("DefineAction[i].level :", DefineAction[i].level);
+    if (DefineAction[i].level <= MyLevel.level && MyLevel.level > TargetLevel.level) {
+      console.log("YEAHYEAH :", DefineAction[i].level);
       result.push(DefineAction[i]);
     }
   }
@@ -124,7 +135,7 @@ const ButtonDiv = styled("div", {
   boxShadow: "0px 0px 6px #ffffff",
   "&:hover": {
     backgroundColor: "#424242",
-    boxShadow: "0px 0px 6px gray",
+    boxShadow: "0px 0px 6px #424242",
   },
 });
 
@@ -135,7 +146,7 @@ const ButtonImg = styled("div", {
   transform: "translate(-50%, -50%)",
   top: "50%",
   left: "50%",
-//   filter: "invert(1)",
+  cursor: "pointer",
 });
 
 // *****************************************************************************
@@ -148,16 +159,14 @@ const ButtonImg = styled("div", {
 
 function RenderButton(partcpUser: any, partcpType: UserLevel, loggedType: UserLevel): JSX.Element {
   const result: JSX.Element[] = [];
+  console.log("partcp&logged :", partcpUser, loggedType);
   const actionList: ActionLevel[] = getDefinedActionList(loggedType, partcpType);
-  console.log("actionList :", actionList);
-  console.log("partcpUser :", partcpUser);
-  console.log("partcpType :", partcpType);
-  console.log("loggedType :", loggedType);
   for (let i = 0; i < actionList.length; i += 1) {
     result.push(
       <ButtonDiv key={i}>
-        <ButtonImg>
+        <ButtonImg className="myToolTipParent">
           <img src={actionList[i].icon} alt={actionList[i].name} />
+          <ToolTip content={actionList[i].tooltip} />
         </ButtonImg>
       </ButtonDiv>
     );
@@ -171,7 +180,7 @@ function RenderButton(partcpUser: any, partcpType: UserLevel, loggedType: UserLe
 
 export function ModalChatUserListBox(props: any) {
   const { partcpUser, loggedUser, loggedType } = props;
-  const partcpType = getDefinedUserType(partcpUser.code);
+  const partcpType = getDefinedUserType(partcpUser.partcAuth);
   const [userName, setUserName] = React.useState<string>("로딩중입니다.");
   useEffect(() => {
     getUserSearch(partcpUser.userSeq).then((response: any) => {
@@ -181,9 +190,15 @@ export function ModalChatUserListBox(props: any) {
     });
   }, []);
 
+  function ButtonClickHref(userSeq: any) {
+    window.location.href = `/profile/${userSeq}`;
+  }
+
   return (
     <UserListBox>
-      <UserNicknameZone>
+      <UserNicknameZone
+        onClick={() => { ButtonClickHref(partcpUser.userSeq); }}
+      >
         <p>
           :&nbsp;&nbsp;
           <UserNicknameBold>
