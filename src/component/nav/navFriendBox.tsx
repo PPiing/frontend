@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as theme from "../../theme/theme";
-import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
+import { ModalNavFriendBox } from "../modal/modalNavFriendBox";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 
 const ProfileImage = styled("img", {

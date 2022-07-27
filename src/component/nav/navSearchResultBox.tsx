@@ -2,10 +2,8 @@ import React from "react";
 import { styled } from "@stitches/react";
 import { useDispatch } from "react-redux";
 import * as theme from "../../theme/theme";
-import * as modal from "../modal/modal";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
-import { ModalNavFriendBox } from "../modal/content/modalNavFriendBox";
-import { DisplayData, setModalTrigger } from "../../redux/slices/display";
+import { ModalNavFriendBox } from "../modal/modalNavFriendBox";
 
 const ProfileImage = styled("img", {
   width: "70px",
@@ -84,13 +82,7 @@ export function ComponentNavSearchUserBox(props: any) {
 
   const statusColor:string = setStatusColor(StatusDisplayDistributor(searchUser.userStatus));
   return (
-    <NavSearchResultBox
-      onClick={() => {
-        modal.SetModalSize("300px", "460px", "20%", "20%");
-        modal.SetModalContent(<ModalNavFriendBox user={searchUser} />);
-        dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-      }}
-    >
+    <NavSearchResultBox>
       <ProfileImage src={`${window.location.origin}${searchUser.userImage}`} className="profile" />
       <Profile>
         <ProfileName> {searchUser.nickName} </ProfileName>

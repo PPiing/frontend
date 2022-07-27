@@ -2,11 +2,9 @@ import React from "react";
 import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import * as modal from "../modal";
-import { DisplayData, setModalTrigger } from "../../../redux/slices/display";
-import { LoggedUserData } from "../../../redux/slices/loggedUser";
-import { getLoggedUserProfile } from "../../../network/api/axios.custom";
-import { ReducerType } from "../../../redux/rootReducer";
+import { LoggedUserData } from "../../redux/slices/loggedUser";
+import { getLoggedUserProfile } from "../../network/api/axios.custom";
+import { ReducerType } from "../../redux/rootReducer";
 
 const ExitZone = styled("div", {
   width: "100%",
