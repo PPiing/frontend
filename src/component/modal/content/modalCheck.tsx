@@ -11,7 +11,6 @@ import { ReducerType } from "../../../redux/rootReducer";
 const ExitZone = styled("div", {
   width: "100%",
   height: "100%",
-  overflow: "hidden",
   // backgroundColor: "#FFFFFF",
 });
 
@@ -25,13 +24,6 @@ const ExitText = styled("div", {
   //   fontWeight: "bold",
   textShadow: "0px 0px 1px #ffffff",
 });
-
-const ExitTextBold = styled("b", {
-  color: "red",
-  textShadow: "0px 0px 1px red",
-  transition: "1s",
-  cursor: "not-allowed",
-})
 
 const ExitButtonZone = styled("div", {
   width: "100%",
@@ -71,16 +63,42 @@ const ExitButtonRed = styled(ExitButton, {
 });
 
 export function ModalChatExit(props: any) {
-  const { room } = props;
-  const LoggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const { text, room } = props;
   return (
     <ExitZone>
-      <ExitText>Are you sure you want to<ExitTextBold> leave </ExitTextBold>this room?
-      </ExitText>
+      <ExitText>{text}</ExitText>
       <ExitButtonZone>
         <ExitButtonGreen
           onClick={() => {
-            axios.delete(`/api/chatrooms/leave/${room}/${LoggedUser?.seq}`).then((response) => {
+            axios.delete(`/api/chatrooms/leave/${room}`).then((response) => {
+              console.log("response :", response);
+            }).catch((error) => {
+              console.log("error :", error);
+            });
+          }}
+        >
+          <a>
+            <img
+              alt="Y"
+              src="/asset/icon_check.svg"
+              style={{ width: "3.5vw", height: "3.5vw", marginTop: "0.25vw" }}
+            />
+          </a>
+        </ExitButtonGreen>
+      </ExitButtonZone>
+    </ExitZone>
+  )
+}
+
+export function ModalUserAdmin(props: any) {
+  const { text, room } = props;
+  return (
+    <ExitZone>
+      <ExitText>{text}</ExitText>
+      <ExitButtonZone>
+        <ExitButtonGreen
+          onClick={() => {
+            axios.delete(`/api/chatrooms/leave/${room}`).then((response) => {
               console.log("response :", response);
             }).catch((error) => {
               console.log("error :", error);
