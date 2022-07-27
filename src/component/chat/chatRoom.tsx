@@ -104,7 +104,6 @@ const ChatRoomSendArea = styled("div", {
 
 function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
-  console.log("chatInfo in headerInfo :", chatInfo);
   theme.modalStyle.top = "50%";
   theme.modalStyle.left = "50%";
   theme.modalStyle.width = "auto";
@@ -202,7 +201,6 @@ const renderMessage = () => {
 
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
-  //   console.log("히히 콘솔로그 발싸", chatRoomData, "그리고, ", propFunc);
   const [inputMsg, setInputMsg] = useState("");
   const [chatInfo, setChatInfo] = useState([]);
   const dispatch = useDispatch();

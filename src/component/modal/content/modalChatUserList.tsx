@@ -57,13 +57,9 @@ const UserListTable = styled("div", {
 
 export function ModalChatUserList(props: any) {
   const { chatInfo } = props;
-  //   chatInfo.participants[0].userSeq = 0;
   chatInfo.participants[0].partcAuth = "CPAU30";
   chatInfo.participants[1].partcAuth = "CPAU20";
   chatInfo.participants[2].partcAuth = "CPAU10";
-  //   chatInfo.participants[1].userSeq = 1;
-  //   chatInfo.participants[1].userType = "CPAU20";
-  console.log("chatInfo", chatInfo);
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   let loggedType: any;
   for (let i = 0; i < chatInfo?.participants.length; i += 1) {
@@ -73,17 +69,20 @@ export function ModalChatUserList(props: any) {
   }
   const renderList = () => {
     const renderResult: JSX.Element[] = [];
-    renderResult.push(<hr style={{ border: "1px solid #424242", }} />);
+    renderResult.push(<hr key="0" style={{ border: "1px solid #424242", }} />);
     for (let i = 0; i < chatInfo.participants.length; i += 1) {
       renderResult.push(
         <>
           <child.ModalChatUserListBox
-            key={i}
+            key={i + 1}
             partcpUser={chatInfo.participants[i]}
             loggedUser={loggedUser}
             loggedType={loggedType}
           />
-          <hr key={chatInfo.participants.length + i - 1} style={{ border: "1px solid #424242", }} />
+          <hr
+            key={chatInfo.participants.length + i}
+            style={{ border: "1px solid #424242", }}
+          />
         </>
       );
     }

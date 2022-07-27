@@ -22,7 +22,20 @@ type ActionLevel = {
   level: number,
   icon: string,
   tooltip: string,
+  onclick: () => void,
   enable: boolean,
+}
+
+function ButtonBanOnclick() {
+  console.log("ButtonBanOnclick!!");
+}
+
+function ButtonMuteOnclick() {
+  console.log("ButtonMuteOnclick!!");
+}
+
+function ButtonAdminOnclick() {
+  console.log("ButtonAdminOnclick!!");
 }
 
 export const DefineUser: UserLevel[] = [
@@ -40,16 +53,19 @@ export const DefineAction: ActionLevel[] = [
     level: 1,
     icon: "/asset/icon_ban.svg",
     tooltip: "Ban the user from chatroom.",
+    onclick: ButtonBanOnclick,
     enable: true },
   { name: "Mute",
     level: 1,
     icon: "/asset/icon_mute.svg",
     tooltip: "Mute the user for 5 minutes.",
+    onclick: ButtonMuteOnclick,
     enable: true, },
   { name: "AdminAppoint",
     level: 0,
     icon: "/asset/icon_admin.svg",
     tooltip: "Set the user as administrator.",
+    onclick: ButtonAdminOnclick,
     enable: true },
   //   { name: "RoomToggle", // public / private
   //     level: 0 },
@@ -86,12 +102,8 @@ export function getDefinedUserType(code: string): UserLevel {
 
 export function getDefinedActionList(MyLevel: UserLevel, TargetLevel: UserLevel): ActionLevel[] {
   const result: ActionLevel[] = [];
-  console.log("MyLevel :", MyLevel);
-  console.log("TargetLevel :", TargetLevel);
   for (let i = 0; i < DefineAction.length; i += 1) {
-    console.log("DefineAction[i].level :", DefineAction[i].level);
     if (DefineAction[i].level <= MyLevel.level && MyLevel.level > TargetLevel.level) {
-      console.log("YEAHYEAH :", DefineAction[i].level);
       result.push(DefineAction[i]);
     }
   }
@@ -159,12 +171,11 @@ const ButtonImg = styled("div", {
 
 function RenderButton(partcpUser: any, partcpType: UserLevel, loggedType: UserLevel): JSX.Element {
   const result: JSX.Element[] = [];
-  console.log("partcp&logged :", partcpUser, loggedType);
   const actionList: ActionLevel[] = getDefinedActionList(loggedType, partcpType);
   for (let i = 0; i < actionList.length; i += 1) {
     result.push(
       <ButtonDiv key={i}>
-        <ButtonImg className="myToolTipParent">
+        <ButtonImg className="myToolTipParent" onClick={actionList[i].onclick}>
           <img src={actionList[i].icon} alt={actionList[i].name} />
           <ToolTip content={actionList[i].tooltip} />
         </ButtonImg>
