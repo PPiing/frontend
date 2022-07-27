@@ -19,9 +19,11 @@ const UserListZone = styled("div", {
 const UserListText = styled("div", {
   marginLeft: "3px",
   marginTop: "3px",
-  fontSize: "2vh",
+  fontSize: "3vh",
+  marginBottom: "-1vh",
   fontWeight: "bold",
-  textShadow: "0px 0px 1px #ffffff",
+  textShadow: "0px 0px 2px #ffffff",
+  textAlign: "center",
 });
 
 const UserListTable = styled("div", {
@@ -57,13 +59,9 @@ const UserListTable = styled("div", {
 
 export function ModalChatUserList(props: any) {
   const { chatInfo } = props;
-  //   chatInfo.participants[0].userSeq = 0;
   chatInfo.participants[0].partcAuth = "CPAU30";
   chatInfo.participants[1].partcAuth = "CPAU20";
   chatInfo.participants[2].partcAuth = "CPAU10";
-  //   chatInfo.participants[1].userSeq = 1;
-  //   chatInfo.participants[1].userType = "CPAU20";
-  console.log("chatInfo", chatInfo);
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   let loggedType: any;
   for (let i = 0; i < chatInfo?.participants.length; i += 1) {
@@ -73,18 +71,21 @@ export function ModalChatUserList(props: any) {
   }
   const renderList = () => {
     const renderResult: JSX.Element[] = [];
-    renderResult.push(<hr style={{ border: "1px solid #424242", }} />);
     for (let i = 0; i < chatInfo.participants.length; i += 1) {
+      if (i === 0) renderResult.push(<hr key="0" style={{ border: "1px solid #424242", }} />);
       renderResult.push(
-        <>
+        <div key={i + 1}>
           <child.ModalChatUserListBox
             key={i}
             partcpUser={chatInfo.participants[i]}
             loggedUser={loggedUser}
             loggedType={loggedType}
           />
-          <hr key={chatInfo.participants.length + i - 1} style={{ border: "1px solid #424242", }} />
-        </>
+          <hr
+            key={i + 1}
+            style={{ border: "1px solid #424242", }}
+          />
+        </div>
       );
     }
     return renderResult;
@@ -95,6 +96,9 @@ export function ModalChatUserList(props: any) {
       <UserListText>
         User list
       </UserListText>
+      <pre style={{ fontSize: "1.5vh", textAlign: "center", }}>
+        Click on username to move to that user's profile page.
+      </pre>
       <UserListTable>
         {renderList()}
       </UserListTable>

@@ -8,7 +8,7 @@ import Modal from "@mui/material/Modal";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import * as theme from "../../theme/theme";
-import { ModalChatExit } from "../modal/content/modalChatExit";
+import { ModalChatExit } from "../modal/content/modalCheck";
 import { ModalChatUserList } from "../modal/content/modalChatUserList";
 import { setChatRoomId, DisplayData } from "../../redux/slices/display";
 import { chatUserCount } from "../../network/api/axios.custom";
@@ -104,7 +104,6 @@ const ChatRoomSendArea = styled("div", {
 
 function HeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
-  console.log("chatInfo in headerInfo :", chatInfo);
   theme.modalStyle.top = "50%";
   theme.modalStyle.left = "50%";
   theme.modalStyle.width = "auto";
@@ -119,6 +118,13 @@ function HeaderInfo(props: any) {
   const [listOpen, setListOpen] = useState(false);
   const handleListOpen = () => setListOpen(true);
   const handleListClose = () => setListOpen(false);
+
+  const ExitTextBold = styled("b", {
+    color: "red",
+    textShadow: "0px 0px 10px red",
+    transition: "1s",
+    cursor: "not-allowed",
+  })
 
   const rst = [];
   rst.push(
@@ -173,12 +179,14 @@ function HeaderInfo(props: any) {
       <HeaderButtonIcon alt="x" src="/asset/icon_users.svg" />
     </HeaderButton>
   );
-  //   }
   return (
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
         <Box sx={theme.modalStyle} component="div">
-          <ModalChatExit room={chatRoomData.seq} />
+          <ModalChatExit
+            text={<p>Are you sure you want to<ExitTextBold> leave </ExitTextBold>this room?</p>}
+            room={chatRoomData.seq}
+          />
         </Box>
       </Modal>
       <Modal open={settingOpen} onClose={handleSettingClose}>
@@ -202,7 +210,6 @@ const renderMessage = () => {
 
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
-  //   console.log("히히 콘솔로그 발싸", chatRoomData, "그리고, ", propFunc);
   const [inputMsg, setInputMsg] = useState("");
   const [chatInfo, setChatInfo] = useState([]);
   const dispatch = useDispatch();
