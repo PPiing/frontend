@@ -17,7 +17,8 @@ export const joinedChatRoomList = createSlice({
   initialState: [] as JoinedChatRoomListData[],
   reducers: {
     addJoinedChatRoom(state, action: PayloadAction<JoinedChatRoomListData>) {
-      return [...state, action.payload];
+      if (state.indexOf(action.payload) === -1) return [...state, action.payload];
+      return state;
     },
     removeJoinedChatRoomList(state, action: PayloadAction<JoinedChatRoomListData>) {
       state.splice(0);

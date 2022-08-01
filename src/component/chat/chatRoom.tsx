@@ -237,10 +237,16 @@ export function ComponentChatRoom(props: any) {
     });
   }, []);
 
-  // socket.on("room:chat", (message: any) => {
-  //   console.log(message);
-  //   //setMessages([...messages, message]);
-  // })
+  useEffect(() => {
+    chatUserCount(chatRoomData.seq).then((response: any) => {
+      setChatInfo(response?.data);
+    });
+  }, []);
+
+  socket.on("room:chat", (message: any) => {
+    console.log(`MSG RECV : ${message.msg}`);
+    //setMessages([...messages, message]);
+  })
 
   const renderMessage = () => {
 
@@ -266,7 +272,7 @@ export function ComponentChatRoom(props: any) {
           content: inputMsg,
           at: chatRoomData.seq,
         });
-        console.log("MSG SEND");
+        console.log(`MSG SEND : ${inputMsg}`);
       }
     }
   };
@@ -282,12 +288,6 @@ export function ComponentChatRoom(props: any) {
   //     null
   //   ]
   // }
-  useEffect(() => {
-    chatUserCount(chatRoomData.seq).then((response: any) => {
-      setChatInfo(response?.data);
-    });
-  }, []);
-  //   console.log("마으마ㅡ아므아므아ㅡ", chatInfo);
 
   return (
     <ContentRoom>
