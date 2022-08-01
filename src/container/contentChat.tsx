@@ -145,26 +145,24 @@ socket.on("error", () => {
 });
 
 export function ContainerContents() {
-  const dispatch = useDispatch();
-  /*
-  * Socket process.
-  */
-  if (!socket.connected) {
-    socket.connect();
-
-    socket.on("chat:init", (data) => {
-      data.map((item: JoinedChatRoomListData) => dispatch(addJoinedChatRoom(item)));
-      console.log(data);
-    });
-  }
-
-  /*
-  * Chat core.
-  */
   const [listType, setListType] = useState("chat");
   const [contentType, setContentType] = useState("");
-
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!socket.connected) {
+      socket.connect();
+      socket.on("chat:init", (data) => {
+        data.map((item: JoinedChatRoomListData) => dispatch(addJoinedChatRoom(item)));
+        console.log(data);
+      });
+    }
+  }, []);
+
+  const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(
+    (state) => state.joinedChatRoomList
+  );
 
   if (display.chatRoomId !== -1 && contentType !== "room") {
     setContentType("room");
@@ -173,10 +171,6 @@ export function ContainerContents() {
   const changeListType = (type: string) => {
     if (listType !== type) setListType(type);
   };
-
-  const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(
-    (state) => state.joinedChatRoomList
-  );
 
   const getIndexChatRoomList = (seq: number) => {
     for (let i = 0; i < joinedChatRoomList.length; i += 1) {
@@ -188,29 +182,8 @@ export function ContainerContents() {
   };
 
   const renderJoinedRoomList = () => {
-    const renderList: any[] = [];
-    for (let i = 0; i < joinedChatRoomList.length; i += 1) {
-      if (listType === "chat") {
-        if (joinedChatRoomList[i].type === "CHTP20" || joinedChatRoomList[i].type === "CHTP30" || joinedChatRoomList[i].type === "CHTP40") {
-          renderList.push(
-            <ComponentChatRoomListBox
-              key={joinedChatRoomList[i].seq}
-              chatRoomData={joinedChatRoomList[i]}
-              stateUpdateFunc={setContentType}
-            />
-          );
-        }
-      } else if (joinedChatRoomList[i].type === "CHTP10") {
-        renderList.push(
-          <ComponentChatRoomListBox
-            key={joinedChatRoomList[i].seq}
-            chatRoomData={joinedChatRoomList[i]}
-            stateUpdateFunc={setContentType}
-          />
-        );
-      }
-    }
-    return renderList;
+    return joinedChatRoomList.map((item, i) =>
+      <ComponentChatRoomListBox key={i} chatRoomData={item} stateUpdateFunc={setContentType} />)
   };
 
   const changeContent = (content: string) => {
