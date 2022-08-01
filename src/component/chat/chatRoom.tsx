@@ -225,17 +225,11 @@ export function ComponentChatRoom(props: any) {
       })
   }, []);
 
-  useEffect(() => {
-    socket.on("room:chat", (res:any) => {
-      console.log(`getMessage : ${res}`);
-    });
-  });
-
-  useEffect(() => {
-    chatUserCount(chatRoomData.seq || "").then((response: any) => {
-      setChatInfo(response?.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   chatUserCount(chatRoomData.seq || "").then((response: any) => {
+  //     setChatInfo(response?.data);
+  //   });
+  // }, []);
 
   useEffect(() => {
     chatUserCount(chatRoomData.seq).then((response: any) => {
@@ -243,10 +237,12 @@ export function ComponentChatRoom(props: any) {
     });
   }, []);
 
-  socket.on("room:chat", (message: any) => {
-    console.log(`MSG RECV : ${message.msg}`);
-    //setMessages([...messages, message]);
-  })
+  useEffect(() => {
+    socket.on("room:chat", (message: any) => {
+      console.log(`MSG RECV : ${message.nickname}`);
+      setMessages([...messages, message]);
+    })
+  }, []);
 
   const renderMessage = () => {
 
