@@ -18,10 +18,12 @@ const ChatRoomDataArea = styled("div", {
 
 const ChatName = styled("div", {
   fontSize: "35px",
+  fontWeight: "350",
 });
 
 const ChatDetail = styled("div", {
   fontSize: "18px",
+  fontWeight: "300",
 });
 
 export function ComponentChatRoomListBox(props: any) {

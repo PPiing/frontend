@@ -14,22 +14,29 @@ import { ComponentNavAlamBox } from "./navAlamBox";
 import socketManager from "../../network/api/socket";
 
 const ProfileTextName = styled("div", {
-  width: "100%",
+  width: "90%",
   height: "auto",
-  marginTop: "5px",
-  fontSize: "2.5rem",
-  textOverflow: "ellipsis",
-  overflow: "hidden",
-  whiteSpace: "nowrap",
+  marginTop: "10px",
+  fontSize: "1.8rem",
   display: "block",
-  color: "Orange",
+  color: "white",
+  textShadow: "0px 0px 3px #ffffff",
+  fontWeight: "600",
+  overflowX: "scroll",
+  overflowY: "hidden",
+  whiteSpace: "nowrap",
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
 });
 
 const ProfileTextStatus = styled("div", {
   width: "100%",
   height: "35%",
-  fontSize: "1rem",
-  color: "Orange",
+  fontSize: "1.3rem",
+  fontWeight: "300",
+  color: "#F2F2F2",
+  textShadow: "0px 0px 3px #F2F2F2",
 });
 
 const ProfileImage = styled(theme.ProfileImage, {

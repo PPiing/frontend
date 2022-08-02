@@ -2,78 +2,14 @@ import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import * as template from "./navBoxTemplate";
 import * as theme from "../../theme/theme";
 import { ModalNavFriendBox } from "../modal/modalNavFriendBox";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 
-const ProfileImage = styled("img", {
-  width: "70px",
-  height: "70px",
-  padding: "0",
-  margin: "0",
-  border: "none",
-  borderRadius: "50%",
-  cursor: "pointer",
-});
-
-const NavFriendBox = styled(theme.NeonHoverRed, {
-  color: "grey",
-  fontSize: "2rem",
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  background: `${theme.BACKGROUND_YELLOW}`,
-  height: "28px",
-  minHeight: "90px",
-  border: "0",
-  margin: "2px 4px",
-  padding: "0px 10px",
-  filter: "none",
-  cursor: "default",
-  "&:hover": {
-    filter: "brightness(1.6)",
-    border: "0",
-  },
-});
-
-const ProfileName = styled("div", {
-});
-
-const StatusCircle = styled("div", {
-  position: "relative",
-  right: "10px",
-  top: "10px",
-  width: "10px",
-  height: "10px",
-  borderRadius: "50%",
-  backgroundColor: "white",
-  margin: "0",
-  padding: "0",
-  marginLeft: "12px",
-});
-
-const StatusMessage = styled("div", {
-  margin: "0",
-  padding: "0",
-  width: "80px",
-  fontColor: "white",
-  fontSize: "20px",
-});
-
-const Profile = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  marginLeft: "10px",
-});
-
-const Status = styled("div", {
-  display: "flex",
-  flexDirection: "row",
-});
-
 export function ComponentNavFriendBox(props: any) {
   const setStatusColor = (status:string) => {
-    if (status === "online") return ("green");
+    if (status === "online") return ("#00d100");
     if (status === "offline") return ("grey");
     if (status === "in game") return ("yellow");
     return ("red");
@@ -92,7 +28,7 @@ export function ComponentNavFriendBox(props: any) {
   const handleClose = () => setOpen(false);
 
   return (
-    <NavFriendBox>
+    <template.NavBox>
       <Modal
         open={open}
         onClose={handleClose}
@@ -104,18 +40,17 @@ export function ComponentNavFriendBox(props: any) {
           {/* <ModalNavFriendBox user={friend} /> */}
         </Box>
       </Modal>
-      <ProfileImage
+      <template.ProfileImage
         src={`${window.location.origin}${friend.img}`}
         className="profile"
         onClick={handleOpen}
       />
-      <Profile>
-        <ProfileName> {friend.nick} </ProfileName>
-        <Status>
-          <StatusCircle style={{ backgroundColor: statusColor }} />
-          <StatusMessage> {StatusDisplayDistributor(friend.status)} </StatusMessage>
-        </Status>
-      </Profile>
-    </NavFriendBox>
+      <template.Profile>
+        <template.ProfileName> {friend.nick} </template.ProfileName>
+        <template.StatusMessage style={{ color: statusColor }}>
+          {StatusDisplayDistributor(friend.status)}
+        </template.StatusMessage>
+      </template.Profile>
+    </template.NavBox>
   );
 }

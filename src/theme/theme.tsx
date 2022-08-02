@@ -156,11 +156,13 @@ export const Hr = styled("hr", {
 //
 // default neon hover event setting
 export const NeonHoverRed = styled("div", {
-  border: "3px solid gray",
+  border: "2px solid #424242",
+  boxShadow: "0px 0px 5px #424242",
   transition: "all 0.5s",
   overflow: "hidden",
   "&:hover": {
-    border: `3px solid ${NEON_RED}`,
+    border: `2px solid ${NEON_RED}`,
+    boxShadow: `0px 0px 10px ${NEON_RED}`,
     filter: "brightness(1.3)",
   },
 });

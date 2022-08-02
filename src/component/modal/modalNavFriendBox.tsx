@@ -123,7 +123,7 @@ function Profile(props: any) {
 */
 
 function setStatusColor(status:string) {
-  if (status === "online") return ("green");
+  if (status === "online") return ("#00d100");
   if (status === "offline") return ("grey");
   if (status === "in game") return ("yellow");
   return ("red");
