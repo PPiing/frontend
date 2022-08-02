@@ -302,7 +302,7 @@ export function ModalNavFriendBox(props: any) {
         setContent(
           <>
             <Profile response={userInfo} renderList={Define} />
-            <Status status={user.status} />
+            <Status status={user.status} renderList={Define} />
             <Buttons response={userInfo} renderList={Define} />
           </>
         );

@@ -22,7 +22,7 @@ const ContentRoom = styled("div", {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  fontSize: "5rem",
+  fontSize: "4.8rem",
   width: "100%",
   height: "100%",
 });

@@ -13,6 +13,7 @@ const ProfileImage = styled("img", {
   margin: "0",
   border: "none",
   borderRadius: "50%",
+  cursor: "pointer",
 });
 
 const NavFriendBox = styled(theme.NeonHoverRed, {
@@ -27,8 +28,8 @@ const NavFriendBox = styled(theme.NeonHoverRed, {
   border: "0",
   margin: "2px 4px",
   padding: "0px 10px",
-  cursor: "pointer",
   filter: "none",
+  cursor: "default",
   "&:hover": {
     filter: "brightness(1.6)",
     border: "0",
@@ -82,27 +83,32 @@ export function ComponentNavFriendBox(props: any) {
   const statusColor:string = setStatusColor(StatusDisplayDistributor(friend.status));
 
   const style = theme.modalStyle;
-  style.top = "45%";
+  style.top = "40%";
   style.width = "300px";
+  style.height = "auto";
   style.left = "calc(100% - 450px)";
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
-    <NavFriendBox
-      onClick={handleOpen}
-    >
+    <NavFriendBox>
       <Modal
         open={open}
         onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
         <Box sx={style} component="div">
-          <ModalNavFriendBox user={friend} />
+          <div>"heelo world"</div>
+          {/* <ModalNavFriendBox user={friend} /> */}
         </Box>
       </Modal>
-
-      <ProfileImage src={`${window.location.origin}${friend.img}`} className="profile" />
+      <ProfileImage
+        src={`${window.location.origin}${friend.img}`}
+        className="profile"
+        onClick={handleOpen}
+      />
       <Profile>
         <ProfileName> {friend.nick} </ProfileName>
         <Status>
