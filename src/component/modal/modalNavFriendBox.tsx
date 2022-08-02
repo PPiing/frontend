@@ -281,7 +281,7 @@ function isNumber(str: any): boolean {
 
 export function ModalNavFriendBox(props: any) {
   const { user } = props;
-  console.log("user props : ", user);
+
   const [content, setContent] = useState<JSX.Element>(
     <div>
       <b>로딩중입니다.</b>

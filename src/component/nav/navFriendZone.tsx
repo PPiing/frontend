@@ -98,7 +98,7 @@ export function ComponentNavFriendZone() {
       }
       for (let i = 0; i < friendList.length; i += 1) {
         renderResult.push(
-          <ComponentNavFriendBox key={i} friend={friendList[i]} />
+          <ComponentNavFriendBox key={i} user={friendList[i]} />
         );
       }
     }
