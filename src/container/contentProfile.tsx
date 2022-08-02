@@ -139,7 +139,8 @@ function Profile(props: any) {
         <div
           style={{
             float: "left",
-            width: "calc(33% - 20px)", }}
+            width: "calc(33% - 20px)",
+            fontWeight: "300", }}
         >{tier.name}
         </div>
         <div
@@ -366,6 +367,19 @@ function History(props: any) {
       />);
     }
   }
+  if (response?.game_log.length === 0) {
+    boxes.push(
+      <div style={{
+        color: "gray",
+        fontSize: "24px",
+        fontWeight: "300",
+        marginTop: "12px",
+      }}
+      >
+        Game history is empty -_-
+      </div>
+    );
+  }
   return (
     <HistoryWrapper>
       <HistoryZone>
@@ -485,22 +499,22 @@ function Achievement(props: any) {
       <AchievementBox key={i.toString()}>
         <img
           alt="error"
-          src={response?.achiv_info[i].achiv_image}
+          src={`${window.location.origin}${response.user_info.userImage}`}
           style={{
             height: "13vh",
             width: "13vh",
             position: "absolute",
             left: "13px",
             top: "0",
-            border: `3px solid ${tierColor}`,
+            border: `1px solid ${tierColor}`,
             boxShadow: `0 0 10px ${tierColor}`,
           }}
         />
         <AchievementText
           style={{
-            color: `${textColor}`,
-            fontSize: "5vh",
-            textShadow: `0px 0px 8px ${textColor}`,
+            color: "white",
+            fontSize: "4vh",
+            textShadow: "0px 0px 8px white",
             top: "40%",
             left: "15vh",
           }}
@@ -510,13 +524,14 @@ function Achievement(props: any) {
         <AchievementText
           style={{
             color: `${textColor}`,
-            fontSize: "2vh",
+            fontSize: "3vh",
             textShadow: `0px 0px 4px ${textColor}`,
+            fontWeight: "300",
             top: "70%",
             left: "15vh",
           }}
         >
-          {response?.achiv_info[i].achiv_condition}
+          {response?.achiv_info[i].achiv_condition}aa
         </AchievementText>
       </AchievementBox>
     );
