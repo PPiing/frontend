@@ -1,6 +1,5 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { useDispatch } from "react-redux";
 import * as theme from "../../theme/theme";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { ModalNavFriendBox } from "../modal/modalNavFriendBox";
@@ -70,7 +69,6 @@ const Status = styled("div", {
 });
 
 export function ComponentNavSearchUserBox(props: any) {
-  const dispatch = useDispatch();
   const setStatusColor = (status:string) => {
     if (status === "online") return ("green");
     if (status === "offline") return ("grey");

@@ -20,9 +20,8 @@ const NavSearchBox = styled("input", {
   display: "table",
   backgroundColor: "transparent",
   outline: "none",
-  border: "2px solid gray",
+  border: "1px solid #424242",
   transition: "all 0.5s",
-  borderRadius: "5px",
   "&:focus": {
     border: `2px solid ${theme.NEON_RED}`,
     color: `${theme.NEON_RED}`,
