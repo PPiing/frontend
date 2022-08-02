@@ -14,7 +14,7 @@ import { ComponentNavAlamBox } from "./navAlamBox";
 import socketManager from "../../network/api/socket";
 
 const ProfileTextName = styled("div", {
-  width: "90%",
+  width: "95%",
   height: "auto",
   marginTop: "10px",
   fontSize: "1.8rem",
@@ -232,14 +232,6 @@ export function ComponentNavAlam() {
         <NavNotificationButton
           src="/asset/notification_icon.png"
           onClick={handleAlarmOpen}
-          //   modal.SetModalContent(
-          //     <div>
-          //       <NavAlarmList>
-          //         {renderAlarmList()}
-          //       </NavAlarmList>
-          //     </div>
-          //   );
-          // }}
         />
       </NavAlarmAlarm>
     </NavAlarm>

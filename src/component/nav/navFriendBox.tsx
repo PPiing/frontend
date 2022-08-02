@@ -14,9 +14,9 @@ export function ComponentNavFriendBox(props: any) {
     if (status === "in game") return ("yellow");
     return ("red");
   };
-  const { friend } = props;
+  const { user } = props;
 
-  const statusColor:string = setStatusColor(StatusDisplayDistributor(friend.status));
+  const statusColor:string = setStatusColor(StatusDisplayDistributor(user.status));
 
   const style = theme.modalStyle;
   style.top = "40%";
@@ -32,23 +32,20 @@ export function ComponentNavFriendBox(props: any) {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
         <Box sx={style} component="div">
-          <div>"heelo world"</div>
-          {/* <ModalNavFriendBox user={friend} /> */}
+          <ModalNavFriendBox user={user} />
         </Box>
       </Modal>
       <template.ProfileImage
-        src={`${window.location.origin}${friend.img}`}
+        src={`${window.location.origin}${user.img}`}
         className="profile"
         onClick={handleOpen}
       />
       <template.Profile>
-        <template.ProfileName> {friend.nick} </template.ProfileName>
+        <template.ProfileName> {user.nick} </template.ProfileName>
         <template.StatusMessage style={{ color: statusColor }}>
-          {StatusDisplayDistributor(friend.status)}
+          {StatusDisplayDistributor(user.status)}
         </template.StatusMessage>
       </template.Profile>
     </template.NavBox>
