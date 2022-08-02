@@ -47,10 +47,9 @@ export function ComponentNavFriendBox(props: any) {
       />
       <template.Profile>
         <template.ProfileName> {friend.nick} </template.ProfileName>
-        <template.Status>
-          <template.StatusCircle style={{ backgroundColor: statusColor }} />
-          <template.StatusMessage>{StatusDisplayDistributor(friend.status)}</template.StatusMessage>
-        </template.Status>
+        <template.StatusMessage style={{ color: statusColor }}>
+          {StatusDisplayDistributor(friend.status)}
+        </template.StatusMessage>
       </template.Profile>
     </template.NavBox>
   );

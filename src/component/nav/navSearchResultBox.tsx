@@ -24,12 +24,9 @@ export function ComponentNavSearchUserBox(props: any) {
       />
       <template.Profile>
         <template.ProfileName> {searchUser.nickName} </template.ProfileName>
-        {/* <template.Status> */}
-        {/* <template.StatusCircle style={{ backgroundColor: statusColor }} /> */}
-        <template.StatusMessage>
+        <template.StatusMessage style={{ color: statusColor }}>
           {StatusDisplayDistributor(searchUser.userStatus)}
         </template.StatusMessage>
-        {/* </template.Status> */}
       </template.Profile>
     </template.NavBox>
   );
