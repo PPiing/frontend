@@ -58,10 +58,14 @@ const HeaderTitle = styled("div", {
   color: "white",
   textAlign: "right",
   textShadow: "0px 0px 10px #ffffff",
-  textOverflow: "ellipsis",
-  fontSize: "4rem",
-  whiteSpace: "nowrap",
+  fontSize: "3rem",
   fontWeight: "500",
+  overflowX: "scroll",
+  overflowY: "hidden",
+  whiteSpace: "nowrap",
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
 })
 
 const HeaderButtonZone = styled("div", {
@@ -302,11 +306,6 @@ export function ComponentChatRoom(props: any) {
         />
         <HeaderTitle>
           {chatRoomData.name}
-          {/* <p
-            style={{
-            }}
-          > */}
-          {/* </p> */}
         </HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
