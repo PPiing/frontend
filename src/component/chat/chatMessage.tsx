@@ -24,8 +24,8 @@ const MessageSender = styled("div", {
   alignItems: "center",
   marginLeft: "1rem",
   width: "16%",
-  fontWeight: "bold",
   textOverflow: "ellipsis",
+  fontWeight: "350",
 })
 
 const MessageText = styled("div", {

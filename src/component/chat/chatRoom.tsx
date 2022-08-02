@@ -22,9 +22,10 @@ const ContentRoom = styled("div", {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  fontSize: "4.8rem",
+  fontSize: "4rem",
   width: "100%",
   height: "100%",
+  fontWeight: "300",
 });
 
 const ContentExitButton = styled("div", {
@@ -52,17 +53,22 @@ const ChatRoomHeader = styled("div", {
   overflow: "hidden",
 })
 
-const HeaderTitle = styled("p", {
+const HeaderTitle = styled("div", {
   marginRight: "2rem",
   color: "white",
+  textAlign: "right",
   textShadow: "0px 0px 10px #ffffff",
+  textOverflow: "ellipsis",
+  fontSize: "4rem",
+  whiteSpace: "nowrap",
+  fontWeight: "500",
 })
 
 const HeaderButtonZone = styled("div", {
   display: "flex",
   flexDirection: "row",
   //   justifyContent: "space-around",
-  //   width: "30%",
+  // width: "35%",
 })
 
 const HeaderButton = styled("div", {
@@ -294,7 +300,14 @@ export function ComponentChatRoom(props: any) {
           propFunc={propFunc}
           chatInfo={chatInfo}
         />
-        <HeaderTitle>{chatRoomData.name}</HeaderTitle>
+        <HeaderTitle>
+          {chatRoomData.name}
+          {/* <p
+            style={{
+            }}
+          > */}
+          {/* </p> */}
+        </HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
         <ChatMessage username="hyungyyo" message="sample message" />
