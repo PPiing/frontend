@@ -41,7 +41,7 @@ export const ListBox = styled("div", {
   marginLeft: "1rem",
   marginRight: "1rem",
   marginBottom: "1rem",
-  transition: "all 1s",
+  transition: "all 0.5s",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
