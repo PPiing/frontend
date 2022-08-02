@@ -43,6 +43,7 @@ const EmptyAccessRequireAlam = styled("div", {
   display: "table",
   fontSize: "1.5rem",
   color: "gray",
+  fontWeight: "300",
 });
 
 const socket = socketManager.socket("/");

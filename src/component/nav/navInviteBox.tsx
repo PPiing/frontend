@@ -18,7 +18,6 @@ const NavInviteBox = styled("div", {
   cursor: "pointer",
   filter: "none",
   "&:hover": {
-    filter: "brightness(1.6)",
     border: "0",
   },
 });

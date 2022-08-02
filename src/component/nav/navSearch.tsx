@@ -14,7 +14,7 @@ const NavSearch = styled("div", {
 
 const NavSearchBox = styled("input", {
   height: "80%",
-  width: "95%",
+  width: "92%",
   marginLeft: "auto",
   marginRight: "auto",
   display: "table",
@@ -23,12 +23,11 @@ const NavSearchBox = styled("input", {
   border: "1px solid #424242",
   transition: "all 0.5s",
   "&:focus": {
-    border: `2px solid ${theme.NEON_RED}`,
+    border: `1px solid ${theme.NEON_RED}`,
     color: `${theme.NEON_RED}`,
-    filter: "brightness(1.6)",
   },
   fontSize: "100%",
-  color: "Gray",
+  color: "white",
 });
 
 export function ComponentNavSearch() {
