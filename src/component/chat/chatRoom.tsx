@@ -129,13 +129,6 @@ function HeaderInfo(props: any) {
   const handleListOpen = () => setListOpen(true);
   const handleListClose = () => setListOpen(false);
 
-  const ExitTextBold = styled("b", {
-    color: "red",
-    textShadow: "0px 0px 10px red",
-    transition: "1s",
-    cursor: "not-allowed",
-  })
-
   const rst = [];
   rst.push(
     <HeaderButton
@@ -143,58 +136,46 @@ function HeaderInfo(props: any) {
         propFunc("empty");
         dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
       }}
-      style={{
-        backgroundColor: "#fd4546",
-        marginLeft: "1.5rem",
-      }}
+      style={{ backgroundColor: "#fd4546", marginLeft: "1.5rem", }}
       key="1"
     >
-      <HeaderButtonIcon
-        alt="x"
-        src="/asset/icon_x.svg"
-      />
+      <HeaderButtonIcon alt="x" src="/asset/icon_x.svg" />
     </HeaderButton>
   );
-  //   if (chatRoomData.type !== "CHTP10") {
-  rst.push(
-    <HeaderButton
-      onClick={handleExitOpen}
-      style={{ backgroundColor: "#fdaf24", }}
-      key="2"
-    >
-      <HeaderButtonIcon
-        alt="x"
-        src="/asset/icon_exit.svg"
-      />
-    </HeaderButton>
-  );
-  rst.push(
-    <HeaderButton
-      onClick={handleSettingOpen}
-      style={{ backgroundColor: "#28c231", }}
-      key="3"
-    >
-      <HeaderButtonIcon
-        alt="x"
-        src="/asset/icon_setting.svg"
-      />
-    </HeaderButton>
-  );
-  rst.push(
-    <HeaderButton
-      onClick={handleListOpen}
-      style={{ backgroundColor: "#F2F2F2", }}
-      key="4"
-    >
-      <HeaderButtonIcon alt="x" src="/asset/icon_users.svg" />
-    </HeaderButton>
-  );
+  if (chatRoomData.type !== "CHTP10") {
+    rst.push(
+      <HeaderButton
+        onClick={handleExitOpen}
+        style={{ backgroundColor: "#fdaf24", }}
+        key="2"
+      >
+        <HeaderButtonIcon alt="x" src="/asset/icon_exit.svg" />
+      </HeaderButton>
+    );
+    rst.push(
+      <HeaderButton
+        onClick={handleSettingOpen}
+        style={{ backgroundColor: "#28c231", }}
+        key="3"
+      >
+        <HeaderButtonIcon alt="x" src="/asset/icon_setting.svg" />
+      </HeaderButton>
+    );
+    rst.push(
+      <HeaderButton
+        onClick={handleListOpen}
+        style={{ backgroundColor: "#F2F2F2", }}
+        key="4"
+      >
+        <HeaderButtonIcon alt="x" src="/asset/icon_users.svg" />
+      </HeaderButton>
+    );
+  }
   return (
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
         <Box sx={theme.modalStyle} component="div">
           <ModalChatExit
-            text={<p>Are you sure you want to<ExitTextBold> leave </ExitTextBold>this room?</p>}
             room={chatRoomData.seq}
           />
         </Box>

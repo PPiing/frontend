@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { ModalUserAdmin } from "./modalCheck";
+import { ModalUserBan, ModalUserMute, ModalUserAdmin, } from "./modalCheck";
 import * as theme from "../../theme/theme";
 import { getUserSearch } from "../../network/api/axios.custom";
 import { ToolTip } from "../button/ToolTip";
@@ -23,20 +23,7 @@ type ActionLevel = {
   level: number,
   icon: string,
   tooltip: string,
-  onclick: () => void,
   enable: boolean,
-}
-
-function ButtonBanOnclick() {
-  console.log("ButtonBanOnclick!!");
-}
-
-function ButtonMuteOnclick() {
-  console.log("ButtonMuteOnclick!!");
-}
-
-function ButtonAdminOnclick() {
-  console.log("ButtonAdminOnclick!!");
 }
 
 export const DefineUser: UserLevel[] = [
@@ -54,19 +41,16 @@ export const DefineAction: ActionLevel[] = [
     level: 1,
     icon: "/asset/icon_ban.svg",
     tooltip: "Ban the user from chatroom.",
-    onclick: ButtonBanOnclick,
     enable: true },
   { name: "Mute",
     level: 1,
     icon: "/asset/icon_mute.svg",
     tooltip: "Mute the user for 5 minutes.",
-    onclick: ButtonMuteOnclick,
     enable: true, },
   { name: "Admin",
     level: 0,
     icon: "/asset/icon_admin.svg",
     tooltip: "Set the user as administrator.",
-    onclick: ButtonAdminOnclick,
     enable: true },
   //   { name: "RoomToggle", // public / private
   //     level: 0 },
@@ -174,52 +158,51 @@ const ButtonImg = styled("div", {
 function RenderButton(partcpUser: any, partcpType: UserLevel, loggedType: UserLevel): JSX.Element {
   const result: JSX.Element[] = [];
   const actionList: ActionLevel[] = getDefinedActionList(loggedType, partcpType);
-  const [exitOpen, setExitOpen] = useState(false);
-  const handleExitOpen = () => setExitOpen(true);
-  const handleExitClose = () => setExitOpen(false);
+
+  const [banOpen, setBadOpen] = useState(false);
+  const handleBanOpen = () => setBadOpen(true);
+  const handleBanClose = () => setBadOpen(false);
+
+  const [muteOpen, setMuteOpen] = useState(false);
+  const handleMuteOpen = () => setMuteOpen(true);
+  const handleMuteClose = () => setMuteOpen(false);
+
+  const [adminOpen, setAdminOpen] = useState(false);
+  const handleAdminOpen = () => setAdminOpen(true);
+  const handleAdminClose = () => setAdminOpen(false);
 
   for (let i = 0; i < actionList.length; i += 1) {
-    if (actionList[i].name === "Admin") {
-      result.push(
-        <ButtonDiv key={i}>
-          <ButtonImg className="myToolTipParent" onClick={handleExitOpen}>
-            <img src={actionList[i].icon} alt={actionList[i].name} />
-            <ToolTip content={actionList[i].tooltip} />
-          </ButtonImg>
-        </ButtonDiv>
-      );
-    } else {
-      result.push(
-        <ButtonDiv key={i}>
-          <ButtonImg className="myToolTipParent" onClick={actionList[i].onclick}>
-            <img src={actionList[i].icon} alt={actionList[i].name} />
-            <ToolTip content={actionList[i].tooltip} />
-          </ButtonImg>
-        </ButtonDiv>
-      );
-    }
+    let onclick;
+    if (actionList[i].name === "Ban") onclick = handleBanOpen;
+    if (actionList[i].name === "Mute") onclick = handleMuteOpen;
+    if (actionList[i].name === "Admin") onclick = handleAdminOpen;
+    result.push(
+      <ButtonDiv key={i}>
+        <Modal open={banOpen} onClose={handleBanClose}>
+          <Box sx={theme.modalStyle} component="div">
+            <ModalUserBan seq={partcpUser.userSeq} room={partcpUser.chatSeq} />
+          </Box>
+        </Modal>
+        <Modal open={muteOpen} onClose={handleMuteClose}>
+          <Box sx={theme.modalStyle} component="div">
+            <ModalUserMute seq={partcpUser.userSeq} room={partcpUser.chatSeq} />
+          </Box>
+        </Modal>
+        <Modal open={adminOpen} onClose={handleAdminClose}>
+          <Box sx={theme.modalStyle} component="div">
+            <ModalUserAdmin seq={partcpUser.userSeq} room={partcpUser.chatSeq} />
+          </Box>
+        </Modal>
+        <ButtonImg className="myToolTipParent" onClick={onclick}>
+          <img src={actionList[i].icon} alt={actionList[i].name} />
+          <ToolTip content={actionList[i].tooltip} />
+        </ButtonImg>
+      </ButtonDiv>
+    );
   }
-  const AdminTextBold = styled("b", {
-    color: "#00FF40",
-    textShadow: "0px 0px 10px #00FF40",
-    transition: "1s",
-    cursor: "progress",
-  });
 
   return (
     <ButtonZone>
-      <Modal open={exitOpen} onClose={handleExitClose}>
-        <Box sx={theme.modalStyle} component="div">
-          <ModalUserAdmin
-            text={(
-              <p className="myToolTipParent">
-                Are you sure you want to set this user as <AdminTextBold>Admin</AdminTextBold>?
-                <ToolTip style={{ fontWeight: "normal", textShadow: "0", fontSize: "18px", }} content="Admin can ban user, mute user." />
-              </p>
-            )}
-          />
-        </Box>
-      </Modal>
       {result}
     </ButtonZone>
   );

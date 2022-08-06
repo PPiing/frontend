@@ -109,7 +109,7 @@ function Profile(props: any) {
     <ProfileZone>
       <input
         type="file"
-        accept="image/jpg,impge/png,image/jpeg,image/gif"
+        accept="image/jpg, image/png, image/jpeg, image/gif"
         onChange={ProfilePictureChangeEvent}
         style={{ display: "none" }}
         id="picture_change_input"
