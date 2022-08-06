@@ -5,6 +5,7 @@ import axios from "axios";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { getLoggedUserProfile } from "../../network/api/axios.custom";
 import { ReducerType } from "../../redux/rootReducer";
+import { ToolTip } from "../button/ToolTip";
 
 const ExitZone = styled("div", {
   width: "100%",
@@ -60,21 +61,13 @@ const ExitButtonRed = styled(ExitButton, {
   }
 });
 
-export function ModalChatExit(props: any) {
-  const { text, room } = props;
+function ModalChatTemplate(props:any) {
+  const { text, onClick } = props;
   return (
     <ExitZone>
       <ExitText>{text}</ExitText>
       <ExitButtonZone>
-        <ExitButtonGreen
-          onClick={() => {
-            axios.delete(`/api/chatrooms/leave/${room}`).then((response) => {
-              console.log("response :", response);
-            }).catch((error) => {
-              console.log("error :", error);
-            });
-          }}
-        >
+        <ExitButtonGreen onClick={onClick}>
           <a>
             <img
               alt="Y"
@@ -85,33 +78,117 @@ export function ModalChatExit(props: any) {
         </ExitButtonGreen>
       </ExitButtonZone>
     </ExitZone>
+
   )
 }
 
-export function ModalUserAdmin(props: any) {
-  const { text, room } = props;
+export function ModalChatExit(props: any) {
+  const { room } = props;
+
+  const ExitTextBold = styled("b", {
+    color: "red",
+    textShadow: "0px 0px 10px red",
+    transition: "1s",
+    cursor: "not-allowed",
+  })
+
   return (
-    <ExitZone>
-      <ExitText>{text}</ExitText>
-      <ExitButtonZone>
-        <ExitButtonGreen
-          onClick={() => {
-            axios.delete(`/api/chatrooms/leave/${room}`).then((response) => {
-              console.log("response :", response);
-            }).catch((error) => {
-              console.log("error :", error);
-            });
-          }}
-        >
-          <a>
-            <img
-              alt="Y"
-              src="/asset/icon_check.svg"
-              style={{ width: "3.5vw", height: "3.5vw", marginTop: "0.25vw" }}
-            />
-          </a>
-        </ExitButtonGreen>
-      </ExitButtonZone>
-    </ExitZone>
-  )
+    <ModalChatTemplate
+      text={<p>Are you sure you want to<ExitTextBold> leave </ExitTextBold>this room?</p>}
+      onClick={() => {
+        axios.delete(`/api/chatrooms/leave/${room}`).then((response) => {
+          console.log("response :", response);
+        }).catch((error) => {
+          console.log("error :", error);
+        });
+      }}
+    />
+  );
+}
+
+export function ModalUserBan(props: any) {
+  const { seq, room } = props;
+
+  const AdminTextBold = styled("b", {
+    color: "red",
+    textShadow: "0px 0px 10px red",
+    transition: "1s",
+    cursor: "progress",
+  });
+
+  return (
+    <ModalChatTemplate
+      text={(
+        <div className="myToolTipParent">
+          Are you sure to <AdminTextBold>Ban</AdminTextBold> this user?
+          <ToolTip style={{ fontWeight: "normal", textShadow: "0", fontSize: "18px", }} content="The user will be kicked forever." />
+        </div>
+      )}
+      onClick={() => {
+        axios.put(`/api/chatrooms/ban/${seq}/${room}`).then((response) => {
+          console.log("response :", response);
+        }).catch((error) => {
+          console.log("error :", error);
+        });
+      }}
+    />
+  );
+}
+
+export function ModalUserMute(props: any) {
+  const { seq, room } = props;
+
+  const AdminTextBold = styled("b", {
+    color: "red",
+    textShadow: "0px 0px 10px red",
+    transition: "1s",
+    cursor: "progress",
+  });
+
+  return (
+    <ModalChatTemplate
+      text={(
+        <div className="myToolTipParent">
+          Are you sure to <AdminTextBold>Mute</AdminTextBold> this user?
+          <ToolTip style={{ fontWeight: "normal", textShadow: "0", fontSize: "18px", }} content="User can`t chat during time limit." />
+        </div>
+      )}
+      onClick={() => {
+        axios.put(`/api/chatrooms/mute/${seq}/${room}/300`).then((response) => {
+          console.log("response :", response);
+        }).catch((error) => {
+          console.log("error :", error);
+        });
+      }}
+    />
+  );
+}
+
+export function ModalUserAdmin(props: any) {
+  const { seq, room } = props;
+
+  const AdminTextBold = styled("b", {
+    color: "#00FF40",
+    textShadow: "0px 0px 10px #00FF40",
+    transition: "1s",
+    cursor: "progress",
+  });
+
+  return (
+    <ModalChatTemplate
+      text={(
+        <div className="myToolTipParent">
+          Are you sure you want to set this user as <AdminTextBold>Admin</AdminTextBold>?
+          <ToolTip style={{ fontWeight: "normal", textShadow: "0", fontSize: "18px", }} content="Admin can ban or mute users." />
+        </div>
+      )}
+      onClick={() => {
+        axios.put(`/api/chatrooms/manager/${seq}/${room}`).then((response) => {
+          console.log("response :", response);
+        }).catch((error) => {
+          console.log("error :", error);
+        });
+      }}
+    />
+  );
 }
