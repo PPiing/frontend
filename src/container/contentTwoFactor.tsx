@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { keyframes } from "@stitches/react";
 import * as theme from "../theme/theme";
 // import { styled } from "../theme/theme";
@@ -18,7 +18,7 @@ const FontSpin = keyframes({
   }
 });
 
-const LoginSpace = theme.styled("div", {
+const TwofactorSpace = theme.styled("div", {
   backgroundImage: "url(/asset/background_neon_retro.jpeg)",
   width: "90%",
   height: "90%",
@@ -133,6 +133,22 @@ const String2 = theme.styled("p", {
   },
 });
 
+const ButtonInput = theme.styled("input", {
+  padding: "0",
+  height: "2.3vw",
+  width: "2.3vw",
+  // width: "10vw",
+  // letterSpacing: "0.1vw",
+  margin: "0.2vw",
+  textAlign: "center",
+  fontSize: "1.3vw",
+  fontWeight: "bold",
+  background: "none",
+  border: "0.1rem solid #FF0086",
+  boxShadow: "inset 0 0 0.7em #FF0086",
+  color: "white",
+});
+
 const ButtonLogin = theme.styled("button", {
   padding: "0",
   margin: "0",
@@ -145,7 +161,7 @@ const ButtonLogin = theme.styled("button", {
   border: "0.1rem solid #FF0086",
   boxShadow: "inset 0 0 0.7em #FF0086",
   fontSize: "1.35vw",
-  width: "10vw",
+  width: "43vw",
   height: "3vw",
   fontWeight: "300",
   textShadow: "0 0 1px white",
@@ -156,26 +172,43 @@ const ButtonLogin = theme.styled("button", {
   },
 });
 
-const ButtonLogin2 = theme.styled(ButtonLogin, {
-  marginLeft: "17px"
-});
-
 export function ContainerContents() {
+  const [Input1, setInput1] = useState("");
+  const [Input2, setInput2] = useState("");
+  const [Input3, setInput3] = useState("");
+  const [Input4, setInput4] = useState("");
+
+  function onChangeInput(e: any, setInput: any) {
+    setInput(e.target.value.replace(/[^0-9]/g, ""));
+  }
+
+  function onEnterPress(e: any) {
+    if (e.key === "Enter") {
+      const code = Input1 + Input2 + Input3 + Input4;
+    }
+  }
+
   const logIn = () => {
     window.location.href = "/api/auth/login";
   };
   return (
-    <LoginSpace>
+    <TwofactorSpace>
       <TmpSpace>
         <String1>Ping Pong</String1>
         <String2>3D</String2>
+
         <ButtonLogin onClick={logIn}>
-          42 LOGIN
-        </ButtonLogin>
-        <ButtonLogin2 onClick={logIn}>
-          GUEST
-        </ButtonLogin2>
+          <b>Click here</b> to send 4-digit verification code to registered e-mail.
+        </ButtonLogin><br /><br />
+        <pre style={{ fontSize: "1.5vh", textAlign: "center", color: "white", }}>
+          Input 4-Digit Code to below Text box and press ENTER button to check.<br />
+          <b style={{ fontSize: "2vh", }}>Numberic Only!</b>
+        </pre>
+        <ButtonInput maxLength={1} inputMode="numeric" type="text" value={Input1} onChange={(e) => onChangeInput(e, setInput1)} onKeyPress={(e) => onEnterPress(e)} />
+        <ButtonInput maxLength={1} inputMode="numeric" type="text" value={Input2} onChange={(e) => onChangeInput(e, setInput2)} onKeyPress={(e) => onEnterPress(e)} />
+        <ButtonInput maxLength={1} inputMode="numeric" type="text" value={Input3} onChange={(e) => onChangeInput(e, setInput3)} onKeyPress={(e) => onEnterPress(e)} />
+        <ButtonInput maxLength={1} inputMode="numeric" type="text" value={Input4} onChange={(e) => onChangeInput(e, setInput4)} onKeyPress={(e) => onEnterPress(e)} />
       </TmpSpace>
-    </LoginSpace>
+    </TwofactorSpace>
   );
 }
