@@ -8,6 +8,7 @@ import { Chat } from "./view/viewChat";
 import { Profile } from "./view/viewProfile";
 import { Watch } from "./view/viewWatch";
 import { Login } from "./view/viewLogin";
+import { Twofactor } from "./view/viewTwofactor";
 import { RootControl } from "./component/rootControl";
 import store from "./redux/store";
 
@@ -17,6 +18,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/twofactor" element={<Twofactor />} />
         <Route path="/home" element={<Home />} />
         <Route path="/game" element={<Game />} />
         <Route path="/watch" element={<Watch />} />
