@@ -369,12 +369,14 @@ function History(props: any) {
   }
   if (response?.game_log.length === 0) {
     boxes.push(
-      <div style={{
-        color: "gray",
-        fontSize: "24px",
-        fontWeight: "300",
-        marginTop: "12px",
-      }}
+      <div
+        style={{
+          color: "gray",
+          fontSize: "24px",
+          fontWeight: "300",
+          marginTop: "12px",
+        }}
+        key={0}
       >
         Game history is empty -_-
       </div>
