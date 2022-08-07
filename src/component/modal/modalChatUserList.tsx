@@ -63,8 +63,6 @@ export function ModalChatUserList(props: any) {
   // chatInfo.participants[1].partcAuth = "CPAU20";
   // chatInfo.participants[2].partcAuth = "CPAU10";
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
-  console.log("권한체크:", chatInfo.participants);
-  console.log("")
   let loggedType: any;
   for (let i = 0; i < chatInfo?.participants.length; i += 1) {
     if (chatInfo?.participants[i].userSeq === loggedUser.seq) {
