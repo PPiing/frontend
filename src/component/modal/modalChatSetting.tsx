@@ -21,6 +21,7 @@ const SettingTitle = styled("div", {
   fontWeight: "bold",
   textShadow: "0px 0px 2px #ffffff",
   textAlign: "center",
+  marginBottom: "-1vh",
 });
 
 const SettingH1 = styled("div", {
@@ -96,6 +97,9 @@ export function ModalChatSetting(props: any) {
   return (
     <SettingZone>
       <SettingTitle>Setting</SettingTitle>
+      <pre style={{ fontSize: "1.5vh", textAlign: "center", marginBottom: "2vh", }}>
+        Only 'owner' can change some informations about channel.
+      </pre>
       <SettingH1>Room Name</SettingH1>
       <RoomName chatInfo={chatInfo} />
       <br />
@@ -109,8 +113,6 @@ export function ModalChatSetting(props: any) {
       <br />
       <SettingH1>Room Invite</SettingH1>
       <RoomInvite chatInfo={chatInfo} />
-      <br />
-
     </SettingZone>
   )
 }
