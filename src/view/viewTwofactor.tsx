@@ -20,9 +20,9 @@ const TwofactorWrapper = styled(ViewWrapper, {
 export function Twofactor() {
   const auth = useSelector<ReducerType, AuthData>((state) => state.auth);
 
-  if (auth.auth || (auth.auth && auth.auth2f && auth.isRequire2f)) {
-    return (<Navigate replace to="/home" />);
-  }
+  // if (auth.auth || (auth.auth && auth.auth2f && auth.isRequire2f)) {
+  //   return (<Navigate replace to="/home" />);
+  // }
 
   return (
     <TwofactorWrapper>
