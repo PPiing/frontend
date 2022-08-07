@@ -10,6 +10,7 @@ import { LoggedUserData } from "../../redux/slices/loggedUser";
 import * as theme from "../../theme/theme";
 import { ModalChatExit } from "../modal/modalCheck";
 import { ModalChatUserList } from "../modal/modalChatUserList";
+import { ModalChatSetting } from "../modal/modalChatSetting";
 import { setChatRoomId, DisplayData } from "../../redux/slices/display";
 import { chatUserCount } from "../../network/api/axios.custom";
 import { ChatMessage } from "./chatMessage";
@@ -182,7 +183,7 @@ function HeaderInfo(props: any) {
       </Modal>
       <Modal open={settingOpen} onClose={handleSettingClose}>
         <Box sx={theme.modalStyle} component="div">
-          <div />
+          <ModalChatSetting chatInfo={chatInfo} />
         </Box>
       </Modal>
       <Modal open={listOpen} onClose={handleListClose}>
