@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
@@ -12,52 +13,11 @@ import { getUserSearch } from "../../network/api/axios.custom";
   Define Rules
 */
 
-type ButtonPair = {
-  name: string,
-  link: string,
-  able: boolean,
-};
-
-type ButtonVector = {
-  type: string,
-  buttons: ButtonPair[],
-  status: boolean,
+type ButtonType = {
+  name: string;
+  onClick: () => void;
+  disabled: boolean;
 }
-
-const DefineList: ButtonVector[] = [
-  {
-    type: "friend",
-    buttons: [
-      { name: "profile", link: "/profile", able: true },
-      { name: "DM", link: "/chat", able: true },
-      { name: "friend", link: "#", able: true },
-      { name: "block", link: "#", able: true },
-      { name: "watch", link: "/watch", able: true },
-      { name: "game", link: "/game", able: true },
-    ],
-    status: true,
-  },
-  {
-    type: "stranger",
-    buttons: [
-      { name: "profile", link: "/profile", able: true },
-      { name: "DM", link: "/chat", able: true },
-      { name: "friend", link: "#", able: true },
-      { name: "block", link: "#", able: true },
-      { name: "watch", link: "/watch", able: true },
-      { name: "game", link: "/game", able: true },
-    ],
-    status: false,
-  },
-  {
-    type: "myself",
-    buttons: [
-      { name: "profile", link: "/profile", able: true },
-      { name: "logout", link: "/logout", able: true },
-    ],
-    status: true,
-  },
-]
 
 /*
   Profile Zone
@@ -130,7 +90,7 @@ function setStatusColor(status:string) {
 };
 
 function Status(props: any) {
-  const { status, renderList } = props;
+  const { status } = props;
 
   const statusColor = setStatusColor(StatusDisplayDistributor(status));
 
@@ -156,17 +116,14 @@ function Status(props: any) {
     textShadow: `0 0 10px ${statusColor}`,
   });
 
-  if (renderList.status === true) {
-    return (
-      <StatusZone>
-        <StatusIcon style={{ backgroundColor: statusColor }} />
-        <StatusString>
-          {StatusDisplayDistributor(status)}
-        </StatusString>
-      </StatusZone>
-    );
-  }
-  return (<div />);
+  return (
+    <StatusZone>
+      <StatusIcon style={{ backgroundColor: statusColor }} />
+      <StatusString>
+        {StatusDisplayDistributor(status)}
+      </StatusString>
+    </StatusZone>
+  );
 }
 
 /*
@@ -183,14 +140,16 @@ const ButtonZone = styled("div", {
   marginTop: "10%",
 });
 
-const ButtonTd = styled("td", {
-  width: "280px",
-  marginLeft: "10px",
-  marginRight: "10px",
-  height: "30px",
-});
+// const ButtonTd = styled("td", {
+//   width: "280px",
+//   marginLeft: "10px",
+//   marginRight: "10px",
+//   height: "30px",
+// });
 
 const ButtonTemplate = styled("div", {
+  width: "70%",
+  marginLeft: "15%",
   paddingTop: "5px",
   paddingBottom: "5px",
   marginBottom: "15px",
@@ -199,56 +158,31 @@ const ButtonTemplate = styled("div", {
   color: "white",
   border: "1.5px solid white",
   borderRadius: "5px",
-  filter: "drop-shadow(0 0 3px white) brightness(1.6)",
+  filter: "drop-shadow(0 0 2px white) brightness(1.6)",
   textShadow: "0 0 2px #808080",
   cursor: "pointer",
+  transition: "all 0.3s",
+  "&:hover": {
+    background: "#303030",
+    border: "1.5px solid #808080",
+    filter: "drop-shadow(0 0 2px #808080) brightness(1.6)",
+  }
 });
 
 function Buttons(props: any) {
-  const { response, renderList } = props;
+  const { render } = props;
   const result = [];
 
-  function ButtonClickHref(link: string) {
-    window.location.href = link;
-  }
-
-  for (let i = 0; i < renderList.buttons.length; i += 2) {
-    let buttonLink0 = renderList.buttons[i].link;
-    let buttonLink1 = renderList.buttons[i + 1].link;
-    if (renderList.buttons[i].name === "profile") {
-      buttonLink0 += `/${response.user_info.userSeq}`;
-    }
-    if (renderList.buttons[i + 1].name === "profile") {
-      buttonLink1 += `/${response.user_info.userSeq}`;
-    }
-    if (renderList.buttons[i].name === "logout") {
-      buttonLink1 = "/api/auth/logout";
-    }
-    if (renderList.buttons[i + 1].name === "logout") {
-      buttonLink1 = "/api/auth/logout";
-    }
+  for (let i = 0; i < render.length; i += 1) {
     result.push(
-      <tr key={i}>
-        <ButtonTd key={i}>
-          <ButtonTemplate onClick={() => ButtonClickHref(buttonLink0)}>
-            {renderList.buttons[i].name}
-          </ButtonTemplate>
-        </ButtonTd>
-        <ButtonTd key={i + 1}>
-          <ButtonTemplate onClick={() => ButtonClickHref(buttonLink1)}>
-            {renderList.buttons[i + 1].name}
-          </ButtonTemplate>
-        </ButtonTd>
-      </tr>
+      <ButtonTemplate onClick={render[i].onClick} key={i}>
+        {render[i].name}
+      </ButtonTemplate>
     );
   }
   return (
     <ButtonZone>
-      <table>
-        <tbody>
-          {result}
-        </tbody>
-      </table>
+      {result}
     </ButtonZone>
   );
 }
@@ -289,22 +223,63 @@ export function ModalNavFriendBox(props: any) {
   )
   const logged = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
+  function buttonClickHref(link: string) {
+    window.location.href = link;
+  }
+
+  function buttonClickAxios() {
+
+  }
+
   useEffect(() => {
     let searchSeq: any = "-1";
     if (isNumber(user.seq)) searchSeq = user.seq.toString();
     getUserSearch(user.seq).then((response) => {
       const anyResponse: any = response;
       const userInfo: any = anyResponse?.data;
+      const defineList: ButtonType[] = [];
       if (anyResponse?.name !== "AxiosError") {
-        let Define = DefineList[0];
-        if (userInfo.user_info.isFriend === true) Define = DefineList[1];
-        if (logged.nick === userInfo.user_info.userName) Define = DefineList[2];
+        defineList.push({
+          name: "profile",
+          onClick: () => { buttonClickHref(`/profile/${userInfo.user_info.userSeq}`); },
+          disabled: false,
+        });
+        if (userInfo.user_info.userName === logged.nick) {
+          defineList.push({
+            name: "logout",
+            onClick: () => { buttonClickHref("/api/auth/logout"); },
+            disabled: false,
+          });
+        } else {
+          defineList.push({
+            name: "DM",
+            onClick: () => { /*DM 방 생성 axios, Redirection*/ buttonClickHref("/chat/") },
+            disabled: false,
+          });
+          defineList.push({
+            name: "friend",
+            onClick: () => { /* 친구신청/해제 토글 */ },
+            disabled: false,
+          });
+          defineList.push({
+            name: "block",
+            onClick: () => { /* 유저차단/해제 토글 */ },
+            disabled: false,
+          });
+          defineList.push({
+            name: "game",
+            onClick: () => { /* 게임신청 */ },
+            disabled: false,
+          });
+        }
+
+        const content: JSX.Element[] = []
+        content.push(<Profile response={userInfo} />);
+        if (userInfo.user_info.isFriend === true) content.push(<Status status={user.status} />)
+        content.push(<Buttons render={defineList} />);
+
         setContent(
-          <>
-            <Profile response={userInfo} renderList={Define} />
-            <Status status={user.status} renderList={Define} />
-            <Buttons response={userInfo} renderList={Define} />
-          </>
+          <>{ content }</>
         );
       }
     }).catch((error) => {
