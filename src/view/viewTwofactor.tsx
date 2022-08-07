@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { ViewWrapper } from "./viewTemplate";
 
-import { ContainerContents } from "../container/contentTwofactor";
+// eslint-disable-next-line import/no-unresolved
+import { ContainerContents } from "../container/contentTwoFactor";
 import { ReducerType } from "../redux/rootReducer";
 import { AuthData } from "../redux/slices/auth";
 
