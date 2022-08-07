@@ -46,7 +46,7 @@ const EmptyAccessRequireAlam = styled("div", {
   fontWeight: "300",
 });
 
-const socket = socketManager.socket("/");
+const socket = socketManager.socket("/alarm");
 socket.connect();
 
 export function ComponentNavInviteZone() {
@@ -59,10 +59,7 @@ export function ComponentNavInviteZone() {
     setReqSwitch(1);
   }
 
-  socket.on("ivF", () => {
-    setReqSwitch(0);
-  });
-  socket.on("ivG", () => {
+  socket.on("alarm:confirm", () => {
     setReqSwitch(0);
   });
 
