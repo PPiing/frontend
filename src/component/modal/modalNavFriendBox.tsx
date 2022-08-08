@@ -260,14 +260,12 @@ export function ModalNavFriendBox(props: any) {
           const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
           let bFriend: boolean = false;
           for (let i = 0; i < friendList.length; i += 1) {
-            if (friendList[i].seq === userInfo.user_info.userSeq)
-            {
+            if (friendList[i].seq === userInfo.user_info.userSeq) {
               bFriend = true;
               break;
             }
           }
-          if (bFriend)
-          {
+          if (bFriend) {
             defineList.push({
               name: "delete friend",
               onClick: () => { postFriendDelete(userInfo.user_info.userSeq) },
