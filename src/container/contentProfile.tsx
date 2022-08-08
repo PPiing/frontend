@@ -405,9 +405,10 @@ function Setting(props: any) {
   const tier = theme.getTierColor(response?.rank_info.rank_score);
   const SecAuthText = response?.user_info.secAuthStatus === true ? "ON" : "OFF";
   const SecAuthColor = response?.user_info.secAuthStatus === true ? tier.color : "#D8D8D8";
+  console.log("yeah! ", profile);
   const SecAuthToggle = () => {
     axios.patch("/api/users/profile", {
-      nickName: profile.nickName,
+      nickName: profile.nickname,
       email: profile.email,
       secAuthStatus: !(profile.secAuthStatus),
       avatarImgUri: profile.avartarImgUri,
@@ -425,7 +426,7 @@ function Setting(props: any) {
         id="toggle"
         style={{
           margin: "1vh",
-          width: "10rem",
+          width: "15vw",
           height: "2.5vh",
           display: "inline-block",
           borderRadius: "2rem",
@@ -604,6 +605,7 @@ export function ContainerContents() {
     getUserSearch(searchSeq).then((response) => {
       const anyResponse: any = response
       const userInfo = anyResponse?.data;
+      console.log("origin : ", userInfo);
       const profile = {
         nickname: userInfo?.user_info?.userName,
         email: userInfo?.user_info?.userEmail,
