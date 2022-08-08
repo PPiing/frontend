@@ -98,7 +98,7 @@ export const getCommonAlamList = async () => {
       store.dispatch(addCommonAlam({
         seq: response.data[i].alarmSeq,
         from_seq: response.data[i].from,
-        from_nick: response2.data.userName,
+        from_nick: response2.data.user_info.userName,
         type: response.data[i].type,
         code: response.data[i].code } as CommonAlamData));
     }
@@ -123,7 +123,7 @@ export const getConfirmAlamList = async () => {
       store.dispatch(addChoosableAlam({
         seq: response.data[i].alarmSeq,
         from_seq: response.data[i].from,
-        from_nick: response2.data.userName,
+        from_nick: response2.data.user_info.userName,
         type: typeNum,
       } as ChoosableAlamData));
     }
