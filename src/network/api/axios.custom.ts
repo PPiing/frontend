@@ -42,7 +42,7 @@ import * as axios from "./axios.instance";
 // --------------------------------------------------------------
 // utils
 
-function checkNameValid(name: string) {
+export function checkNameValid(name: string) {
   const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
   return (regex.test(name));
 }
