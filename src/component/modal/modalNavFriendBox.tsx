@@ -278,9 +278,9 @@ export function ModalNavFriendBox(props: any) {
           }
           if (userInfo.relation_info === "R03") {
             defineList.push({
-            name: "unblock",
-            onClick: () => { requestUserUnblock(userInfo.user_info.userSeq) },
-            disabled: false,
+              name: "unblock",
+              onClick: () => { requestUserUnblock(userInfo.user_info.userSeq) },
+              disabled: false,
             });
           } else {
             defineList.push({
