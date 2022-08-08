@@ -1,8 +1,10 @@
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
 import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
+import { getUserSimpleSearch, inviteUser } from "../../network/api/axios.custom";
 
 const SettingZone = styled("div", {
   width: "100%",
@@ -79,9 +81,47 @@ function RoomChangeButton(props: any) {
 }
 
 function RoomInvite(props: any) {
+  const { chatInfo } = props;
+
+  const Pre = styled("pre", {
+    fontSize: "1.5vh",
+    marginLeft: "0.5vw",
+    marginTop: "0.5vh",
+  });
+
+  const [searchText, setSearchText] = useState(
+    <Pre style={{ color: "gray" }}>
+      Enter full user name and press enter.
+    </Pre>
+  );
+
+  function RoomInviteEnter(e: any) {
+    if (e.key === "Enter") {
+      if (e.target.value.length > 0) {
+        getUserSimpleSearch(e.target.value).then((res: any) => {
+          for (let i = 0; i < res.data.length; i += 1) {
+            if (res.data[i].nickName === e.target.value) {
+              inviteUser(res.data[0].userSeq, chatInfo.chatSeq).then((res: any) => {
+                console.log(res);
+                if (res.name === "AxiosError") {
+                  setSearchText(
+                    <Pre style={{ color: "red" }}>
+                      {res.response.data.message}
+                    </Pre>
+                  );
+                }
+              });
+            }
+          }
+        });
+      }
+    }
+  }
+
   return (
     <div>
-      <SettingInputText type="text" />
+      <SettingInputText type="text" onKeyPress={(e) => { RoomInviteEnter(e) }} />
+      {searchText}
     </div>
   )
 }
