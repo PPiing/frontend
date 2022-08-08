@@ -39,7 +39,13 @@ import * as axios from "./axios.instance";
  * }
  */
 
-// API for Nav
+// --------------------------------------------------------------
+// utils
+
+export function checkNameValid(name: string) {
+  const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+  return (regex.test(name));
+}
 
 export const getLoggedUserProfile = async () => {
   try {
@@ -60,23 +66,8 @@ export const getLoggedUserProfile = async () => {
   }
 };
 
-export const getUserSearch = async (searchSeq: string) => {
-  try {
-    const response = await axios.instance.get(`/users/profile/${searchSeq}`);
-    return (response);
-  } catch (error) {
-    return (error);
-  }
-}
-
-export const getUserSimpleSearch = async (searchString: string) => {
-  try {
-    const response = await axios.instance.get(`/users/search/nickname/${searchString}`);
-    return (response);
-  } catch (error) {
-    return (error);
-  }
-}
+// --------------------------------------------------------------
+// API for Navbar feature
 
 export const getFriendList = async () => {
   try {
@@ -212,13 +203,44 @@ export const postNewDM = async (userSeq: string) => {
   }
 }
 
-// API for Login
+// --------------------------------------------------------------
+// API for Profile feature
 
-// API for Profile
+export const getUserSearch = async (searchSeq: string) => {
+  try {
+    const response = await axios.instance.get(`/users/profile/${searchSeq}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
 
-// API for Game
+export const getUserSimpleSearch = async (searchString: string) => {
+  try {
+    if (checkNameValid(searchString) === false) {
+      throw new Error("userName is invalid!");
+    }
+    const response = await axios.instance.get(`/users/search/nickname/${searchString}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
 
-// API for Chat
+// --------------------------------------------------------------
+// API for Game feature
+
+export const inviteUser = async (userSeq: number, chatSeq: number) => {
+  try {
+    const response = await axios.instance.put(`/chatrooms/invite/${userSeq}/${chatSeq}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
+
+// --------------------------------------------------------------
+// API for Chat feature
 
 export const chatroomsSearch = async () => {
   try {
@@ -241,15 +263,6 @@ export const chatUserCount = async (chatSeq: string) => {
 export const getAllMessages = async (chatSeq: number) => {
   try {
     const response = await axios.instance.get(`chatrooms/message/${chatSeq}/-1/10`);
-    return (response);
-  } catch (error) {
-    return (error);
-  }
-}
-
-export const inviteUser = async (userSeq: number, chatSeq: number) => {
-  try {
-    const response = await axios.instance.put(`/chatrooms/invite/${userSeq}/${chatSeq}`);
     return (response);
   } catch (error) {
     return (error);

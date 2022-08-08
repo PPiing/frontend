@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
-import { getUserSearch } from "../network/api/axios.custom";
+import { checkNameValid, getUserSearch } from "../network/api/axios.custom";
 import { ModalNavFriendBox } from "../component/modal/modalNavFriendBox";
 
 // Profile Zone
@@ -78,13 +78,16 @@ function Profile(props: any) {
           "Content-Type": "multipart/form-data",
         },
       });
-      await axios.patch("/api/users/profile", {
-        nickName: profile.nickname,
-        email: profile.email,
-        secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
-        avatarImgUri: imgUp.data,
-      });
-      setProfileURI(`${window.location.origin}${imgUp.data}`);
+      if (checkNameValid(profile.nickname) === true) {
+        await axios.patch("/api/users/profile", {
+          nickName: profile.nickname,
+          email: profile.email,
+          secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
+          avatarImgUri: imgUp.data,
+        });
+        setProfileURI(`${window.location.origin}${imgUp.data}`);
+      }
+      // else 일 경우 화면단에 에러 띄워줘야함
     } catch (e) {
       console.log("error :", e);
     }
