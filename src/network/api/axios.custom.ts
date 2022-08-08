@@ -201,3 +201,12 @@ export const getAllMessages = async (chatSeq: number) => {
     return (error);
   }
 }
+
+export const inviteUser = async (userSeq: number, chatSeq: number) => {
+  try {
+    const response = await axios.instance.put(`/chatrooms/invite/${userSeq}/${chatSeq}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
