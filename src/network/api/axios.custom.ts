@@ -167,6 +167,51 @@ export const putAlarmRead = async (alamSeq: string) => {
   }
 }
 
+export const postFriendRequest = async (userSeq: string) => {
+  try {
+    await axios.instance.post(`/community/friends/request/${userSeq}`);
+    return (null);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export const postFriendDelete = async (userSeq: string) => {
+  try {
+    await axios.instance.post(`/community/friends/delete/${userSeq}`);
+    return (null);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export const requestUserBlock = async (userSeq: string) => {
+  try {
+    await axios.instance.get(`/community/friends/block/${userSeq}`);
+    return (null);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export const requestUserUnblock = async (userSeq: string) => {
+  try {
+    await axios.instance.get(`/community/friends/unblock/${userSeq}`);
+    return (null);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export const postNewDM = async (userSeq: string) => {
+  try {
+    await axios.instance.post(`/chatroom/new/dm/${userSeq}`);
+    return (null);
+  } catch (error) {
+    return (error);
+  }
+}
+
 // API for Login
 
 // API for Profile
