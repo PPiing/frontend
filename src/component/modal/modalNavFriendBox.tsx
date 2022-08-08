@@ -218,11 +218,10 @@ export function ModalNavFriendBox(props: any) {
   const { user } = props;
 
   const [content, setContent] = useState<JSX.Element>(
-    <div>
-      <b>로딩중입니다.</b>
-    </div>
+    <b>로딩중입니다.</b>
   )
   const logged = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const friendsList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
 
   function buttonClickHref(link: string) {
     window.location.href = link;
@@ -257,10 +256,9 @@ export function ModalNavFriendBox(props: any) {
             onClick: () => { postNewDM(userInfo.user_info.userSeq) },
             disabled: false,
           });
-          const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
           let bFriend: boolean = false;
-          for (let i = 0; i < friendList.length; i += 1) {
-            if (friendList[i].seq === userInfo.user_info.userSeq) {
+          for (let i = 0; i < friendsList.length; i += 1) {
+            if (friendsList[i].seq === userInfo.user_info.userSeq) {
               bFriend = true;
               break;
             }
@@ -290,13 +288,13 @@ export function ModalNavFriendBox(props: any) {
           });
         }
 
-        const content: JSX.Element[] = []
-        content.push(<Profile response={userInfo} />);
-        if (userInfo.user_info.isFriend === true) content.push(<Status status={user.status} />)
-        content.push(<Buttons render={defineList} />);
+        const realContent: JSX.Element[] = []
+        realContent.push(<Profile response={userInfo} />);
+        if (userInfo.user_info.isFriend === true) realContent.push(<Status status={user.status} />)
+        realContent.push(<Buttons render={defineList} />);
 
         setContent(
-          <>{ content }</>
+          <>{ realContent }</>
         );
       }
     }).catch((error) => {

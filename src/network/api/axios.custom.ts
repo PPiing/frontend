@@ -205,7 +205,7 @@ export const requestUserUnblock = async (userSeq: string) => {
 
 export const postNewDM = async (userSeq: string) => {
   try {
-    await axios.instance.post(`/chatroom/new/dm/${userSeq}`);
+    await axios.instance.post(`/chatrooms/new/dm/${userSeq}`);
     return (null);
   } catch (error) {
     return (error);
