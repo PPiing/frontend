@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import * as theme from "../../theme/theme";
@@ -129,7 +129,7 @@ const EmptyAlarm = styled("div", {
   color: "gray",
 });
 
-const socket = socketManager.socket("/");
+const socket = socketManager.socket("/alarm");
 socket.connect();
 
 export function ComponentNavAlam() {
@@ -138,7 +138,6 @@ export function ComponentNavAlam() {
     (state) => state.commonAlamList
   );
   const [reqTrig, setReqTrig] = useState(0);
-  const dispatch = useDispatch();
   // axios feat
   if (reqTrig === 0) {
     getCommonAlamList();
@@ -146,7 +145,7 @@ export function ComponentNavAlam() {
     setReqTrig(1);
   }
 
-  socket.on("ivA", () => {
+  socket.on("alarm:normal", () => {
     getCommonAlamList();
   });
 

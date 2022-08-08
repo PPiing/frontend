@@ -7,7 +7,8 @@ import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { getUserSearch } from "../../network/api/axios.custom";
+import { getUserSearch, postFriendDelete, postFriendRequest, postNewDM, requestUserBlock } from "../../network/api/axios.custom";
+import { FriendData } from "../../redux/slices/friendList";
 
 /*
   Define Rules
@@ -253,17 +254,33 @@ export function ModalNavFriendBox(props: any) {
         } else {
           defineList.push({
             name: "DM",
-            onClick: () => { /*DM 방 생성 axios, Redirection*/ buttonClickHref("/chat/") },
+            onClick: () => { postNewDM(userInfo.user_info.userSeq) },
             disabled: false,
           });
-          defineList.push({
-            name: "friend",
-            onClick: () => { /* 친구신청/해제 토글 */ },
-            disabled: false,
-          });
+          const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
+          let bFriend: boolean = false;
+          for (let i = 0; i < friendList.length; i += 1) {
+            if (friendList[i].seq === userInfo.user_info.userSeq) {
+              bFriend = true;
+              break;
+            }
+          }
+          if (bFriend) {
+            defineList.push({
+              name: "delete friend",
+              onClick: () => { postFriendDelete(userInfo.user_info.userSeq) },
+              disabled: false,
+            });
+          } else {
+            defineList.push({
+              name: "add friend",
+              onClick: () => { postFriendRequest(userInfo.user_info.userSeq) },
+              disabled: false,
+            });
+          }
           defineList.push({
             name: "block",
-            onClick: () => { /* 유저차단/해제 토글 */ },
+            onClick: () => { requestUserBlock(userInfo.user_info.userSeq) },
             disabled: false,
           });
           defineList.push({
