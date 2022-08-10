@@ -229,7 +229,7 @@ export function ComponentChatRoom(props: any) {
               key={i}
               username={promise.data[i].nickname}
               message={promise.data[i].msg}
-              createdAt={promise.data[i].createdAt}
+              createAt={promise.data[i].createdAt}
             />
           );
         }
@@ -239,7 +239,7 @@ export function ComponentChatRoom(props: any) {
               key={i}
               username={promise.data[0].nickname}
               message="mkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksd"
-              createdAt={promise.data[0].createdAt}
+              createAt={promise.data[0].createdAt}
             />
           );
         }

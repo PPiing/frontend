@@ -58,8 +58,8 @@ const MessageWhen = styled("div", {
 })
 
 export function ChatMessage(props: ChatMessageData) {
-  const { username, message } = props;
-
+  const { username, message, createAt } = props;
+  console.log(createAt);
   return (
     <Message>
       <MessageSender>{username}</MessageSender>
