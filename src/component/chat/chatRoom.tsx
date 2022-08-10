@@ -49,7 +49,7 @@ const ChatRoomHeader = styled("div", {
   alignItems: "center",
   justifyContent: "space-between",
   width: "100%",
-  height: "120px",
+  height: "9%",
   backgroundColor: "#000000",
   overflow: "hidden",
 })
@@ -101,8 +101,20 @@ const ChatRoomRecvArea = styled("div", {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: "100%",
-  height: "100%",
+  width: "99%",
+  margin: "1% 1% 0% 0%",
+  height: "90%",
+  overflowY: "scroll",
+  "&::-webkit-scrollbar": {
+    background: "none",
+    width: "0.6rem",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    background: "#222222",
+    borderRadius: "3rem",
+    width: "0.4rem",
+    right: "60px",
+  }
 })
 
 const ChatRoomSendArea = styled("div", {
@@ -196,10 +208,6 @@ function HeaderInfo(props: any) {
   );
 }
 
-const renderMessage = () => {
-
-}
-
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
   const [inputMsg, setInputMsg] = useState("");
@@ -207,14 +215,39 @@ export function ComponentChatRoom(props: any) {
   const dispatch = useDispatch();
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const [messages, setMessages] = useState<IRecvMessage[]>([]);
+  const [msgList, setMsgList] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
-    console.log("AXIOS");
+    console.log("AXIOS, ", chatRoomData.seq);
     axios.getAllMessages(chatRoomData.seq)
-      .then((promise: any) => promise.data)
-      .then((data) => {
+      .then((promise: any) => {
+        console.log("promise.data, ", promise.data);
+        const result = [];
+        for (let i = 0; i < promise.data.length; i += 1) {
+          result.push(
+            <ChatMessage
+              key={i}
+              username={promise.data[i].nickname}
+              message={promise.data[i].msg}
+              createdAt={promise.data[i].createdAt}
+            />
+          );
+        }
+        for (let i = 0; i < 5; i += 1) {
+          result.push(
+            <ChatMessage
+              key={i}
+              username={promise.data[0].nickname}
+              message="mkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksd"
+              createdAt={promise.data[0].createdAt}
+            />
+          );
+        }
+        setMsgList(result);
+        console.log("messages, ", msgList);
+      }).then((data) => {
         console.log(`AXIOS RESULT : ${data}`);
-      })
+      });
   }, []);
 
   // useEffect(() => {
@@ -291,8 +324,7 @@ export function ComponentChatRoom(props: any) {
         </HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
-        <ChatMessage username="hyungyyo" message="sample message" />
-        <ChatMessage username="hyungyyo" message="샘플 메세지" />
+        {msgList}
       </ChatRoomRecvArea>
       <ChatRoomSendArea>
         <input style={{ width: "90%", height: "60%", color: "white", backgroundColor: "black", fontSize: "30px" }} value={inputMsg} onChange={(event) => handleChange(event)} onKeyDown={HandleKeyDown} />
