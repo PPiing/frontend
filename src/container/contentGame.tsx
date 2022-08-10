@@ -21,12 +21,6 @@ const textureBrick = new THREE.TextureLoader().load("../../asset/background_bric
 
 const fontStr : string = JSON.stringify(fontPath);
 
-let tmpRedY = 0;
-let tmpBlueY = 0;
-
-let tmpballX = 0;
-let tmpballY = 0;
-
 socket.connect();
 
 // socket.on("connect", () => {
@@ -83,6 +77,11 @@ function Basic() {
   const [blueRacketYPos, setBlueRacketYPos] = useState(0);
   const [ballXpos, setBallXpos] = useState(0);
   const [ballYpos, setBallYpos] = useState(0);
+
+  // const [ballXpos, setBallXpos] = useState(0);
+  // const [ballYpos, setBallYpos] = useState(0);
+  // const [ballXpos, setBallXpos] = useState(0);
+  // const [ballYpos, setBallYpos] = useState(0);
 
   // socket.emit("game:render", {
   //   ball: { x: 2, y: -3 },
@@ -171,30 +170,6 @@ function Basic() {
         console.log("Press Up, emit 1");
       }
     }
-    if (e.key === "p") {
-      tmpballX += 1;
-      tmpballY += 1;
-      tmpRedY += 1;
-      tmpBlueY -= 1;
-      socket.emit("game:render", {
-        ball: { x: tmpballX, y: tmpballY },
-        paddleTop: { x: 0, y: tmpRedY },
-        paddleBtm: { x: 0, y: tmpBlueY }
-      });
-      console.log("Press p, emit moving infos.", tmpballX, tmpballY, tmpRedY, tmpBlueY);
-    }
-    if (e.key === "o") {
-      tmpballX -= 1;
-      tmpballY -= 1;
-      tmpRedY -= 1;
-      tmpBlueY += 1;
-      socket.emit("game:render", {
-        ball: { x: tmpballX, y: tmpballY },
-        paddleTop: { x: 0, y: tmpRedY },
-        paddleBtm: { x: 0, y: tmpBlueY }
-      });
-      console.log("Press o, , emit moving infos.", tmpballX, tmpballY, tmpRedY, tmpBlueY);
-    }
     return 0;
   };
 
@@ -227,11 +202,11 @@ function Basic() {
     window.addEventListener("keyup", controlKeyUp);
 
     socket.on("game:render", (res) => {
-      console.log("server =>", res);
+      // console.log("server =>", res);
       setBallXpos(res.ball.x);
       setBallYpos(res.ball.y);
-      setRedRacketYPos(res.paddleTop.y);
-      setBlueRacketYPos(res.paddleBtm.y);
+      setRedRacketYPos(res.paddleRed.y);
+      setBlueRacketYPos(res.paddleBlue.y);
     });
 
     return () => {
