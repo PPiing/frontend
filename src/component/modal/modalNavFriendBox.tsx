@@ -7,7 +7,7 @@ import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { getUserSearch, postFriendDelete, postFriendRequest, postNewDM, requestUserBlock } from "../../network/api/axios.custom";
+import { getUserSearch, postFriendDelete, postFriendRequest, postNewDM, requestUserBlock, requestUserUnblock } from "../../network/api/axios.custom";
 import { FriendData } from "../../redux/slices/friendList";
 
 /*
@@ -276,11 +276,19 @@ export function ModalNavFriendBox(props: any) {
               disabled: false,
             });
           }
-          defineList.push({
-            name: "block",
-            onClick: () => { requestUserBlock(userInfo.user_info.userSeq) },
-            disabled: false,
-          });
+          if (userInfo.relation_info === "R03") {
+            defineList.push({
+              name: "unblock",
+              onClick: () => { requestUserUnblock(userInfo.user_info.userSeq) },
+              disabled: false,
+            });
+          } else {
+            defineList.push({
+              name: "block",
+              onClick: () => { requestUserBlock(userInfo.user_info.userSeq) },
+              disabled: false,
+            });
+          }
           defineList.push({
             name: "game",
             onClick: () => { /* 게임신청 */ },
