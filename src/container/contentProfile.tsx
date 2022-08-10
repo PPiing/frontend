@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-no-useless-fragment */
@@ -400,14 +401,16 @@ function History(props: any) {
 
 function Setting(props: any) {
   const { response, profile } = props;
+  console.log(response);
   const SettingWrapper = styled("div", {
     color: "white",
     margin: "1vh",
     marginBottom: "-5vh"
   });
   const tier = theme.getTierColor(response?.rank_info.rank_score);
-  const SecAuthText = response?.user_info.secAuthStatus === true ? "ON" : "OFF";
-  const SecAuthColor = response?.user_info.secAuthStatus === true ? tier.color : "#D8D8D8";
+  const secAuthText = response?.user_info.userSecAuthStatus ? "ON" : "OFF";
+  const secAuthColor = response?.user_info.userSecAuthStatus ? tier.color : "#D8D8D8";
+
   console.log("yeah! ", profile);
   const SecAuthToggle = () => {
     axios.patch("/api/users/profile", {
@@ -416,9 +419,11 @@ function Setting(props: any) {
       secAuthStatus: !(profile.secAuthStatus),
       avatarImgUri: profile.avartarImgUri,
     }).then((res) => {
-      console.log("updated!", res);
+      // console.log("updated!", res);
+      location.reload();
     }).catch((err) => {
-      console.log("error!", err);
+      // console.log("error!", err);
+      location.reload();
     });
   }
 
@@ -433,16 +438,16 @@ function Setting(props: any) {
           height: "2.5vh",
           display: "inline-block",
           borderRadius: "2rem",
-          backgroundColor: `${SecAuthColor}`,
+          backgroundColor: `${secAuthColor}`,
           cursor: "pointer",
           color: "black",
           fontSize: "1rem",
           border: "none",
-          boxShadow: `0 0 10px ${SecAuthColor}`,
+          boxShadow: `0 0 10px ${secAuthColor}`,
         }}
         onClick={SecAuthToggle}
       >
-        2nd Verification: <b>{SecAuthText}</b>
+        2nd Verification: <b>{secAuthText}</b>
       </button>
     </SettingWrapper>
   );
@@ -612,7 +617,7 @@ export function ContainerContents() {
       const profile = {
         nickname: userInfo?.user_info?.userName,
         email: userInfo?.user_info?.userEmail,
-        secAuthStatus: userInfo?.user_info?.secAuthStatus,
+        secAuthStatus: userInfo?.user_info?.userSecAuthStatus,
         avartarImgUri: userInfo?.user_info?.userImage,
       };
       if (anyResponse?.name !== "AxiosError") {
