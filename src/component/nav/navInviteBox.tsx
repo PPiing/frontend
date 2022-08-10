@@ -93,8 +93,8 @@ export function ComponentNavInviteBox(props: any) {
         <AlamMessage> {alamTypeMsg()} </AlamMessage>
       </AlamContent>
       <AlamButtonArea>
-        <AlamAcceptButton onClick={() => postConfirm(alam.seq, true)}>Accept</AlamAcceptButton>
-        <AlamDenyButton onClick={() => postConfirm(alam.seq, false)}>Deny</AlamDenyButton>
+        <AlamAcceptButton onClick={() => postConfirm(alam.from_seq, true)}>Accept</AlamAcceptButton>
+        <AlamDenyButton onClick={() => postConfirm(alam.from_seq, false)}>Deny</AlamDenyButton>
       </AlamButtonArea>
     </NavInviteBox>
   );
