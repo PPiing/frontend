@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { keyframes } from "@stitches/react";
 import * as theme from "../theme/theme";
+import { sendAuthCode } from "../network/api/axios.custom";
 // import { styled } from "../theme/theme";
 
 const Spin = keyframes({
@@ -177,6 +178,7 @@ export function ContainerContents() {
   const [Input2, setInput2] = useState("");
   const [Input3, setInput3] = useState("");
   const [Input4, setInput4] = useState("");
+  const [SendResult, setSendResult] = useState(<>.</>);
 
   function onChangeInput(e: any, setInput: any) {
     setInput(e.target.value.replace(/[^0-9]/g, ""));
@@ -189,8 +191,13 @@ export function ContainerContents() {
   }
 
   const logIn = () => {
-    window.location.href = "/api/auth/login";
+    sendAuthCode().then((response) => {
+      console.log(response);
+    })
+
+    // setSendResult(<div />);
   };
+
   return (
     <TwofactorSpace>
       <TmpSpace>
@@ -199,7 +206,9 @@ export function ContainerContents() {
 
         <ButtonLogin onClick={logIn}>
           <b>Click here</b> to send 4-digit verification code to registered e-mail.
-        </ButtonLogin><br /><br />
+        </ButtonLogin>
+        {SendResult}
+        <br /><br />
         <pre style={{ fontSize: "1.5vh", textAlign: "center", color: "white", }}>
           Input 4-Digit Code to below Text box and press ENTER button to check.<br />
           <b style={{ fontSize: "2vh", }}>Numberic Only!</b>
