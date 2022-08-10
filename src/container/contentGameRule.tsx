@@ -41,6 +41,15 @@ const RuleSelectionContainer = styled(template.DividedLeftSection, {
   alignItems: "center",
 });
 
+export const GameRuleRightSection = styled(theme.NeonHoverRed, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: theme.NEON_RED,
+  width: "75%",
+  height: `calc(${theme.NAV_LEFT_HEIGHT})`,
+});
+
 const SlidersContainer = styled("div", {
   display: "flex",
   height: "70%",
@@ -212,9 +221,15 @@ export default function GameRuleSet() {
             </RuleText>
           </TextWrapper>
         </TextContainer>
-        <Button onClick={handleReady} variant="contained" size="large" color="error">Ready</Button>
+        <Button onClick={handleReady} variant="contained" size="large" color="error">
+          {
+          isReady ?
+            "Matching..."
+            : "Ready"
+            }
+        </Button>
       </RuleSelectionContainer>
-      <template.DividedRightSection>
+      <GameRuleRightSection>
         <Canvas dpr={[1, 10]} camera={{ fov: 6, position: [99.3, 100, 100] }}>
           <Suspense fallback={null}>
             <OrbitControls maxDistance={500} minDistance={6} makeDefault />
@@ -251,7 +266,7 @@ export default function GameRuleSet() {
             isReady ? <Rig /> : " "
           }
         </Canvas>
-      </template.DividedRightSection>
+      </GameRuleRightSection>
     </template.DividedContents>
   );
 }

@@ -14,10 +14,10 @@ socket.on("connect", () => {
 export function Game() {
   const [isInGame, setIsInGame] = useState(true);
 
-  // socket.on("test:ready", () => {
-  //   console.log("test Game Ready!");
-  //   setIsInGame(false);
-  // });
+  socket.on("game:start", () => {
+    console.log("Game Start!");
+    setIsInGame(false);
+  });
 
   return (
     <div>
