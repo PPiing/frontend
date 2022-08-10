@@ -9,6 +9,7 @@ import { Profile } from "./view/viewProfile";
 import { Watch } from "./view/viewWatch";
 import { Login } from "./view/viewLogin";
 import { Twofactor } from "./view/viewTwofactor";
+import { RedirectTwofactor } from "./view/viewRedirect";
 import { RootControl } from "./component/rootControl";
 import store from "./redux/store";
 
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/twofactor" element={<Twofactor />} />
+        <Route path="/auth/redirect" element={<RedirectTwofactor />} />
         <Route path="/home" element={<Home />} />
         <Route path="/game" element={<Game />} />
         <Route path="/watch" element={<Watch />} />

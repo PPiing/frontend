@@ -268,3 +268,15 @@ export const getAllMessages = async (chatSeq: number) => {
     return (error);
   }
 }
+
+// --------------------------------------------------------------
+// auth (twofactor)
+
+export const sendAuthCode = async () => {
+  try {
+    const response = await axios.instance.get("/auth/twofactor/check");
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
