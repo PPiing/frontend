@@ -47,7 +47,7 @@ function Toggle(props : any) {
   const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
 
   const handleClick = (e : any) => {
-    store.dispatch(setIsRankGame({ isRankGame: e.target.checked } as GameRuleData))
+    store.dispatch(setIsRankGame({ isRankGame: !e.target.checked } as GameRuleData))
   };
 
   return (
