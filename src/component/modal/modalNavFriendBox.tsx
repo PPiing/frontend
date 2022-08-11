@@ -213,7 +213,7 @@ export function ModalNavFriendBox(props: any) {
   const { user } = props;
 
   const [content, setContent] = useState<JSX.Element>(
-    <b>로딩중입니다.</b>
+    <b>... loading ...</b>
   )
   const logged = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const friendsList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
@@ -313,7 +313,6 @@ export function ModalNavFriendBox(props: any) {
     </ModalContentDiv>
   );
 }
-
 /*
   Main Zone End
 */
