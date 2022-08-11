@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ViewTemplate } from "./viewTemplate";
 import socketManager from "../feat/game/socket";
 
@@ -14,9 +14,15 @@ socket.on("connect", () => {
 export function Game() {
   const [isInGame, setIsInGame] = useState(true);
 
-  socket.on("game:start", () => {
-    console.log("Game Start!");
-    setIsInGame(false);
+  useEffect(() => {
+    socket.on("game:start", () => {
+      console.log("Game Start!");
+      setIsInGame(false);
+    });
+
+    return () => {
+      socket.off("game:start");
+    };
   });
 
   return (
