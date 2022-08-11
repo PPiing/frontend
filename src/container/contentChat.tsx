@@ -184,8 +184,20 @@ export function ContainerContents() {
   };
 
   const renderJoinedRoomList = () => {
-    return joinedChatRoomList.map((item, i) =>
-      <ComponentChatRoomListBox key={i} chatRoomData={item} stateUpdateFunc={setContentType} />)
+    if (listType === "chat") {
+      return joinedChatRoomList.filter(
+        (room) =>
+          room.type === "CHTP20" ||
+          room.type === "CHTP30" ||
+          room.type === "CHTP40"
+      ).map((item, i) =>
+        <ComponentChatRoomListBox key={i} chatRoomData={item} stateUpdateFunc={setContentType} />);
+    }
+    return joinedChatRoomList.filter(
+      (room) =>
+        room.type === "CHTP10"
+    ).map((item, i) =>
+      <ComponentChatRoomListBox key={i} chatRoomData={item} stateUpdateFunc={setContentType} />);
   };
 
   const changeContent = (content: string) => {
