@@ -139,17 +139,21 @@ export const postConfirm = async (userSeq: string, alarmSeq: string, isAccept: b
     if (alarmType === 0) {
       if (isAccept) {
         await axios.instance.post(`/community/friends/accept/${userSeq}`);
+        console.log("alarmDel!");
         store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
       } else {
         await axios.instance.post(`/community/friends/reject/${userSeq}`);
+        console.log("alarmDel!");
         store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
       }
     } else if (alarmType === 1) {
       if (isAccept) {
         await axios.instance.put(`/game/accept/${alarmSeq}`);
+        console.log("alarmDel!");
         store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
       } else {
         await axios.instance.put(`/game/reject/${alarmSeq}`);
+        console.log("alarmDel!");
         store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
       }
     }
