@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { styled } from "@stitches/react";
@@ -89,18 +89,20 @@ export function ChatMessage(props: ChatMessageData) {
   const handleClose = () => setOpen(false);
 
   const [user, setUser] = useState<FriendData>();
-  getUserSimpleSearch(username).then((res: any) => {
-    for (let i = 0; i < res.data.length; i += 1) {
-      if (res.data[i].nickName === username) {
-        setUser({
-          seq: res.data[i].userSeq,
-          nick: res.data[i].nickName,
-          img: res.data[i].userImage,
-          status: res.data[i].userStatus,
-        });
+  useEffect(() => {
+    getUserSimpleSearch(username).then((res: any) => {
+      for (let i = 0; i < res.data.length; i += 1) {
+        if (res.data[i].nickName === username) {
+          setUser({
+            seq: res.data[i].userSeq,
+            nick: res.data[i].nickName,
+            img: res.data[i].userImage,
+            status: res.data[i].userStatus,
+          });
+        }
       }
-    }
-  });
+    });
+  }, []);
 
   return (
     <Message>
