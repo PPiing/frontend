@@ -60,6 +60,17 @@ const scoreTextConfig = {
   bevelSegments: 8
 };
 
+const endingTextConfig = {
+  size: 0.8,
+  height: 1,
+  curveSegments: 0.6,
+  bevelEnabled: true,
+  bevelThickness: 0.1,
+  bevelSize: 0.02,
+  bevelOffset: 0,
+  bevelSegments: 8
+};
+
 const shakeCameraConfig = {
   maxYaw: 0.1, // Max amount camera can yaw in either direction
   maxPitch: 0.1, // Max amount camera can pitch in either direction
@@ -83,6 +94,8 @@ function Basic() {
   const [gamer1Score, setGamer1Score] = useState(0);
   const [gamer2Name, setGamer2Name] = useState("spark");
   const [gamer2Score, setGamer2Score] = useState(0);
+  const [gameEnd, setGameEnd] = useState(false);
+  const [winnerName, setWinnerName] = useState("");
 
   let timeStamp = 0;
   let frameTimer1 = 0;
@@ -245,10 +258,20 @@ function Basic() {
         setGamer2Score(res.red);
         timeStamp = frameTimer1;
       }
+      setRedRacketYPos(0);
+      setBlueRacketYPos(0);
     });
 
     socket.on("game:end", (res) => {
       console.log("Game End!", res);
+      if (res.inGameData.scoreBlue > res.inGameData.scoreRed) {
+        console.log(res.metaData.playerBlue.nickName, "   w i n !");
+        setWinnerName(`${res.metaData.playerBlue.nickName} Win!`)
+      } else {
+        console.log(res.metaData.playerRed.nickName, "   w i n !");
+        setWinnerName(`${res.metaData.playerRed.nickName} Win!`)
+      }
+      setGameEnd(true);
     });
 
     return () => {
@@ -270,17 +293,37 @@ function Basic() {
 
       {/* 메인 게임필드 */}
       <mesh position={[0, 0, 0]}>
-        <boxBufferGeometry attach="geometry" args={[gameBoardWidth, 0.1, gameBoardHeight]} />
-        <Sparkles
-          count={40}
-          /** Speed of particles (default: 1) */
-          speed={0.4}
-          scale={5}
-          size={3}
-          /** Opacity of particles (default: 1) */
-          opacity={1}
-        />
-        <meshLambertMaterial attach="material" transparent opacity={0.1} emissive="#000011" reflectivity={0.8} refractionRatio={0.8} combine={THREE.MultiplyOperation} wireframeLinewidth={0.5} wireframeLinecap="square" wireframeLinejoin="miter" map={textureSpace} />  {/* <meshLambertMaterial attach="material" transparent opacity={0.2} emissive="#000011" reflectivity={0.8} refractionRatio={0.8} combine={THREE.MultiplyOperation} wireframeLinewidth={0.5} wireframeLinecap="square" wireframeLinejoin="miter" map={textureBrick} envMap={textureSpace} /> */}
+        {
+          gameEnd ? (
+            <Float
+              speed={2} // Animation speed, defaults to 1
+              rotationIntensity={1.8} // XYZ rotation intensity, defaults to 1
+              floatIntensity={7}
+              floatingRange={[-0.2, 0.1]}
+            >
+              <mesh position={[-4.5, 1, 0]}>
+                <Text3D font={JSON.parse(fontStr)} {...endingTextConfig}>
+                  {winnerName}
+                  <meshNormalMaterial />
+                </Text3D>
+                <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
+              </mesh>
+            </Float>
+          ) : (
+            <>
+              <boxBufferGeometry attach="geometry" args={[gameBoardWidth, 0.1, gameBoardHeight]} />
+              <Sparkles
+                count={40}
+                /** Speed of particles (default: 1) */
+                speed={0.4}
+                scale={5}
+                size={3}
+                /** Opacity of particles (default: 1) */
+                opacity={1}
+              />
+              <meshLambertMaterial attach="material" transparent opacity={0.1} emissive="#000011" reflectivity={0.8} refractionRatio={0.8} combine={THREE.MultiplyOperation} wireframeLinewidth={0.5} wireframeLinecap="square" wireframeLinejoin="miter" map={textureSpace} />
+            </>
+          )}
       </mesh>
 
       {/* Red 게임바 */}

@@ -15,12 +15,16 @@ export function Game() {
   const [isInGame, setIsInGame] = useState(true);
 
   useEffect(() => {
+    socket.on("game:ready", (res) => {
+      console.log("Game ready=> ", res);
+    });
     socket.on("game:start", () => {
       console.log("Game Start!");
       setIsInGame(false);
     });
 
     return () => {
+      socket.off("game:ready");
       socket.off("game:start");
     };
   });
