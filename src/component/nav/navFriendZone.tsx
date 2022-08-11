@@ -41,8 +41,8 @@ const EmptyFriend = styled("div", {
   fontWeight: "300",
 });
 
-const socket = socketManager.socket("/friends");
-socket.connect();
+// const socket = socketManager.socket("/friends");
+// socket.connect();
 
 // const socket2 = socketManager.socket("/status");
 // socket2.connect();
@@ -63,9 +63,9 @@ export function ComponentNavFriendZone() {
   // socket2.on("status_update", (res) => {
   //   store.dispatch(modifiyFriendStatus({ seq: res.userSeq, status: res.status } as FriendData));
   // });
-  socket.on("friends:update", () => {
-    setFriendListReqSwitch(0);
-  });
+  // socket.on("friends:update", () => {
+  //   setFriendListReqSwitch(0);
+  // });
 
   const renderList = () => {
     const renderResult = [];
