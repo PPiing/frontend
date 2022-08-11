@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable prefer-destructuring */
 import React, { useState, useEffect } from "react";
@@ -7,7 +9,7 @@ import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { getUserSearch, postFriendDelete, postFriendRequest, postGameInvite, postNewDM, requestUserBlock, requestUserUnblock } from "../../network/api/axios.custom";
+import { getUserSearch, postFriendDelete, postFriendRequest, postGameInvite, postNewDM, requestUserBlock, requestUserUnblock, } from "../../network/api/axios.custom";
 import { FriendData } from "../../redux/slices/friendList";
 
 /*
@@ -141,13 +143,6 @@ const ButtonZone = styled("div", {
   marginTop: "10%",
 });
 
-// const ButtonTd = styled("td", {
-//   width: "280px",
-//   marginLeft: "10px",
-//   marginRight: "10px",
-//   height: "30px",
-// });
-
 const ButtonTemplate = styled("div", {
   width: "70%",
   marginLeft: "15%",
@@ -233,8 +228,8 @@ export function ModalNavFriendBox(props: any) {
 
   useEffect(() => {
     let searchSeq: any = "-1";
-    if (isNumber(user.seq)) searchSeq = user.seq.toString();
-    getUserSearch(user.seq).then((response) => {
+    if (isNumber(user?.seq)) searchSeq = user?.seq.toString();
+    getUserSearch(user?.seq).then((response) => {
       const anyResponse: any = response;
       const userInfo: any = anyResponse?.data;
       const defineList: ButtonType[] = [];
