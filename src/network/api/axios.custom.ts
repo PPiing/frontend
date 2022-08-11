@@ -236,7 +236,6 @@ export const getUserSearch = async (searchSeq: string) => {
 }
 
 export const getUserSimpleSearch = async (searchString: string) => {
-  console.log("낌: 나는 귀여웡");
   try {
     if (checkNameValid(searchString) === false) {
       throw new Error("userName is invalid!");
