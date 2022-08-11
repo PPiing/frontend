@@ -217,37 +217,44 @@ export function ComponentChatRoom(props: any) {
   const [messages, setMessages] = useState<IRecvMessage[]>([]);
   const [msgList, setMsgList] = useState<JSX.Element[]>([]);
 
+  const renderMessage = () => {
+    console.log("AXIOS, ", chatRoomData.seq);
+    axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
+      console.log("promise.data, ", promise.data);
+      const result = [];
+      for (let i = 0; i < promise?.data?.length; i += 1) {
+        result.push(
+          <ChatMessage
+            key={i}
+            username={promise.data[i].nickname}
+            message={promise.data[i].msg}
+            createAt={promise.data[i].createAt}
+          />
+        );
+      }
+      setMsgList(result);
+    });
+  }
+
   useEffect(() => {
     console.log("AXIOS, ", chatRoomData.seq);
-    axios.getAllMessages(chatRoomData.seq)
-      .then((promise: any) => {
-        console.log("promise.data, ", promise.data);
-        const result = [];
-        for (let i = 0; i < promise.data.length; i += 1) {
-          result.push(
-            <ChatMessage
-              key={i}
-              username={promise.data[i].nickname}
-              message={promise.data[i].msg}
-              createAt={promise.data[i].createAt}
-            />
-          );
-        }
-        for (let i = 0; i < 5; i += 1) {
-          result.push(
-            <ChatMessage
-              key={promise.data.length + i}
-              username={promise.data[0].nickname}
-              message="mkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksd"
-              createAt={promise.data[0].createAt}
-            />
-          );
-        }
-        setMsgList(result);
-        console.log("messages, ", msgList);
-      }).then((data) => {
-        console.log(`AXIOS RESULT : ${data}`);
-      });
+    // axios.getAllMessages(chatRoomData.seq)
+    //   .then((promise: any) => {
+    //     console.log("promise.data, ", promise.data);
+    //     const result = [];
+    //     for (let i = 0; i < promise?.data?.length; i += 1) {
+    //       result.push(
+    //         <ChatMessage
+    //           key={i}
+    //           username={promise.data[i].nickname}
+    //           message={promise.data[i].msg}
+    //           createAt={promise.data[i].createAt}
+    //         />
+    //       );
+    //     }
+    //     setMsgList(result);
+    //   });
+    renderMessage();
   }, []);
 
   // useEffect(() => {
@@ -269,17 +276,13 @@ export function ComponentChatRoom(props: any) {
     })
   }, []);
 
-  const renderMessage = () => {
-
-  }
-
   // TODO
   // 채팅룸에서 다른 채팅룸으로 넘어갈 떄 useEffect를 통한 메세지 조회 동작하지 않음
-  //   useEffect(() => {
-  //     chatMessageSearch(chatRoomData.seq, -1, 20, Number(loggedUser.seq))
-  //       .then((response) => console.log(response))
-  //       .catch((error) => console.log(error));
-  //   }, []);
+  // useEffect(() => {
+  //   chatMessageSearch(chatRoomData.seq, -1, 20, Number(loggedUser.seq))
+  //     .then((response) => console.log(response))
+  //     .catch((error) => console.log(error));
+  // }, []);
 
   const handleChange = (e: any) => {
     setInputMsg(e.target.value);

@@ -130,10 +130,6 @@ export function ModalChatSetting(props: any) {
   const { chatInfo } = props;
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
-  console.log("낌타임!!");
-  console.log(chatInfo);
-  console.log(loggedUser);
-
   return (
     <SettingZone>
       <SettingTitle>Setting</SettingTitle>
