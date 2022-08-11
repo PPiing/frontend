@@ -12,14 +12,13 @@ import { FriendData } from "../../redux/slices/friendList";
 interface ChatMessageData {
   username: string;
   message: string;
-  createAt: string;
 }
 
 const Message = styled("div", {
   display: "flex",
   flexDirection: "row",
   width: "96%",
-  // minHeight: "2.5rem",
+  minHeight: "2.5rem",
   paddingTop: "1%",
   paddingBottom: "1%",
   backgroundColor: "#252525",
@@ -56,40 +55,20 @@ const MessageText = styled("div", {
   wordBreak: "break-all",
 })
 
-const MessageWhen = styled("div", {
-  display: "flex",
-  color: "white",
-  alignItems: "center",
-  textAlign: "right",
-  marginLeft: "2%",
-  width: "10%",
-  fontSize: "0.8rem",
-  fontWeight: "350",
-  backgroundColor: "#252525",
-})
+// const MessageWhen = styled("div", {
+//   display: "flex",
+//   color: "white",
+//   alignItems: "center",
+//   textAlign: "right",
+//   marginLeft: "2%",
+//   width: "10%",
+//   fontSize: "0.8rem",
+//   fontWeight: "350",
+//   backgroundColor: "#252525",
+// })
 
 export function ChatMessage(props: ChatMessageData) {
-  const { username, message, createAt } = props;
-
-  const date = new Date(createAt);
-  let month;
-  if (date.getMonth() < 10) month = `0${date.getMonth()}`;
-  else month = `${date.getMonth()}`;
-  let hour;
-  if (date.getUTCHours() < 10) hour = `0${date.getUTCHours()}`;
-  else hour = `${date.getUTCHours()}`;
-  let minute;
-  if (date.getUTCMinutes() < 10) minute = `0${date.getUTCMinutes()}`;
-  else minute = `${date.getUTCMinutes()}`;
-
-  const style = theme.modalStyle;
-  style.top = "50%";
-  style.left = "50%";
-  style.width = "300px";
-  style.height = "auto";
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const { username, message } = props;
 
   const [user, setUser] = useState<FriendData>();
   useEffect(() => {
@@ -107,6 +86,15 @@ export function ChatMessage(props: ChatMessageData) {
     });
   }, []);
 
+  const style = theme.modalStyle;
+  style.top = "50%";
+  style.left = "50%";
+  style.width = "300px";
+  style.height = "auto";
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Message>
       <Modal
@@ -121,11 +109,11 @@ export function ChatMessage(props: ChatMessageData) {
         <b onClick={handleOpen}>{username}</b>
       </MessageSender>
       <MessageText>{message}</MessageText>
-      <MessageWhen>
+      {/* <MessageWhen>
         {`${date.getFullYear()}`}<br />
         {`${month}-${date.getDate()}`}<br /><br />
         {`${hour}:${minute}`}
-      </MessageWhen>
+      </MessageWhen> */}
     </Message>
   )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from "react";
@@ -215,81 +216,21 @@ export function ComponentChatRoom(props: any) {
   const dispatch = useDispatch();
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const [messages, setMessages] = useState<any[]>([]);
-  const [msgList, setMsgList] = useState<JSX.Element[]>([]);
-
-  const renderMessages = () => {
-    const result: JSX.Element[] = [];
-    for (let i = 0; i < messages.length; i += 1) {
-      result.push(
-        <ChatMessage
-          key={i}
-          username={messages[i]?.nickname}
-          message={messages[i]?.msg}
-          createAt={messages[i]?.createAt}
-        />
-      );
-    }
-    setMsgList(result);
-    console.log("renderMessages. result: ", result);
-  }
 
   useEffect(() => {
-    console.log("message useEffect. : ", messages);
-    const msgs = messages;
-    msgs.sort((a, b) => {
-      return a.msgSeq - b.msgSeq
-    });
-    setMessages(msgs);
-    renderMessages();
-  }, [messages]);
-
-  useEffect(() => {
-    renderMessages();
-    console.log("AXIOS, ", chatRoomData.seq);
     axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
-      console.log("getAllMessages. promise: ", promise.data);
-      // const result = [];
-      // for (let i = 0; i < promise.data.length; i += 1) {
-      setMessages(promise.data);
-      // result.push(
-      //   <ChatMessage
-      //     key={i}
-      //     username={promise.data[i].nickname}
-      //     message={promise.data[i].msg}
-      //     createAt={promise.data[i].createAt}
-      //   />
-      // );
-      // }
+      const tMessages = promise.data;
+      tMessages.sort((a: any, b: any) => {
+        return a.msgSeq - b.msgSeq
+      });
+      setMessages(tMessages);
     });
   }, []);
 
   useEffect(() => {
     console.log("addMessage socket");
     socket.on("room:chat", (message: any) => {
-      console.log("MSG RECV : ", message.msg, message.nickname);
-      console.log("MSG LIST : ", msgList);
-      // const result = (
-      //   <ChatMessage
-      //     key={msgList.length}
-      //     username={message.nickname}
-      //     message={message.msg}
-      //     createAt={message.createAt}
-      //   />
-      // );
-      // const newMsgList = msgList;
-      // newMsgList.push(result);
-      // // for (let i = 0; i < msgList.length; i += 1) {
-      // //   console.log(msgList[i].props.username, ": ", msgList[i].props.message,);
-      // // }
-      // console.log("before : ", msgList);
-      // setMsgList([]);
-      // setMsgList(newMsgList);
-      // console.log("after  : ", msgList);
-      // const result = [];
-      const result = msgList;
-      result.push(message);
-      setMessages(result);
-      // renderMessages();
+      setMessages([...messages, message]);
     });
   }, []);
 
@@ -300,8 +241,17 @@ export function ComponentChatRoom(props: any) {
     });
   }, []);
 
-  // useEffect(() => {
-  // }, []);
+  function renderMessages(): JSX.Element[] {
+    return messages.map((item, i) => {
+      return (
+        <ChatMessage
+          key={i}
+          username={item?.nickname}
+          message={item?.msg}
+        />
+      );
+    })
+  }
 
   // TODO
   // 채팅룸에서 다른 채팅룸으로 넘어갈 떄 useEffect를 통한 메세지 조회 동작하지 않음
@@ -323,7 +273,11 @@ export function ComponentChatRoom(props: any) {
           content: inputMsg,
           at: chatRoomData.seq,
         });
-        console.log(`MSG SEND : ${inputMsg}`);
+        // const result = messages;
+        // result.push(inputMsg);
+        // result.sort((a, b) => { return a.msgSeq - b.msgSeq });
+        console.log(`MSG SEND : ${inputMsg} ${messages}`);
+        setMessages([...messages, inputMsg]);
       }
     }
   };
@@ -354,7 +308,7 @@ export function ComponentChatRoom(props: any) {
         </HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
-        {msgList}
+        {renderMessages()}
       </ChatRoomRecvArea>
       <ChatRoomSendArea>
         <input
