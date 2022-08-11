@@ -7,7 +7,7 @@ import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { getUserSearch, postFriendDelete, postFriendRequest, postNewDM, requestUserBlock, requestUserUnblock } from "../../network/api/axios.custom";
+import { getUserSearch, postFriendDelete, postFriendRequest, postGameInvite, postNewDM, requestUserBlock, requestUserUnblock } from "../../network/api/axios.custom";
 import { FriendData } from "../../redux/slices/friendList";
 
 /*
@@ -291,7 +291,7 @@ export function ModalNavFriendBox(props: any) {
           }
           defineList.push({
             name: "game",
-            onClick: () => { /* 게임신청 */ },
+            onClick: () => { postGameInvite(userInfo.user_info.userSeq) },
             disabled: false,
           });
         }

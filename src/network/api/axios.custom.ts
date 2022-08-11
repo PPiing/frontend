@@ -133,14 +133,25 @@ export const getConfirmAlamList = async () => {
   }
 }
 
-export const postConfirm = async (alamSeq: string, isAccept: boolean) => {
+// eslint-disable-next-line max-len
+export const postConfirm = async (userSeq: string, alarmSeq: string, isAccept: boolean, alarmType: number) => {
   try {
-    if (isAccept) {
-      await axios.instance.post(`/community/friends/accept/${alamSeq}`);
-      store.dispatch(removeChoosableAlam({ seq: alamSeq } as ChoosableAlamData));
-    } else {
-      await axios.instance.post(`/community/friends/reject/${alamSeq}`);
-      store.dispatch(removeChoosableAlam({ seq: alamSeq } as ChoosableAlamData));
+    if (alarmType === 0) {
+      if (isAccept) {
+        await axios.instance.post(`/community/friends/accept/${userSeq}`);
+        store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
+      } else {
+        await axios.instance.post(`/community/friends/reject/${userSeq}`);
+        store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
+      }
+    } else if (alarmType === 1) {
+      if (isAccept) {
+        await axios.instance.put(`/game/accept/${alarmSeq}`);
+        store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
+      } else {
+        await axios.instance.put(`/game/reject/${alarmSeq}`);
+        store.dispatch(removeChoosableAlam({ seq: alarmSeq } as ChoosableAlamData));
+      }
     }
     return (null);
   } catch (error) {
@@ -197,6 +208,15 @@ export const requestUserUnblock = async (userSeq: string) => {
 export const postNewDM = async (userSeq: string) => {
   try {
     await axios.instance.post(`/chatrooms/new/dm/${userSeq}`);
+    return (null);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export const postGameInvite = async (userSeq: string) => {
+  try {
+    await axios.instance.post(`/game/invite/${userSeq}`);
     return (null);
   } catch (error) {
     return (error);
