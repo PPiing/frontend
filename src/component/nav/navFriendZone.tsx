@@ -44,8 +44,8 @@ const EmptyFriend = styled("div", {
 const socket = socketManager.socket("/friends");
 socket.connect();
 
-const socket2 = socketManager.socket("/status");
-socket2.connect();
+// const socket2 = socketManager.socket("/status");
+// socket2.connect();
 
 export function ComponentNavFriendZone() {
   const friendList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
@@ -60,9 +60,9 @@ export function ComponentNavFriendZone() {
     setFriendListReqSwitch(1);
   }
 
-  socket2.on("status_update", (res) => {
-    store.dispatch(modifiyFriendStatus({ seq: res.userSeq, status: res.status } as FriendData));
-  });
+  // socket2.on("status_update", (res) => {
+  //   store.dispatch(modifiyFriendStatus({ seq: res.userSeq, status: res.status } as FriendData));
+  // });
   socket.on("friends:update", () => {
     setFriendListReqSwitch(0);
   });
