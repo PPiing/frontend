@@ -1,5 +1,13 @@
-import React from "react";
-import { styled } from "../../theme/theme";
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useState } from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import { styled } from "@stitches/react";
+import * as theme from "../../theme/theme";
+import { ModalNavFriendBox } from "../modal/modalNavFriendBox";
+import { getUserSimpleSearch } from "../../network/api/axios.custom";
+import { FriendData } from "../../redux/slices/friendList";
 
 interface ChatMessageData {
   username: string;
@@ -20,6 +28,7 @@ const Message = styled("div", {
   margin: "0.5rem",
   marginTop: "1.2rem",
   marginBottom: "0rem",
+  cursor: "pointer",
 })
 
 const MessageSender = styled("div", {
@@ -41,7 +50,7 @@ const MessageText = styled("div", {
   display: "flex",
   color: "white",
   alignItems: "center",
-  width: "65%",
+  width: "100%",
   backgroundColor: "#252525",
   marginLeft: "10px",
   wordBreak: "break-all",
@@ -52,19 +61,66 @@ const MessageWhen = styled("div", {
   color: "white",
   alignItems: "center",
   textAlign: "right",
+  marginLeft: "2%",
   width: "10%",
-  fontSize: "1rem",
+  fontSize: "0.8rem",
+  fontWeight: "350",
   backgroundColor: "#252525",
 })
 
 export function ChatMessage(props: ChatMessageData) {
   const { username, message, createAt } = props;
-  console.log(createAt);
+
+  const date = new Date(createAt);
+  let month;
+  if (date.getMonth() < 10) {
+    month = `0${date.getMonth()}`;
+  } else {
+    month = `${date.getMonth()}`;
+  }
+
+  const style = theme.modalStyle;
+  style.top = "50%";
+  style.left = "50%";
+  style.width = "300px";
+  style.height = "auto";
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [user, setUser] = useState<FriendData>();
+  getUserSimpleSearch(username).then((res: any) => {
+    for (let i = 0; i < res.data.length; i += 1) {
+      if (res.data[i].nickName === username) {
+        setUser({
+          seq: res.data[i].userSeq,
+          nick: res.data[i].nickName,
+          img: res.data[i].userImage,
+          status: res.data[i].userStatus,
+        });
+      }
+    }
+  });
+
   return (
     <Message>
-      <MessageSender>{username}</MessageSender>
+      <Modal
+        open={open}
+        onClose={handleClose}
+      >
+        <Box sx={style} component="div">
+          <ModalNavFriendBox user={user} />
+        </Box>
+      </Modal>
+      <MessageSender>
+        <b onClick={handleOpen}>{username}</b>
+      </MessageSender>
       <MessageText>{message}</MessageText>
-      <MessageWhen>2022.08.15<br />18:15</MessageWhen>
+      <MessageWhen>
+        {`${date.getFullYear()}`}<br />
+        {`${month}-${date.getDate()}`}<br /><br />
+        {`${date.getUTCHours()}:${date.getUTCMinutes()}`}
+      </MessageWhen>
     </Message>
   )
 }

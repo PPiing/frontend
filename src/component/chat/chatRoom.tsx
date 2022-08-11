@@ -58,12 +58,12 @@ const HeaderTitle = styled("div", {
   marginRight: "2rem",
   color: "white",
   textAlign: "right",
-  textShadow: "0px 0px 10px #ffffff",
   fontSize: "3rem",
-  fontWeight: "500",
+  fontWeight: "900",
   overflowX: "scroll",
   overflowY: "hidden",
   whiteSpace: "nowrap",
+  fontFamily: "NanumSquare",
   "&::-webkit-scrollbar": {
     display: "none",
   },
@@ -229,17 +229,17 @@ export function ComponentChatRoom(props: any) {
               key={i}
               username={promise.data[i].nickname}
               message={promise.data[i].msg}
-              createAt={promise.data[i].createdAt}
+              createAt={promise.data[i].createAt}
             />
           );
         }
         for (let i = 0; i < 5; i += 1) {
           result.push(
             <ChatMessage
-              key={i}
+              key={promise.data.length + i}
               username={promise.data[0].nickname}
               message="mkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksdmkmaskdmaskdmaskdmaskdmaskdmaksd"
-              createAt={promise.data[0].createdAt}
+              createAt={promise.data[0].createAt}
             />
           );
         }
