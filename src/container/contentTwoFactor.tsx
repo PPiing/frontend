@@ -1,7 +1,9 @@
+/* eslint-disable consistent-return */
 import React, { useState } from "react";
 import { keyframes } from "@stitches/react";
+import { Navigate } from "react-router-dom";
 import * as theme from "../theme/theme";
-import { sendAuthCode } from "../network/api/axios.custom";
+import { sendAuthCode, checkAuthCode } from "../network/api/axios.custom";
 // import { styled } from "../theme/theme";
 
 const Spin = keyframes({
@@ -178,7 +180,7 @@ export function ContainerContents() {
   const [Input2, setInput2] = useState("");
   const [Input3, setInput3] = useState("");
   const [Input4, setInput4] = useState("");
-  const [SendResult, setSendResult] = useState(<>.</>);
+  const [SendResult, setSendResult] = useState(<pre style={{ color: "black", marginTop: "0px", marginBottom: "0", fontSize: "1.3rem" }}>.</pre>);
 
   function onChangeInput(e: any, setInput: any) {
     setInput(e.target.value.replace(/[^0-9]/g, ""));
@@ -187,15 +189,34 @@ export function ContainerContents() {
   function onEnterPress(e: any) {
     if (e.key === "Enter") {
       const code = Input1 + Input2 + Input3 + Input4;
+      console.log(code);
+      checkAuthCode(code).then((response) => {
+        console.log(response);
+      });
     }
   }
 
-  const logIn = () => {
-    sendAuthCode().then((response) => {
-      console.log(response);
-    })
+  function returnToLogin() {
+    return (<Navigate replace to="/login" />);
+  }
 
-    // setSendResult(<div />);
+  const logIn = () => {
+    sendAuthCode().then((response: any) => {
+      if (response?.data === true) {
+        setSendResult(
+          <pre style={{ color: "#00FF00", marginTop: "5px", marginBottom: "0", fontSize: "1rem" }}>
+            The verification code has been sent successfully.
+          </pre>
+        );
+      } else {
+        setSendResult(
+          <pre style={{ color: "red", marginTop: "5px", marginBottom: "0", fontSize: "1rem" }}>
+            Login is required. Please move to <a style={{ color: "red" }} href="/login">login</a> page.
+          </pre>
+        );
+        setTimeout(returnToLogin, 5000);
+      }
+    })
   };
 
   return (
@@ -208,7 +229,6 @@ export function ContainerContents() {
           <b>Click here</b> to send 4-digit verification code to registered e-mail.
         </ButtonLogin>
         {SendResult}
-        <br /><br />
         <pre style={{ fontSize: "1.5vh", textAlign: "center", color: "white", }}>
           Input 4-Digit Code to below Text box and press ENTER button to check.<br />
           <b style={{ fontSize: "2vh", }}>Numberic Only!</b>

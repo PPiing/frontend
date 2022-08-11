@@ -300,3 +300,12 @@ export const sendAuthCode = async () => {
     return (error);
   }
 }
+
+export const checkAuthCode = async (code: string) => {
+  try {
+    const response = await axios.instance.get(`/auth/twofactor/code/${code}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
