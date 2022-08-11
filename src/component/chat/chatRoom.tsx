@@ -224,6 +224,9 @@ export function ComponentChatRoom(props: any) {
         return a.msgSeq - b.msgSeq
       });
       setMessages(tMessages);
+      for (let i = 0; i < messages.length; i += 1) {
+        console.log(`${messages[i].msgSeq}: ${messages[i].msg}`);
+      }
     });
   }, []);
 
@@ -231,6 +234,7 @@ export function ComponentChatRoom(props: any) {
     console.log("addMessage socket");
     socket.on("room:chat", (message: any) => {
       setMessages([...messages, message]);
+      console.log(`messages: ${messages}`);
     });
   }, []);
 
