@@ -73,11 +73,14 @@ export function ChatMessage(props: ChatMessageData) {
 
   const date = new Date(createAt);
   let month;
-  if (date.getMonth() < 10) {
-    month = `0${date.getMonth()}`;
-  } else {
-    month = `${date.getMonth()}`;
-  }
+  if (date.getMonth() < 10) month = `0${date.getMonth()}`;
+  else month = `${date.getMonth()}`;
+  let hour;
+  if (date.getUTCHours() < 10) hour = `0${date.getUTCHours()}`;
+  else hour = `${date.getUTCHours()}`;
+  let minute;
+  if (date.getUTCMinutes() < 10) minute = `0${date.getUTCMinutes()}`;
+  else minute = `${date.getUTCMinutes()}`;
 
   const style = theme.modalStyle;
   style.top = "50%";
@@ -121,7 +124,7 @@ export function ChatMessage(props: ChatMessageData) {
       <MessageWhen>
         {`${date.getFullYear()}`}<br />
         {`${month}-${date.getDate()}`}<br /><br />
-        {`${date.getUTCHours()}:${date.getUTCMinutes()}`}
+        {`${hour}:${minute}`}
       </MessageWhen>
     </Message>
   )

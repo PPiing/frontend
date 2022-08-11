@@ -214,59 +214,96 @@ export function ComponentChatRoom(props: any) {
   const [chatInfo, setChatInfo] = useState([]);
   const dispatch = useDispatch();
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
-  const [messages, setMessages] = useState<IRecvMessage[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [msgList, setMsgList] = useState<JSX.Element[]>([]);
 
   const renderMessages = () => {
-    axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
-      console.log("promise.data, ", promise.data);
-      const result = [];
-      for (let i = 0; i < promise.data.length; i += 1) {
-        result.push(
-          <ChatMessage
-            key={i}
-            username={promise.data[i].nickname}
-            message={promise.data[i].msg}
-            createAt={promise.data[i].createAt}
-          />
-        );
-      }
-      setMsgList(result);
-      console.log("messages, ", msgList);
-    }).then((data) => {
-      console.log(`AXIOS RESULT : ${data}`);
-    });
+    // const result: JSX.Element[] = [];
+    // for (let i = 0; i < messages.length; i += 1) {
+    //   result.push(
+    //     <ChatMessage
+    //       key={i}
+    //       username={messages[i]?.nickname}
+    //       message={messages[i]?.msg}
+    //       createAt={messages[i]?.createAt}
+    //     />
+    //   );
+    // }
+    // setMsgList(result);
   }
 
   useEffect(() => {
-    console.log("AXIOS, ", chatRoomData.seq);
-    renderMessages();
-  }, []);
-
-  // useEffect(() => {
-  //   chatUserCount(chatRoomData.seq || "").then((response: any) => {
-  //     setChatInfo(response?.data);
-  //   });
-  // }, []);
+    // renderMessages();
+    const result: JSX.Element[] = [];
+    for (let i = 0; i < messages.length; i += 1) {
+      result.push(
+        <ChatMessage
+          key={i}
+          username={messages[i]?.nickname}
+          message={messages[i]?.msg}
+          createAt={messages[i]?.createAt}
+        />
+      );
+    }
+    setMsgList(result);
+  }, [messages]);
 
   useEffect(() => {
+    console.log("AXIOS, ", chatRoomData.seq);
+    console.log("renderMessages");
+    axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
+      // const result = [];
+      for (let i = 0; i < promise.data.length; i += 1) {
+        setMessages([...messages, promise.data[i]]);
+        // result.push(
+        //   <ChatMessage
+        //     key={i}
+        //     username={promise.data[i].nickname}
+        //     message={promise.data[i].msg}
+        //     createAt={promise.data[i].createAt}
+        //   />
+        // );
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("addMessage socket");
+    socket.on("room:chat", (message: any) => {
+      console.log("MSG RECV : ", message.msg, message.nickname);
+      console.log("MSG LIST : ", msgList);
+      // const result = (
+      //   <ChatMessage
+      //     key={msgList.length}
+      //     username={message.nickname}
+      //     message={message.msg}
+      //     createAt={message.createAt}
+      //   />
+      // );
+      // const newMsgList = msgList;
+      // newMsgList.push(result);
+      // // for (let i = 0; i < msgList.length; i += 1) {
+      // //   console.log(msgList[i].props.username, ": ", msgList[i].props.message,);
+      // // }
+      // console.log("before : ", msgList);
+      // setMsgList([]);
+      // setMsgList(newMsgList);
+      // console.log("after  : ", msgList);
+      // const result = [];
+      setMessages([...messages, message]);
+      // renderMessages();
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("chatUserCount");
     chatUserCount(chatRoomData.seq).then((response: any) => {
       setChatInfo(response?.data);
     });
   }, []);
 
-  useEffect(() => {
-    socket.on("room:chat", (message: any) => {
-      console.log(`MSG RECV : ${message}`);
-      // const result = [];
-      // setMessages([...messages, message]);
-      renderMessages();
-    })
-  }, []);
-
-  const renderMessage = () => {
-
-  }
+  // useEffect(() => {
+  // }, []);
 
   // TODO
   // 채팅룸에서 다른 채팅룸으로 넘어갈 떄 useEffect를 통한 메세지 조회 동작하지 않음
@@ -322,7 +359,13 @@ export function ComponentChatRoom(props: any) {
         {msgList}
       </ChatRoomRecvArea>
       <ChatRoomSendArea>
-        <input style={{ width: "90%", height: "60%", color: "white", backgroundColor: "black", fontSize: "30px" }} value={inputMsg} onChange={(event) => handleChange(event)} onKeyDown={HandleKeyDown} />
+        <input
+          style={{
+            width: "90%", height: "60%", color: "white", backgroundColor: "black", fontSize: "30px" }}
+          value={inputMsg}
+          onChange={(event) => handleChange(event)}
+          onKeyDown={HandleKeyDown}
+        />
       </ChatRoomSendArea>
     </ContentRoom>
   );
