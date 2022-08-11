@@ -27,15 +27,16 @@ socket.connect();
 //   console.log("gameSocket", socket.connected);
 // });
 
-const gamer1Name = "Polarbear\n";
-const gamer1Score = "0";
-const gamer2Name = " Polarbear\n";
-const gamer2Score = "42";
+// const gamer1Name = "Polarbear\n";
+// const gamer1Score = "0";
+// const gamer2Name = " Polarbear\n";
+// const gamer2Score = "42";
+
 const gameBoardHeight = 5;
 const gameBoardWidth = 7;
+const RacketSize = 1;
 
 const RacketMoveSpeed = 0.2;
-const RacketSize = 1;
 
 const nameTextConfig = {
   size: 0.25,
@@ -78,6 +79,14 @@ function Basic() {
   const [ballXpos, setBallXpos] = useState(0);
   const [ballYpos, setBallYpos] = useState(0);
 
+  const [gamer1Name, setGamer1Name] = useState("kkim");
+  const [gamer1Score, setGamer1Score] = useState(0);
+  const [gamer2Name, setGamer2Name] = useState("spark");
+  const [gamer2Score, setGamer2Score] = useState(0);
+
+  let timeStamp = 0;
+  let frameTimer1 = 0;
+  let frameTimer2 = 0;
   // const [ballXpos, setBallXpos] = useState(0);
   // const [ballYpos, setBallYpos] = useState(0);
   // const [ballXpos, setBallXpos] = useState(0);
@@ -93,16 +102,13 @@ function Basic() {
   //   console.log("server =>", res);
   // });
 
-  const spinScore = () => {
-    const { camera } = useThree();
+  const spinScore1 = () => {
     const wowScore : React.Ref<any> = useRef();
-    let a = 0;
     useFrame(({ clock }) => {
-      a = clock.getElapsedTime();
-      if (wowScore !== undefined && a < 4) {
-        wowScore.current.rotation.y = (200) / (a * 4);
-        wowScore.current.rotation.z = (200) / (a * 4);
-        // wowScore.current.rotation.x = THREE.MathUtils.clamp(camera.position.x, -90, 90);
+      frameTimer1 = clock.getElapsedTime() - timeStamp;
+      if (wowScore !== undefined && frameTimer1 < 4) {
+        wowScore.current.rotation.y = (200) / (frameTimer1 * 4);
+        wowScore.current.rotation.z = (200) / (frameTimer1 * 4);
       }
     });
     return (
@@ -116,11 +122,29 @@ function Basic() {
     );
   };
 
+  const spinScore2 = () => {
+    const wowScore : React.Ref<any> = useRef();
+    useFrame(({ clock }) => {
+      frameTimer2 = clock.getElapsedTime() - timeStamp;
+      if (wowScore !== undefined && frameTimer2 < 4) {
+        wowScore.current.rotation.y = (200) / (frameTimer2 * 4);
+      }
+    });
+    return (
+      <mesh position={[0.7, 1, -4]} ref={wowScore}>
+        <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
+          {gamer2Score}
+          <meshNormalMaterial />
+        </Text3D>
+        <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
+      </mesh>
+    );
+  };
+
   const spinBall = () => {
     const spinBall : React.Ref<any> = useRef();
     useFrame(({ clock }) => {
       const a = clock.getElapsedTime();
-      // console.log("=>", clock);
       if (spinBall !== undefined) {
         spinBall.current.rotation.x = a * 8;
         spinBall.current.rotation.y = a * 2;
@@ -128,7 +152,6 @@ function Basic() {
     });
     return (
       <mesh position={[ballXpos, 0.06, ballYpos]} ref={spinBall}>
-        {/* <sphereBufferGeometry attach="geometry" args={[0.07, 20, 20]} /> */}
         <boxBufferGeometry attach="geometry" args={[0.1, 0.1, 0.1]} />
         <Shadow
           color="yellow"
@@ -140,8 +163,12 @@ function Basic() {
     );
   };
 
-  const ReactiveScore = () => {
-    return spinScore();
+  const ReactiveScore1 = () => {
+    return spinScore1();
+  };
+
+  const ReactiveScore2 = () => {
+    return spinScore2();
   };
 
   const AutoSpinBall = () => {
@@ -158,7 +185,6 @@ function Basic() {
         socket.emit("game:paddle", -1);
         console.log("Press Up, emit -1");
       }
-      // setRedRacketYPos(redRacketYPos - RacketMoveSpeed);
     }
     if (e.key === "ArrowDown") {
       if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
@@ -203,16 +229,34 @@ function Basic() {
 
     socket.on("game:render", (res) => {
       // console.log("server =>", res);
-      setBallXpos(res.ball.x);
-      setBallYpos(res.ball.y);
-      setRedRacketYPos(res.paddleRed.y);
-      setBlueRacketYPos(res.paddleBlue.y);
+      setBallXpos(res.ball.x / 100);
+      setBallYpos(res.ball.y / 100);
+      setRedRacketYPos(res.paddleRed.y / 100);
+      setBlueRacketYPos(res.paddleBlue.y / 100);
+    });
+
+    socket.on("game:score", (res) => {
+      console.log("server's Score =>", res);
+      if (res.blue !== gamer1Score) {
+        setGamer1Score(res.blue);
+        timeStamp = frameTimer1;
+      }
+      if (res.red !== gamer2Score) {
+        setGamer2Score(res.red);
+        timeStamp = frameTimer1;
+      }
+    });
+
+    socket.on("game:end", (res) => {
+      console.log("Game End!", res);
     });
 
     return () => {
       window.removeEventListener("keydown", controlKeyDown);
       window.removeEventListener("keyup", controlKeyUp);
       socket.off("game:render");
+      socket.off("game:score");
+      socket.off("game:end");
     };
   });
 
@@ -246,7 +290,7 @@ function Basic() {
         floatIntensity={5}
         floatingRange={[-0.02, 0.01]}
       >
-        <mesh position={[3.1, 0.3, redRacketYPos]}>
+        <mesh position={[3.4, 0.3, redRacketYPos]}>
           <boxBufferGeometry attach="geometry" args={[0.1, 0.22, RacketSize]} />
           <meshLambertMaterial attach="material" color="#FF0000" map={textureBrick} />
         </mesh>
@@ -259,7 +303,7 @@ function Basic() {
         floatIntensity={5}
         floatingRange={[-0.02, 0.01]}
       >
-        <mesh position={[-3.1, 0.3, blueRacketYPos]}>
+        <mesh position={[-3.4, 0.3, blueRacketYPos]}>
           <boxBufferGeometry attach="geometry" args={[0.1, 0.22, RacketSize]} />
           <meshLambertMaterial attach="material" color="#0000FF" map={textureBrick} />
         </mesh>
@@ -283,7 +327,7 @@ function Basic() {
         floatingRange={[-0.01, 0.01]}
       >
         {/* <ReactiveScore isRerender={reactiveScore} /> */}
-        <ReactiveScore />
+        <ReactiveScore1 />
         {/* <mesh position={[-3.5, 1, -4]}>
           <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
             {gamer1Score}
@@ -312,13 +356,14 @@ function Basic() {
         floatIntensity={3}
         floatingRange={[-0.002, 0.001]}
       >
-        <mesh position={[0.7, 1, -4]}>
+        {/* <mesh position={[0.7, 1, -4]}>
           <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
             {gamer2Score}
             <meshNormalMaterial />
           </Text3D>
           <meshLambertMaterial attach="material" color={theme.NEON_BLU} />
-        </mesh>
+        </mesh> */}
+        <ReactiveScore2 />
       </Float>
       <Float
         speed={1} // Animation speed, defaults to 1
