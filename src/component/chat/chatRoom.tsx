@@ -280,7 +280,7 @@ export function ComponentChatRoom(props: any) {
         // const result = messages;
         // result.push(inputMsg);
         // result.sort((a, b) => { return a.msgSeq - b.msgSeq });
-        console.log(`MSG SEND : ${inputMsg} ${messages}`);
+        console.log(`MSG SEND : ${inputMsg} ${messages} `);
         setMessages([...messages, inputMsg]);
       }
     }
