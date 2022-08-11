@@ -7,7 +7,8 @@ import socketManager from "../network/api/socket";
 import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
 import { ReducerType } from "../redux/rootReducer";
-import { addJoinedChatRoom, JoinedChatRoomListData } from "../redux/slices/joinedChatRoomList";
+import store from "../redux/store";
+import { addJoinedChatRoom, JoinedChatRoomListData, removeJoinedChatRoomList } from "../redux/slices/joinedChatRoomList";
 import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
 import { DisplayData, setChatRoomId } from "../redux/slices/display";
 import { ComponentChatRoom } from "../component/chat/chatRoom";
@@ -154,6 +155,7 @@ export function ContainerContents() {
     if (!socket.connected) {
       socket.connect();
       socket.on("chat:init", (data) => {
+        store.dispatch(removeJoinedChatRoomList({} as JoinedChatRoomListData));
         data.map((item: JoinedChatRoomListData) => dispatch(addJoinedChatRoom(item)));
         console.log(data);
       });
