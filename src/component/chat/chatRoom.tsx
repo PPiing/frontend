@@ -218,22 +218,6 @@ export function ComponentChatRoom(props: any) {
   const [msgList, setMsgList] = useState<JSX.Element[]>([]);
 
   const renderMessages = () => {
-    // const result: JSX.Element[] = [];
-    // for (let i = 0; i < messages.length; i += 1) {
-    //   result.push(
-    //     <ChatMessage
-    //       key={i}
-    //       username={messages[i]?.nickname}
-    //       message={messages[i]?.msg}
-    //       createAt={messages[i]?.createAt}
-    //     />
-    //   );
-    // }
-    // setMsgList(result);
-  }
-
-  useEffect(() => {
-    // renderMessages();
     const result: JSX.Element[] = [];
     for (let i = 0; i < messages.length; i += 1) {
       result.push(
@@ -246,24 +230,36 @@ export function ComponentChatRoom(props: any) {
       );
     }
     setMsgList(result);
+    console.log("renderMessages. result: ", result);
+  }
+
+  useEffect(() => {
+    console.log("message useEffect. : ", messages);
+    const msgs = messages;
+    msgs.sort((a, b) => {
+      return a.msgSeq - b.msgSeq
+    });
+    setMessages(msgs);
+    renderMessages();
   }, [messages]);
 
   useEffect(() => {
+    renderMessages();
     console.log("AXIOS, ", chatRoomData.seq);
-    console.log("renderMessages");
     axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
+      console.log("getAllMessages. promise: ", promise.data);
       // const result = [];
-      for (let i = 0; i < promise.data.length; i += 1) {
-        setMessages([...messages, promise.data[i]]);
-        // result.push(
-        //   <ChatMessage
-        //     key={i}
-        //     username={promise.data[i].nickname}
-        //     message={promise.data[i].msg}
-        //     createAt={promise.data[i].createAt}
-        //   />
-        // );
-      }
+      // for (let i = 0; i < promise.data.length; i += 1) {
+      setMessages(promise.data);
+      // result.push(
+      //   <ChatMessage
+      //     key={i}
+      //     username={promise.data[i].nickname}
+      //     message={promise.data[i].msg}
+      //     createAt={promise.data[i].createAt}
+      //   />
+      // );
+      // }
     });
   }, []);
 
@@ -290,7 +286,9 @@ export function ComponentChatRoom(props: any) {
       // setMsgList(newMsgList);
       // console.log("after  : ", msgList);
       // const result = [];
-      setMessages([...messages, message]);
+      const result = msgList;
+      result.push(message);
+      setMessages(result);
       // renderMessages();
     });
   }, []);
