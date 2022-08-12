@@ -244,8 +244,8 @@ export function ComponentChatRoom(props: any) {
       console.log("------------------------------------");
       if (message.chatSeq === chatRoomData.seq) {
         console.log("addMessage socket, ", message, messages); // [message], []
-        addMessage(message);
-        // location.reload();
+        // addMessage(message);
+        location.reload();
         for (let i = 0; i < messages.length; i += 1) {
           console.log(
             `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`
