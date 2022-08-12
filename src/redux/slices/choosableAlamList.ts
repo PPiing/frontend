@@ -27,11 +27,15 @@ export const choosableAlamList = createSlice({
           break;
         }
       }
+    },
+    removeOverlapChoosableAlam(state, action: PayloadAction<ChoosableAlamData>) {
+      state = state.filter((v, i) => state.indexOf(v) === i);
     }
   }
 });
 
 export const { addChoosableAlam,
   clearChoosableAlamList,
-  removeChoosableAlam } = choosableAlamList.actions;
+  removeChoosableAlam,
+  removeOverlapChoosableAlam } = choosableAlamList.actions;
 export default choosableAlamList.reducer;

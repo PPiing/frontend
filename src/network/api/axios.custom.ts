@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { ReducerType } from "../../redux/rootReducer";
-import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam } from "../../redux/slices/choosableAlamList";
+import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam, removeOverlapChoosableAlam } from "../../redux/slices/choosableAlamList";
 import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/commonAlam";
 import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
 import { LoggedUserData, setLoggedUser } from "../../redux/slices/loggedUser";
@@ -114,33 +114,24 @@ export const getConfirmAlamList = async () => {
   try {
     const response = await axios.instance.get("/alarm/confirms");
 
-    console.log("Confirm alarm list process start!", response);
     store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
-    console.log("Confirm alarm clear!");
     for (let i = 0; i < response.data.length; i += 1) {
       console.log("Confirm alarm list loop!", i);
       // eslint-disable-next-line no-await-in-loop
       const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
-      console.log("Confirm alarm list response2 = ", response2);
       let typeNum: number = 0;
       if (response.data[i].code === "ALAM21") {
         typeNum = 1;
       }
-      const alarmList
-      = useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
-      console.log("Confirm alarm list = ", alarmList);
       const newAlarmCell: ChoosableAlamData = {
         seq: response.data[i].alarmSeq,
         from_seq: response.data[i].from,
         from_nick: response2.data.user_info.userName,
         type: typeNum,
       };
-      console.log("New confirm alarm list = ", newAlarmCell);
-      if (!alarmList.includes(newAlarmCell)) {
-        console.log("Confirm alarm pushed");
-        store.dispatch(addChoosableAlam(newAlarmCell));
-      }
+      store.dispatch(addChoosableAlam(newAlarmCell));
     }
+    store.dispatch(removeOverlapChoosableAlam({} as ChoosableAlamData));
     return (null);
   } catch (error) {
     return (error);
