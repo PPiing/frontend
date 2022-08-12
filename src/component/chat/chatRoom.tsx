@@ -220,13 +220,16 @@ export function ComponentChatRoom(props: any) {
   useEffect(() => {
     axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
       const tMessages = promise.data;
-      tMessages.sort((a: any, b: any) => {
-        return a.msgSeq - b.msgSeq
-      });
+      // tMessages.sort((a: any, b: any) => {
+      //   return a.msgSeq - b.msgSeq
+      // });
       console.log("GET ALL MESSAGE AXIOS, ", tMessages);
+      // const msgs = messages;
+      // msgs.push(tMessages);
+      // setMessages(msgs);
       setMessages(tMessages);
       for (let i = 0; i < messages.length; i += 1) {
-        console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
+        console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
       }
     });
   }, []);
@@ -235,7 +238,9 @@ export function ComponentChatRoom(props: any) {
     console.log("addMessage socket");
     socket.on("room:chat", (message: any) => {
       setMessages([...messages, message]);
-      console.log(`messages: ${messages}`);
+      for (let i = 0; i < messages.length; i += 1) {
+        console.log(`Socket Recv Part: ${messages[i].msgSeq}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+      }
     });
   }, []);
 
@@ -287,14 +292,19 @@ export function ComponentChatRoom(props: any) {
           console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
         }
         // setMessages([...messages, inputMsg]);
-        const result = messages;
-        result.push(inputMsg);
-        result.sort((a, b) => { return a.msgSeq - b.msgSeq });
-        setMessages(result);
-        for (let i = 0; i < messages.length; i += 1) {
-          console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
-        }
-        console.log("------------------------------------")
+        // const newMsg = {
+        //   msg: inputMsg,
+        //   msgSeq: -1,
+        //   nickname: loggedUser.nick,
+        // }
+        // const oldMsg = messages;
+        // oldMsg.push(newMsg);
+        // setMessages(oldMsg);
+        // // setMessages([...messages, newMsg]);
+        // for (let i = 0; i < messages.length; i += 1) {
+        //   console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
+        // }
+        // console.log("------------------------------------")
       }
     }
   };
