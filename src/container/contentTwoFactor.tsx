@@ -190,8 +190,11 @@ export function ContainerContents() {
     if (e.key === "Enter") {
       const code = Input1 + Input2 + Input3 + Input4;
       console.log(code);
-      checkAuthCode(code).then((response) => {
+      checkAuthCode(code).then((response: any) => {
         console.log(response);
+        if (response.status === 200) {
+          return (<Navigate replace to="/home" />);
+        }
       });
     }
   }
