@@ -116,7 +116,7 @@ export const getConfirmAlamList = async () => {
 
     store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
     for (let i = 0; i < response.data.length; i += 1) {
-      console.log("Confirm alarm list loop!", i);
+      console.log("Confirm alarm list loop!1", i);
       // eslint-disable-next-line no-await-in-loop
       const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
       let typeNum: number = 0;
