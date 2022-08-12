@@ -21,7 +21,12 @@ export const choosableAlamList = createSlice({
       state.splice(0);
     },
     removeChoosableAlam(state, action: PayloadAction<ChoosableAlamData>) {
-      state.filter((value: ChoosableAlamData) => value.seq === action.payload.seq);
+      for (let i = 0; i < state.length; i += 1) {
+        if (state[i].seq === action.payload.seq) {
+          state.splice(i, 1);
+          break;
+        }
+      }
     }
   }
 });
