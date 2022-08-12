@@ -172,12 +172,13 @@ export function FindRoom(props: any) {
             placeholder="input password and press Enter."
             onKeyDown={(e: any) => {
               if (e.key === "Enter") {
-                axios.put("/api/chatrooms/join/", {
+                axios.put(`/api/chatrooms/join/${room.chatSeq}`, {
                   password: e.target.value,
                 }).then((response: any) => {
                   console.log(response);
                 }).catch((error: any) => {
                   console.log(error);
+                  setPassRst(<div style={{ color: "red", fontSize: "5rem" }}>{error.response.data.message}</div>);
                 });
               }
             }}
