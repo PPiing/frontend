@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import axios from "axios";
@@ -135,7 +136,7 @@ export function CreateRoom(props: any) {
   방 생성 성공 시 우측 컨텐츠 화면 empty 상태로 변경
   */
   const createRoom = () => {
-    // console.log(roomName, roomPassword, roomType);
+    console.log(roomName, roomPassword, roomType);
     axios.post("/api/chatrooms/new/", {
       chatType: roomType,
       chatName: roomName,
@@ -143,7 +144,8 @@ export function CreateRoom(props: any) {
       isDirected: false,
     }).then((response) => {
       console.log(response);
-      propFunc("empty");
+      // propFunc("empty");
+      location.reload();
     }).catch((error) => {
       console.log(error);
     });
