@@ -160,6 +160,9 @@ export function ContainerContents() {
         console.log(data);
       });
     }
+    return () => {
+      socket.off("chat:init");
+    }
   }, []);
 
   const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(

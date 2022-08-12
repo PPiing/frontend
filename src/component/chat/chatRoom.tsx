@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable max-len */
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -28,21 +30,6 @@ const ContentRoom = styled("div", {
   width: "100%",
   height: "100%",
   fontWeight: "300",
-});
-
-const ContentExitButton = styled("div", {
-  position: "absolute",
-  right: "20px",
-  top: "20px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "2rem",
-  borderRadius: "20%",
-  width: "30px",
-  height: "30px",
-  cursor: "pointer",
-  border: "1px solid #fff",
 });
 
 const ChatRoomHeader = styled("div", {
@@ -218,10 +205,11 @@ export function ComponentChatRoom(props: any) {
   const [messages, setMessages] = useState<IRecvMessage[]>([]);
 
   useEffect(() => {
+    console.log("thisis getALlMessages!!!");
     axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
       const tMessages = promise.data;
       tMessages.sort((a: any, b: any) => { return a.msgSeq - b.msgSeq });
-      const result = [];
+      const result: IRecvMessage[] = [];
       for (let i = 0; i < tMessages.length; i += 1) {
         result.push({
           id: tMessages[i].msgSeq,
@@ -231,33 +219,59 @@ export function ComponentChatRoom(props: any) {
       }
       setMessages(result);
       for (let i = 0; i < messages.length; i += 1) {
-        console.log(`getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+        console.log(`getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
       }
     });
+
+    // console.log("addMessage socket!!!, ", messages); // []
+    // socket.on("room:chat", (message: any) => {
+    //   if (message.chatSeq === chatRoomData.seq) {
+    //     console.log("addMessage socket, ", message, messages); // [message], []
+    //     setMessages([...messages, message]);
+    //     for (let i = 0; i < messages.length; i += 1) {
+    //       console.log(
+    //         `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`
+    //       );
+    //     }
+    //   }
+    // });
   }, [chatRoomData]);
+  // }, []);
 
   useEffect(() => {
-    console.log("addMessage socket, ", messages);
+    console.log("addMessage socket!!!, ", messages); // []
     socket.on("room:chat", (message: any) => {
+      console.log("------------------------------------");
       if (message.chatSeq === chatRoomData.seq) {
-        console.log("addMessage socket, ", message, messages);
-        setMessages([...messages, message]);
+        console.log("addMessage socket, ", message, messages); // [message], []
+        addMessage(message);
+        // location.reload();
         for (let i = 0; i < messages.length; i += 1) {
-          console.log(`Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+          console.log(
+            `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`
+          );
         }
       }
+      console.log("------------------------------------");
     });
-  }, []);
 
-  useEffect(() => {
     console.log("chatUserCount");
     chatUserCount(chatRoomData.seq).then((response: any) => {
       setChatInfo(response?.data);
     });
+
+    return () => {
+      socket.off("room:chat");
+    }
   }, []);
 
+  function addMessage(message: any) {
+    console.log("addMessage function, ", message, messages); //
+    setMessages([...messages, message]);
+  }
+
   function renderMessages(): JSX.Element[] {
-    console.log("------------------------------------")
+    console.log("------------------------------------");
     console.log("renderMessages!!");
     for (let i = 0; i < messages.length; i += 1) {
       console.log(`renderMessages For: ${messages[i].id}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
@@ -271,7 +285,7 @@ export function ComponentChatRoom(props: any) {
           msg={item?.msg}
         />
       );
-    })
+    });
   }
 
   const handleChange = (e: any) => {
