@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { ReducerType } from "../../redux/rootReducer";
 import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam } from "../../redux/slices/choosableAlamList";
 import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/commonAlam";
 import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
@@ -113,6 +115,8 @@ export const getConfirmAlamList = async () => {
     const response = await axios.instance.get("/alarm/confirms");
 
     store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
+    const alarmList
+      = useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
     for (let i = 0; i < response.data.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
@@ -120,12 +124,21 @@ export const getConfirmAlamList = async () => {
       if (response.data[i].code === "ALAM21") {
         typeNum = 1;
       }
-      store.dispatch(addChoosableAlam({
-        seq: response.data[i].alarmSeq,
-        from_seq: response.data[i].from,
-        from_nick: response2.data.user_info.userName,
-        type: typeNum,
-      } as ChoosableAlamData));
+      let bInsert: boolean = true;
+      for (let ii = 0; ii < alarmList.length; ii += 1) {
+        if (alarmList[ii].seq === response.data[i].alarmSeq) {
+          bInsert = false;
+          break;
+        }
+      }
+      if (bInsert) {
+        store.dispatch(addChoosableAlam({
+          seq: response.data[i].alarmSeq,
+          from_seq: response.data[i].from,
+          from_nick: response2.data.user_info.userName,
+          type: typeNum,
+        } as ChoosableAlamData));
+      }
     }
     return (null);
   } catch (error) {
