@@ -237,7 +237,7 @@ export function ComponentChatRoom(props: any) {
   }, []);
 
   useEffect(() => {
-    console.log("addMessage socket");
+    console.log("addMessage socket, ", messages);
     socket.on("room:chat", (message: any) => {
       setMessages([...messages, message]);
       for (let i = 0; i < messages.length; i += 1) {
