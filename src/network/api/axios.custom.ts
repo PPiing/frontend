@@ -135,6 +135,7 @@ export const getConfirmAlamList = async () => {
           break;
         }
       }
+      console.log("bInsert!!!!!!!! = ", bInsert);
       if (bInsert) {
         console.log("Insert!!!!!!!!!!!!!!!");
         store.dispatch(addChoosableAlam({
