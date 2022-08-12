@@ -239,6 +239,7 @@ export function ComponentChatRoom(props: any) {
   useEffect(() => {
     console.log("addMessage socket, ", messages);
     socket.on("room:chat", (message: any) => {
+      console.log("addMessage socket, ", messages);
       setMessages([...messages, message]);
       for (let i = 0; i < messages.length; i += 1) {
         console.log(`Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
