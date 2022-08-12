@@ -297,7 +297,7 @@ export function ComponentChatRoom(props: any) {
         console.log("------------------------------------")
         console.log(`MSG SEND : ${inputMsg}`);
         for (let i = 0; i < messages.length; i += 1) {
-          console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
+          console.log(`send msg For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
         }
         // setMessages([...messages, inputMsg]);
         // const newMsg = {
