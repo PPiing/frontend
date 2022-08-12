@@ -506,11 +506,13 @@ function Achievement(props: any) {
       tierColor = "gray";
       textColor = "gray";
     }
+    console.log(response?.achiv_info[i].achiv_image);
+    console.log(response?.user_info.userImage);
     boxes.push(
       <AchievementBox key={i.toString()}>
         <img
           alt="error"
-          src={`${window.location.origin}${response.user_info.userImage}`}
+          src={`${window.location.origin}/api/upload/${response.achiv_info[i].achiv_image}`}
           style={{
             height: "13vh",
             width: "13vh",
