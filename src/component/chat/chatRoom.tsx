@@ -234,15 +234,17 @@ export function ComponentChatRoom(props: any) {
         console.log(`getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
       }
     });
-  }, []);
+  }, [chatRoomData]);
 
   useEffect(() => {
     console.log("addMessage socket, ", messages);
     socket.on("room:chat", (message: any) => {
-      console.log("addMessage socket, ", messages);
-      setMessages([...messages, message]);
-      for (let i = 0; i < messages.length; i += 1) {
-        console.log(`Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+      if (message.chatSeq === chatRoomData.seq) {
+        console.log("addMessage socket, ", message, messages);
+        setMessages([...messages, message]);
+        for (let i = 0; i < messages.length; i += 1) {
+          console.log(`Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+        }
       }
     });
   }, []);
@@ -256,7 +258,7 @@ export function ComponentChatRoom(props: any) {
 
   function renderMessages(): JSX.Element[] {
     console.log("------------------------------------")
-    console.log("renderMessages");
+    console.log("renderMessages!!");
     for (let i = 0; i < messages.length; i += 1) {
       console.log(`renderMessages For: ${messages[i].id}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
     }
@@ -272,14 +274,6 @@ export function ComponentChatRoom(props: any) {
     })
   }
 
-  // TODO
-  // 채팅룸에서 다른 채팅룸으로 넘어갈 떄 useEffect를 통한 메세지 조회 동작하지 않음
-  //   useEffect(() => {
-  //     chatMessageSearch(chatRoomData.seq, -1, 20, Number(loggedUser.seq))
-  //       .then((response) => console.log(response))
-  //       .catch((error) => console.log(error));
-  //   }, []);
-
   const handleChange = (e: any) => {
     setInputMsg(e.target.value);
   };
@@ -292,27 +286,11 @@ export function ComponentChatRoom(props: any) {
           content: inputMsg,
           at: chatRoomData.seq,
         });
-        // const result = messages;
-        // result.push(inputMsg);
-        // result.sort((a, b) => { return a.msgSeq - b.msgSeq });
         console.log("------------------------------------")
         console.log(`MSG SEND : ${inputMsg}`);
         for (let i = 0; i < messages.length; i += 1) {
           console.log(`send msg For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
         }
-        // setMessages([...messages, inputMsg]);
-        // const newMsg = {
-        //   msg: inputMsg,
-        //   msgSeq: -1,
-        //   nickname: loggedUser.nick,
-        // }
-        // const oldMsg = messages;
-        // oldMsg.push(newMsg);
-        // setMessages(oldMsg);
-        // // setMessages([...messages, newMsg]);
-        // for (let i = 0; i < messages.length; i += 1) {
-        //   console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
-        // }
         console.log("------------------------------------")
       }
     }
