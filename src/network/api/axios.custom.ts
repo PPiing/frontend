@@ -309,7 +309,7 @@ export const sendAuthCode = async () => {
 
 export const checkAuthCode = async (code: string) => {
   try {
-    const response = await axios.instance.get(`/auth/twofactor/code/${code}`);
+    const response = await axios.instance.get(`/auth/twofactor/code?code=${code}`);
     return (response);
   } catch (error) {
     return (error);

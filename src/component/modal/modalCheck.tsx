@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React from "react";
 import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
@@ -98,6 +99,7 @@ export function ModalChatExit(props: any) {
       onClick={() => {
         axios.delete(`/api/chatrooms/leave/${room}`).then((response) => {
           console.log("response :", response);
+          location.reload();
         }).catch((error) => {
           console.log("error :", error);
         });
