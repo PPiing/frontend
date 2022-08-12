@@ -215,21 +215,23 @@ export function ComponentChatRoom(props: any) {
   const [chatInfo, setChatInfo] = useState([]);
   const dispatch = useDispatch();
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<IRecvMessage[]>([]);
 
   useEffect(() => {
     axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
       const tMessages = promise.data;
-      // tMessages.sort((a: any, b: any) => {
-      //   return a.msgSeq - b.msgSeq
-      // });
-      console.log("GET ALL MESSAGE AXIOS, ", tMessages);
-      // const msgs = messages;
-      // msgs.push(tMessages);
-      // setMessages(msgs);
-      setMessages(tMessages);
+      tMessages.sort((a: any, b: any) => { return a.msgSeq - b.msgSeq });
+      const result = [];
+      for (let i = 0; i < tMessages.length; i += 1) {
+        result.push({
+          id: tMessages[i].msgSeq,
+          msg: tMessages[i].msg,
+          nickname: tMessages[i].nickname,
+        })
+      }
+      setMessages(result);
       for (let i = 0; i < messages.length; i += 1) {
-        console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+        console.log(`getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
       }
     });
   }, []);
@@ -239,7 +241,7 @@ export function ComponentChatRoom(props: any) {
     socket.on("room:chat", (message: any) => {
       setMessages([...messages, message]);
       for (let i = 0; i < messages.length; i += 1) {
-        console.log(`Socket Recv Part: ${messages[i].msgSeq}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+        console.log(`Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
       }
     });
   }, []);
@@ -252,12 +254,18 @@ export function ComponentChatRoom(props: any) {
   }, []);
 
   function renderMessages(): JSX.Element[] {
+    console.log("------------------------------------")
+    console.log("renderMessages");
+    for (let i = 0; i < messages.length; i += 1) {
+      console.log(`renderMessages For: ${messages[i].id}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
+    }
+    console.log("------------------------------------")
     return messages.map((item, i) => {
       return (
         <ChatMessage
           key={i}
-          username={item?.nickname}
-          message={item?.msg}
+          nickname={item?.nickname}
+          msg={item?.msg}
         />
       );
     })
@@ -289,7 +297,7 @@ export function ComponentChatRoom(props: any) {
         console.log("------------------------------------")
         console.log(`MSG SEND : ${inputMsg}`);
         for (let i = 0; i < messages.length; i += 1) {
-          console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
+          console.log(`send msg For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
         }
         // setMessages([...messages, inputMsg]);
         // const newMsg = {
@@ -304,7 +312,7 @@ export function ComponentChatRoom(props: any) {
         // for (let i = 0; i < messages.length; i += 1) {
         //   console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
         // }
-        // console.log("------------------------------------")
+        console.log("------------------------------------")
       }
     }
   };

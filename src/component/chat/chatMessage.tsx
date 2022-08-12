@@ -9,11 +9,6 @@ import { ModalNavFriendBox } from "../modal/modalNavFriendBox";
 import { getUserSimpleSearch } from "../../network/api/axios.custom";
 import { FriendData } from "../../redux/slices/friendList";
 
-interface ChatMessageData {
-  username: string;
-  message: string;
-}
-
 const Message = styled("div", {
   display: "flex",
   flexDirection: "row",
@@ -67,14 +62,14 @@ const MessageText = styled("div", {
 //   backgroundColor: "#252525",
 // })
 
-export function ChatMessage(props: ChatMessageData) {
-  const { username, message } = props;
+export function ChatMessage(props: any) {
+  const { nickname, msg } = props;
 
   const [user, setUser] = useState<FriendData>();
   useEffect(() => {
-    getUserSimpleSearch(username).then((res: any) => {
+    getUserSimpleSearch(nickname).then((res: any) => {
       for (let i = 0; i < res.data.length; i += 1) {
-        if (res.data[i].nickName === username) {
+        if (res.data[i].nickName === nickname) {
           setUser({
             seq: res.data[i].userSeq,
             nick: res.data[i].nickName,
@@ -106,9 +101,9 @@ export function ChatMessage(props: ChatMessageData) {
         </Box>
       </Modal>
       <MessageSender>
-        <b onClick={handleOpen}>{username}</b>
+        <b onClick={handleOpen}>{nickname}</b>
       </MessageSender>
-      <MessageText>{message}</MessageText>
+      <MessageText>{msg}</MessageText>
       {/* <MessageWhen>
         {`${date.getFullYear()}`}<br />
         {`${month}-${date.getDate()}`}<br /><br />
