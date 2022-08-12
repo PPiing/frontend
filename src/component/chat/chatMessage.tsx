@@ -9,11 +9,6 @@ import { ModalNavFriendBox } from "../modal/modalNavFriendBox";
 import { getUserSimpleSearch } from "../../network/api/axios.custom";
 import { FriendData } from "../../redux/slices/friendList";
 
-interface ChatMessageData {
-  nickname: string;
-  msg: string;
-}
-
 const Message = styled("div", {
   display: "flex",
   flexDirection: "row",
@@ -67,7 +62,7 @@ const MessageText = styled("div", {
 //   backgroundColor: "#252525",
 // })
 
-export function ChatMessage(props: ChatMessageData) {
+export function ChatMessage(props: any) {
   const { nickname, msg } = props;
 
   const [user, setUser] = useState<FriendData>();
