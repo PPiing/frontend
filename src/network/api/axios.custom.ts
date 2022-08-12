@@ -115,6 +115,8 @@ export const getConfirmAlamList = async () => {
     const response = await axios.instance.get("/alarm/confirms");
 
     store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
+    console.log("Clear!!!!!!!!!!!!!!!!!!!!!!");
+    console.log("Response.data!!!!!!!!!! = ", response.data);
     for (let i = 0; i < response.data.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
       const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
@@ -125,13 +127,16 @@ export const getConfirmAlamList = async () => {
       let bInsert: boolean = true;
       const alarmList
       = useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
+      console.log("Alarm List!!!!!!!!!! = ", alarmList);
       for (let ii = 0; ii < alarmList.length; ii += 1) {
         if (alarmList[ii].seq === response.data[i].alarmSeq) {
+          console.log("for true!!!!!!!!!!!!!!!!!!!");
           bInsert = false;
           break;
         }
       }
       if (bInsert) {
+        console.log("Insert!!!!!!!!!!!!!!!");
         store.dispatch(addChoosableAlam({
           seq: response.data[i].alarmSeq,
           from_seq: response.data[i].from,
