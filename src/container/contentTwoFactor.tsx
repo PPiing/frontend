@@ -193,6 +193,7 @@ export function ContainerContents() {
       checkAuthCode(code).then((response: any) => {
         console.log(response);
         if (response.status === 200) {
+          console.log("success");
           return (<Navigate replace to="/home" />);
         }
       });
