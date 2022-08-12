@@ -281,8 +281,20 @@ export function ComponentChatRoom(props: any) {
         // const result = messages;
         // result.push(inputMsg);
         // result.sort((a, b) => { return a.msgSeq - b.msgSeq });
-        console.log(`MSG SEND : ${inputMsg} ${messages}`);
-        setMessages([...messages, inputMsg]);
+        console.log("------------------------------------")
+        console.log(`MSG SEND : ${inputMsg}`);
+        for (let i = 0; i < messages.length; i += 1) {
+          console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
+        }
+        // setMessages([...messages, inputMsg]);
+        const result = messages;
+        result.push(inputMsg);
+        result.sort((a, b) => { return a.msgSeq - b.msgSeq });
+        setMessages(result);
+        for (let i = 0; i < messages.length; i += 1) {
+          console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
+        }
+        console.log("------------------------------------")
       }
     }
   };
