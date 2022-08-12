@@ -223,9 +223,10 @@ export function ComponentChatRoom(props: any) {
       tMessages.sort((a: any, b: any) => {
         return a.msgSeq - b.msgSeq
       });
+      console.log("GET ALL MESSAGE AXIOS, ", tMessages);
       setMessages(tMessages);
       for (let i = 0; i < messages.length; i += 1) {
-        console.log(`${messages[i].msgSeq}: ${messages[i].msg}`);
+        console.log(`getMessage For: ${messages[i].msgSeq}: ${messages[i].msg}`);
       }
     });
   }, []);
@@ -280,7 +281,7 @@ export function ComponentChatRoom(props: any) {
         // const result = messages;
         // result.push(inputMsg);
         // result.sort((a, b) => { return a.msgSeq - b.msgSeq });
-        console.log(`MSG SEND : ${inputMsg} ${messages} `);
+        console.log(`MSG SEND : ${inputMsg} ${messages}`);
         setMessages([...messages, inputMsg]);
       }
     }
