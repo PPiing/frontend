@@ -164,6 +164,7 @@ export function FindRoom(props: any) {
     const rst = [];
     rst.push(<ChatJoinTextDiv style={{ fontSize: "3rem", fontWeight: "bold", }}>{room?.chatName}</ChatJoinTextDiv>);
     rst.push(<ChatJoinTextDiv style={{ fontSize: "2rem", fontWeight: "300", }}>Are you sure that you want to join this <b>{puborpriv}</b> room?</ChatJoinTextDiv>);
+    setPassRst(<div style={{ display: "none", }}>.</div>);
     if (room?.chatType === "CHTP30") {
       rst.push(
         <div>
@@ -178,12 +179,11 @@ export function FindRoom(props: any) {
                   console.log(response);
                 }).catch((error: any) => {
                   console.log(error);
-                  setPassRst(<div style={{ color: "red", fontSize: "5rem" }}>{error.response.data.message}</div>);
+                  setPassRst(<div style={{ color: "red", fontSize: "2rem" }}>{error.response.data.message}</div>);
                 });
               }
             }}
           />
-          {passRst}
         </div>
       );
     } else {
@@ -228,7 +228,10 @@ export function FindRoom(props: any) {
       {renderRoomList()}
       <ChatRoomHeader style={{ height: "10%", marginBottom: "0%", }}>
         <HeaderButton
-          onClick={() => { setJoin(<div style={{ textAlign: "center", fontSize: "2rem", }}>Click the room that you want to join.</div>); }}
+          onClick={() => {
+            setJoin(<div style={{ textAlign: "center", fontSize: "2rem", }}>Click the room that you want to join.</div>);
+            setPassRst(<div style={{ display: "none", }}>.</div>);
+          }}
           style={{ backgroundColor: "#fdaf24", marginLeft: "1.5rem", }}
           key="1"
         >
@@ -240,6 +243,7 @@ export function FindRoom(props: any) {
       </ChatRoomHeader>
       <ChatJoinMain>
         {join}
+        {passRst}
       </ChatJoinMain>
     </ChatFindRoom>
   );
