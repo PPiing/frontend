@@ -131,6 +131,7 @@ export const getConfirmAlamList = async () => {
       };
       store.dispatch(addChoosableAlam(newAlarmCell));
     }
+    console.log("Heal CD");
     store.dispatch(removeOverlapChoosableAlam({} as ChoosableAlamData));
     return (null);
   } catch (error) {
