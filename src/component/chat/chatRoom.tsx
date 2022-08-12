@@ -205,22 +205,25 @@ export function ComponentChatRoom(props: any) {
   const [messages, setMessages] = useState<IRecvMessage[]>([]);
 
   useEffect(() => {
-    console.log("thisis getALlMessages!!!");
-    axios.getAllMessages(chatRoomData.seq).then((promise: any) => {
-      const tMessages = promise.data;
-      tMessages.sort((a: any, b: any) => { return a.msgSeq - b.msgSeq });
+    // console.log("thisis getALlMessages!!!");
+    axios.getAllMessages(chatRoomData.seq).then((response: any) => {
+      // console.log("~~~~~", response?.data);
+      const tMessages = response?.data;
+      tMessages?.sort((a: any, b: any) => { return a.msgSeq - b.msgSeq });
       const result: IRecvMessage[] = [];
-      for (let i = 0; i < tMessages.length; i += 1) {
+      for (let i = 0; i < tMessages?.length; i += 1) {
         result.push({
-          id: tMessages[i].msgSeq,
-          msg: tMessages[i].msg,
-          nickname: tMessages[i].nickname,
+          id: tMessages[i]?.msgSeq,
+          msg: tMessages[i]?.msg,
+          nickname: tMessages[i]?.nickname,
         })
       }
       setMessages(result);
-      for (let i = 0; i < messages.length; i += 1) {
-        console.log(`getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
-      }
+      // for (let i = 0; i < messages.length; i += 1) {
+      //   console.log(`getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
+      // }
+    }).catch((err: any) => {
+      console.log(err);
     });
 
     // console.log("addMessage socket!!!, ", messages); // []
@@ -239,23 +242,23 @@ export function ComponentChatRoom(props: any) {
   // }, []);
 
   useEffect(() => {
-    console.log("addMessage socket!!!, ", messages); // []
+    // console.log("addMessage socket!!!, ", messages); // []
     socket.on("room:chat", (message: any) => {
-      console.log("------------------------------------");
+      // console.log("------------------------------------");
       if (message.chatSeq === chatRoomData.seq) {
-        console.log("addMessage socket, ", message, messages); // [message], []
+        // console.log("addMessage socket, ", message, messages); // [message], []
         // addMessage(message);
         location.reload();
-        for (let i = 0; i < messages.length; i += 1) {
-          console.log(
-            `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`
-          );
-        }
+        // for (let i = 0; i < messages.length; i += 1) {
+        //   console.log(
+        //     `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`
+        //   );
+        // }
       }
-      console.log("------------------------------------");
+      // console.log("------------------------------------");
     });
 
-    console.log("chatUserCount");
+    // console.log("chatUserCount");
     chatUserCount(chatRoomData.seq).then((response: any) => {
       setChatInfo(response?.data);
     });
@@ -265,18 +268,13 @@ export function ComponentChatRoom(props: any) {
     }
   }, []);
 
-  function addMessage(message: any) {
-    console.log("addMessage function, ", message, messages); //
-    setMessages([...messages, message]);
-  }
-
   function renderMessages(): JSX.Element[] {
-    console.log("------------------------------------");
-    console.log("renderMessages!!");
-    for (let i = 0; i < messages.length; i += 1) {
-      console.log(`renderMessages For: ${messages[i].id}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
-    }
-    console.log("------------------------------------")
+    // console.log("------------------------------------");
+    // console.log("renderMessages!!");
+    // for (let i = 0; i < messages.length; i += 1) {
+    //   console.log(`renderMessages For: ${messages[i].id}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
+    // }
+    // console.log("------------------------------------")
     return messages.map((item, i) => {
       return (
         <ChatMessage
@@ -300,12 +298,12 @@ export function ComponentChatRoom(props: any) {
           content: inputMsg,
           at: chatRoomData.seq,
         });
-        console.log("------------------------------------")
-        console.log(`MSG SEND : ${inputMsg}`);
-        for (let i = 0; i < messages.length; i += 1) {
-          console.log(`send msg For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
-        }
-        console.log("------------------------------------")
+        // console.log("------------------------------------")
+        // console.log(`MSG SEND : ${inputMsg}`);
+        // for (let i = 0; i < messages.length; i += 1) {
+        //   console.log(`send msg For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg},  ${JSON.stringify(messages[i])}`);
+        // }
+        // console.log("------------------------------------")
       }
     }
   };

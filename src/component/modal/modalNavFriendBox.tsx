@@ -289,6 +289,11 @@ export function ModalNavFriendBox(props: any) {
             onClick: () => { postGameInvite(userInfo.user_info.userSeq) },
             disabled: false,
           });
+          defineList.push({
+            name: "watch",
+            onClick: () => { buttonClickHref("/watch"); },
+            disabled: false,
+          });
         }
 
         const realContent: JSX.Element[] = []

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/button-has-type */
 import React, { ReactElement, useEffect, useState } from "react";
 import { styled } from "@stitches/react";
@@ -163,7 +164,7 @@ export function FindRoom(props: any) {
 
     const rst = [];
     rst.push(<ChatJoinTextDiv style={{ fontSize: "3rem", fontWeight: "bold", }}>{room?.chatName}</ChatJoinTextDiv>);
-    rst.push(<ChatJoinTextDiv style={{ fontSize: "2rem", fontWeight: "300", }}>Are you sure that you want to join this <b>{puborpriv}</b> room?</ChatJoinTextDiv>);
+    rst.push(<ChatJoinTextDiv style={{ fontSize: "2rem", fontWeight: "300", marginTop: "1vh" }}>Are you sure that you want to join this <b>{puborpriv}</b> room?</ChatJoinTextDiv>);
     setPassRst(<div style={{ display: "none", }}>.</div>);
     if (room?.chatType === "CHTP30") {
       rst.push(
@@ -176,9 +177,10 @@ export function FindRoom(props: any) {
                 axios.put(`/api/chatrooms/join/${room.chatSeq}`, {
                   password: e.target.value,
                 }).then((response: any) => {
-                  console.log(response);
+                  // console.log(response);
+                  location.reload();
                 }).catch((error: any) => {
-                  console.log(error);
+                  // console.log(error);
                   setPassRst(<div style={{ color: "red", fontSize: "2rem" }}>{error.response.data.message}</div>);
                 });
               }
@@ -189,8 +191,14 @@ export function FindRoom(props: any) {
     } else {
       rst.push(
         <ChatJoinButton
-          onClick={(e) => {
-            console.log("wow!");
+          onClick={(e: any) => {
+            axios.put(`/api/chatrooms/join/${room.chatSeq}`).then((response: any) => {
+              // console.log(response);
+              location.reload();
+            }).catch((error: any) => {
+              // console.log(error);
+              setPassRst(<div style={{ color: "red", fontSize: "2rem" }}>{error.response.data.message}</div>);
+            });
           }}
         >YES
         </ChatJoinButton>
