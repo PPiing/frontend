@@ -1,9 +1,10 @@
 /* eslint-disable consistent-return */
 import React, { useState } from "react";
 import { keyframes } from "@stitches/react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import * as theme from "../theme/theme";
 import { sendAuthCode, checkAuthCode } from "../network/api/axios.custom";
+
 // import { styled } from "../theme/theme";
 
 const Spin = keyframes({
@@ -182,6 +183,8 @@ export function ContainerContents() {
   const [Input4, setInput4] = useState("");
   const [SendResult, setSendResult] = useState(<pre style={{ color: "black", marginTop: "0px", marginBottom: "0", fontSize: "1.3rem" }}>.</pre>);
 
+  const navigate = useNavigate();
+
   function onChangeInput(e: any, setInput: any) {
     setInput(e.target.value.replace(/[^0-9]/g, ""));
   }
@@ -194,14 +197,11 @@ export function ContainerContents() {
         console.log(response);
         if (response.status === 200) {
           console.log("success");
-          return (<Navigate replace to="/home" />);
+          navigate("/home");
+          // return (<Navigate replace to="/home" />);
         }
       });
     }
-  }
-
-  function returnToLogin() {
-    return (<Navigate replace to="/login" />);
   }
 
   const logIn = () => {
@@ -218,7 +218,6 @@ export function ContainerContents() {
             Login is required. Please move to <a style={{ color: "red" }} href="/login">login</a> page.
           </pre>
         );
-        setTimeout(returnToLogin, 5000);
       }
     })
   };
