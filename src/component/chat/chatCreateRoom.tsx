@@ -141,7 +141,7 @@ export function CreateRoom(props: any) {
       chatType: roomType,
       chatName: roomName,
       password: roomPassword,
-      isDirected: false,
+      isDirected: true,
     }).then((response) => {
       console.log(response);
       // propFunc("empty");
