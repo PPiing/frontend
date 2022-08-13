@@ -92,7 +92,7 @@ function Basic() {
 
   const [gamer1Name, setGamer1Name] = useState("kkim");
   const [gamer1Score, setGamer1Score] = useState(0);
-  const [gamer2Name, setGamer2Name] = useState("spark");
+  const [gamer2Name, setGamer2Name] = useState("hyungyyo");
   const [gamer2Score, setGamer2Score] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
   const [winnerName, setWinnerName] = useState("");
