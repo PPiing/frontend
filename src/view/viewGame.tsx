@@ -22,10 +22,14 @@ export function Game() {
       console.log("Game Start!");
       setIsInGame(false);
     });
-
+    socket.on("game:render", () => {
+      console.log("server's render =>");
+      setIsInGame(false);
+    });
     return () => {
       socket.off("game:ready");
       socket.off("game:start");
+      socket.off("game:render");
     };
   });
 
