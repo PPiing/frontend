@@ -4,6 +4,8 @@ import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
+import { useSelector } from "react-redux";
+import { ReducerType } from "../redux/rootReducer";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
 import socketManager from "../feat/game/socket";
@@ -100,6 +102,7 @@ function Basic() {
   let timeStamp = 0;
   let frameTimer1 = 0;
   let frameTimer2 = 0;
+
   // const [ballXpos, setBallXpos] = useState(0);
   // const [ballYpos, setBallYpos] = useState(0);
   // const [ballXpos, setBallXpos] = useState(0);
