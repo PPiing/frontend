@@ -124,8 +124,8 @@ export default function GameRuleSet() {
     // eslint-disable-next-line max-len
     store.dispatch(setGameRuleData({ ...memoRule, isRankGame: memoRule.isRankGame } as GameRuleData))
     console.log("=> emit ready", memoRule);
-    socket.emit("test:render", {
-    });
+    socket.emit("enQ", memoRule);
+    // socket.emit("test:render", memoRule);
     setIsReady(true);
   };
   const spinModel1 = () => {
