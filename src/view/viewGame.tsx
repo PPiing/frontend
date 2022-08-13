@@ -16,7 +16,7 @@ export function Game() {
 
   useEffect(() => {
     socket.on("game:ready", (res) => {
-      console.log("Game ready=> ", res);
+      console.log("Game ready!=> ", res.blueUser, res.blueUser);
     });
     socket.on("game:start", () => {
       console.log("Game Start!");
