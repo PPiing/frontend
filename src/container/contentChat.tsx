@@ -11,7 +11,7 @@ import store from "../redux/store";
 import { addJoinedChatRoom, JoinedChatRoomListData, removeJoinedChatRoomList } from "../redux/slices/joinedChatRoomList";
 import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
 import { DisplayData, setChatRoomId } from "../redux/slices/display";
-import { ComponentChatRoom } from "../component/chat/chatRoom";
+import { ComponentChatRoom } from "../component/chat/ChatRoom";
 
 const TypeSelectSection = styled("div", {
   display: "flex",
