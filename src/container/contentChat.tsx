@@ -8,7 +8,11 @@ import { CreateRoom } from "../component/chat/chatCreateRoom";
 import { FindRoom } from "../component/chat/chatFindRoom";
 import { ReducerType } from "../redux/rootReducer";
 import store from "../redux/store";
-import { addJoinedChatRoom, JoinedChatRoomListData, removeJoinedChatRoomList } from "../redux/slices/joinedChatRoomList";
+import {
+  addJoinedChatRoom,
+  JoinedChatRoomListData,
+  removeJoinedChatRoomList,
+} from "../redux/slices/joinedChatRoomList";
 import { ComponentChatRoomListBox } from "../component/chat/chatRoomListBox";
 import { DisplayData, setChatRoomId } from "../redux/slices/display";
 import { ComponentChatRoom } from "../component/chat/ChatRoom";
@@ -148,7 +152,9 @@ socket.on("error", () => {
 export function ContainerContents() {
   const [listType, setListType] = useState("chat");
   const [contentType, setContentType] = useState("");
-  const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+  const display = useSelector<ReducerType, DisplayData>(
+    (state) => state.display
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -156,13 +162,15 @@ export function ContainerContents() {
       socket.connect();
       socket.on("chat:init", (data) => {
         store.dispatch(removeJoinedChatRoomList({} as JoinedChatRoomListData));
-        data.map((item: JoinedChatRoomListData) => dispatch(addJoinedChatRoom(item)));
+        data.map((item: JoinedChatRoomListData) =>
+          dispatch(addJoinedChatRoom(item))
+        );
         console.log(data);
       });
     }
     return () => {
       socket.off("chat:init");
-    }
+    };
   }, []);
 
   const joinedChatRoomList = useSelector<ReducerType, JoinedChatRoomListData[]>(
@@ -188,19 +196,30 @@ export function ContainerContents() {
 
   const renderJoinedRoomList = () => {
     if (listType === "chat") {
-      return joinedChatRoomList.filter(
-        (room) =>
-          room.type === "CHTP20" ||
-          room.type === "CHTP30" ||
-          room.type === "CHTP40"
-      ).map((item, i) =>
-        <ComponentChatRoomListBox key={i} chatRoomData={item} stateUpdateFunc={setContentType} />);
+      return joinedChatRoomList
+        .filter(
+          (room) =>
+            room.type === "CHTP20" ||
+            room.type === "CHTP30" ||
+            room.type === "CHTP40"
+        )
+        .map((item, i) => (
+          <ComponentChatRoomListBox
+            key={i}
+            chatRoomData={item}
+            stateUpdateFunc={setContentType}
+          />
+        ));
     }
-    return joinedChatRoomList.filter(
-      (room) =>
-        room.type === "CHTP10"
-    ).map((item, i) =>
-      <ComponentChatRoomListBox key={i} chatRoomData={item} stateUpdateFunc={setContentType} />);
+    return joinedChatRoomList
+      .filter((room) => room.type === "CHTP10")
+      .map((item, i) => (
+        <ComponentChatRoomListBox
+          key={i}
+          chatRoomData={item}
+          stateUpdateFunc={setContentType}
+        />
+      ));
   };
 
   const changeContent = (content: string) => {
@@ -213,7 +232,11 @@ export function ContainerContents() {
     for (let i = 0; i < buttonText.length; i += 1) {
       const isClicked: boolean = listType === buttonText[i];
       renderList.push(
-        <NeonBox key={i} onClick={() => changeListType(buttonText[i])} className={isClicked ? "clicked" : "non-clicked"}>
+        <NeonBox
+          key={i}
+          onClick={() => changeListType(buttonText[i])}
+          className={isClicked ? "clicked" : "non-clicked"}
+        >
           {buttonText[i].toUpperCase()}
         </NeonBox>
       );
@@ -224,18 +247,16 @@ export function ContainerContents() {
   const renderContent = () => {
     switch (contentType) {
       case "create":
-        return (
-          <CreateRoom propFunc={changeContent} />
-        );
+        return <CreateRoom propFunc={changeContent} />;
       case "find":
-        return (
-          <FindRoom propFunc={changeContent} />
-        );
+        return <FindRoom propFunc={changeContent} />;
       case "room":
         return (
           <ComponentChatRoom
             propFunc={changeContent}
-            chatRoomData={joinedChatRoomList[getIndexChatRoomList(display.chatRoomId)]}
+            chatRoomData={
+              joinedChatRoomList[getIndexChatRoomList(display.chatRoomId)]
+            }
             socket={socket}
           />
         );
@@ -254,16 +275,26 @@ export function ContainerContents() {
   return (
     <template.DividedContents>
       <template.DividedLeftSection>
-        <TypeSelectSection>
-          {renderTypeSelectButton()}
-        </TypeSelectSection>
+        <TypeSelectSection>{renderTypeSelectButton()}</TypeSelectSection>
         <hr style={{ border: "1px solid gray", width: "80%" }} />
-        <RoomListSection>
-          {renderJoinedRoomList()}
-        </RoomListSection>
+        <RoomListSection>{renderJoinedRoomList()}</RoomListSection>
         <MenuSection>
-          <MenuButton onClick={() => { changeContent("create"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>create</MenuButton>
-          <MenuButton onClick={() => { changeContent("find"); dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData)); }}>find</MenuButton>
+          <MenuButton
+            onClick={() => {
+              changeContent("create");
+              dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
+            }}
+          >
+            create
+          </MenuButton>
+          <MenuButton
+            onClick={() => {
+              changeContent("find");
+              dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
+            }}
+          >
+            find
+          </MenuButton>
         </MenuSection>
       </template.DividedLeftSection>
       <template.DividedRightSection>
