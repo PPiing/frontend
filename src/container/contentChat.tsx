@@ -163,8 +163,7 @@ export function ContainerContents() {
       socket.on("chat:init", (data) => {
         store.dispatch(removeJoinedChatRoomList({} as JoinedChatRoomListData));
         data.map((item: JoinedChatRoomListData) =>
-          dispatch(addJoinedChatRoom(item))
-        );
+          dispatch(addJoinedChatRoom(item)));
         console.log(data);
       });
     }
