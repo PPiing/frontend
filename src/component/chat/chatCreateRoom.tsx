@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import axios from "axios";
-import "./chatCreateRoom.css"
+import "./chatCreateRoom.css";
 
 enum ChatType {
   CHTP10 = "CHTP10", // 개인 채팅방 (DM)
@@ -137,18 +137,21 @@ export function CreateRoom(props: any) {
   */
   const createRoom = () => {
     console.log(roomName, roomPassword, roomType);
-    axios.post("/api/chatrooms/new/", {
-      chatType: roomType,
-      chatName: roomName,
-      password: roomPassword,
-      isDirected: true,
-    }).then((response) => {
-      console.log(response);
-      // propFunc("empty");
-      location.reload();
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .post("/api/chatrooms/new/", {
+        chatType: roomType,
+        chatName: roomName,
+        password: roomPassword,
+        isDirected: true,
+      })
+      .then((response) => {
+        console.log(response);
+        // propFunc("empty");
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -157,15 +160,16 @@ export function CreateRoom(props: any) {
         <TitleZone>
           <Title>Create Chat Room</Title>
           <br />
-          <pre style={{ fontSize: "2.3vh", }}>
-            Create a new chat room.<br />
+          <pre style={{ fontSize: "2.3vh" }}>
+            Create a new chat room.
+            <br />
             You will be the owner.
           </pre>
         </TitleZone>
 
         <InputZone>
           <H1>Room Name</H1>
-          <pre style={{ fontSize: "15px", marginBottom: "1.5vh", }}>
+          <pre style={{ fontSize: "15px", marginBottom: "1.5vh" }}>
             Create a new chat room. You will be the owner.
           </pre>
           <InputText value={roomName} onChange={(event) => nameChange(event)} />
@@ -173,9 +177,11 @@ export function CreateRoom(props: any) {
 
         <InputZone>
           <H1>Room Type</H1>
-          <pre style={{ fontSize: "15px", marginBottom: "1.5vh", }}>
-            <b>public: </b>&nbsp;&nbsp;&nbsp;No password, anyone can join freely<br />
-            <b>protected: </b>Password exists, anyone can join after entering<br />
+          <pre style={{ fontSize: "15px", marginBottom: "1.5vh" }}>
+            <b>public: </b>&nbsp;&nbsp;&nbsp;No password, anyone can join freely
+            <br />
+            <b>protected: </b>Password exists, anyone can join after entering
+            <br />
             <b>private: </b>&nbsp;&nbsp;Must be invited to enter
           </pre>
           <div className="radioWrapper">
@@ -214,7 +220,7 @@ export function CreateRoom(props: any) {
 
         <InputZone>
           <H1>Room Password</H1>
-          <pre style={{ fontSize: "15px", marginBottom: "1.5vh", }}>
+          <pre style={{ fontSize: "15px", marginBottom: "1.5vh" }}>
             <b>public: </b>No password, anyone can join freely
           </pre>
           <InputText

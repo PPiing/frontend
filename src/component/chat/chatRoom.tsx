@@ -30,7 +30,7 @@ const ChatRoomHeader = styled("div", {
   height: "9%",
   backgroundColor: "#000000",
   overflow: "hidden",
-})
+});
 
 const HeaderTitle = styled("div", {
   marginRight: "2rem",
@@ -45,7 +45,7 @@ const HeaderTitle = styled("div", {
   "&::-webkit-scrollbar": {
     display: "none",
   },
-})
+});
 
 const ChatRoomRecvArea = styled("div", {
   display: "flex",
@@ -64,8 +64,8 @@ const ChatRoomRecvArea = styled("div", {
     borderRadius: "3rem",
     width: "0.4rem",
     right: "60px",
-  }
-})
+  },
+});
 
 const ChatRoomSendArea = styled("div", {
   display: "flex",
@@ -73,35 +73,46 @@ const ChatRoomSendArea = styled("div", {
   alignItems: "center",
   width: "100%",
   height: "100px",
-})
+});
 
 export function ComponentChatRoom(props: any) {
   const { propFunc, chatRoomData, socket } = props;
   const [chatInfo, setChatInfo] = useState([]);
   const dispatch = useDispatch();
-  const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const loggedUser = useSelector<ReducerType, LoggedUserData>(
+    (state) => state.loggedUser
+  );
   const [messages, setMessages] = useState<IRecvMessage[]>([]);
 
   useEffect(() => {
-    axios.getAllMessages(chatRoomData.seq).then((response: any) => {
-      const tMessages = response?.data;
-      tMessages?.sort((a: any, b: any) => { return a.msgSeq - b.msgSeq });
-      const result: IRecvMessage[] = [];
-      for (let i = 0; i < tMessages?.length; i += 1) {
-        result.push({
-          id: tMessages[i]?.msgSeq,
-          msg: tMessages[i]?.msg,
-          nickname: tMessages[i]?.nickname,
-        })
-      }
-      setMessages(result);
-      console.log("---loading messages---");
-      for (let i = 0; i < messages.length; i += 1) {
-        console.log(`getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`);
-      }
-    }).catch((err: any) => {
-      console.log(err);
-    });
+    axios
+      .getAllMessages(chatRoomData.seq)
+      .then((response: any) => {
+        const tMessages = response?.data;
+        tMessages?.sort((a: any, b: any) => {
+          return a.msgSeq - b.msgSeq;
+        });
+        const result: IRecvMessage[] = [];
+        for (let i = 0; i < tMessages?.length; i += 1) {
+          result.push({
+            id: tMessages[i]?.msgSeq,
+            msg: tMessages[i]?.msg,
+            nickname: tMessages[i]?.nickname,
+          });
+        }
+        setMessages(result);
+        console.log("---loading messages---");
+        for (let i = 0; i < messages.length; i += 1) {
+          console.log(
+            `getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${
+              messages[i].msg
+            }, ${JSON.stringify(messages[i])}`
+          );
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
   }, [chatRoomData]);
 
   useEffect(() => {
@@ -115,27 +126,23 @@ export function ComponentChatRoom(props: any) {
         setMessages([...messages, message]);
         for (let i = 0; i < messages.length; i += 1) {
           console.log(
-            `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${messages[i].msg}, ${JSON.stringify(messages[i])}`
+            `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${
+              messages[i].msg
+            }, ${JSON.stringify(messages[i])}`
           );
         }
       }
     });
     return () => {
       socket.off("room:chat");
-    }
+    };
   }, []);
 
   function renderMessages(): JSX.Element[] {
     console.log(`call renderMessages Methods : ${messages.length}`);
-    messages.map((item) => console.log(item))
+    messages.map((item) => console.log(item));
     return messages.map((item, i) => {
-      return (
-        <ChatMessage
-          key={i}
-          nickname={item?.nickname}
-          msg={item?.msg}
-        />
-      );
+      return <ChatMessage key={i} nickname={item?.nickname} msg={item?.msg} />;
     });
   }
 
@@ -160,13 +167,9 @@ export function ComponentChatRoom(props: any) {
           propFunc={propFunc}
           chatInfo={chatInfo}
         />
-        <HeaderTitle>
-          {chatRoomData.name}
-        </HeaderTitle>
+        <HeaderTitle>{chatRoomData.name}</HeaderTitle>
       </ChatRoomHeader>
-      <ChatRoomRecvArea>
-        {renderMessages()}
-      </ChatRoomRecvArea>
+      <ChatRoomRecvArea>{renderMessages()}</ChatRoomRecvArea>
       <ChatRoomSendArea>
         <ChatInput socket={socket} seq={chatRoomData.seq} />
       </ChatRoomSendArea>

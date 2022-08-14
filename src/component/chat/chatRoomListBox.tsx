@@ -29,7 +29,9 @@ const ChatDetail = styled("div", {
 export function ComponentChatRoomListBox(props: any) {
   const { chatRoomData } = props;
   const { stateUpdateFunc } = props;
-  const display = useSelector<ReducerType, DisplayData>((state) => state.display);
+  const display = useSelector<ReducerType, DisplayData>(
+    (state) => state.display
+  );
   const dispatch = useDispatch();
 
   const chatRoomTypeDistridutor = (type: string) => {
@@ -51,14 +53,20 @@ export function ComponentChatRoomListBox(props: any) {
   return (
     <ChatRoomListBox
       onClick={() => {
-        dispatch(setChatRoomId({ chatRoomId: chatRoomData.seq } as DisplayData));
+        dispatch(
+          setChatRoomId({ chatRoomId: chatRoomData.seq } as DisplayData)
+        );
         stateUpdateFunc("room");
       }}
-      className={display.chatRoomId === chatRoomData.seq ? "clicked" : "non-clicked"}
+      className={
+        display.chatRoomId === chatRoomData.seq ? "clicked" : "non-clicked"
+      }
     >
       <ChatRoomDataArea>
         <ChatName>{chatRoomData.name}</ChatName>
-        <ChatDetail>#{chatRoomData.seq}, {chatRoomTypeDistridutor(chatRoomData.type)}</ChatDetail>
+        <ChatDetail>
+          #{chatRoomData.seq}, {chatRoomTypeDistridutor(chatRoomData.type)}
+        </ChatDetail>
       </ChatRoomDataArea>
     </ChatRoomListBox>
   );

@@ -25,7 +25,7 @@ const ChatRoomHeader = styled("div", {
   marginBottom: "3%",
   backgroundColor: "#000000",
   overflow: "hidden",
-})
+});
 
 const HeaderTitle = styled("div", {
   marginRight: "2rem",
@@ -40,7 +40,7 @@ const HeaderTitle = styled("div", {
   "&::-webkit-scrollbar": {
     display: "none",
   },
-})
+});
 
 const HeaderButton = styled("div", {
   width: "2.5rem",
@@ -49,7 +49,7 @@ const HeaderButton = styled("div", {
   borderRadius: "100%",
   marginRight: "1rem",
   position: "relative",
-})
+});
 
 const HeaderButtonIcon = styled("img", {
   position: "absolute",
@@ -59,7 +59,7 @@ const HeaderButtonIcon = styled("img", {
   transform: "translate(-50%, -50%)",
   top: "50%",
   left: "50%",
-})
+});
 
 const ChatFindRoom = styled("div", {
   position: "relative",
@@ -113,14 +113,21 @@ const ChatJoinMain = styled("div", {
 export function FindRoom(props: any) {
   const { propFunc } = props;
   const [roomList, setRoomList] = useState<IRoomList[]>([]);
-  const [join, setJoin] = useState(<div style={{ textAlign: "center", fontSize: "2rem", }}>Click the room that you want to join.</div>);
-  const [passRst, setPassRst] = useState(<div style={{ display: "none", }}>.</div>);
+  const [join, setJoin] = useState(
+    <div style={{ textAlign: "center", fontSize: "2rem" }}>
+      Click the room that you want to join.
+    </div>
+  );
+  const [passRst, setPassRst] = useState(
+    <div style={{ display: "none" }}>.</div>
+  );
 
   /*
   마운트, 언마운트 시 채팅 룸 조회
   */
   useEffect(() => {
-    myaxios.chatroomsSearch()
+    myaxios
+      .chatroomsSearch()
       .then((promise: any) => promise.data)
       .then((data) => {
         setRoomList(data);
@@ -160,12 +167,23 @@ export function FindRoom(props: any) {
 
     console.log("setJoinControl", room);
 
-    const puborpriv = room.chatType === ChatType.CHTP20 ? "public" : "protected";
+    const puborpriv =
+      room.chatType === ChatType.CHTP20 ? "public" : "protected";
 
     const rst = [];
-    rst.push(<ChatJoinTextDiv style={{ fontSize: "3rem", fontWeight: "bold", }}>{room?.chatName}</ChatJoinTextDiv>);
-    rst.push(<ChatJoinTextDiv style={{ fontSize: "2rem", fontWeight: "300", marginTop: "1vh" }}>Are you sure that you want to join this <b>{puborpriv}</b> room?</ChatJoinTextDiv>);
-    setPassRst(<div style={{ display: "none", }}>.</div>);
+    rst.push(
+      <ChatJoinTextDiv style={{ fontSize: "3rem", fontWeight: "bold" }}>
+        {room?.chatName}
+      </ChatJoinTextDiv>
+    );
+    rst.push(
+      <ChatJoinTextDiv
+        style={{ fontSize: "2rem", fontWeight: "300", marginTop: "1vh" }}
+      >
+        Are you sure that you want to join this <b>{puborpriv}</b> room?
+      </ChatJoinTextDiv>
+    );
+    setPassRst(<div style={{ display: "none" }}>.</div>);
     if (room?.chatType === "CHTP30") {
       rst.push(
         <div>
@@ -174,15 +192,22 @@ export function FindRoom(props: any) {
             placeholder="input password and press Enter."
             onKeyDown={(e: any) => {
               if (e.key === "Enter") {
-                axios.put(`/api/chatrooms/join/${room.chatSeq}`, {
-                  password: e.target.value,
-                }).then((response: any) => {
-                  // console.log(response);
-                  location.reload();
-                }).catch((error: any) => {
-                  // console.log(error);
-                  setPassRst(<div style={{ color: "red", fontSize: "2rem" }}>{error.response.data.message}</div>);
-                });
+                axios
+                  .put(`/api/chatrooms/join/${room.chatSeq}`, {
+                    password: e.target.value,
+                  })
+                  .then((response: any) => {
+                    // console.log(response);
+                    location.reload();
+                  })
+                  .catch((error: any) => {
+                    // console.log(error);
+                    setPassRst(
+                      <div style={{ color: "red", fontSize: "2rem" }}>
+                        {error.response.data.message}
+                      </div>
+                    );
+                  });
               }
             }}
           />
@@ -192,15 +217,23 @@ export function FindRoom(props: any) {
       rst.push(
         <ChatJoinButton
           onClick={(e: any) => {
-            axios.put(`/api/chatrooms/join/${room.chatSeq}`).then((response: any) => {
-              // console.log(response);
-              location.reload();
-            }).catch((error: any) => {
-              // console.log(error);
-              setPassRst(<div style={{ color: "red", fontSize: "2rem" }}>{error.response.data.message}</div>);
-            });
+            axios
+              .put(`/api/chatrooms/join/${room.chatSeq}`)
+              .then((response: any) => {
+                // console.log(response);
+                location.reload();
+              })
+              .catch((error: any) => {
+                // console.log(error);
+                setPassRst(
+                  <div style={{ color: "red", fontSize: "2rem" }}>
+                    {error.response.data.message}
+                  </div>
+                );
+              });
           }}
-        >YES
+        >
+          YES
         </ChatJoinButton>
       );
     }
@@ -211,7 +244,12 @@ export function FindRoom(props: any) {
     return (
       <RoomListZone>
         {roomList.map((item: any, i: number) => (
-          <RoomListBox key={i} onClick={(e) => { setJoinControl(roomList[i]) }}>
+          <RoomListBox
+            key={i}
+            onClick={(e) => {
+              setJoinControl(roomList[i]);
+            }}
+          >
             {roomList[i].chatName}
           </RoomListBox>
         ))}
@@ -223,31 +261,33 @@ export function FindRoom(props: any) {
     <ChatFindRoom>
       <ChatRoomHeader>
         <HeaderButton
-          onClick={() => { propFunc("empty"); }}
-          style={{ backgroundColor: "#fd4546", marginLeft: "1.5rem", }}
+          onClick={() => {
+            propFunc("empty");
+          }}
+          style={{ backgroundColor: "#fd4546", marginLeft: "1.5rem" }}
           key="1"
         >
           <HeaderButtonIcon alt="x" src="/asset/icon_x.svg" />
         </HeaderButton>
-        <HeaderTitle>
-          Chat Room List
-        </HeaderTitle>
+        <HeaderTitle>Chat Room List</HeaderTitle>
       </ChatRoomHeader>
       {renderRoomList()}
-      <ChatRoomHeader style={{ height: "10%", marginBottom: "0%", }}>
+      <ChatRoomHeader style={{ height: "10%", marginBottom: "0%" }}>
         <HeaderButton
           onClick={() => {
-            setJoin(<div style={{ textAlign: "center", fontSize: "2rem", }}>Click the room that you want to join.</div>);
-            setPassRst(<div style={{ display: "none", }}>.</div>);
+            setJoin(
+              <div style={{ textAlign: "center", fontSize: "2rem" }}>
+                Click the room that you want to join.
+              </div>
+            );
+            setPassRst(<div style={{ display: "none" }}>.</div>);
           }}
-          style={{ backgroundColor: "#fdaf24", marginLeft: "1.5rem", }}
+          style={{ backgroundColor: "#fdaf24", marginLeft: "1.5rem" }}
           key="1"
         >
           <HeaderButtonIcon alt="x" src="/asset/icon_exit.svg" />
         </HeaderButton>
-        <HeaderTitle>
-          Chat Room Join
-        </HeaderTitle>
+        <HeaderTitle>Chat Room Join</HeaderTitle>
       </ChatRoomHeader>
       <ChatJoinMain>
         {join}

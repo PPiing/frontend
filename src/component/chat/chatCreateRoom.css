@@ -6,10 +6,10 @@
   justify-content: space-evenly;
   border-radius: 5px;
 }
-.option-1{
+.option-1 {
   margin-right: 20px;
 }
-.option-3{
+.option-3 {
   margin-left: 20px;
 }
 .radioWrapper .option {
@@ -30,9 +30,9 @@ input[type="radio"] {
 #option-1:checked:checked ~ .option-1,
 #option-2:checked:checked ~ .option-2,
 #option-3:checked:checked ~ .option-3 {
-  border-color: #FF0086;
-  background: #FF0086;
-  box-shadow: 0 0 10px #FF0086;
+  border-color: #ff0086;
+  background: #ff0086;
+  box-shadow: 0 0 10px #ff0086;
   text-shadow: 0 0 10px #000;
 }
 .radioWrapper .option span {

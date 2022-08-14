@@ -6,8 +6,8 @@ const ChatText = styled("input", {
   height: "60%",
   color: "white",
   backgroundColor: "black",
-  fontSize: "30px"
-})
+  fontSize: "30px",
+});
 
 function ChatInput(props: any) {
   const { socket, seq } = props;
@@ -42,7 +42,7 @@ function ChatInput(props: any) {
       onChange={(event: any) => handleChange(event)}
       onKeyDown={HandleKeyDown}
     />
-  )
+  );
 }
 
 export default ChatInput;

@@ -13,7 +13,7 @@ const HeaderButtonZone = styled("div", {
   flexDirection: "row",
   //   justifyContent: "space-around",
   // width: "35%",
-})
+});
 
 const HeaderButton = styled("div", {
   width: "2.5rem",
@@ -24,7 +24,7 @@ const HeaderButton = styled("div", {
   position: "relative",
   //   margin: "0.5rem",
   //   marginTop: "-2rem",
-})
+});
 
 const HeaderButtonIcon = styled("img", {
   position: "absolute",
@@ -34,7 +34,7 @@ const HeaderButtonIcon = styled("img", {
   transform: "translate(-50%, -50%)",
   top: "50%",
   left: "50%",
-})
+});
 
 function ChatRoomHeaderInfo(props: any) {
   const { dispatch, chatRoomData, propFunc, chatInfo } = props;
@@ -60,7 +60,7 @@ function ChatRoomHeaderInfo(props: any) {
         propFunc("empty");
         dispatch(setChatRoomId({ chatRoomId: -1 } as DisplayData));
       }}
-      style={{ backgroundColor: "#fd4546", marginLeft: "1.5rem", }}
+      style={{ backgroundColor: "#fd4546", marginLeft: "1.5rem" }}
       key="1"
     >
       <HeaderButtonIcon alt="x" src="/asset/icon_x.svg" />
@@ -70,7 +70,7 @@ function ChatRoomHeaderInfo(props: any) {
     rst.push(
       <HeaderButton
         onClick={handleExitOpen}
-        style={{ backgroundColor: "#fdaf24", }}
+        style={{ backgroundColor: "#fdaf24" }}
         key="2"
       >
         <HeaderButtonIcon alt="x" src="/asset/icon_exit.svg" />
@@ -79,7 +79,7 @@ function ChatRoomHeaderInfo(props: any) {
     rst.push(
       <HeaderButton
         onClick={handleSettingOpen}
-        style={{ backgroundColor: "#28c231", }}
+        style={{ backgroundColor: "#28c231" }}
         key="3"
       >
         <HeaderButtonIcon alt="x" src="/asset/icon_setting.svg" />
@@ -88,7 +88,7 @@ function ChatRoomHeaderInfo(props: any) {
     rst.push(
       <HeaderButton
         onClick={handleListOpen}
-        style={{ backgroundColor: "#F2F2F2", }}
+        style={{ backgroundColor: "#F2F2F2" }}
         key="4"
       >
         <HeaderButtonIcon alt="x" src="/asset/icon_users.svg" />
@@ -99,9 +99,7 @@ function ChatRoomHeaderInfo(props: any) {
     <HeaderButtonZone>
       <Modal open={exitOpen} onClose={handleExitClose}>
         <Box sx={theme.modalStyle} component="div">
-          <ModalChatExit
-            room={chatRoomData.seq}
-          />
+          <ModalChatExit room={chatRoomData.seq} />
         </Box>
       </Modal>
       <Modal open={settingOpen} onClose={handleSettingClose}>

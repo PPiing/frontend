@@ -23,7 +23,7 @@ const Message = styled("div", {
   marginTop: "1.2rem",
   marginBottom: "0rem",
   cursor: "pointer",
-})
+});
 
 const MessageSender = styled("div", {
   display: "flex",
@@ -37,8 +37,8 @@ const MessageSender = styled("div", {
   fontWeight: "350",
   "&::-webkit-scrollbar": {
     display: "none",
-  }
-})
+  },
+});
 
 const MessageText = styled("div", {
   display: "flex",
@@ -48,7 +48,7 @@ const MessageText = styled("div", {
   backgroundColor: "#252525",
   marginLeft: "10px",
   wordBreak: "break-all",
-})
+});
 
 // const MessageWhen = styled("div", {
 //   display: "flex",
@@ -92,10 +92,7 @@ export function ChatMessage(props: any) {
 
   return (
     <Message>
-      <Modal
-        open={open}
-        onClose={handleClose}
-      >
+      <Modal open={open} onClose={handleClose}>
         <Box sx={style} component="div">
           <ModalNavFriendBox user={user} />
         </Box>
@@ -110,5 +107,5 @@ export function ChatMessage(props: any) {
         {`${hour}:${minute}`}
       </MessageWhen> */}
     </Message>
-  )
+  );
 }
