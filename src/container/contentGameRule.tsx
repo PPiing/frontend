@@ -12,7 +12,7 @@ import ToggleBtn from "../component/button/ToggleBtn";
 import { ReducerType } from "../redux/rootReducer";
 import { gameRule, GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
 import store from "../redux/store";
-import fontPath from "../../public/asset/font/Retro_Stereo_Wide_Regular.json";
+import fontPath from "../../public/asset/font/dohyeon_Regular.json";
 import socketManager from "../feat/game/socket";
 
 const socket = socketManager.socket("/");

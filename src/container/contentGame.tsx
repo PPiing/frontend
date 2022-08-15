@@ -10,7 +10,7 @@ import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
 import socketManager from "../feat/game/socket";
 
-import fontPath from "../../public/asset/font/Retro_Stereo_Wide_Regular.json";
+import fontPath from "../../public/asset/font/dohyeon_Regular.json";
 
 extend({ TextGeometry });
 
