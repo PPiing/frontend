@@ -222,9 +222,9 @@ export function ModalNavFriendBox(props: any) {
     window.location.href = link;
   }
 
-  function buttonClickAxios() {
-
-  }
+  const [gameButtonToggle, setGameButtonToggle] = useState(0);
+  const [friendButtonToggle, setFriendButtonToggle] = useState(0);
+  const [blockButtonToggle, setBlockButtonToggle] = useState(0);
 
   useEffect(() => {
     let searchSeq: any = "-1";
@@ -248,7 +248,10 @@ export function ModalNavFriendBox(props: any) {
         } else {
           defineList.push({
             name: "DM",
-            onClick: () => { postNewDM(userInfo.user_info.userSeq) },
+            onClick: () => {
+              postNewDM(userInfo.user_info.userSeq);
+              buttonClickHref("/chat");
+            },
             disabled: false,
           });
           let bFriend: boolean = false;
@@ -258,48 +261,109 @@ export function ModalNavFriendBox(props: any) {
               break;
             }
           }
-          if (bFriend) {
+          if (friendButtonToggle === 0) {
+            if (bFriend) {
+              defineList.push({
+                name: "delete friend",
+                onClick: () => {
+                  postFriendDelete(userInfo.user_info.userSeq);
+                  setFriendButtonToggle(1);
+                },
+                disabled: false,
+              });
+            } else {
+              defineList.push({
+                name: "add friend",
+                onClick: () => {
+                  postFriendRequest(userInfo.user_info.userSeq);
+                  setFriendButtonToggle(1);
+                },
+                disabled: false,
+              });
+            }
+          } else if (friendButtonToggle === 1) {
+            if (bFriend) {
+              defineList.push({
+                name: "delete friend complete",
+                onClick: () => {},
+                disabled: true,
+              });
+            } else {
+              defineList.push({
+                name: "friend request ongoing...",
+                onClick: () => {},
+                disabled: true,
+              });
+            }
+          }
+          if (blockButtonToggle === 0) {
+            if (userInfo.relation_info === "R03") {
+              defineList.push({
+                name: "unblock",
+                onClick: () => {
+                  requestUserUnblock(userInfo.user_info.userSeq);
+                  setBlockButtonToggle(1);
+                },
+                disabled: false,
+              });
+            } else {
+              defineList.push({
+                name: "block",
+                onClick: () => {
+                  requestUserBlock(userInfo.user_info.userSeq);
+                  setBlockButtonToggle(1);
+                },
+                disabled: false,
+              });
+            }
+          } else if (blockButtonToggle === 1) {
+            if (userInfo.relation_info === "R03") {
+              defineList.push({
+                name: "unblock complete",
+                onClick: () => {},
+                disabled: true,
+              });
+            } else {
+              defineList.push({
+                name: "block complete",
+                onClick: () => {},
+                disabled: true,
+              });
+            }
+          }
+          if (gameButtonToggle === 0) {
+            if (userInfo.user_info.userStatus === "USST10") {
+              defineList.push({
+                name: "game",
+                onClick: () => {
+                  postGameInvite(userInfo.user_info.userSeq);
+                  setGameButtonToggle(1);
+                },
+                disabled: false,
+              });
+            }
+          } else if (gameButtonToggle === 1) {
+            if (userInfo.user_info.userStatus === "USST10") {
+              defineList.push({
+                name: "game request ongoing...",
+                onClick: () => {},
+                disabled: true,
+              });
+            }
+          }
+          if (userInfo.user_info.userStatus === "USST30") {
             defineList.push({
-              name: "delete friend",
-              onClick: () => { postFriendDelete(userInfo.user_info.userSeq) },
-              disabled: false,
-            });
-          } else {
-            defineList.push({
-              name: "add friend",
-              onClick: () => { postFriendRequest(userInfo.user_info.userSeq) },
+              name: "watch",
+              onClick: () => { buttonClickHref("/watch"); },
               disabled: false,
             });
           }
-          if (userInfo.relation_info === "R03") {
-            defineList.push({
-              name: "unblock",
-              onClick: () => { requestUserUnblock(userInfo.user_info.userSeq) },
-              disabled: false,
-            });
-          } else {
-            defineList.push({
-              name: "block",
-              onClick: () => { requestUserBlock(userInfo.user_info.userSeq) },
-              disabled: false,
-            });
-          }
-          defineList.push({
-            name: "game",
-            onClick: () => { postGameInvite(userInfo.user_info.userSeq) },
-            disabled: false,
-          });
-          defineList.push({
-            name: "watch",
-            onClick: () => { buttonClickHref("/watch"); },
-            disabled: false,
-          });
         }
 
         const realContent: JSX.Element[] = []
-        realContent.push(<Profile response={userInfo} />);
-        if (userInfo.user_info.isFriend === true) realContent.push(<Status status={user.status} />)
-        realContent.push(<Buttons render={defineList} />);
+        realContent.push(<Profile key={0} response={userInfo} />);
+        realContent.push(<Status key={1} status={user.status} />)
+        realContent.push(<Buttons key={2} render={defineList} />);
 
         setContent(
           <>{ realContent }</>
@@ -310,7 +374,7 @@ export function ModalNavFriendBox(props: any) {
         <b style={{ color: "red" }}>An error occurred. {error}</b>
       );
     });
-  }, []);
+  }, [friendButtonToggle, gameButtonToggle, blockButtonToggle]);
 
   return (
     <ModalContentDiv>
