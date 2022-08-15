@@ -5,6 +5,8 @@ export interface GameRuleData {
     ballSpeed: number;
     paddleSize: number;
     isRankGame: boolean;
+    blueUser: string;
+    redUser: string;
 };
 
 export const gameRule = createSlice({
@@ -14,6 +16,8 @@ export const gameRule = createSlice({
     ballSpeed: 1.0,
     paddleSize: 1.0,
     isRankGame: false,
+    blueUser: "kkim",
+    redUser: "hyunggyo",
   } as GameRuleData,
   reducers: {
     // eslint-disable-next-line no-return-assign
