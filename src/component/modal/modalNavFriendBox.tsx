@@ -361,9 +361,9 @@ export function ModalNavFriendBox(props: any) {
         }
 
         const realContent: JSX.Element[] = []
-        realContent.push(<Profile response={userInfo} />);
-        if (userInfo.user_info.isFriend === true) realContent.push(<Status status={user.status} />)
-        realContent.push(<Buttons render={defineList} />);
+        realContent.push(<Profile key={0} response={userInfo} />);
+        realContent.push(<Status key={1} status={user.status} />)
+        realContent.push(<Buttons key={2} render={defineList} />);
 
         setContent(
           <>{ realContent }</>
