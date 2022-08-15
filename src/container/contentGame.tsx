@@ -9,6 +9,7 @@ import { ReducerType } from "../redux/rootReducer";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
 import socketManager from "../feat/game/socket";
+import { gameRule, GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
 
 import fontPath from "../../public/asset/font/dohyeon_Regular.json";
 
@@ -41,8 +42,8 @@ const RacketSize = 1;
 const RacketMoveSpeed = 0.2;
 
 const nameTextConfig = {
-  size: 0.25,
-  height: 0.1,
+  size: 0.45,
+  height: 0.2,
   curveSegments: 0.2,
   bevelEnabled: true,
   bevelThickness: 0.1,
@@ -52,8 +53,8 @@ const nameTextConfig = {
 };
 
 const scoreTextConfig = {
-  size: 1,
-  height: 0.1,
+  size: 1.4,
+  height: 0.2,
   curveSegments: 0.2,
   bevelEnabled: true,
   bevelThickness: 0.1,
@@ -63,7 +64,7 @@ const scoreTextConfig = {
 };
 
 const endingTextConfig = {
-  size: 0.8,
+  size: 1.1,
   height: 1,
   curveSegments: 0.6,
   bevelEnabled: true,
@@ -92,9 +93,11 @@ function Basic() {
   const [ballXpos, setBallXpos] = useState(0);
   const [ballYpos, setBallYpos] = useState(0);
 
-  const [gamer1Name, setGamer1Name] = useState("kkim");
+  const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
+
+  const [gamer1Name, setGamer1Name] = useState(myRule.blueUser);
   const [gamer1Score, setGamer1Score] = useState(0);
-  const [gamer2Name, setGamer2Name] = useState("hyungyyo");
+  const [gamer2Name, setGamer2Name] = useState(myRule.redUser);
   const [gamer2Score, setGamer2Score] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
   const [winnerName, setWinnerName] = useState("");
@@ -128,7 +131,7 @@ function Basic() {
       }
     });
     return (
-      <mesh position={[-3.5, 1, -4]} ref={wowScore}>
+      <mesh position={[-3.5, 1.3, -4]} ref={wowScore}>
         <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
           {gamer1Score}
           <meshNormalMaterial />
@@ -147,7 +150,7 @@ function Basic() {
       }
     });
     return (
-      <mesh position={[0.7, 1, -4]} ref={wowScore}>
+      <mesh position={[0.7, 1.3, -4]} ref={wowScore}>
         <Text3D font={JSON.parse(fontStr)} {...scoreTextConfig}>
           {gamer2Score}
           <meshNormalMaterial />
@@ -304,7 +307,7 @@ function Basic() {
               floatIntensity={7}
               floatingRange={[-0.2, 0.1]}
             >
-              <mesh position={[-4.5, 1, 0]}>
+              <mesh position={[-3.7, 1, 0]}>
                 <Text3D font={JSON.parse(fontStr)} {...endingTextConfig}>
                   {winnerName}
                   <meshNormalMaterial />

@@ -98,6 +98,8 @@ export default function GameRuleSet() {
     ballSpeed: myRule.ballSpeed,
     paddleSize: myRule.paddleSize,
     isRankGame: myRule.isRankGame,
+    blueUser: myRule.blueUser,
+    redUser: myRule.redUser,
   };
 
   const handleValue = (e:any) => {
@@ -122,12 +124,18 @@ export default function GameRuleSet() {
 
   const handleReady = () => {
     // eslint-disable-next-line max-len
-    store.dispatch(setGameRuleData({ ...memoRule, isRankGame: memoRule.isRankGame } as GameRuleData))
-    console.log("=> emit ready", memoRule);
+    store.dispatch(setGameRuleData({ ...memoRule, isRankGame: memoRule.isRankGame } as GameRuleData));
+    console.log("=> emit ready on GameRule", memoRule);
     socket.emit("enQ", memoRule);
     // socket.emit("test:render", memoRule);
     setIsReady(true);
   };
+
+  const handleDeQ = () => {
+    socket.emit("deQ", memoRule);
+    setIsReady(false);
+  };
+
   const spinModel1 = () => {
     const spinModel : React.Ref<any> = useRef();
     const fbx = useLoader(FBXLoader, targetModel1);
@@ -170,7 +178,9 @@ export default function GameRuleSet() {
 
   useEffect(() => {
     socket.on("game:ready", (res) => {
-      console.log("server's ready =>", res);
+      console.log("server's ready on GameRule =>", res);
+      // eslint-disable-next-line max-len
+      store.dispatch(setGameRuleData({ ...memoRule, blueUser: res.blueUser, redUser: res.redUser } as GameRuleData));
     });
     socket.on("game:render", (res) => {
       console.log("server's render =>", res);
@@ -221,10 +231,20 @@ export default function GameRuleSet() {
             </RuleText>
           </TextWrapper>
         </TextContainer>
-        <Button onClick={handleReady} variant="contained" size="large" color="error">
+        <Button
+          onClick={
+          isReady ?
+            handleDeQ :
+            handleReady
+          }
+          variant="contained"
+          size="large"
+          color="error"
+        >
+
           {
           isReady ?
-            "Matching..."
+            "Run Away"
             : "Ready"
             }
         </Button>
