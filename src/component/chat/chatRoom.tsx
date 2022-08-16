@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { chatUserCount } from "../../network/api/axios.custom";
-import { ChatMessage } from "./chatMessage";
-import IRecvMessage from "../../interface/recvMessage.interface";
-import * as axios from "../../network/api/axios.custom";
 import ChatInput from "./ChatInput";
 import ChatRoomHeaderInfo from "./ChatRoomHeaderInfo";
+import ChatRoomMessageArea from "./ChatRoomMessageArea";
 
 const ContentRoom = styled("div", {
   position: "relative",
@@ -82,69 +79,6 @@ export function ComponentChatRoom(props: any) {
   const loggedUser = useSelector<ReducerType, LoggedUserData>(
     (state) => state.loggedUser
   );
-  const [messages, setMessages] = useState<IRecvMessage[]>([]);
-
-  useEffect(() => {
-    axios
-      .getAllMessages(chatRoomData.seq)
-      .then((response: any) => {
-        const tMessages = response?.data;
-        tMessages?.sort((a: any, b: any) => {
-          return a.msgSeq - b.msgSeq;
-        });
-        const result: IRecvMessage[] = [];
-        for (let i = 0; i < tMessages?.length; i += 1) {
-          result.push({
-            id: tMessages[i]?.msgSeq,
-            msg: tMessages[i]?.msg,
-            nickname: tMessages[i]?.nickname,
-          });
-        }
-        setMessages(result);
-        console.log("---loading messages---");
-        for (let i = 0; i < messages.length; i += 1) {
-          console.log(
-            `getMessage For: ${messages[i].id}: ${messages[i].nickname}: ${
-              messages[i].msg
-            }, ${JSON.stringify(messages[i])}`
-          );
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  }, [chatRoomData]);
-
-  useEffect(() => {
-    chatUserCount(chatRoomData.seq).then((response: any) => {
-      setChatInfo(response?.data);
-    });
-    socket.on("room:chat", (message: IRecvMessage) => {
-      console.log("new message!");
-      if (message.chatSeq === chatRoomData.seq) {
-        console.log("addMessage socket, ", message, messages); // [message], []
-        setMessages([...messages, message]);
-        for (let i = 0; i < messages.length; i += 1) {
-          console.log(
-            `Socket Recv For: ${messages[i].id}: ${messages[i].nickname}: ${
-              messages[i].msg
-            }, ${JSON.stringify(messages[i])}`
-          );
-        }
-      }
-    });
-    return () => {
-      socket.off("room:chat");
-    };
-  }, []);
-
-  function renderMessages(): JSX.Element[] {
-    console.log(`call renderMessages Methods : ${messages.length}`);
-    messages.map((item) => console.log(item));
-    return messages.map((item, i) => {
-      return <ChatMessage key={i} nickname={item?.nickname} msg={item?.msg} />;
-    });
-  }
 
   // [ API | "/chatrooms/room/{roomid}" ]
   //
@@ -169,7 +103,9 @@ export function ComponentChatRoom(props: any) {
         />
         <HeaderTitle>{chatRoomData.name}</HeaderTitle>
       </ChatRoomHeader>
-      <ChatRoomRecvArea>{renderMessages()}</ChatRoomRecvArea>
+      <ChatRoomRecvArea>
+        <ChatRoomMessageArea roomSeq={chatRoomData.seq} socket={socket} />
+      </ChatRoomRecvArea>
       <ChatRoomSendArea>
         <ChatInput socket={socket} seq={chatRoomData.seq} />
       </ChatRoomSendArea>
