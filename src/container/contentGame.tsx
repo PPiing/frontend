@@ -8,10 +8,10 @@ import { useSelector } from "react-redux";
 import { ReducerType } from "../redux/rootReducer";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
-import socketManager from "../feat/game/socket";
 import { gameRule, GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
 
 import fontPath from "../../public/asset/font/dohyeon_Regular.json";
+import socketManager from "../network/api/socket";
 
 extend({ TextGeometry });
 

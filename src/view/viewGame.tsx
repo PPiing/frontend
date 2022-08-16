@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ViewTemplate } from "./viewTemplate";
-import socketManager from "../feat/game/socket";
+import socketManager from "../network/api/socket";
 
 import InGame from "../container/contentGame";
 import GameRuleSet from "../container/contentGameRule";
