@@ -13,7 +13,7 @@ import { ReducerType } from "../redux/rootReducer";
 import { gameRule, GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
 import store from "../redux/store";
 import fontPath from "../../public/asset/font/dohyeon_Regular.json";
-import socketManager from "../feat/game/socket";
+import socketManager from "../network/api/socket";
 
 const socket = socketManager.socket("/");
 
