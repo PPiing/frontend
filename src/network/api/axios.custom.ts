@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { ReducerType } from "../../redux/rootReducer";
+import { addBlockUser, BlockData, clearBlockList } from "../../redux/slices/blockList";
 import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam, removeOverlapChoosableAlam } from "../../redux/slices/choosableAlamList";
 import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/commonAlam";
 import { addFriend, FriendData, removeFriendList } from "../../redux/slices/friendList";
@@ -71,17 +72,35 @@ export const getLoggedUserProfile = async () => {
 // --------------------------------------------------------------
 // API for Navbar feature
 
+export const getBlockUserList = async () => {
+  try {
+    const response = await axios.instance.get("/community/friends/blocklist");
+    store.dispatch(clearBlockList({} as BlockData));
+    for (let i = 0; i < response.data.length; i += 1) {
+      store.dispatch(addBlockUser({
+        seq: response.data[i]
+      } as BlockData));
+    }
+    return (null);
+  } catch (error) {
+    return (error);
+  }
+}
+
 export const getFriendList = async () => {
   try {
     const response = await axios.instance.get("/community/friends");
+    const { blockList } = store.getState();
 
     store.dispatch(removeFriendList({} as FriendData));
     for (let i = 0; i < response.data.length; i += 1) {
-      store.dispatch(addFriend({
-        seq: response.data[i].userSeq,
-        nick: response.data[i].nickname,
-        img: response.data[i].avatarImgUri,
-        status: response.data[i].status } as FriendData));
+      if (!blockList.includes({ seq: response.data[i].userSeq } as BlockData)) {
+        store.dispatch(addFriend({
+          seq: response.data[i].userSeq,
+          nick: response.data[i].nickname,
+          img: response.data[i].avatarImgUri,
+          status: response.data[i].status } as FriendData));
+      }
     }
     return (null);
   } catch (error) {
@@ -92,17 +111,20 @@ export const getFriendList = async () => {
 export const getCommonAlamList = async () => {
   try {
     const response = await axios.instance.get("/alarm/alerts");
+    const { blockList } = store.getState();
 
     store.dispatch(clearCommonAlamList({} as CommonAlamData));
     for (let i = 0; i < response.data.length; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
-      store.dispatch(addCommonAlam({
-        seq: response.data[i].alarmSeq,
-        from_seq: response.data[i].from,
-        from_nick: response2.data.user_info.userName,
-        type: response.data[i].type,
-        code: response.data[i].code } as CommonAlamData));
+      if (!blockList.includes({ seq: response.data[i].from } as BlockData)) {
+        // eslint-disable-next-line no-await-in-loop
+        const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
+        store.dispatch(addCommonAlam({
+          seq: response.data[i].alarmSeq,
+          from_seq: response.data[i].from,
+          from_nick: response2.data.user_info.userName,
+          type: response.data[i].type,
+          code: response.data[i].code } as CommonAlamData));
+      }
     }
     return (null);
   } catch (error) {
@@ -113,23 +135,28 @@ export const getCommonAlamList = async () => {
 export const getConfirmAlamList = async () => {
   try {
     const response = await axios.instance.get("/alarm/confirms");
+    const { blockList } = store.getState();
 
     store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
     for (let i = 0; i < response.data.length; i += 1) {
-      console.log("Confirm alarm list loop!1", i);
-      // eslint-disable-next-line no-await-in-loop
-      const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
-      let typeNum: number = 0;
-      if (response.data[i].code === "ALAM21") {
-        typeNum = 1;
+      const blockSearch: BlockData = { seq: response.data[i].from };
+      console.log("Block filter: ", !blockList.includes(blockSearch));
+      if (!blockList.includes(blockSearch)) {
+        console.log("!!!");
+        // eslint-disable-next-line no-await-in-loop
+        const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
+        let typeNum: number = 0;
+        if (response.data[i].code === "ALAM21") {
+          typeNum = 1;
+        }
+        const newAlarmCell: ChoosableAlamData = {
+          seq: response.data[i].alarmSeq,
+          from_seq: response.data[i].from,
+          from_nick: response2.data.user_info.userName,
+          type: typeNum,
+        };
+        store.dispatch(addChoosableAlam(newAlarmCell));
       }
-      const newAlarmCell: ChoosableAlamData = {
-        seq: response.data[i].alarmSeq,
-        from_seq: response.data[i].from,
-        from_nick: response2.data.user_info.userName,
-        type: typeNum,
-      };
-      store.dispatch(addChoosableAlam(newAlarmCell));
     }
     console.log("Heal CD");
     store.dispatch(removeOverlapChoosableAlam({} as ChoosableAlamData));
