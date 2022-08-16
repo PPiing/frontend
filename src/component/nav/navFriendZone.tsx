@@ -6,7 +6,7 @@ import { ComponentNavFriendBox } from "./navFriendBox";
 import { FriendData, modifiyFriendStatus } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData, setSearchRetRec } from "../../redux/slices/display";
-import { getFriendList, getUserSimpleSearch } from "../../network/api/axios.custom";
+import { getBlockUserList, getFriendList, getUserSimpleSearch } from "../../network/api/axios.custom";
 import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 import store from "../../redux/store";
 import socketManager from "../../network/api/socket";
@@ -52,8 +52,14 @@ export function ComponentNavFriendZone() {
   const display = useSelector<ReducerType, DisplayData>((state) => state.display);
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
 
+  const [blockListReqSwitch, setBlockListReqSwitch] = useState(0);
   const [friendListReqSwitch, setFriendListReqSwitch] = useState(0);
   const [searchResult, setSearchResult] = useState(null);
+
+  if (blockListReqSwitch === 0) {
+    getBlockUserList();
+    setBlockListReqSwitch(1);
+  }
 
   if (friendListReqSwitch === 0) {
     getFriendList();
@@ -65,6 +71,9 @@ export function ComponentNavFriendZone() {
   });
   socket.on("friends:update", () => {
     setFriendListReqSwitch(0);
+  });
+  socket.on("block:update", () => {
+    setBlockListReqSwitch(0);
   });
 
   const renderList = () => {

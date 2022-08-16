@@ -7,6 +7,7 @@ import auth from "./slices/auth";
 import display from "./slices/display";
 import gameRule from "./slices/gameRule"
 import joinedChatRoomList from "./slices/joinedChatRoomList";
+import blockList from "./slices/blockList";
 
 const reducer = combineReducers({
   friendList,
@@ -16,7 +17,8 @@ const reducer = combineReducers({
   loggedUser,
   auth,
   display,
-  gameRule
+  gameRule,
+  blockList
 });
 
 export type ReducerType = ReturnType<typeof reducer>;
