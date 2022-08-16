@@ -239,5 +239,13 @@ export const globalStyles = globalCss({
   body: {
     margin: 0,
     background: "#151515",
+    "@font-face": [
+      {
+        fontFamily: "Blippo",
+        src: "url('../../public/asset/font/Blippo.ttf') format('ttf')",
+        fontStyle: "normal",
+        fontDisplay: "swap",
+      },
+    ],
   },
 });
