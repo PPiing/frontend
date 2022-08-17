@@ -139,10 +139,7 @@ export const getConfirmAlamList = async () => {
 
     store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
     for (let i = 0; i < response.data.length; i += 1) {
-      const blockSearch: BlockData = { seq: response.data[i].from };
-      console.log("Block filter: ", !blockList.includes(blockSearch));
-      if (!blockList.includes(blockSearch)) {
-        console.log("!!!");
+      if (!blockList.includes({ seq: response.data[i].from } as BlockData)) {
         // eslint-disable-next-line no-await-in-loop
         const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
         let typeNum: number = 0;
