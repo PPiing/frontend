@@ -7,12 +7,10 @@
 import React, { useState, useEffect } from "react";
 import { styled, keyframes } from "@stitches/react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import { checkNameValid, getUserSearch } from "../network/api/axios.custom";
-import { ModalNavFriendBox } from "../component/modal/modalNavFriendBox";
 
 // Profile Zone
 
@@ -79,35 +77,33 @@ function Profile(props: any) {
           "Content-Type": "multipart/form-data",
         },
       });
-      if (checkNameValid(profile.nickname) === true) {
-        await axios.patch("/api/users/profile", {
-          nickName: profile.nickname,
-          email: profile.email,
-          secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
-          avatarImgUri: imgUp.data,
-        });
-        setProfileURI(`${window.location.origin}${imgUp.data}`);
-        location.reload();
-      }
-      // else 일 경우 화면단에 에러 띄워줘야함
+      await axios.patch("/api/users/profile", {
+        nickName: profile.nickname,
+        email: profile.email,
+        secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
+        avatarImgUri: imgUp.data,
+      });
+      setProfileURI(`${window.location.origin}${imgUp.data}`);
     } catch (e) {
-      console.log("error :", e);
+      location.reload();
     }
   }
 
   const ProfileNameChangeEvent = (event:any) => {
     if (event.key === "Enter") {
-      axios.patch("/api/users/profile", {
-        nickName: event.target.value,
-        email: profile.email,
-        secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
-        avatarImgUri: profile.avartarImgUri,
-      }).then((res) => {
-        setNickname(event.target.value);
-        location.reload();
-      }).catch((err) => {
-        console.log("error!", err);
-      });
+      if (checkNameValid(event.target.value) === true) {
+        axios.patch("/api/users/profile", {
+          nickName: event.target.value,
+          email: profile.email,
+          secAuthStatus: profile.secAuthStatus ? profile.secAuthStatus : false,
+          avatarImgUri: profile.avartarImgUri,
+        }).then(() => {
+          setNickname(event.target.value);
+          location.reload();
+        });
+      } else {
+        // location.reload();
+      }
     }
   }
 
@@ -135,8 +131,8 @@ function Profile(props: any) {
         >
           <hr
             style={{
-              width: "75%",
-              marginRight: "-30%",
+              width: "50%",
+              marginRight: "0%",
               border: `solid 4px ${tier.color}`,
               boxShadow: `0 0 20px ${tier.color}`,
               borderRadius: "10px 0 0 10px", }}
@@ -155,8 +151,8 @@ function Profile(props: any) {
             width: "calc(33% - 20px)", }}
         ><hr
           style={{
-            width: "75%",
-            marginLeft: "-30%",
+            width: "50%",
+            marginLeft: "0%",
             border: `solid 4px ${tier.color}`,
             boxShadow: `0 0 20px ${tier.color}`,
             borderRadius: "0 10px 10px 0", }}
@@ -178,7 +174,6 @@ function Profile(props: any) {
 
 function Progress(props: any) {
   const { response } = props;
-  console.log(response);
 
   const tier = theme.getTierColor(response?.rank_info.rank_score);
   const value = Math.floor(theme.getTierPercent(response?.rank_info.rank_score));
@@ -226,8 +221,7 @@ function Progress(props: any) {
 // History Zone
 
 function History(props: any) {
-  const { response, profile } = props;
-  const dispatch = useDispatch();
+  const { response } = props;
   const tier = theme.getTierColor(response?.rank_info.rank_score);
 
   const HistoryWrapper = styled("div", {
@@ -403,7 +397,6 @@ function History(props: any) {
 
 function Setting(props: any) {
   const { response, profile } = props;
-  console.log(response);
   const SettingWrapper = styled("div", {
     color: "white",
     margin: "1vh",
@@ -413,17 +406,16 @@ function Setting(props: any) {
   const secAuthText = response?.user_info.userSecAuthStatus ? "ON" : "OFF";
   const secAuthColor = response?.user_info.userSecAuthStatus ? tier.color : "#D8D8D8";
 
-  console.log("yeah! ", profile);
   const SecAuthToggle = () => {
     axios.patch("/api/users/profile", {
       nickName: profile.nickname,
       email: profile.email,
       secAuthStatus: !(profile.secAuthStatus),
       avatarImgUri: profile.avartarImgUri,
-    }).then((res) => {
+    }).then(() => {
       // console.log("updated!", res);
       location.reload();
-    }).catch((err) => {
+    }).catch(() => {
       // console.log("error!", err);
       location.reload();
     });
@@ -460,7 +452,7 @@ function Setting(props: any) {
 // Achievement Zone
 
 function Achievement(props: any) {
-  const { response, profile } = props;
+  const { response } = props;
   const tier = theme.getTierColor(response?.rank_info.rank_score);
 
   const AchievementZone = styled("div", {
@@ -518,8 +510,6 @@ function Achievement(props: any) {
       textColor = "gray";
       opacity = 0.3;
     }
-    console.log(response?.achiv_info[i].achiv_image);
-    console.log(response?.user_info.userImage);
     boxes.push(
       <AchievementBox key={i.toString()}>
         <AchievementImage
@@ -623,7 +613,6 @@ export function ContainerContents() {
     getUserSearch(searchSeq).then((response) => {
       const anyResponse: any = response
       const userInfo = anyResponse?.data;
-      console.log("origin : ", userInfo);
       const profile = {
         nickname: userInfo?.user_info?.userName,
         email: userInfo?.user_info?.userEmail,
