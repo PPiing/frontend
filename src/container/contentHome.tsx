@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
 import { ModalFirstLogin } from "../component/modal/modalFirstLogin";
+import { isFirstLogin } from "../network/api/axios.custom";
 
 const Contents = styled(template.Contents, {
   height: `calc(${theme.NAV_LEFT_HEIGHT} - 6vh)`,
@@ -70,6 +71,11 @@ export function ContainerContents() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  isFirstLogin().then((response: any) => {
+    if (response?.data === true) setOpen(true);
+  })
+
   return (
     <Contents className="contents">
       <Modal open={open} onClose={handleClose}>
