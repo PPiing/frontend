@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
 import { globalStyles } from "./theme/theme";
 import { Home } from "./view/viewHome";
 import { Game } from "./view/viewGame";
@@ -11,7 +10,6 @@ import { Login } from "./view/viewLogin";
 import { Twofactor } from "./view/viewTwofactor";
 import { RedirectTwofactor } from "./view/viewRedirect";
 import { RootControl } from "./component/rootControl";
-import store from "./redux/store";
 
 function App() {
   globalStyles();

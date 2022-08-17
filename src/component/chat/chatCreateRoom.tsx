@@ -136,7 +136,6 @@ export function CreateRoom(props: any) {
   방 생성 성공 시 우측 컨텐츠 화면 empty 상태로 변경
   */
   const createRoom = () => {
-    console.log(roomName, roomPassword, roomType);
     axios
       .post("/api/chatrooms/new/", {
         chatType: roomType,
@@ -144,13 +143,9 @@ export function CreateRoom(props: any) {
         password: roomPassword,
         isDirected: true,
       })
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         // propFunc("empty");
         location.reload();
-      })
-      .catch((error) => {
-        console.log(error);
       });
   };
 

@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { ReducerType } from "../../redux/rootReducer";
 import { addBlockUser, BlockData, clearBlockList } from "../../redux/slices/blockList";
 import { addChoosableAlam, ChoosableAlamData, clearChoosableAlamList, removeChoosableAlam, removeOverlapChoosableAlam } from "../../redux/slices/choosableAlamList";
 import { addCommonAlam, CommonAlamData, clearCommonAlamList, removeCommonAlam } from "../../redux/slices/commonAlam";

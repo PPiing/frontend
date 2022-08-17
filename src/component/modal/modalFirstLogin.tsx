@@ -2,8 +2,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
-import * as template from "../../container/contentTemplate";
-import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 

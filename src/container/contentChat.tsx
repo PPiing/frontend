@@ -94,16 +94,16 @@ const NeonBox = styled("div", {
 
 // Content~ 컴포넌트는 렌더링 확인을 위한 샘플입니다.
 
-const ContentFind = styled("div", {
-  position: "relative",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "5rem",
-  borderRadius: "5%",
-  width: "95%",
-  height: "95%",
-});
+// const ContentFind = styled("div", {
+//   position: "relative",
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   fontSize: "5rem",
+//   borderRadius: "5%",
+//   width: "95%",
+//   height: "95%",
+// });
 
 const ContentEmpty = styled("div", {
   display: "flex",
@@ -120,19 +120,19 @@ const ContentEmptyDiscription = styled("div", {
   fontSize: "20px",
 });
 
-const ContentExitButton = styled("div", {
-  position: "absolute",
-  right: "20px",
-  top: "20px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  fontSize: "2rem",
-  borderRadius: "20%",
-  width: "30px",
-  height: "30px",
-  cursor: "pointer",
-});
+// const ContentExitButton = styled("div", {
+//   position: "absolute",
+//   right: "20px",
+//   top: "20px",
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   fontSize: "2rem",
+//   borderRadius: "20%",
+//   width: "30px",
+//   height: "30px",
+//   cursor: "pointer",
+// });
 
 /*
 테스트용 임시 룸
@@ -164,7 +164,6 @@ export function ContainerContents() {
         store.dispatch(removeJoinedChatRoomList({} as JoinedChatRoomListData));
         data.map((item: JoinedChatRoomListData) =>
           dispatch(addJoinedChatRoom(item)));
-        console.log(data);
       });
     }
     return () => {

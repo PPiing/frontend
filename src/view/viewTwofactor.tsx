@@ -1,7 +1,6 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 import { ViewWrapper } from "./viewTemplate";
 
 // eslint-disable-next-line import/no-unresolved
@@ -19,12 +18,6 @@ const TwofactorWrapper = styled(ViewWrapper, {
 });
 
 export function Twofactor() {
-  const auth = useSelector<ReducerType, AuthData>((state) => state.auth);
-
-  // if (auth.auth || (auth.auth && auth.auth2f && auth.isRequire2f)) {
-  //   return (<Navigate replace to="/home" />);
-  // }
-
   return (
     <TwofactorWrapper>
       <ContainerContents />

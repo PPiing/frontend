@@ -232,7 +232,7 @@ export function ModalNavFriendBox(props: any) {
   useEffect(() => {
     let searchSeq: any = "-1";
     if (isNumber(user?.seq)) searchSeq = user?.seq.toString();
-    getUserSearch(user?.seq).then((response) => {
+    getUserSearch(searchSeq).then((response) => {
       const anyResponse: any = response;
       const userInfo: any = anyResponse?.data;
       const defineList: ButtonType[] = [];

@@ -127,11 +127,7 @@ export function ModalUserBan(props: any) {
         </div>
       )}
       onClick={() => {
-        axios.put(`/api/chatrooms/ban/${seq}/${room}`).then((response) => {
-          console.log("response :", response);
-        }).catch((error) => {
-          console.log("error :", error);
-        });
+        axios.put(`/api/chatrooms/ban/${seq}/${room}`);
       }}
     />
   );
@@ -156,11 +152,7 @@ export function ModalUserMute(props: any) {
         </div>
       )}
       onClick={() => {
-        axios.put(`/api/chatrooms/mute/${seq}/${room}/300`).then((response) => {
-          console.log("response :", response);
-        }).catch((error) => {
-          console.log("error :", error);
-        });
+        axios.put(`/api/chatrooms/mute/${seq}/${room}/300`);
       }}
     />
   );
@@ -185,11 +177,7 @@ export function ModalUserAdmin(props: any) {
         </div>
       )}
       onClick={() => {
-        axios.put(`/api/chatrooms/manager/${seq}/${room}`).then((response) => {
-          console.log("response :", response);
-        }).catch((error) => {
-          console.log("error :", error);
-        });
+        axios.put(`/api/chatrooms/manager/${seq}/${room}`);
       }}
     />
   );
