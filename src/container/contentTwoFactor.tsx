@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import React, { useState } from "react";
 import { keyframes } from "@stitches/react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as theme from "../theme/theme";
 import { sendAuthCode, checkAuthCode } from "../network/api/axios.custom";
 
@@ -192,13 +192,9 @@ export function ContainerContents() {
   function onEnterPress(e: any) {
     if (e.key === "Enter") {
       const code = Input1 + Input2 + Input3 + Input4;
-      console.log(code);
       checkAuthCode(code).then((response: any) => {
-        console.log(response);
         if (response.status === 200) {
-          console.log("success");
           navigate("/home");
-          // return (<Navigate replace to="/home" />);
         }
       });
     }

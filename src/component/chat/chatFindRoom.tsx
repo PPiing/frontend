@@ -1,11 +1,8 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable react/button-has-type */
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
 import axios from "axios";
-import * as theme from "../../theme/theme";
 import * as myaxios from "../../network/api/axios.custom";
 import IRoomList from "../../interface/roomlist.interface";
 
@@ -165,8 +162,6 @@ export function FindRoom(props: any) {
       fontWeight: "bold",
     });
 
-    console.log("setJoinControl", room);
-
     const puborpriv =
       room.chatType === ChatType.CHTP20 ? "public" : "protected";
 
@@ -196,8 +191,7 @@ export function FindRoom(props: any) {
                   .put(`/api/chatrooms/join/${room.chatSeq}`, {
                     password: e.target.value,
                   })
-                  .then((response: any) => {
-                    // console.log(response);
+                  .then(() => {
                     location.reload();
                   })
                   .catch((error: any) => {
@@ -216,10 +210,10 @@ export function FindRoom(props: any) {
     } else {
       rst.push(
         <ChatJoinButton
-          onClick={(e: any) => {
+          onClick={() => {
             axios
               .put(`/api/chatrooms/join/${room.chatSeq}`)
-              .then((response: any) => {
+              .then(() => {
                 // console.log(response);
                 location.reload();
               })
@@ -246,7 +240,7 @@ export function FindRoom(props: any) {
         {roomList.map((item: any, i: number) => (
           <RoomListBox
             key={i}
-            onClick={(e) => {
+            onClick={() => {
               setJoinControl(roomList[i]);
             }}
           >

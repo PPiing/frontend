@@ -26,7 +26,6 @@ function ChatRoomMessageArea(props: any) {
 
   useEffect(() => {
     axios.getAllMessages(roomSeq).then((response: any) => setMessages(response.data.reverse()));
-    console.log(messages);
   }, [roomSeq]);
 
   useEffect(() => {
