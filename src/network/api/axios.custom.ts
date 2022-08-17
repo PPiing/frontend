@@ -323,7 +323,7 @@ export const getAllMessages = async (chatSeq: number) => {
 }
 
 // --------------------------------------------------------------
-// auth (twofactor)
+// auth
 
 export const sendAuthCode = async () => {
   try {
@@ -337,6 +337,15 @@ export const sendAuthCode = async () => {
 export const checkAuthCode = async (code: string) => {
   try {
     const response = await axios.instance.get(`/auth/twofactor/code?code=${code}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
+
+export const isFirstLogin = async () => {
+  try {
+    const response = await axios.instance.get("/auth/login/firstlogin");
     return (response);
   } catch (error) {
     return (error);
