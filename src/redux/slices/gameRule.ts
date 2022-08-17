@@ -15,7 +15,7 @@ export const gameRule = createSlice({
     matchScore: 3,
     ballSpeed: 1.0,
     paddleSize: 1.0,
-    isRankGame: false,
+    isRankGame: true,
     blueUser: "kkim",
     redUser: "hyunggyo",
   } as GameRuleData,

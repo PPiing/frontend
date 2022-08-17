@@ -202,13 +202,13 @@ export default function GameRuleSet() {
         <ToggleBtn selection1="Rank" selection2="Normal" />
         <SlidersContainer>
           <SliderWrapper>
-            <Slider name="score" onChange={handleValue} orientation="vertical" aria-label="score" valueLabelDisplay="on" defaultValue={3} max={10} min={1} color="primary" marks />
+            <Slider name="score" onChange={handleValue} orientation="vertical" aria-label="score" valueLabelDisplay="on" defaultValue={memoRule.matchScore} max={10} min={1} color="primary" marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={1.0} max={1.5} min={0.5} color="secondary" step={0.1} marks />
+            <Slider name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={memoRule.ballSpeed} max={1.5} min={0.5} color="secondary" step={0.1} marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={1.0} max={1.2} min={0.8} color="primary" step={0.1} marks />
+            <Slider name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={memoRule.paddleSize} max={1.2} min={0.8} color="primary" step={0.1} marks />
           </SliderWrapper>
         </SlidersContainer>
         <TextContainer>
