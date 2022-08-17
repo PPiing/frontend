@@ -40,7 +40,7 @@ function ChatInput(props: any) {
     <ChatText
       value={inputMsg}
       onChange={(event: any) => handleChange(event)}
-      onKeyDown={HandleKeyDown}
+      onKeyPress={HandleKeyDown}
     />
   );
 }
