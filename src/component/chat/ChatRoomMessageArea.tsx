@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import * as axios from "../../network/api/axios.custom";
+import { ReducerType } from "../../redux/rootReducer";
+import { BlockData } from "../../redux/slices/blockList";
 import { ChatMessage } from "./chatMessage";
 
 interface IMessage {
@@ -15,12 +18,15 @@ function ChatRoomMessageArea(props: any) {
   const { roomSeq, socket } = props;
   const [messages, setMessages] = useState<IMessage[]>([]);
   const bottomRef = useRef<null | HTMLDivElement>(null);
+  const blockUsers = useSelector<ReducerType, BlockData[]>((state) => state.blockList);
 
   useEffect(() => {
     setMessages([]);
   }, []);
+
   useEffect(() => {
-    axios.getAllMessages(roomSeq).then((response: any) => setMessages(response.data));
+    axios.getAllMessages(roomSeq).then((response: any) => setMessages(response.data.reverse()));
+    console.log(messages);
   }, [roomSeq]);
 
   useEffect(() => {
@@ -28,7 +34,8 @@ function ChatRoomMessageArea(props: any) {
   }, [messages]);
 
   socket.on("room:chat", (message: any) => {
-    if (roomSeq === message.chatSeq) {
+    if (roomSeq === message.chatSeq &&
+      !blockUsers.includes({ seq: message.userSeq } as BlockData)) {
       const newMsg: IMessage = {
         msgSeq: message.id,
         chatSeq: message.chatSeq,
