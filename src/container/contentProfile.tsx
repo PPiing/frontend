@@ -87,6 +87,7 @@ function Profile(props: any) {
           avatarImgUri: imgUp.data,
         });
         setProfileURI(`${window.location.origin}${imgUp.data}`);
+        location.reload();
       }
       // else 일 경우 화면단에 에러 띄워줘야함
     } catch (e) {
@@ -103,6 +104,7 @@ function Profile(props: any) {
         avatarImgUri: profile.avartarImgUri,
       }).then((res) => {
         setNickname(event.target.value);
+        location.reload();
       }).catch((err) => {
         console.log("error!", err);
       });
@@ -487,6 +489,14 @@ function Achievement(props: any) {
     position: "relative",
   });
 
+  const AchievementImage = styled("img", {
+    height: "13vh",
+    width: "13vh",
+    position: "absolute",
+    left: "13px",
+    top: "0",
+  })
+
   const AchievementText = styled("b", {
     marginLeft: "1vh",
     position: "absolute",
@@ -499,28 +509,26 @@ function Achievement(props: any) {
     let title = response?.achiv_info[i].achiv_title.substr(0, 15);
     let textColor = "white";
     let tierColor = tier.color;
+    let opacity = 1.0;
     if (response?.achiv_info[i].achiv_title.length > 15) {
       title += "...";
     }
     if (response?.achiv_info[i].achiv_complete === false) {
       tierColor = "gray";
       textColor = "gray";
+      opacity = 0.3;
     }
     console.log(response?.achiv_info[i].achiv_image);
     console.log(response?.user_info.userImage);
     boxes.push(
       <AchievementBox key={i.toString()}>
-        <img
+        <AchievementImage
           alt="error"
-          src={`${window.location.origin}/api/upload/${response.achiv_info[i].achiv_image}`}
+          src="/asset/achiv.jpg"
           style={{
-            height: "13vh",
-            width: "13vh",
-            position: "absolute",
-            left: "13px",
-            top: "0",
             border: `1px solid ${tierColor}`,
             boxShadow: `0 0 10px ${tierColor}`,
+            opacity: `${opacity}`,
           }}
         />
         <AchievementText

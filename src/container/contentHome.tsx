@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -59,22 +59,25 @@ const Text1 = styled("div", {
   width: "100%",
 });
 
-const ModalButton = styled("button", {
-});
-
 export function ContainerContents() {
   const style = theme.modalStyle;
   style.top = "50%";
   style.left = "50%";
-  style.width = "300px";
-  style.height = "auto";
+  style.width = "90vw";
+  style.height = "90vh";
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  let control = true;
 
-  isFirstLogin().then((response: any) => {
-    if (response?.data === true) setOpen(true);
-  })
+  useEffect(() => {
+    isFirstLogin().then((response: any) => {
+      if (response?.data === true && control === true) {
+        setOpen(true);
+        control = false;
+      }
+    })
+  }, []);
 
   return (
     <Contents className="contents">
