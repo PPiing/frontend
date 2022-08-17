@@ -9,8 +9,9 @@ import * as theme from "../../theme/theme";
 import { ReducerType } from "../../redux/rootReducer";
 import { StatusDisplayDistributor } from "../../feat/profile/utils";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { getUserSearch, postFriendDelete, postFriendRequest, postGameInvite, postNewDM, requestUserBlock, requestUserUnblock, } from "../../network/api/axios.custom";
+import { getUserSearch, postConfirm, postFriendDelete, postFriendRequest, postGameInvite, postNewDM, requestUserBlock, requestUserUnblock, } from "../../network/api/axios.custom";
 import { FriendData } from "../../redux/slices/friendList";
+import { ChoosableAlamData } from "../../redux/slices/choosableAlamList";
 
 /*
   Define Rules
@@ -217,6 +218,8 @@ export function ModalNavFriendBox(props: any) {
   )
   const logged = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
   const friendsList = useSelector<ReducerType, FriendData[]>((state) => state.friendList);
+  const confirmList
+    = useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
 
   function buttonClickHref(link: string) {
     window.location.href = link;
@@ -261,6 +264,15 @@ export function ModalNavFriendBox(props: any) {
               break;
             }
           }
+          let bFriendAlarm: boolean = false;
+          let friendAlarmIndex: number = -1;
+          for (let i = 0; i < confirmList.length; i += 1) {
+            if (confirmList[i].from_seq === userInfo.user_info.userSeq) {
+              bFriendAlarm = true;
+              friendAlarmIndex = i;
+              break;
+            }
+          }
           if (friendButtonToggle === 0) {
             if (bFriend) {
               defineList.push({
@@ -272,14 +284,31 @@ export function ModalNavFriendBox(props: any) {
                 disabled: false,
               });
             } else {
-              defineList.push({
-                name: "add friend",
-                onClick: () => {
-                  postFriendRequest(userInfo.user_info.userSeq);
-                  setFriendButtonToggle(1);
-                },
-                disabled: false,
-              });
+              // eslint-disable-next-line no-lonely-if
+              if (bFriendAlarm) {
+                defineList.push({
+                  name: "accept friend",
+                  onClick: () => {
+                    postConfirm(
+                      userInfo.user_info.userSeq,
+                      confirmList[friendAlarmIndex].seq,
+                      true,
+                      0
+                    );
+                    setFriendButtonToggle(1);
+                  },
+                  disabled: false,
+                });
+              } else {
+                defineList.push({
+                  name: "add friend",
+                  onClick: () => {
+                    postFriendRequest(userInfo.user_info.userSeq);
+                    setFriendButtonToggle(1);
+                  },
+                  disabled: false,
+                });
+              }
             }
           } else if (friendButtonToggle === 1) {
             if (bFriend) {
@@ -333,14 +362,39 @@ export function ModalNavFriendBox(props: any) {
           }
           if (gameButtonToggle === 0) {
             if (userInfo.user_info.userStatus === "USST10") {
-              defineList.push({
-                name: "game",
-                onClick: () => {
-                  postGameInvite(userInfo.user_info.userSeq);
-                  setGameButtonToggle(1);
-                },
-                disabled: false,
-              });
+              let bGameReq: boolean = false;
+              let gameReqIndex: number = -1;
+              for (let i = 0; i < confirmList.length; i += 1) {
+                if (confirmList[i].from_seq === userInfo.user_info.userSeq) {
+                  bGameReq = true;
+                  gameReqIndex = i;
+                  break;
+                }
+              }
+              if (bGameReq) {
+                defineList.push({
+                  name: "accept game",
+                  onClick: () => {
+                    postConfirm(
+                      userInfo.user_info.userSeq,
+                      confirmList[gameReqIndex].seq,
+                      true,
+                      1
+                    );
+                    setGameButtonToggle(1);
+                  },
+                  disabled: false,
+                });
+              } else {
+                defineList.push({
+                  name: "game",
+                  onClick: () => {
+                    postGameInvite(userInfo.user_info.userSeq);
+                    setGameButtonToggle(1);
+                  },
+                  disabled: false,
+                });
+              }
             }
           } else if (gameButtonToggle === 1) {
             if (userInfo.user_info.userStatus === "USST10") {
