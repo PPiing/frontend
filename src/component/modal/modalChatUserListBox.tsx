@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
@@ -5,7 +6,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { ModalUserBan, ModalUserMute, ModalUserAdmin, } from "./modalCheck";
 import * as theme from "../../theme/theme";
-import { getUserSearch } from "../../network/api/axios.custom";
+import { getUserSearch, getNickName } from "../../network/api/axios.custom";
 import { ToolTip } from "../button/ToolTip";
 
 // *****************************************************************************
@@ -62,8 +63,7 @@ export const DefineAction: ActionLevel[] = [
 
 const UserListBox = styled("div", {
   width: "100%",
-  height: "5vh",
-  // overflow: "hidden",
+  height: "7vh",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -71,8 +71,6 @@ const UserListBox = styled("div", {
   transition: "all 0.5s",
   "&:hover": {
     fontSize: "1.1rem",
-    marginTop: "-0.15rem",
-    marginBottom: "0.6rem",
     textShadow: "0px 0px 7px #ffffff",
   },
 });
@@ -128,12 +126,9 @@ const ButtonDiv = styled("div", {
   marginRight: "1rem",
   position: "relative",
   cursor: "pointer",
-  backgroundColor: "white",
   transition: "all 0.3s",
-  boxShadow: "0px 0px 6px #ffffff",
   "&:hover": {
     backgroundColor: "#424242",
-    boxShadow: "0px 0px 6px #424242",
   },
 });
 
@@ -155,68 +150,77 @@ const ButtonImg = styled("div", {
 // Renderer start
 // *****************************************************************************
 
-function RenderButton(partcpUser: any, partcpType: UserLevel, loggedType: UserLevel): JSX.Element {
-  const result: JSX.Element[] = [];
-  const actionList: ActionLevel[] = getDefinedActionList(loggedType, partcpType);
-
-  const [banOpen, setBadOpen] = useState(false);
-  const handleBanOpen = () => setBadOpen(true);
-  const handleBanClose = () => setBadOpen(false);
-
-  const [muteOpen, setMuteOpen] = useState(false);
-  const handleMuteOpen = () => setMuteOpen(true);
-  const handleMuteClose = () => setMuteOpen(false);
-
-  const [adminOpen, setAdminOpen] = useState(false);
-  const handleAdminOpen = () => setAdminOpen(true);
-  const handleAdminClose = () => setAdminOpen(false);
-
-  for (let i = 0; i < actionList.length; i += 1) {
-    let onclick;
-    if (actionList[i].name === "Ban") onclick = handleBanOpen;
-    if (actionList[i].name === "Mute") onclick = handleMuteOpen;
-    if (actionList[i].name === "Admin") onclick = handleAdminOpen;
-    result.push(
-      <ButtonDiv key={i}>
-        <Modal open={banOpen} onClose={handleBanClose}>
-          <Box sx={theme.modalStyle} component="div">
-            <ModalUserBan seq={partcpUser.userSeq} room={partcpUser.chatSeq} />
-          </Box>
-        </Modal>
-        <Modal open={muteOpen} onClose={handleMuteClose}>
-          <Box sx={theme.modalStyle} component="div">
-            <ModalUserMute seq={partcpUser.userSeq} room={partcpUser.chatSeq} />
-          </Box>
-        </Modal>
-        <Modal open={adminOpen} onClose={handleAdminClose}>
-          <Box sx={theme.modalStyle} component="div">
-            <ModalUserAdmin seq={partcpUser.userSeq} room={partcpUser.chatSeq} />
-          </Box>
-        </Modal>
-        <ButtonImg className="myToolTipParent" onClick={onclick}>
-          <img src={actionList[i].icon} alt={actionList[i].name} />
-          <ToolTip content={actionList[i].tooltip} />
-        </ButtonImg>
-      </ButtonDiv>
-    );
-  }
-
+function RenderButton(userInfo: any, myAuth: number) {
   return (
     <ButtonZone>
-      {result}
+      <ButtonDiv key={0}>
+        <ButtonImg
+          className="myToolTipParent"
+          onClick={() => { console.log("click") }}
+        >
+          <img
+            style={{ filter: "invert(90%)", background: "none", }}
+            src="/asset/icon_ban.svg"
+            alt="Ban"
+          />
+          <ToolTip content="Ban the user from chatroom." />
+        </ButtonImg>
+      </ButtonDiv>
+      <ButtonDiv key={1}>
+        <ButtonImg
+          className="myToolTipParent"
+          onClick={() => { console.log("click") }}
+        >
+          <img
+            style={{ filter: "invert(90%)", background: "none", }}
+            src="/asset/icon_ban.svg"
+            alt="Kick"
+          />
+          <ToolTip content="Kick the user from chatroom." />
+        </ButtonImg>
+      </ButtonDiv>
+      <ButtonDiv key={2}>
+        <ButtonImg
+          className="myToolTipParent"
+          onClick={() => { console.log("click") }}
+        >
+          <img
+            style={{ filter: "invert(90%)", background: "none", }}
+            src="/asset/icon_mute.svg"
+            alt="Ban"
+          />
+          <ToolTip content="Mute the user for 5 minutes." />
+        </ButtonImg>
+      </ButtonDiv>
+      <ButtonDiv key={3}>
+        <ButtonImg
+          className="myToolTipParent"
+          onClick={() => { console.log("click") }}
+        >
+          <img
+            style={{ filter: "invert(90%)", background: "none", }}
+            src="/asset/icon_admin.svg"
+            alt="Admin"
+          />
+          <ToolTip content="Set the user as administrator." />
+        </ButtonImg>
+      </ButtonDiv>
     </ButtonZone>
-  );
+  )
 }
 
 export function ModalChatUserListBox(props: any) {
-  const { partcpUser, loggedUser, loggedType } = props;
-  const partcpType = getDefinedUserType(partcpUser.partcAuth);
-  const [userName, setUserName] = React.useState<string>("로딩중입니다.");
+  const { userInfo, myAuth } = props;
+  const [userName, setUserName] = React.useState<JSX.Element>(
+    <UserNicknameBold>로딩중입니다.</UserNicknameBold>
+  );
+
   useEffect(() => {
-    getUserSearch(partcpUser.userSeq).then((response: any) => {
-      setUserName(response.data.user_info.userName);
-    }).catch((error) => {
-      setUserName("오류가 발생했습니다.");
+    getNickName(userInfo?.targetSeq).then((response: string) => {
+      console.log("")
+      setUserName(<UserNicknameBold>{response}</UserNicknameBold>);
+    }).catch((err) => {
+      setUserName(<UserNicknameBold style={{ color: "red" }}>Error occured</UserNicknameBold>);
     });
   }, []);
 
@@ -226,17 +230,10 @@ export function ModalChatUserListBox(props: any) {
 
   return (
     <UserListBox>
-      <UserNicknameZone
-        onClick={() => { ButtonClickHref(partcpUser.userSeq); }}
-      >
-        <p>
-          :&nbsp;&nbsp;
-          <UserNicknameBold>
-            {userName}
-          </UserNicknameBold>
-        </p>
+      <UserNicknameZone onClick={() => { ButtonClickHref(userInfo?.targetSeq); }}>
+        {userName}
       </UserNicknameZone>
-      {RenderButton(partcpUser, partcpType, loggedType)}
+      {RenderButton(userInfo, myAuth)}
     </UserListBox>
   );
 }

@@ -6,6 +6,7 @@ import * as child from "./modalChatUserListBox";
 import { getUserSearch } from "../../network/api/axios.custom";
 import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
+import { ModalChatUserListBox } from "./modalChatUserListBox";
 import * as axios from "../../network/api/axios.custom";
 
 const UserListZone = styled("div", {
@@ -65,7 +66,6 @@ interface ChatUserList {
 interface ChatUserListInfo {
   targetAuth: number;
   targetSeq: number;
-  targetName: string;
 }
 
 export function ModalChatUserList(props: ChatUserList) {
@@ -88,7 +88,6 @@ export function ModalChatUserList(props: ChatUserList) {
             const newUser = {
               targetAuth: convertAuth(item.partcAuth),
               targetSeq: item.userSeq,
-              targetName: axios.getNickName(item.userSeq),
             };
             return newUser;
           })
@@ -112,7 +111,7 @@ export function ModalChatUserList(props: ChatUserList) {
   const tempRender = () => {
     return userLIstInfo.map((item: ChatUserListInfo, i) => {
       return (
-        <div key={i}>{item.targetSeq}</div>
+        <ModalChatUserListBox key={i} userInfo={item} myAuth={myAuth} />
       )
     })
   }
