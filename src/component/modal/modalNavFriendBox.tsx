@@ -230,9 +230,7 @@ export function ModalNavFriendBox(props: any) {
   const [blockButtonToggle, setBlockButtonToggle] = useState(0);
 
   useEffect(() => {
-    let searchSeq: any = "-1";
-    if (isNumber(user?.seq)) searchSeq = user?.seq.toString();
-    getUserSearch(searchSeq).then((response) => {
+    getUserSearch(user?.seq).then((response) => {
       const anyResponse: any = response;
       const userInfo: any = anyResponse?.data;
       const defineList: ButtonType[] = [];
