@@ -23,7 +23,6 @@
   transition: opacity 0.3s;
   font-size: 18px;
   font-weight: 0;
-
 }
   
 .myToolTipParent .myToolTipText::after {
@@ -31,10 +30,10 @@
   position: absolute;
   top: 100%;
   left: calc(100% - 15px);
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #222 transparent transparent transparent;
+  /* margin-left: -5px; */
+  /* border-width: 5px; */
+  /* border-style: solid; */
+  /* border-color: #222 transparent transparent transparent; */
 }
   
 .myToolTipParent:hover .myToolTipText {
