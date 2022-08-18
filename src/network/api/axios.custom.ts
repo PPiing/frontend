@@ -267,6 +267,15 @@ export const getUserSearch = async (searchSeq: string) => {
   }
 }
 
+export const getNickName = async (searchSeq: number) => {
+  try {
+    const response = await axios.instance.get(`/users/profile/${searchSeq}`);
+    return (response?.data.user_info.userName);
+  } catch (error) {
+    return (error);
+  }
+}
+
 export const getUserSimpleSearch = async (searchString: string) => {
   try {
     if (checkNameValid(searchString) === false) {
