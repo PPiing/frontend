@@ -136,7 +136,15 @@ const socket = socketManager.socket("/alarm");
 socket.connect();
 
 export function ComponentNavAlam() {
+  const setStatusColor = (status:string) => {
+    if (status === "online") return ("#00d100");
+    if (status === "offline") return ("grey");
+    if (status === "in game") return ("yellow");
+    return ("red");
+  };
+  // const [statusColor, setStatusColor] = useState("#fff");
   const loggedUser = useSelector<ReducerType, LoggedUserData>((state) => state.loggedUser);
+  const statusColor = setStatusColor(StatusDisplayDistributor(loggedUser.status));
   const commonAlamList = useSelector<ReducerType, CommonAlamData[]>(
     (state) => state.commonAlamList
   );
@@ -226,7 +234,7 @@ export function ComponentNavAlam() {
         <ProfileTextName className="profiletext">
           {loggedUser.nick}
         </ProfileTextName>
-        <ProfileTextStatus className="profilestatus">
+        <ProfileTextStatus style={{ color: statusColor, textShadow: `0 0 5px ${statusColor}` }} className="profilestatus">
           {StatusDisplayDistributor(loggedUser.status)}
         </ProfileTextStatus>
       </NavAlarmProfileText>
