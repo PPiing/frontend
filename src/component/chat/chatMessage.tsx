@@ -68,13 +68,13 @@ export function ChatMessage(props: any) {
   const [user, setUser] = useState<FriendData>();
   useEffect(() => {
     getUserSimpleSearch(nickname).then((res: any) => {
-      for (let i = 0; i < res.data.length; i += 1) {
-        if (res.data[i].nickName === nickname) {
+      for (let i = 0; i < res?.data?.length; i += 1) {
+        if (res?.data[i]?.nickName === nickname) {
           setUser({
-            seq: res.data[i].userSeq,
-            nick: res.data[i].nickName,
-            img: res.data[i].userImage,
-            status: res.data[i].userStatus,
+            seq: res?.data[i]?.userSeq,
+            nick: res?.data[i]?.nickName,
+            img: res?.data[i]?.userImage,
+            status: res?.data[i]?.userStatus,
           });
         }
       }

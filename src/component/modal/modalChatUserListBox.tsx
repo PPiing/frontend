@@ -1,6 +1,8 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { styled } from "@stitches/react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -34,10 +36,6 @@ export const DefineUser: UserLevel[] = [
 ];
 
 export const DefineAction: ActionLevel[] = [
-  //   { name: "Enter",
-  //     level: 2 },
-  //   { name: "Exit",
-  //     level: 2 },
   { name: "Ban",
     level: 1,
     icon: "/asset/icon_ban.svg",
@@ -53,12 +51,6 @@ export const DefineAction: ActionLevel[] = [
     icon: "/asset/icon_admin.svg",
     tooltip: "Set the user as administrator.",
     enable: true },
-  //   { name: "RoomToggle", // public / private
-  //     level: 0 },
-  //   { name: "Set Password",
-  //     level: 0 },
-  //   { name: "Set Roomname",
-  //     level: 0 },
 ]
 
 const UserListBox = styled("div", {
@@ -67,10 +59,10 @@ const UserListBox = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  fontSize: "1rem",
+  fontSize: "1.2rem",
   transition: "all 0.5s",
   "&:hover": {
-    fontSize: "1.1rem",
+    fontSize: "1.3rem",
     textShadow: "0px 0px 7px #ffffff",
   },
 });
@@ -150,14 +142,62 @@ const ButtonImg = styled("div", {
 // Renderer start
 // *****************************************************************************
 
-function RenderButton(userInfo: any, myAuth: number) {
+function BanButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
+  if (myAuth === 3) {
+    axios.put(`/api/chatrooms/ban/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
+      setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
+      location.reload();
+    });
+  } else {
+    setButtonResult(<pre style={{ color: "red", margin: 0, textShadow: "0 0 5px red" }}>You are not permitted to do this task.</pre>);
+  }
+}
+function KickButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
+  if (myAuth === 3) {
+    axios.put(`/api/chatrooms/kick/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
+      setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
+      location.reload();
+    });
+  } else {
+    setButtonResult(<pre style={{ color: "red", margin: 0, textShadow: "0 0 5px red" }}>You are not permitted to do this task.</pre>);
+  }
+}
+function MuteButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
+  if (myAuth === 3) {
+    axios.put(`/api/chatrooms/mute/${userInfo?.targetSeq}/${roomSeq}/300`).then((response) => {
+      setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
+      location.reload();
+    });
+  } else {
+    setButtonResult(<pre style={{ color: "red", margin: 0, textShadow: "0 0 5px red" }}>You are not permitted to do this task.</pre>);
+  }
+}
+function AdminButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
+  if (myAuth === 3) {
+    if (userInfo?.targetAuth === 2) {
+      axios.delete(`/api/chatrooms/manager/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
+        location.reload();
+      });
+    } else if (userInfo?.targetAuth === 1) {
+      axios.put(`/api/chatrooms/manager/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
+        location.reload();
+      });
+    }
+  } else {
+    setButtonResult(<pre style={{ color: "red", margin: 0, textShadow: "0 0 5px red" }}>You are not permitted to do this task.</pre>);
+  }
+}
+
+function RenderButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
+  let opa = 1;
+  if (userInfo.targetAuth === 2) {
+    opa = 0.2;
+  }
+
   return (
     <ButtonZone>
       <ButtonDiv key={0}>
-        <ButtonImg
-          className="myToolTipParent"
-          onClick={() => { console.log("click") }}
-        >
+        <ButtonImg className="myToolTipParent" onClick={() => { BanButton(userInfo, myAuth, roomSeq, setButtonResult) }}>
           <img
             style={{ filter: "invert(90%)", background: "none", }}
             src="/asset/icon_ban.svg"
@@ -167,23 +207,17 @@ function RenderButton(userInfo: any, myAuth: number) {
         </ButtonImg>
       </ButtonDiv>
       <ButtonDiv key={1}>
-        <ButtonImg
-          className="myToolTipParent"
-          onClick={() => { console.log("click") }}
-        >
+        <ButtonImg className="myToolTipParent" onClick={() => { KickButton(userInfo, myAuth, roomSeq, setButtonResult) }}>
           <img
             style={{ filter: "invert(90%)", background: "none", }}
-            src="/asset/icon_ban.svg"
+            src="/asset/icon_kick.svg"
             alt="Kick"
           />
           <ToolTip content="Kick the user from chatroom." />
         </ButtonImg>
       </ButtonDiv>
       <ButtonDiv key={2}>
-        <ButtonImg
-          className="myToolTipParent"
-          onClick={() => { console.log("click") }}
-        >
+        <ButtonImg className="myToolTipParent" onClick={() => { MuteButton(userInfo, myAuth, roomSeq, setButtonResult) }}>
           <img
             style={{ filter: "invert(90%)", background: "none", }}
             src="/asset/icon_mute.svg"
@@ -193,12 +227,9 @@ function RenderButton(userInfo: any, myAuth: number) {
         </ButtonImg>
       </ButtonDiv>
       <ButtonDiv key={3}>
-        <ButtonImg
-          className="myToolTipParent"
-          onClick={() => { console.log("click") }}
-        >
+        <ButtonImg className="myToolTipParent" onClick={() => { AdminButton(userInfo, myAuth, roomSeq, setButtonResult) }}>
           <img
-            style={{ filter: "invert(90%)", background: "none", }}
+            style={{ filter: "invert(90%)", background: "none", opacity: opa }}
             src="/asset/icon_admin.svg"
             alt="Admin"
           />
@@ -210,14 +241,16 @@ function RenderButton(userInfo: any, myAuth: number) {
 }
 
 export function ModalChatUserListBox(props: any) {
-  const { userInfo, myAuth } = props;
+  const { userInfo, myAuth, roomSeq } = props;
   const [userName, setUserName] = React.useState<JSX.Element>(
     <UserNicknameBold>로딩중입니다.</UserNicknameBold>
+  );
+  const [buttonResult, setButtonResult] = React.useState<JSX.Element>(
+    <pre style={{ color: "white", display: "none", }}>no process working.</pre>
   );
 
   useEffect(() => {
     getNickName(userInfo?.targetSeq).then((response: string) => {
-      console.log("")
       setUserName(<UserNicknameBold>{response}</UserNicknameBold>);
     }).catch((err) => {
       setUserName(<UserNicknameBold style={{ color: "red" }}>Error occured</UserNicknameBold>);
@@ -229,12 +262,16 @@ export function ModalChatUserListBox(props: any) {
   }
 
   return (
-    <UserListBox>
-      <UserNicknameZone onClick={() => { ButtonClickHref(userInfo?.targetSeq); }}>
-        {userName}
-      </UserNicknameZone>
-      {RenderButton(userInfo, myAuth)}
-    </UserListBox>
+    <>
+      <UserListBox>
+        <UserNicknameZone onClick={() => { ButtonClickHref(userInfo?.targetSeq); }}>
+          {userName}
+        </UserNicknameZone>
+        {RenderButton(userInfo, myAuth, roomSeq, setButtonResult)}<br />
+      </UserListBox>
+      <div style={{ margin: "-5px 0 5px 10px", }}>{buttonResult}</div>
+      <hr style={{ marginBottom: "10px" }} />
+    </>
   );
 }
 
