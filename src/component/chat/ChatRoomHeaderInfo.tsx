@@ -104,7 +104,7 @@ function ChatRoomHeaderInfo(props: any) {
       </Modal>
       <Modal open={settingOpen} onClose={handleSettingClose}>
         <Box sx={theme.modalStyle} component="div">
-          <ModalChatSetting chatInfo={chatInfo} />
+          <ModalChatSetting chatSeq={chatRoomData.seq} />
         </Box>
       </Modal>
       <Modal open={listOpen} onClose={handleListClose}>
