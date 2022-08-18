@@ -109,7 +109,7 @@ function ChatRoomHeaderInfo(props: any) {
       </Modal>
       <Modal open={listOpen} onClose={handleListClose}>
         <Box sx={theme.modalStyle} component="div">
-          <ModalChatUserList chatInfo={chatInfo} />
+          <ModalChatUserList roomSeq={chatRoomData.seq} />
         </Box>
       </Modal>
       {rst}
