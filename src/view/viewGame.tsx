@@ -21,7 +21,7 @@ export function Game() {
   useEffect(() => {
     socket.on("game:ready", (res) => {
       console.log("Game ready!=> ", res.blueUser, res.blueUser);
-      socket.emit("game:ready", {roomId: res.roomId});
+      socket.emit("game:ready", { roomId: res.roomId });
     });
     socket.on("game:start", () => {
       console.log("Game Start!");
@@ -49,8 +49,8 @@ export function Game() {
     <div>
       {
       isInGame ?
-      (<ViewTemplate content={<InGame />} />) :
-      (<ViewTemplate content={<GameRuleSet />} />)
+        (<ViewTemplate content={<InGame />} />) :
+        (<ViewTemplate content={<GameRuleSet />} />)
         }
       {/* <ViewTemplate content={<InGame />} /> */}
     </div>
