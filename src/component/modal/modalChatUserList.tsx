@@ -63,40 +63,47 @@ interface ChatUserList {
 }
 
 interface ChatUserListInfo {
-  myAuth: number;
   targetAuth: number;
   targetSeq: number;
   isBan: boolean;
   muteTime: Date | null;
-  isAdmin: boolean;
   targetName: string;
 }
 
 export function ModalChatUserList(props: ChatUserList) {
   const { roomSeq } = props;
   const [userLIstInfo, setUserListInfo] = useState<ChatUserListInfo[]>([]);
-
+  const loggedUser = useSelector<ReducerType, LoggedUserData>(
+    (state) => state.loggedUser
+  );
+  let myAuth: number = 0;
+  let banList: any[] = [];
   useEffect(() => {
+    axios
+      .getBanList(roomSeq)
+      .then((response: any) => {
+        banList = response.data;
+        console.log(banList);
+      });
     axios
       .getChatInfo(roomSeq)
       .then((response: any) => response.data.participants)
       .then((participants) => {
         setUserListInfo(
           participants.map((item: any) => {
+            if (loggedUser.seq === item.userSeq) {
+              myAuth = convertAuth(item.partcAuth);
+            }
             const newUser = {
-              myAuth: 1,
               targetAuth: convertAuth(item.partcAuth),
               targetSeq: item.userSeq,
-              isBan: false,
+              isBan: (banList.indexOf(item.userSeq) !== -1),
               muteTime: null,
-              isAdmin: false,
-              targetName: "a",
+              targetName: axios.getNickName(item.userSeq),
             };
-            console.log(newUser);
             return newUser;
           })
         );
-        console.log(participants);
       })
   }, []);
 

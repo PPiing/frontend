@@ -330,6 +330,15 @@ export const inviteUser = async (userSeq: number, chatSeq: number) => {
   }
 }
 
+export const getBanList = async (chatSeq: string) => {
+  try {
+    const response = await axios.instance.get(`chatrooms/ban/${chatSeq}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
+
 // --------------------------------------------------------------
 // auth
 
