@@ -23,8 +23,19 @@ export const joinedChatRoomList = createSlice({
     removeJoinedChatRoomList(state, action: PayloadAction<JoinedChatRoomListData>) {
       state.splice(0);
     },
+    deleteJoinedChatRoom(state, action: PayloadAction<JoinedChatRoomListData>) {
+      for (let i = 0; i < state.length; i += 1) {
+        if (state[i].seq === action.payload.seq) {
+          state.splice(i, 1);
+          break;
+        }
+      }
+    }
   }
 });
 
-export const { addJoinedChatRoom, removeJoinedChatRoomList } = joinedChatRoomList.actions;
+export const {
+  addJoinedChatRoom,
+  removeJoinedChatRoomList,
+  deleteJoinedChatRoom } = joinedChatRoomList.actions;
 export default joinedChatRoomList.reducer;

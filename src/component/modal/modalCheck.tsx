@@ -1,11 +1,13 @@
 /* eslint-disable no-restricted-globals */
 import React from "react";
+import axios from "axios";
 import { styled } from "@stitches/react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import store from "../../redux/store";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { getLoggedUserProfile } from "../../network/api/axios.custom";
 import { ReducerType } from "../../redux/rootReducer";
+import { deleteJoinedChatRoom, JoinedChatRoomListData } from "../../redux/slices/joinedChatRoomList";
 import { ToolTip } from "../button/ToolTip";
 
 const ExitZone = styled("div", {
@@ -97,11 +99,8 @@ export function ModalChatExit(props: any) {
     <ModalChatTemplate
       text={<p>Are you sure you want to<ExitTextBold> leave </ExitTextBold>this room?</p>}
       onClick={() => {
-        axios.delete(`/api/chatrooms/leave/${room}`).then((response) => {
-          console.log("response :", response);
-          location.reload();
-        }).catch((error) => {
-          console.log("error :", error);
+        axios.delete(`/api/chatrooms/leave/${room}`).then(() => {
+          store.dispatch(deleteJoinedChatRoom({ seq: room } as JoinedChatRoomListData));
         });
       }}
     />
