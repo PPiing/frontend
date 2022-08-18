@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable consistent-return */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // type 0 = request add friend.
@@ -15,6 +17,9 @@ export const choosableAlamList = createSlice({
   ] as ChoosableAlamData[],
   reducers: {
     addChoosableAlam(state, action: PayloadAction<ChoosableAlamData>) {
+      if (state.includes(action.payload)) {
+        return;
+      }
       return [...state, action.payload];
     },
     clearChoosableAlamList(state, action: PayloadAction<ChoosableAlamData>) {
