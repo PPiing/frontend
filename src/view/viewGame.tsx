@@ -16,7 +16,7 @@ socket.on("connect", () => {
 
 export function Game() {
   const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
-  const [isInGame, setIsInGame] = useState(false);
+  const [isInGame, setIsInGame] = useState(myRule.isInGame);
 
   useEffect(() => {
     socket.on("game:ready", (res) => {

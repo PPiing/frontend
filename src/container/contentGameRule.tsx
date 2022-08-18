@@ -182,7 +182,7 @@ export default function GameRuleSet() {
       console.log("server's ready on GameRule =>", res);
       // eslint-disable-next-line max-len
       store.dispatch(setGameRuleData({ ...memoRule, blueUser: res.blueUser, redUser: res.redUser } as GameRuleData));
-      socket.emit("game:ready", {roomId: res.roomId});
+      socket.emit("game:ready", { roomId: res.roomId });
     });
     socket.on("game:render", (res) => {
       console.log("server's render =>", res);
