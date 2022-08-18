@@ -47,7 +47,7 @@ export function checkNameValid(name: string) {
   // const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{1-11}+$/;
   const regex = /^[a-zA-Zㄱ-ㅎ가-힣0-9]+$/;
   if (regex.test(name)) {
-    if (name.length < 11 && name.length > 1) return true;
+    if (name.length < 11 && name.length >= 1) return true;
   }
   return false;
 }
