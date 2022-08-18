@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import * as theme from "../../theme/theme";
 import { ComponentNavInviteBox } from "./navInviteBox";
 import { ReducerType } from "../../redux/rootReducer";
+import { gameRule, GameRuleData, setGameRuleData } from "../../redux/slices/gameRule";
+import store from "../../redux/store";
 import { ChoosableAlamData } from "../../redux/slices/choosableAlamList";
 import { getConfirmAlamList } from "../../network/api/axios.custom";
 import socketManager from "../../network/api/socket";
@@ -47,10 +49,14 @@ const EmptyAccessRequireAlam = styled("div", {
   fontWeight: "300",
 });
 
-const socket = socketManager.socket("/alarm");
-socket.connect();
+const socketAlarm = socketManager.socket("/alarm");
+const socketGame = socketManager.socket("/");
+
+socketAlarm.connect();
+socketGame.connect();
 
 export function ComponentNavInviteZone() {
+  const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
   const choosableAlamList =
     useSelector<ReducerType, ChoosableAlamData[]>((state) => state.choosableAlamList);
   const [reqSwitch, setReqSwitch] = useState(0);
@@ -60,10 +66,22 @@ export function ComponentNavInviteZone() {
     setReqSwitch(1);
   }
 
-  socket.on("alarm:confirm", () => {
+  socketAlarm.on("alarm:confirm", () => {
     setReqSwitch(0);
     location.reload();
   });
+
+  socketGame.on("game:start", () => {
+    window.location.href = "/game";
+    store.dispatch(setGameRuleData({ ...myRule, isInGame: true } as GameRuleData));
+  });
+
+  // socketGame.on("game:ready", (res) => {
+  //   console.log("Invite Game ready!=> ", res.blueUser, res.blueUser);
+  // });
+  // socketGame.on("game:start", () => {
+  //   console.log("Invite Game Start!");
+  // });
 
   const renderChoosableAlams = () => {
     if (choosableAlamList.length === 0) {

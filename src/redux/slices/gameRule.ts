@@ -5,6 +5,7 @@ export interface GameRuleData {
     ballSpeed: number;
     paddleSize: number;
     isRankGame: boolean;
+    isInGame: boolean;
     blueUser: string;
     redUser: string;
 };
@@ -16,6 +17,7 @@ export const gameRule = createSlice({
     ballSpeed: 1.0,
     paddleSize: 1.0,
     isRankGame: true,
+    isInGame: false,
     blueUser: "kkim",
     redUser: "hyunggyo",
   } as GameRuleData,
