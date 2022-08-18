@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { useState } from "react";
 import { styled } from "@stitches/react";
 import { useSelector } from "react-redux";
@@ -61,6 +62,7 @@ export function ComponentNavInviteZone() {
 
   socket.on("alarm:confirm", () => {
     setReqSwitch(0);
+    location.reload();
   });
 
   const renderChoosableAlams = () => {
