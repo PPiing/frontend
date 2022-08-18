@@ -6,9 +6,10 @@ import axios from "axios";
 import { styled } from "@stitches/react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { ModalUserBan, ModalUserMute, ModalUserAdmin, } from "./modalCheck";
+import store from "../../redux/store";
 import * as theme from "../../theme/theme";
 import { getUserSearch, getNickName } from "../../network/api/axios.custom";
+import { deleteJoinedChatRoom, JoinedChatRoomListData } from "../../redux/slices/joinedChatRoomList";
 import { ToolTip } from "../button/ToolTip";
 
 // *****************************************************************************
@@ -143,7 +144,7 @@ const ButtonImg = styled("div", {
 // *****************************************************************************
 
 function BanButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
-  if (myAuth === 3) {
+  if (myAuth === 3 && userInfo.targetAuth !== 3) {
     axios.put(`/api/chatrooms/ban/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
       setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
       location.reload();
@@ -153,8 +154,8 @@ function BanButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResu
   }
 }
 function KickButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
-  if (myAuth === 3) {
-    axios.put(`/api/chatrooms/kick/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
+  if (myAuth === 3 && userInfo.targetAuth !== 3) {
+    axios.delete(`/api/chatrooms/kick/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
       setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
       location.reload();
     });
@@ -163,7 +164,7 @@ function KickButton(userInfo: any, myAuth: number, roomSeq: number, setButtonRes
   }
 }
 function MuteButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
-  if (myAuth === 3) {
+  if (myAuth === 3 && userInfo.targetAuth !== 3) {
     axios.put(`/api/chatrooms/mute/${userInfo?.targetSeq}/${roomSeq}/300`).then((response) => {
       setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
       location.reload();
