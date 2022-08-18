@@ -11,7 +11,6 @@ import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 import store from "../../redux/store";
 import socketManager from "../../network/api/socket";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
-import { resolveComponentProps } from "@mui/base";
 
 const NavFriendZone = styled("div", {
   margin: "5px",
@@ -81,7 +80,6 @@ export function ComponentNavFriendZone() {
     const renderResult = [];
     if (display.searchSwitch) {
       if (!display.searchRetRec) {
-        console.log("!!!!!", display.searchString);
         const response: Promise<any> = getUserSimpleSearch(display.searchString);
 
         response.then((value) => {
