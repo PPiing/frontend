@@ -71,10 +71,12 @@ interface ChatUserListInfo {
 export function ModalChatUserList(props: ChatUserList) {
   const { roomSeq } = props;
   const [userLIstInfo, setUserListInfo] = useState<ChatUserListInfo[]>([]);
+  const [banList, setBanList] = useState<any[]>([]);
+  const [myAuth, setMyAuth] = useState(0);
   const loggedUser = useSelector<ReducerType, LoggedUserData>(
     (state) => state.loggedUser
   );
-  let myAuth: number = 0;
+
   useEffect(() => {
     axios
       .getChatInfo(roomSeq)
@@ -83,7 +85,7 @@ export function ModalChatUserList(props: ChatUserList) {
         setUserListInfo(
           participants.map((item: any) => {
             if (loggedUser.seq === item.userSeq) {
-              myAuth = convertAuth(item.partcAuth);
+              setMyAuth(convertAuth(item.partcAuth));
             }
             const newUser = {
               targetAuth: convertAuth(item.partcAuth),
@@ -92,7 +94,10 @@ export function ModalChatUserList(props: ChatUserList) {
             return newUser;
           })
         );
-      })
+      });
+    axios
+      .getBanList(roomSeq)
+      .then((response: any) => { setBanList(response.data) });
   }, []);
 
   const convertAuth = (auth: string) => {
@@ -108,10 +113,18 @@ export function ModalChatUserList(props: ChatUserList) {
     }
   }
 
-  const tempRender = () => {
+  const userListRender = () => {
     return userLIstInfo.map((item: ChatUserListInfo, i) => {
       return (
-        <ModalChatUserListBox key={i} userInfo={item} myAuth={myAuth} />
+        <ModalChatUserListBox key={i} userInfo={item} myAuth={myAuth} roomSeq={roomSeq} />
+      )
+    })
+  }
+
+  const banListRender = () => {
+    return banList.map((item: any, i) => {
+      return (
+        <div key={i}>item</div>
       )
     })
   }
@@ -157,7 +170,7 @@ export function ModalChatUserList(props: ChatUserList) {
         Click on username to move to that user's profile page.
       </pre>
       <UserListTable>
-        {tempRender()}
+        {userListRender()}
       </UserListTable>
     </UserListZone>
   );
