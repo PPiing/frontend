@@ -65,8 +65,6 @@ interface ChatUserList {
 interface ChatUserListInfo {
   targetAuth: number;
   targetSeq: number;
-  isBan: boolean;
-  muteTime: Date | null;
   targetName: string;
 }
 
@@ -77,14 +75,7 @@ export function ModalChatUserList(props: ChatUserList) {
     (state) => state.loggedUser
   );
   let myAuth: number = 0;
-  let banList: any[] = [];
   useEffect(() => {
-    axios
-      .getBanList(roomSeq)
-      .then((response: any) => {
-        banList = response.data;
-        console.log(banList);
-      });
     axios
       .getChatInfo(roomSeq)
       .then((response: any) => response.data.participants)
@@ -97,8 +88,6 @@ export function ModalChatUserList(props: ChatUserList) {
             const newUser = {
               targetAuth: convertAuth(item.partcAuth),
               targetSeq: item.userSeq,
-              isBan: (banList.indexOf(item.userSeq) !== -1),
-              muteTime: null,
               targetName: axios.getNickName(item.userSeq),
             };
             return newUser;
