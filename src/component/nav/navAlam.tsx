@@ -79,18 +79,21 @@ const NavAlarmAlarm = styled("div", {
 });
 
 const NavNotificationButton = styled("img", {
-  width: "100%",
+  width: "90%",
   height: "auto",
   margin: "auto",
+  marginLeft: "-10%",
+  filter: "invert(90%)",
+  background: "none",
   transition: "all 0.5s",
   "&:hover": {
     color: "#FF0086",
-    filter: "drop-shadow(0 0 2px #FF0086)",
+    filter: "invert(90%) drop-shadow(0 0 5px #FF0086)",
   },
   "&:active": {
     color: "#FF0086",
-    transition: "all 0s",
-    filter: "drop-shadow(0 0 5px #FF0086)",
+    transition: "all 0.5s",
+    filter: "invert(90%) drop-shadow(0 0 5px #FF0086)",
   },
 });
 
@@ -229,7 +232,7 @@ export function ComponentNavAlam() {
       </NavAlarmProfileText>
       <NavAlarmAlarm>
         <NavNotificationButton
-          src="/asset/notification_icon.png"
+          src="/asset/icon_alarm.svg"
           onClick={handleAlarmOpen}
         />
       </NavAlarmAlarm>
