@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import * as template from "./contentTemplate";
 import * as theme from "../theme/theme";
+import { getGameList } from "../network/api/axios.custom";
 
 const RoomListSection = styled("div", {
   display: "block",
@@ -26,50 +27,38 @@ const RoomListSection = styled("div", {
 
 type GameRoom = {
   player1: string;
-  player1Img: string;
   player2: string;
-  player2Img: string;
+  roomId: string;
 };
 
 export function ContainerContents() {
   const [gameId, setGameId] = useState(-1);
-  // eslint-disable-next-line no-array-constructor
-  const gameList: Array<GameRoom> = new Array<GameRoom>();
+  const [gameLists, setGameLists] = useState<any[]>([]);
 
-  gameList.push({ player1: "kkim", player1Img: "", player2: "skim", player2Img: "" });
-  gameList.push({ player1: "jinbekim", player1Img: "", player2: "hybae", player2Img: "" });
-  gameList.push({ player1: "hyungyyo", player1Img: "", player2: "spark", player2Img: "" });
+  useEffect(() => {
+    getGameList().then((response: any) => setGameLists(response.data));
+  }, []);
 
-  const GameListRender = (gameList: Array<GameRoom>) => {
-    const result = [];
-    for (let i = 0; i < gameList.length; i += 1) {
-      if (i === gameId) {
-        result.push(
-          <template.ListBox
-            onClick={() => setGameId(i)}
-            key={i}
-            style={{ color: theme.NEON_RED, borderColor: theme.NEON_RED }}
-          >
-            {gameList[i].player1} vs {gameList[i].player2}
-          </template.ListBox>
-        );
-      } else {
-        result.push(
-          <template.ListBox onClick={() => setGameId(i)} key={i}>
-            {gameList[i].player1} vs {gameList[i].player2}
-          </template.ListBox>
-        );
-      }
-    }
-    return result;
-  };
+  const GameListsRender = () => {
+    return gameLists.map((item, i) => {
+      return (
+        <template.ListBox
+          onClick={() => setGameId(item.roomId)}
+          key={i}
+          style={{ color: theme.NEON_RED, borderColor: theme.NEON_RED }}
+        >
+          {item.player1} vs {item.player2}
+        </template.ListBox>
+      )
+    })
+  }
 
   const GameWatchRender = () => {
     const result = [];
     if (gameId >= 0) {
       result.push(
         <p key={0}>
-          {gameList[gameId].player1} vs {gameList[gameId].player2}
+          {gameLists[gameId].player1} vs {gameLists[gameId].player2}
         </p>
       );
     } else {
@@ -86,7 +75,7 @@ export function ContainerContents() {
     <template.DividedContents>
       <template.DividedLeftSection>
         <RoomListSection>
-          {GameListRender(gameList)}
+          {GameListsRender()}
         </RoomListSection>
       </template.DividedLeftSection>
       <template.DividedRightSection>
