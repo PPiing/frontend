@@ -271,87 +271,64 @@ function History(props: any) {
       stateColor = "yellow";
     }
     boxes.push(
-      <HistoryBox key={i.toString()}>
+      <HistoryBox key={i}>
         <table style={{ width: "100%", height: "100%" }}>
           <tbody>
-            <tr>
-              <td
-                rowSpan={2}
-                style={{ width: "35%", textAlign: "left" }}
-              >
-                <div
-                  style={{
-                    fontSize: "25px",
-                    color: "white",
-                    fontWeight: "bold",
-                    textShadow: "0px 0px 10px white",
-                  }}
-                //   onClick={() => {
-                //     modal.SetModalSize("300px", "460px", "10%", "75%");
-                //     modal.SetModalContent(<ModalNavFriendBox user={response} />);
-                //     dispatch(setModalTrigger({ ismodal: true } as DisplayData));
-                //   }}
+            <tr key={0}>
+              <td rowSpan={2} style={{ width: "35%", textAlign: "left" }}>
+                <div style={{
+                  fontSize: "25px",
+                  color: "white",
+                  fontWeight: "bold",
+                  textShadow: "0px 0px 10px white",
+                }}
                 >
-                  <b
-                    style={{
-                      marginLeft: "10px",
-                      fontSize: "20px",
-                      color: "#FFFFFF90",
-                      fontWeight: "bold",
-                      textShadow: "0px 0px 10px #FFFFFF90",
-                    }}
-                  >
-                    vs:&nbsp;
-                  </b>
-                  {name}
+                  <b style={{
+                    marginLeft: "10px",
+                    fontSize: "20px",
+                    color: "#FFFFFF90",
+                    fontWeight: "bold",
+                    textShadow: "0px 0px 10px #FFFFFF90",
+                  }}
+                  >vs:&nbsp;
+                  </b>{name}
                 </div>
               </td>
-              <td
-                style={{
-                  textAlign: "right",
+              <td style={{ textAlign: "right", }}>
+                <b style={{
+                  color: "gray",
+                  fontSize: "10px",
+                  fontWeight: "0",
+                  fontStyle: "italic",
                 }}
-              >
-                <b
-                  style={{
-                    color: "gray",
-                    fontSize: "10px",
-                    fontWeight: "0",
-                    fontStyle: "italic",
-                  }}
-                >
-                  {response?.game_log[i].start_time}&nbsp;&nbsp;
+                >{response?.game_log[i].start_time}&nbsp;&nbsp;
                 </b>
-                <b
-                  style={{
-                    color: `${stateColor}`,
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    fontStyle: "italic",
-                    textShadow: `0px 0px 10px ${stateColor}`,
-                  }}
-                >
-                  {state}
+                <b style={{
+                  color: `${stateColor}`,
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  textShadow: `0px 0px 10px ${stateColor}`,
+                }}
+                >{state}
                 </b>
               </td>
             </tr>
-            <tr>
-              <td
-                style={{
-                  height: "30px",
-                  marginTop: "-15px",
-                  textAlign: "right",
-                }}
+            <tr key={1}>
+              <td style={{
+                height: "30px",
+                marginTop: "-15px",
+                textAlign: "right",
+              }}
               >
-                <b
-                  style={{
-                    color: "white",
-                    fontSize: "30px",
-                    fontWeight: "bold",
-                    fontStyle: "italic",
-                    textShadow: `0px 0px 10px ${stateColor}`,
-                  }}
-                >
-                  {response?.game_log[i].loser_score} : {response?.game_log[i].winner_score}
+                <b style={{
+                  color: "white",
+                  fontSize: "30px",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  textShadow: `0px 0px 10px ${stateColor}`,
+                }}
+                >{response?.game_log[i].loser_score} : {response?.game_log[i].winner_score}
                 </b>
               </td>
             </tr>

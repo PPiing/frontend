@@ -101,13 +101,13 @@ export function ComponentChatRoom(props: any) {
           propFunc={propFunc}
           chatInfo={chatInfo}
         />
-        <HeaderTitle>{chatRoomData.name}</HeaderTitle>
+        <HeaderTitle>{chatRoomData?.name}</HeaderTitle>
       </ChatRoomHeader>
       <ChatRoomRecvArea>
-        <ChatRoomMessageArea roomSeq={chatRoomData.seq} socket={socket} />
+        <ChatRoomMessageArea roomSeq={chatRoomData?.seq} socket={socket} />
       </ChatRoomRecvArea>
       <ChatRoomSendArea>
-        <ChatInput socket={socket} seq={chatRoomData.seq} />
+        <ChatInput socket={socket} seq={chatRoomData?.seq} />
       </ChatRoomSendArea>
     </ContentRoom>
   );

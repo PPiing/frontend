@@ -193,9 +193,21 @@ export function ContainerContents() {
     if (e.key === "Enter") {
       const code = Input1 + Input2 + Input3 + Input4;
       checkAuthCode(code).then((response: any) => {
-        if (response.status === 200) {
+        if (response.data === true) {
           navigate("/home");
+        } else {
+          setSendResult(
+            <pre style={{ color: "red", marginTop: "5px", marginBottom: "0", fontSize: "1rem" }}>
+              Wrong code.
+            </pre>
+          );
         }
+      }).catch((e) => {
+        setSendResult(
+          <pre style={{ color: "red", marginTop: "5px", marginBottom: "0", fontSize: "1rem" }}>
+            Error occured!
+          </pre>
+        );
       });
     }
   }

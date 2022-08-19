@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import * as axios from "../../network/api/axios.custom";
@@ -25,7 +26,7 @@ function ChatRoomMessageArea(props: any) {
   }, []);
 
   useEffect(() => {
-    axios.getAllMessages(roomSeq).then((response: any) => setMessages(response.data.reverse()));
+    axios.getAllMessages(roomSeq).then((response: any) => setMessages(response?.data.reverse()));
   }, [roomSeq]);
 
   useEffect(() => {
@@ -33,8 +34,16 @@ function ChatRoomMessageArea(props: any) {
   }, [messages]);
 
   socket.on("room:chat", (message: any) => {
+    let bBlock: boolean = false;
+    for (let i = 0; i < blockUsers.length; i += 1) {
+      axios.getNickName(Number(blockUsers[i].seq)).then((response: string) => {
+        if (response === message.nickname) {
+          bBlock = true;
+        }
+      });
+    }
     if (roomSeq === message.chatSeq &&
-      !blockUsers.includes({ seq: message.userSeq } as BlockData)) {
+      !bBlock) {
       const newMsg: IMessage = {
         msgSeq: message.id,
         chatSeq: message.chatSeq,
