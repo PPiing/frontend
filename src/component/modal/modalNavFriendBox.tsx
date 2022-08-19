@@ -12,6 +12,9 @@ import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { getUserSearch, postConfirm, postFriendDelete, postFriendRequest, postGameInvite, postNewDM, requestUserBlock, requestUserUnblock, } from "../../network/api/axios.custom";
 import { FriendData } from "../../redux/slices/friendList";
 import { ChoosableAlamData } from "../../redux/slices/choosableAlamList";
+import { gameRule, GameRuleData, setGameRuleData } from "../../redux/slices/gameRule";
+import store from "../../redux/store";
+import socketManager from "../../network/api/socket";
 
 /*
   Define Rules
@@ -22,6 +25,10 @@ type ButtonType = {
   onClick: () => void;
   disabled: boolean;
 }
+
+const socketGame = socketManager.socket("/");
+
+socketGame.connect();
 
 /*
   Profile Zone
@@ -213,6 +220,8 @@ function isNumber(str: any): boolean {
 export function ModalNavFriendBox(props: any) {
   const { user } = props;
 
+  const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
+
   const [content, setContent] = useState<JSX.Element>(
     <b>... loading ...</b>
   )
@@ -230,6 +239,13 @@ export function ModalNavFriendBox(props: any) {
   const [blockButtonToggle, setBlockButtonToggle] = useState(0);
 
   useEffect(() => {
+    socketGame.on("game:ready", (res) => {
+      console.log("Invite Game ready!=> ");
+      // eslint-disable-next-line max-len
+      store.dispatch(setGameRuleData({ ...myRule, blueUser: res.blueUser, redUser: res.redUser } as GameRuleData));
+      socketGame.emit("game:ready", { roomId: res.roomId });
+    });
+
     getUserSearch(user?.seq).then((response) => {
       const anyResponse: any = response;
       const userInfo: any = anyResponse?.data;

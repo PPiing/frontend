@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { styled, } from "@stitches/react";
-import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, extend, useFrame } from "@react-three/fiber";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { OrbitControls, Stars, Text3D, Shadow, Float, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
@@ -8,7 +8,8 @@ import { useSelector } from "react-redux";
 import { ReducerType } from "../redux/rootReducer";
 import * as theme from "../theme/theme";
 import * as template from "./contentTemplate";
-import { gameRule, GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
+import { GameRuleData, setGameRuleData } from "../redux/slices/gameRule";
+import store from "../redux/store";
 
 import fontPath from "../../public/asset/font/dohyeon_Regular.json";
 import socketManager from "../network/api/socket";
@@ -38,8 +39,6 @@ socket.connect();
 const gameBoardHeight = 5;
 const gameBoardWidth = 7;
 const RacketSize = 1;
-
-const RacketMoveSpeed = 0.2;
 
 const nameTextConfig = {
   size: 0.45,
@@ -278,6 +277,8 @@ function Basic() {
         setWinnerName(`${res.metaData.playerRed.nickName} Win!`)
       }
       setGameEnd(true);
+      store.dispatch(setGameRuleData({ ...myRule, isInGame: false } as GameRuleData));
+      console.log("isInGame > ", myRule.isInGame);
     });
 
     return () => {

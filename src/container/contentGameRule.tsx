@@ -92,6 +92,7 @@ export default function GameRuleSet() {
   const [modelXpos, setModelXpos] = useState(0);
   const [modelYpos, setModelYpos] = useState(0);
   const [isReady, setIsReady] = useState(false);
+  const [isMatched, setIsMatched] = useState(false);
 
   const memoRule : GameRuleData = {
     matchScore: myRule.matchScore,
@@ -180,21 +181,14 @@ export default function GameRuleSet() {
   useEffect(() => {
     socket.on("game:ready", (res) => {
       console.log("server's ready on GameRule =>", res);
+      setIsMatched(true);
       // eslint-disable-next-line max-len
       store.dispatch(setGameRuleData({ ...memoRule, blueUser: res.blueUser, redUser: res.redUser } as GameRuleData));
       socket.emit("game:ready", { roomId: res.roomId });
     });
-    socket.on("game:render", (res) => {
-      console.log("server's render =>", res);
-    });
-    socket.on("game:score", (res) => {
-      console.log("server's score =>", res);
-    });
 
     return () => {
       socket.off("game:ready");
-      socket.off("game:render");
-      socket.off("game:score");
     };
   });
 
@@ -204,13 +198,13 @@ export default function GameRuleSet() {
         <ToggleBtn selection1="Rank" selection2="Normal" />
         <SlidersContainer>
           <SliderWrapper>
-            <Slider name="score" onChange={handleValue} orientation="vertical" aria-label="score" valueLabelDisplay="on" defaultValue={memoRule.matchScore} max={10} min={1} color="primary" marks />
+            <Slider key="scoreSlider" name="score" onChange={handleValue} orientation="vertical" aria-label="score" valueLabelDisplay="on" defaultValue={memoRule.matchScore} max={10} min={1} color="primary" marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={memoRule.ballSpeed} max={1.5} min={0.5} color="secondary" step={0.1} marks />
+            <Slider key="speedSlider" name="speed" onChange={handleValue} orientation="vertical" aria-label="Speed" valueLabelDisplay="on" defaultValue={memoRule.ballSpeed} max={1.5} min={0.5} color="secondary" step={0.1} marks />
           </SliderWrapper>
           <SliderWrapper>
-            <Slider name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={memoRule.paddleSize} max={1.2} min={0.8} color="primary" step={0.1} marks />
+            <Slider key="sizeSlider" name="size" onChange={handleValue} orientation="vertical" aria-label="RacketSize" valueLabelDisplay="on" defaultValue={memoRule.paddleSize} max={1.2} min={0.8} color="primary" step={0.1} marks />
           </SliderWrapper>
         </SlidersContainer>
         <TextContainer>
@@ -245,9 +239,12 @@ export default function GameRuleSet() {
         >
 
           {
-          isReady ?
-            "Run Away"
-            : "Ready"
+            // eslint-disable-next-line no-nested-ternary
+            isMatched ?
+              "Game Will Start!" :
+              (isReady ?
+                "Run Away"
+                : "Ready")
             }
         </Button>
       </RuleSelectionContainer>
