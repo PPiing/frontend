@@ -72,13 +72,17 @@ export function ComponentNavInviteZone() {
   });
 
   socketGame.on("game:start", () => {
-    window.location.href = "/game";
+    console.log("Invite Game start!=> ");
     store.dispatch(setGameRuleData({ ...myRule, isInGame: true } as GameRuleData));
+    window.location.href = "/game";
   });
 
-  // socketGame.on("game:ready", (res) => {
-  //   console.log("Invite Game ready!=> ", res.blueUser, res.blueUser);
-  // });
+  socketGame.on("game:ready", (res) => {
+    console.log("Invite Game ready!=> ", res.blueUser, res.blueUser);
+    // eslint-disable-next-line max-len
+    store.dispatch(setGameRuleData({ ...myRule, blueUser: res.blueUser, redUser: res.redUser } as GameRuleData));
+    socketGame.emit("game:ready", { roomId: res.roomId });
+  });
   // socketGame.on("game:start", () => {
   //   console.log("Invite Game Start!");
   // });

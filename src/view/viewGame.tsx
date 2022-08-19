@@ -20,7 +20,7 @@ export function Game() {
 
   useEffect(() => {
     socket.on("game:ready", (res) => {
-      console.log("Game ready!=> ", res.blueUser, res.redUser);
+      console.log("Game ready on view!=> ", res.blueUser, res.redUser);
       socket.emit("game:ready", { roomId: res.roomId });
     });
     socket.on("game:start", () => {
@@ -28,20 +28,16 @@ export function Game() {
       setIsInGame(true);
       store.dispatch(setGameRuleData({ ...myRule, isInGame: true } as GameRuleData));
     });
-    socket.on("game:render", () => {
-      console.log("server's render =>");
-      setIsInGame(true);
-      store.dispatch(setGameRuleData({ ...myRule, isInGame: true } as GameRuleData));
-    });
     socket.on("game:end", () => {
-      console.log("server's game end =>");
+      console.log("server's game end on view =>");
       setIsInGame(false);
       store.dispatch(setGameRuleData({ ...myRule, isInGame: false } as GameRuleData));
+      console.log("isInGame > ", myRule.isInGame);
     });
     return () => {
       socket.off("game:ready");
       socket.off("game:start");
-      socket.off("game:render");
+      socket.off("game:end");
     };
   });
 
