@@ -18,8 +18,6 @@ import socketManager from "../network/api/socket";
 
 extend({ TextGeometry });
 
-let isClicked = 0;
-
 const socket = socketManager.socket("/");
 
 const textureSpace = new THREE.TextureLoader().load("../../asset/background_space.jpeg");
@@ -107,23 +105,31 @@ type GameRoom = {
 };
 
 export function ContainerContents() {
-  const [gameId, setGameId] = useState(-1);
   const [gameLists, setGameLists] = useState<any[]>([]);
 
+  const [player1, setPlayer1] = useState("");
+  const [player2, setPlayer2] = useState("");
+
   useEffect(() => {
-    // getGameList().then((response: any) => setGameLists(response.data));
-    getGameList().then((response: any) => console.log(response.data));
+    getGameList().then((response: any) => setGameLists(response.data));
+    //getGameList().then((response: any) => console.log(response.data));
   }, []);
 
   const GameListsRender = () => {
     return gameLists.map((item, i) => {
       return (
         <template.ListBox
-          onClick={() => setGameId(item.roomId)}
+          onClick={() => {
+            socket.emit("game:watch", { roomId: item?.metaData?.roomId });
+            setPlayer1(item?.metaData?.playerBlue?.nickName);
+            setPlayer2(item?.metaData?.playerRed?.nickName);
+            console.log(player1, player2);
+          }}
           key={i}
-          style={{ color: theme.NEON_RED, borisClickedderColor: theme.NEON_RED }}
+          // style={{ color: theme.NEON_RED, borisClickedderColor: theme.NEON_RED }}
+          style={{ color: theme.NEON_RED }}
         >
-          {item.player1} vs {item.player2}
+          {item?.metaData?.playerBlue?.nickName} vs {item?.metaData?.playerRed?.nickName}
         </template.ListBox>
       )
     })
@@ -137,14 +143,12 @@ export function ContainerContents() {
 
     const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
 
-    const [gamer1Name, setGamer1Name] = useState(myRule?.blueUser);
+    const [gamer1Name, setGamer1Name] = useState(player1);
     const [gamer1Score, setGamer1Score] = useState(myRule?.blueScore);
-    const [gamer2Name, setGamer2Name] = useState(myRule?.redUser);
+    const [gamer2Name, setGamer2Name] = useState(player2);
     const [gamer2Score, setGamer2Score] = useState(myRule?.redScore);
     const [gameEnd, setGameEnd] = useState(false);
     const [winnerName, setWinnerName] = useState("");
-
-    console.log("blue >", gamer1Score, "red >", gamer2Score);
 
     let timeStamp = 0;
     let frameTimer1 = 0;
@@ -238,60 +242,9 @@ export function ContainerContents() {
       return spinBall();
     };
 
-    const controlKeyDown = (e:any) => {
-      if (e.key === "ArrowUp") {
-        if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
-          return -1;
-        }
-        if (isClicked === 0) {
-          isClicked = 1;
-          socket.emit("game:paddle", -1);
-          console.log("Press Up, emit -1");
-        }
-      }
-      if (e.key === "ArrowDown") {
-        if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
-          return -1;
-        }
-        if (isClicked === 0) {
-          isClicked = 1;
-          socket.emit("game:paddle", 1);
-          console.log("Press Up, emit 1");
-        }
-      }
-      return 0;
-    };
-
-    const controlKeyUp = (e:any) => {
-      if (e.key === "ArrowUp") {
-        if (redRacketYPos < (-gameBoardHeight / 2 + RacketSize * 0.6)) {
-          return -1;
-        }
-        if (isClicked === 1) {
-          isClicked = 0;
-          socket.emit("game:paddle", 0);
-          console.log("Press Up end, emit 0");
-        }
-      }
-      if (e.key === "ArrowDown") {
-        if (redRacketYPos > (gameBoardHeight / 2 - RacketSize * 0.6)) {
-          return -1;
-        }
-        if (isClicked === 1) {
-          isClicked = 0;
-          socket.emit("game:paddle", 0);
-          console.log("Press Down end, emit 0");
-        }
-      }
-      return 0;
-    };
-
     useEffect(() => {
-      window.addEventListener("keydown", controlKeyDown);
-      window.addEventListener("keyup", controlKeyUp);
-
       socket.on("game:render", (res) => {
-        // console.log("server =>", res);
+        // console.log("server's render info =>", res);
         setBallXpos(res.ball.x / 100);
         setBallYpos(res.ball.y / 100);
         setRedRacketYPos(res.paddleRed.y / 100);
@@ -329,8 +282,6 @@ export function ContainerContents() {
       });
 
       return () => {
-        window.removeEventListener("keydown", controlKeyDown);
-        window.removeEventListener("keyup", controlKeyUp);
         socket.off("game:render");
         socket.off("game:score");
         socket.off("game:end");
