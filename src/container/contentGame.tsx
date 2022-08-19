@@ -95,11 +95,13 @@ function Basic() {
   const myRule = useSelector<ReducerType, GameRuleData>((state) => state.gameRule);
 
   const [gamer1Name, setGamer1Name] = useState(myRule.blueUser);
-  const [gamer1Score, setGamer1Score] = useState(0);
+  const [gamer1Score, setGamer1Score] = useState(myRule.blueScore);
   const [gamer2Name, setGamer2Name] = useState(myRule.redUser);
-  const [gamer2Score, setGamer2Score] = useState(0);
+  const [gamer2Score, setGamer2Score] = useState(myRule.redScore);
   const [gameEnd, setGameEnd] = useState(false);
   const [winnerName, setWinnerName] = useState("");
+
+  console.log("blue >", gamer1Score, "red >", gamer2Score);
 
   let timeStamp = 0;
   let frameTimer1 = 0;
@@ -263,6 +265,8 @@ function Basic() {
         setGamer2Score(res.red);
         timeStamp = frameTimer1;
       }
+      // eslint-disable-next-line max-len
+      store.dispatch(setGameRuleData({ ...myRule, redScore: res.red, blueScore: res.blue } as GameRuleData));
       setRedRacketYPos(0);
       setBlueRacketYPos(0);
     });
@@ -277,8 +281,8 @@ function Basic() {
         setWinnerName(`${res.metaData.playerRed.nickName} Win!`)
       }
       setGameEnd(true);
-      store.dispatch(setGameRuleData({ ...myRule, isInGame: false } as GameRuleData));
-      console.log("isInGame > ", myRule.isInGame);
+      // eslint-disable-next-line max-len
+      store.dispatch(setGameRuleData({ ...myRule, isInGame: false, redScore: 0, blueScore: 0 } as GameRuleData));
     });
 
     return () => {

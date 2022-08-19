@@ -101,7 +101,9 @@ export default function GameRuleSet() {
     isRankGame: myRule.isRankGame,
     blueUser: myRule.blueUser,
     redUser: myRule.redUser,
-    isInGame: myRule.isInGame
+    isInGame: myRule.isInGame,
+    blueScore: 0,
+    redScore: 0
   };
 
   const handleValue = (e:any) => {

@@ -8,6 +8,8 @@ export interface GameRuleData {
     isInGame: boolean;
     blueUser: string;
     redUser: string;
+    blueScore: number;
+    redScore: number;
 };
 
 export const gameRule = createSlice({
@@ -20,6 +22,8 @@ export const gameRule = createSlice({
     isInGame: false,
     blueUser: "",
     redUser: "",
+    blueScore: 0,
+    redScore: 0,
   } as GameRuleData,
   reducers: {
     // eslint-disable-next-line no-return-assign
