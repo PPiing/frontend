@@ -36,7 +36,8 @@ export function ContainerContents() {
   const [gameLists, setGameLists] = useState<any[]>([]);
 
   useEffect(() => {
-    getGameList().then((response: any) => setGameLists(response.data));
+    // getGameList().then((response: any) => setGameLists(response.data));
+    getGameList().then((response: any) => console.log(response.data));
   }, []);
 
   const GameListsRender = () => {
