@@ -98,7 +98,7 @@ export const getFriendList = async () => {
     for (let i = 0; i < response.data.length; i += 1) {
       let bBlock: boolean = false;
       for (let ii = 0; ii < blockList.length; ii += 1) {
-        if (blockList[ii].seq === String(response.data[i].userSeq)) {
+        if (String(blockList[ii].seq) === String(response.data[i].userSeq)) {
           bBlock = true;
           break;
         }
@@ -126,7 +126,7 @@ export const getCommonAlamList = async () => {
     for (let i = 0; i < response.data.length; i += 1) {
       let bBlock: boolean = false;
       for (let ii = 0; ii < blockList.length; ii += 1) {
-        if (blockList[ii].seq === String(response.data[i].userSeq)) {
+        if (String(blockList[ii].seq) === String(response.data[i].from)) {
           bBlock = true;
           break;
         }
@@ -157,7 +157,7 @@ export const getConfirmAlamList = async () => {
     for (let i = 0; i < response.data.length; i += 1) {
       let bBlock: boolean = false;
       for (let ii = 0; ii < blockList.length; ii += 1) {
-        if (blockList[ii].seq === String(response.data[i].userSeq)) {
+        if (String(blockList[ii].seq) === String(response.data[i].from)) {
           bBlock = true;
           break;
         }
