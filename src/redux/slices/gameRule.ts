@@ -18,8 +18,8 @@ export const gameRule = createSlice({
     paddleSize: 1.0,
     isRankGame: true,
     isInGame: false,
-    blueUser: "kkim",
-    redUser: "hyunggyo",
+    blueUser: "",
+    redUser: "",
   } as GameRuleData,
   reducers: {
     // eslint-disable-next-line no-return-assign
