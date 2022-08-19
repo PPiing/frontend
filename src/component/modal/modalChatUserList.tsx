@@ -8,6 +8,8 @@ import { ReducerType } from "../../redux/rootReducer";
 import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { ModalChatUserListBox } from "./modalChatUserListBox";
 import * as axios from "../../network/api/axios.custom";
+// eslint-disable-next-line import/no-unresolved
+import ModalBanUserListBox from "./ModalBanUserListBox";
 
 const UserListZone = styled("div", {
   width: "100%",
@@ -97,7 +99,11 @@ export function ModalChatUserList(props: ChatUserList) {
       });
     axios
       .getBanList(roomSeq)
-      .then((response: any) => { setBanList(response.data) });
+      .then((response: any) => response.data)
+      .then((banedList: any) => {
+        console.log(`banList: ${banedList}`);
+        setBanList(banedList);
+      });
   }, []);
 
   const convertAuth = (auth: string) => {
@@ -124,7 +130,7 @@ export function ModalChatUserList(props: ChatUserList) {
   const banListRender = () => {
     return banList.map((item: any, i) => {
       return (
-        <div key={i}>item</div>
+        <ModalBanUserListBox key={i} userSeq={item} myAuth={myAuth} roomSeq={roomSeq} />
       )
     })
   }
@@ -171,6 +177,8 @@ export function ModalChatUserList(props: ChatUserList) {
       </pre>
       <UserListTable>
         {userListRender()}
+        {banList[0] ? <h2>Banned List</h2> : <div />}
+        {banListRender()}
       </UserListTable>
     </UserListZone>
   );
