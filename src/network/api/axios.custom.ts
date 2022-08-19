@@ -309,6 +309,15 @@ export const getUserSimpleSearch = async (searchString: string) => {
   }
 }
 
+export const getGameList = async () => {
+  try {
+    const response = await axios.instance.get("/game/current");
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+};
+
 // --------------------------------------------------------------
 // API for Game feature
 
