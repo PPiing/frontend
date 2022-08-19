@@ -79,9 +79,9 @@ export const getBlockUserList = async () => {
     const response = await axios.instance.get("/community/friends/blocklist");
     store.dispatch(clearBlockList({} as BlockData));
     for (let i = 0; i < response.data.length; i += 1) {
-      // store.dispatch(addBlockUser({
-      //   seq: response.data[i]
-      // } as BlockData));
+      store.dispatch(addBlockUser({
+        seq: response.data[i]
+      } as BlockData));
     }
     return (null);
   } catch (error) {
