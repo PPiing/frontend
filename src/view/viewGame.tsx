@@ -20,7 +20,7 @@ export function Game() {
 
   useEffect(() => {
     socket.on("game:ready", (res) => {
-      console.log("Game ready!=> ", res.blueUser, res.blueUser);
+      console.log("Game ready!=> ", res.blueUser, res.redUser);
       socket.emit("game:ready", { roomId: res.roomId });
     });
     socket.on("game:start", () => {
