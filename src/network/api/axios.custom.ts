@@ -339,6 +339,15 @@ export const getBanList = async (chatSeq: string) => {
   }
 }
 
+export const unBan = async (chatSeq: string, userSeq:number) => {
+  try {
+    const response = await axios.instance.delete(`chatrooms/ban/${userSeq}/${chatSeq}`);
+    return (response);
+  } catch (error) {
+    return (error);
+  }
+}
+
 // --------------------------------------------------------------
 // auth
 
