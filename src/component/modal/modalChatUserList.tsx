@@ -9,7 +9,7 @@ import { LoggedUserData } from "../../redux/slices/loggedUser";
 import { ModalChatUserListBox } from "./modalChatUserListBox";
 import * as axios from "../../network/api/axios.custom";
 // eslint-disable-next-line import/no-unresolved
-import ModalBanUserListBox from "./modalBanUserListBox";
+import ModalBanUserListBox from "./ModalBanUserListBox";
 
 const UserListZone = styled("div", {
   width: "100%",
