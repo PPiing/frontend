@@ -79,9 +79,9 @@ export const getBlockUserList = async () => {
     const response = await axios.instance.get("/community/friends/blocklist");
     store.dispatch(clearBlockList({} as BlockData));
     for (let i = 0; i < response.data.length; i += 1) {
-      store.dispatch(addBlockUser({
-        seq: response.data[i]
-      } as BlockData));
+      // store.dispatch(addBlockUser({
+      //   seq: response.data[i]
+      // } as BlockData));
     }
     return (null);
   } catch (error) {
@@ -96,7 +96,14 @@ export const getFriendList = async () => {
 
     store.dispatch(removeFriendList({} as FriendData));
     for (let i = 0; i < response.data.length; i += 1) {
-      if (!blockList.includes({ seq: response.data[i].userSeq } as BlockData)) {
+      let bBlock: boolean = false;
+      for (let ii = 0; ii < blockList.length; ii += 1) {
+        if (blockList[ii].seq === String(response.data[i].userSeq)) {
+          bBlock = true;
+          break;
+        }
+      }
+      if (!bBlock) {
         store.dispatch(addFriend({
           seq: response.data[i].userSeq,
           nick: response.data[i].nickname,
@@ -117,7 +124,14 @@ export const getCommonAlamList = async () => {
 
     store.dispatch(clearCommonAlamList({} as CommonAlamData));
     for (let i = 0; i < response.data.length; i += 1) {
-      if (!blockList.includes({ seq: response.data[i].from } as BlockData)) {
+      let bBlock: boolean = false;
+      for (let ii = 0; ii < blockList.length; ii += 1) {
+        if (blockList[ii].seq === String(response.data[i].userSeq)) {
+          bBlock = true;
+          break;
+        }
+      }
+      if (!bBlock) {
         // eslint-disable-next-line no-await-in-loop
         const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
         store.dispatch(addCommonAlam({
@@ -141,7 +155,14 @@ export const getConfirmAlamList = async () => {
 
     store.dispatch(clearChoosableAlamList({} as ChoosableAlamData));
     for (let i = 0; i < response.data.length; i += 1) {
-      if (!blockList.includes({ seq: response.data[i].from } as BlockData)) {
+      let bBlock: boolean = false;
+      for (let ii = 0; ii < blockList.length; ii += 1) {
+        if (blockList[ii].seq === String(response.data[i].userSeq)) {
+          bBlock = true;
+          break;
+        }
+      }
+      if (!bBlock) {
         // eslint-disable-next-line no-await-in-loop
         const response2 = await axios.instance.get(`/users/profile/${response.data[i].from}`);
         let typeNum: number = 0;
