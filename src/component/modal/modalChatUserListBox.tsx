@@ -154,7 +154,7 @@ function BanButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResu
   }
 }
 function KickButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
-  if (myAuth === 3 && userInfo.targetAuth !== 3) {
+  if (userInfo.targetAuth < myAuth) {
     axios.delete(`/api/chatrooms/kick/${userInfo?.targetSeq}/${roomSeq}`).then((response) => {
       setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
       location.reload();
@@ -164,7 +164,7 @@ function KickButton(userInfo: any, myAuth: number, roomSeq: number, setButtonRes
   }
 }
 function MuteButton(userInfo: any, myAuth: number, roomSeq: number, setButtonResult: any) {
-  if (myAuth === 3 && userInfo.targetAuth !== 3) {
+  if (userInfo.targetAuth < myAuth) {
     axios.put(`/api/chatrooms/mute/${userInfo?.targetSeq}/${roomSeq}/300`).then((response) => {
       setButtonResult(<pre style={{ color: "rgb(0, 255, 15)", margin: 0 }}>success!</pre>);
       location.reload();
