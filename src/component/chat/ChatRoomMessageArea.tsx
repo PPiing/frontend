@@ -22,7 +22,35 @@ function ChatRoomMessageArea(props: any) {
   const blockUsers = useSelector<ReducerType, BlockData[]>((state) => state.blockList);
 
   useEffect(() => {
-    setMessages([]);
+    // socket.on("room:chat", async (message: any) => {
+    //   let bBlock: boolean = false;
+    //   for (let i = 0; i < blockUsers.length; i += 1) {
+    //     // eslint-disable-next-line no-await-in-loop
+    //     await axios.getNickName(Number(blockUsers[i].seq)).then((response: string) => {
+    //       if (response === message.nickname) {
+    //         bBlock = true;
+    //         i = blockUsers.length;
+    //       }
+    //     });
+    //   }
+    //   if (roomSeq === message.chatSeq &&
+    //     !bBlock) {
+    //     const newMsg: IMessage = {
+    //       msgSeq: message.id,
+    //       chatSeq: message.chatSeq,
+    //       userSeq: message.id[0],
+    //       msg: message.msg,
+    //       createAt: null,
+    //       nickname: message.nickname,
+    //     }
+    //     console.log("skim test2 : ", messages);
+    //     setMessages([...messages, newMsg]);
+    //   }
+    // });
+
+    return () => {
+      socket.off("rook:chat");
+    }
   }, []);
 
   useEffect(() => {
@@ -36,13 +64,10 @@ function ChatRoomMessageArea(props: any) {
   socket.on("room:chat", async (message: any) => {
     let bBlock: boolean = false;
     for (let i = 0; i < blockUsers.length; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await axios.getNickName(Number(blockUsers[i].seq)).then((response: string) => {
-        if (response === message.nickname) {
-          bBlock = true;
-          i = blockUsers.length;
-        }
-      });
+      if (blockUsers[i].seq === message.userIDs[0]) {
+        bBlock = true;
+        i = blockUsers.length;
+      }
     }
     if (roomSeq === message.chatSeq &&
       !bBlock) {
