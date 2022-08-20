@@ -33,12 +33,14 @@ function ChatRoomMessageArea(props: any) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  socket.on("room:chat", (message: any) => {
+  socket.on("room:chat", async (message: any) => {
     let bBlock: boolean = false;
     for (let i = 0; i < blockUsers.length; i += 1) {
-      axios.getNickName(Number(blockUsers[i].seq)).then((response: string) => {
+      // eslint-disable-next-line no-await-in-loop
+      await axios.getNickName(Number(blockUsers[i].seq)).then((response: string) => {
         if (response === message.nickname) {
           bBlock = true;
+          i = blockUsers.length;
         }
       });
     }
