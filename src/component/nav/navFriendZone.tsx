@@ -6,7 +6,7 @@ import { ComponentNavFriendBox } from "./navFriendBox";
 import { FriendData, modifiyFriendStatus } from "../../redux/slices/friendList";
 import { ReducerType } from "../../redux/rootReducer";
 import { DisplayData, setSearchRetRec } from "../../redux/slices/display";
-import { getBlockUserList, getFriendList, getUserSimpleSearch } from "../../network/api/axios.custom";
+import { getBlockUserList, getFriendList, getLoggedUserProfile, getUserSimpleSearch } from "../../network/api/axios.custom";
 import { ComponentNavSearchUserBox } from "./navSearchResultBox";
 import store from "../../redux/store";
 import socketManager from "../../network/api/socket";
@@ -68,6 +68,7 @@ export function ComponentNavFriendZone() {
 
   socket2.on("status_update", (res) => {
     store.dispatch(modifiyFriendStatus({ seq: res.userSeq, status: res.status } as FriendData));
+    getLoggedUserProfile();
   });
   socket.on("friends:update", () => {
     setFriendListReqSwitch(0);
